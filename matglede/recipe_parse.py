@@ -20,7 +20,7 @@ UNIT_WORDS: dict[str, str | None] = {
     "pakke": "pk", "pk": "pk", "pose": "pk", "glass": "pk", "boks": "pk", "potte": "pk",
     "bunt": "pk", "bundt": "pk",
     "fedd": "fedd",
-    "klype": None, "neve": None, "skive": None, "skiver": None,
+    "klype": None, "neve": None, "dash": None, "skive": None, "skiver": None,
 }
 _CL = {"cl": 10.0}
 
@@ -32,6 +32,7 @@ _AMOUNT = re.compile(
     re.I,
 )
 _PAREN_WEIGHT = re.compile(rf"\((?:ca\.?\s*)?({_NUM})\s*(g|gram)\)", re.I)
+_BARE_WEIGHT = re.compile(rf"(?<![\d,.])({_NUM})\s*(?:g|gram)\b", re.I)
 
 GRAMS_PER_CLOVE = 5.0  # ett hvitløksfedd
 GRAMS_PER_CHICKEN_BREAST = 150.0
@@ -91,6 +92,12 @@ def parse_line(raw: str) -> ParsedLine:
             a *= _CL[word.group(1).lower()]
     elif re.match(r"store?\s+ss\b", rest, re.I):  # "2 store ss"
         unit, rest = "ss", re.sub(r"^store?\s+ss\s*", "", rest, flags=re.I)
+    if unit in {"pk", "stk"} and a == 1:
+        # "1 pakke Kjøttdeig 600 g" og "1 stykk Kvernet deig av storfe, 400 g" -> gram
+        bw = _BARE_WEIGHT.search(rest) if not _PAREN_WEIGHT.search(rest) else None
+        if bw:
+            a, unit = float(bw.group(1).replace(",", ".")), "g"
+            rest = (rest[:bw.start()] + rest[bw.end():]).strip(" ,")
     if unit == "pk":
         pw = _PAREN_WEIGHT.search(rest)
         if pw:  # "1 boks (300g) kikerter" -> 300 g
@@ -112,7 +119,7 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
     ("rodlok", ("rødløk", "rød løk"), ("syltet",)),
     ("hvitlok", ("hvitløk", "hviløk"), ("pulver", "olje", "smør")),
     ("lok", ("løk",), ("vårløk", "purre", "pulver", "sjalott", "perleløk", "stekt løk", "sprøstekt")),
-    ("kjottdeig", ("kjøttdeig",), ("kylling", "svin")),
+    ("kjottdeig", ("kjøttdeig", "karbonadedeig", "deig av storfe"), ("kylling", "svin", "kake")),
     ("kyllingfilet", ("kyllingfilet", "kyllingbryst", "strimlet kyllingfilet"), ("lår",)),
     ("laksefilet", ("laks",), ("røkt", "gravet")),
     ("bacon", ("bacon",), ()),
@@ -121,13 +128,13 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
     ("melk", ("melk", "lettmelk", "helmelk"), ("kokos", "kjerne")),
     ("smor", ("smør", "meierismør"), ("peanøtt", "mandel", "nøtt")),
     ("parmesan", ("parmesan",), ()),
-    ("ost_revet", ("revet ost", "gulost", "revet gulost"), ()),
+    ("ost_revet", ("revet ost", "gulost", "revet gulost", "norvegia"), ()),
     ("romme", ("rømme",), ()),
     ("potet", ("potet", "poteter", "nypotet"), ("søtpotet", "potetmel")),
     ("gulrot", ("gulrot", "gulrøtter"), ()),
     ("brokkoli", ("brokkoli",), ()),
     ("paprika", ("paprika",), ("pulver", "malt", "hot", "røkt")),
-    ("tomat", ("tomat", "tomater", "plommetomat"), ("soltørk", "cherry", "puré", "sylt")),
+    ("tomat", ("tomat", "tomater", "plommetomat"), ("soltørk", "cherry", "mini", "puré", "sylt")),
     ("agurk", ("agurk",), ("sylte",)),
     ("isbergsalat", ("isbergsalat", "issalat"), ()),
     ("sitron", ("sitron",), ("pepper", "gress", "melisse")),

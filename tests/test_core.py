@@ -195,6 +195,12 @@ class RecipeParseTest(unittest.TestCase):
         self.assertEqual(self.p("1 boks (300g) med kokte kikerter")[:2], (300, "g"))
         self.assertEqual(self.p("500 poteter , gjerne nypoteter")[:2], (500, "g"))
 
+    def test_package_weight_in_name(self):
+        self.assertEqual(self.p("1 pakke Kjøttdeig 600 g Nordfjord")[:2], (600, "g"))
+        self.assertEqual(self.p("1 stykk Kvernet deig av storfe 14%, , 400 g Nordfjord")[:2], (400, "g"))
+        self.assertEqual(match_ingredient("Karbonadedeig"), "kjottdeig")
+        self.assertIsNone(match_ingredient("Kjøttkaker med grønnsaker"))
+
     def test_uncountable(self):
         self.assertEqual(self.p("1 klype Salt og pepper"), (None, "klype", "Salt og pepper"))
         self.assertEqual(self.p("Pepper"), (None, None, "Pepper"))

@@ -82,13 +82,14 @@ Tester: `python -m unittest discover tests`
 
 ## Populære oppskrifter fra Rema 1000, Aichas Mat og Marit Kolby
 
-`seed/external_recipes.json` har 45 oppskrifter som lastes inn av `init`. For hver oppskrift
+`seed/external_recipes.json` har 57 oppskrifter som lastes inn av `init`. For hver oppskrift
 lagres bare tittel, porsjoner, ingredienser med mengde og lenke til originalen
 (`recipe.source_url`). Fremgangsmåte og bilder er kildens tekst og lagres ikke: appen lenker dit.
 
 | Kilde | Hva "populær" betyr her |
 |---|---|
 | [rema.no/oppskrifter](https://www.rema.no/oppskrifter/) | Remas egen liste «de mest populære oppskriftene», 24 stk, sortert etter antall stemmer. |
+| Hverdag og søndag (oppskrifter fra rema.no) | Rettene fra Ipsos Middagsdagboken 2025 ([NRK](https://www.nrk.no/kultur/xl/noregs-10-mest-populaere-middagar_-2025-1.17497150)) pluss søndagsstek og fårikål. For hver rett er den klassiske hjemmelagde varianten med flest stemmer på rema.no valgt. |
 | [aichasmat.no](https://aichasmat.no/) | Bloggens kategori «Populære oppskrifter» (9) og salatene med flest kommentarer (9). |
 | [Marit Kolby](https://www.maritkolby.no/) | Ingen populærliste. De tre oppskriftene fra Kokeboka som er publisert gratis hos ARK. |
 
@@ -102,3 +103,6 @@ python -m matglede build-external   # skriver external_recipes.json og viser hva
 Ingredienser som ikke finnes i `ingredients.csv` (pasta, kikerter, soyasaus og lignende) blir
 stående i JSON-filen med `"ingredient": null`, men tas ikke med i handlelisten før de legges til.
 Salt og pepper "etter smak" (uten mengde) hoppes også over.
+
+Matprat og TINE er ikke brukt: vilkårene deres forbyr å hente oppskrifter til apper uten
+skriftlig avtale. DN-serien «Aichas salater» er heller ikke brukt, fordi DN forbyr skraping.

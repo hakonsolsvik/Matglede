@@ -27,8 +27,12 @@ SOURCE_INFO = {
     "rema": {
         "name": "REMA 1000",
         "site": "https://www.rema.no/oppskrifter/",
-        "popularity": "Listen «de mest populære oppskriftene» øverst på rema.no/oppskrifter. "
-                      "Den er sortert etter antall stemmer (ratingCount i schema.org).",
+        "popularity": "Gruppe 'populaere': listen «de mest populære oppskriftene» øverst på "
+                      "rema.no/oppskrifter, sortert etter antall stemmer (ratingCount i schema.org). "
+                      "Gruppe 'hverdag': Norges ti vanligste middager ifølge Ipsos Middagsdagboken 2025 "
+                      "(gjengitt av NRK), pluss fiskegrateng og lapskaus. 'sondag': søndagsstek og "
+                      "fårikål, som Ipsos trekker frem som typisk søndagsmat. For hver rett er valgt "
+                      "den klassiske hjemmelagde varianten på rema.no med flest stemmer.",
     },
     "aicha": {
         "name": "Aichas Mat (Aicha Bouhlou)",
@@ -81,7 +85,7 @@ def build_recipe(source: str, raw: dict) -> dict:
         "servings_guessed": servings is None,
         "ingredients": items,
     }
-    for key in ("rating", "ratingCount", "comments", "totalTime", "category"):
+    for key in ("rating", "ratingCount", "comments", "totalTime", "category", "dish", "nrkRank", "also"):
         if raw.get(key) is not None:
             rec[key] = round(raw[key], 2) if key == "rating" else raw[key]
     return rec

@@ -3,7 +3,7 @@
   "rema": {
    "name": "REMA 1000",
    "site": "https://www.rema.no/oppskrifter/",
-   "popularity": "Listen «de mest populære oppskriftene» øverst på rema.no/oppskrifter. Den er sortert etter antall stemmer (ratingCount i schema.org)."
+   "popularity": "Gruppe 'populaere': listen «de mest populære oppskriftene» øverst på rema.no/oppskrifter, sortert etter antall stemmer (ratingCount i schema.org). Gruppe 'hverdag': Norges ti vanligste middager ifølge Ipsos Middagsdagboken 2025 (gjengitt av NRK), pluss fiskegrateng og lapskaus. 'sondag': søndagsstek og fårikål, som Ipsos trekker frem som typisk søndagsmat. For hver rett er valgt den klassiske hjemmelagde varianten på rema.no med flest stemmer."
   },
   "aicha": {
    "name": "Aichas Mat (Aicha Bouhlou)",
@@ -22,7 +22,7 @@
    "name": "Langtidsstekt ribbe",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/svin/ribbe/langtidsstekt-ribbe/",
-   "group": null,
+   "group": "populaere",
    "rank": 1,
    "servings": 8,
    "servings_guessed": false,
@@ -58,14 +58,19 @@
    ],
    "rating": 3.54,
    "ratingCount": 932,
-   "category": "Ribbe"
+   "category": "Ribbe",
+   "also": {
+    "group": "sondag",
+    "dish": "Svinestek/ribbe",
+    "nrkRank": null
+   }
   },
   {
    "slug": "rema-kremet-kylling-med-pasta",
    "name": "Kremet kylling med pasta",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kyllingfilet/kremet-kylling-med-pasta/",
-   "group": null,
+   "group": "populaere",
    "rank": 2,
    "servings": 4,
    "servings_guessed": false,
@@ -151,7 +156,7 @@
    "name": "Grove muffins med ost og skinke",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/bakst/grove-muffins-med-ost-og-skinke/",
-   "group": null,
+   "group": "populaere",
    "rank": 3,
    "servings": 4,
    "servings_guessed": false,
@@ -251,7 +256,7 @@
    "name": "Enkel kyllinggryte",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/enkel-kyllinggryte/",
-   "group": null,
+   "group": "populaere",
    "rank": 4,
    "servings": 4,
    "servings_guessed": false,
@@ -337,14 +342,19 @@
    "rating": 3.35,
    "ratingCount": 648,
    "totalTime": "PT15M",
-   "category": "Kylling til middag"
+   "category": "Kylling til middag",
+   "also": {
+    "group": "hverdag",
+    "dish": "Kylling",
+    "nrkRank": 2
+   }
   },
   {
    "slug": "rema-pad-thai-med-kylling-og-egg",
    "name": "Pad thai med kylling og egg",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kyllingfilet/pad-thai-med-kylling-og-egg/",
-   "group": null,
+   "group": "populaere",
    "rank": 5,
    "servings": 4,
    "servings_guessed": false,
@@ -451,7 +461,7 @@
    "name": "Big Mac wrap",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kjottdeig/big-mac-wrap/",
-   "group": null,
+   "group": "populaere",
    "rank": 6,
    "servings": 1,
    "servings_guessed": false,
@@ -579,7 +589,7 @@
    "name": "One pot pasta med kylling og tortellini",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/for-hele-familien/one-pot-pasta-med-kylling-og-tortellini/",
-   "group": null,
+   "group": "populaere",
    "rank": 7,
    "servings": 4,
    "servings_guessed": false,
@@ -630,7 +640,7 @@
    "name": "Kremet pasta",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/kremet-pasta/",
-   "group": null,
+   "group": "populaere",
    "rank": 8,
    "servings": 4,
    "servings_guessed": false,
@@ -723,7 +733,7 @@
    "name": "Tagliatelle med spicy scampi",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/tagliatelle-med-spicy-scampi/",
-   "group": null,
+   "group": "populaere",
    "rank": 9,
    "servings": 4,
    "servings_guessed": false,
@@ -802,7 +812,7 @@
    "name": "Pasta med kylling og bacon",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/pasta-med-kylling-og-bacon/",
-   "group": null,
+   "group": "populaere",
    "rank": 10,
    "servings": 4,
    "servings_guessed": false,
@@ -874,7 +884,7 @@
    "name": "One pot pasta med kylling",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kyllingfilet/one-pot-pasta-med-kylling/",
-   "group": null,
+   "group": "populaere",
    "rank": 11,
    "servings": 4,
    "servings_guessed": false,
@@ -960,7 +970,7 @@
    "name": "Kylling stroganoff med sjampinjong",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kyllingfilet/kylling-stroganoff-med-sjampinjong/",
-   "group": null,
+   "group": "populaere",
    "rank": 12,
    "servings": 4,
    "servings_guessed": false,
@@ -1067,7 +1077,7 @@
    "name": "Bent Stiansens juleribbe",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/svin/ribbe/bent-stiansens-juleribbe/",
-   "group": null,
+   "group": "populaere",
    "rank": 13,
    "servings": 8,
    "servings_guessed": false,
@@ -1167,7 +1177,7 @@
    "name": "Bent Stiansens ribbesaus",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/saus-dressing-og-dipp/saus/bent-stiansens-ribbesaus/",
-   "group": null,
+   "group": "populaere",
    "rank": 14,
    "servings": 8,
    "servings_guessed": false,
@@ -1239,7 +1249,7 @@
    "name": "Kremet pastasalat med kylling og bacon",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/kremet-pastasalat-med-kylling-og-bacon/",
-   "group": null,
+   "group": "populaere",
    "rank": 15,
    "servings": 4,
    "servings_guessed": false,
@@ -1346,7 +1356,7 @@
    "name": "Ovnsbakt gyoza i kremet red curry saus",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/tiktok-oppskrifter/ovnsbakt-gyoza-i-kremet-red-curry-saus/",
-   "group": null,
+   "group": "populaere",
    "rank": 16,
    "servings": 4,
    "servings_guessed": false,
@@ -1446,7 +1456,7 @@
    "name": "Pasta med kylling og kremet saus",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/pasta-med-kylling-og-kremet-saus/",
-   "group": null,
+   "group": "populaere",
    "rank": 17,
    "servings": 4,
    "servings_guessed": false,
@@ -1546,7 +1556,7 @@
    "name": "Pasta med sopp og spinat",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/pasta-med-sopp-og-spinat/",
-   "group": null,
+   "group": "populaere",
    "rank": 18,
    "servings": 4,
    "servings_guessed": false,
@@ -1625,7 +1635,7 @@
    "name": "Kremet kyllingsalat i pita",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kremet-kyllingsalat-i-pita/",
-   "group": null,
+   "group": "populaere",
    "rank": 19,
    "servings": 4,
    "servings_guessed": false,
@@ -1676,7 +1686,7 @@
    "name": "Bent Stiansens Pasta Carbonara",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/bent-stiansens-pasta-carbonara/",
-   "group": null,
+   "group": "populaere",
    "rank": 20,
    "servings": 4,
    "servings_guessed": false,
@@ -1769,14 +1779,19 @@
    "rating": 3.56,
    "ratingCount": 345,
    "totalTime": "PT35M",
-   "category": "Pasta"
+   "category": "Pasta",
+   "also": {
+    "group": "hverdag",
+    "dish": "Pasta",
+    "nrkRank": 4
+   }
   },
   {
    "slug": "rema-pasta-med-fetaost-og-tomat",
    "name": "Pasta med fetaost og tomat",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/pasta/pasta-med-fetaost-og-tomat/",
-   "group": null,
+   "group": "populaere",
    "rank": 21,
    "servings": 4,
    "servings_guessed": false,
@@ -1855,7 +1870,7 @@
    "name": "Soyaglasert laks med nudler",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/fisk/laks/soyaglasert-laks-med-nudler/",
-   "group": null,
+   "group": "populaere",
    "rank": 22,
    "servings": 2,
    "servings_guessed": false,
@@ -1955,14 +1970,19 @@
    "rating": 3.62,
    "ratingCount": 307,
    "totalTime": "PT15M",
-   "category": "Laks"
+   "category": "Laks",
+   "also": {
+    "group": "hverdag",
+    "dish": "Laks",
+    "nrkRank": 7
+   }
   },
   {
    "slug": "rema-marry-me-chicken",
    "name": "Marry me chicken",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kyllingfilet/marry-me-chicken/",
-   "group": null,
+   "group": "populaere",
    "rank": 23,
    "servings": 4,
    "servings_guessed": false,
@@ -2076,7 +2096,7 @@
    "name": "Hjemmelaget indisk butter chicken",
    "source": "rema",
    "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/kyllinglar/hjemmelaget-indisk-butter-chicken/",
-   "group": null,
+   "group": "populaere",
    "rank": 24,
    "servings": 4,
    "servings_guessed": false,
@@ -2261,6 +2281,1092 @@
    "ratingCount": 283,
    "totalTime": "PT120M",
    "category": "Kyllinglår"
+  },
+  {
+   "slug": "rema-langpannepizza-med-kjottdeig-og-lok",
+   "name": "Langpannepizza med kjøttdeig og løk",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/pizza/langpannepizza-med-kjottdeig-og-lok/",
+   "group": "hverdag",
+   "rank": 1,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "300 gram Norvegia Tine",
+     "name": "Norvegia Tine",
+     "amount": 300.0,
+     "unit": "g",
+     "ingredient": "ost_revet"
+    },
+    {
+     "raw": "2 stykk Løk",
+     "name": "Løk",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": "lok"
+    },
+    {
+     "raw": "1 stykk Tørrgjær Idun",
+     "name": "Tørrgjær Idun",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 boks Tomatpuré REMA 1000",
+     "name": "Tomatpuré REMA 1000",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": "tomatpure"
+    },
+    {
+     "raw": "1 stykk Kvernet deig av storfe 14%, , 400 g Nordfjord",
+     "name": "Kvernet deig av storfe 14%, ,  Nordfjord",
+     "amount": 400.0,
+     "unit": "g",
+     "ingredient": "kjottdeig"
+    },
+    {
+     "raw": "7,5 desiliter Hvetemel",
+     "name": "Hvetemel",
+     "amount": 7.5,
+     "unit": "dl",
+     "ingredient": "mel"
+    },
+    {
+     "raw": "3 spiseskje Raps- og olivenolje Ybarra",
+     "name": "Raps- og olivenolje Ybarra",
+     "amount": 3.0,
+     "unit": "ss",
+     "ingredient": "olivenolje"
+    },
+    {
+     "raw": "1 teskje Oregano, , tørket",
+     "name": "Oregano, , tørket",
+     "amount": 1.0,
+     "unit": "ts",
+     "ingredient": null
+    }
+   ],
+   "rating": 3.19,
+   "ratingCount": 97,
+   "totalTime": "PT180M",
+   "category": "Hjemmelaget pizza",
+   "dish": "Pizza",
+   "nrkRank": 1
+  },
+  {
+   "slug": "rema-enkel-taco",
+   "name": "Enkel taco",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/tex-mex/enkel-taco/",
+   "group": "hverdag",
+   "rank": 2,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "400 gram Karbonadedeig",
+     "name": "Karbonadedeig",
+     "amount": 400.0,
+     "unit": "g",
+     "ingredient": "kjottdeig"
+    },
+    {
+     "raw": "1 pose Taco Spice Mix",
+     "name": "Taco Spice Mix",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "8 stykk Tortillalefse, , med hvete eller fullkorn",
+     "name": "Tortillalefse, , med hvete eller fullkorn",
+     "amount": 8.0,
+     "unit": "stk",
+     "ingredient": "tortilla"
+    },
+    {
+     "raw": "1 pakke Miniplommetomater",
+     "name": "Miniplommetomater",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 pose Ferdig preppa mexikansk kit",
+     "name": "Ferdig preppa mexikansk kit",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 bunt Koriander",
+     "name": "Koriander",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 boks Mais",
+     "name": "Mais",
+     "amount": 340.0,
+     "unit": "g",
+     "ingredient": "mais"
+    }
+   ],
+   "rating": 3.3,
+   "ratingCount": 27,
+   "totalTime": "PT15M",
+   "category": "Tacos og Tex-Mex",
+   "dish": "Taco",
+   "nrkRank": 3
+  },
+  {
+   "slug": "rema-pasta-bolognese",
+   "name": "Pasta bolognese",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/pasta/pasta-bolognese-2/",
+   "group": "hverdag",
+   "rank": 3,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "650 gram Kjøttdeig",
+     "name": "Kjøttdeig",
+     "amount": 650.0,
+     "unit": "g",
+     "ingredient": "kjottdeig"
+    },
+    {
+     "raw": "2 stykk Løk",
+     "name": "Løk",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": "lok"
+    },
+    {
+     "raw": "2 stykk Stangselleri",
+     "name": "Stangselleri",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "2 stykk Gulrøtter",
+     "name": "Gulrøtter",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": "gulrot"
+    },
+    {
+     "raw": "100 gram Bacon",
+     "name": "Bacon",
+     "amount": 100.0,
+     "unit": "g",
+     "ingredient": "bacon"
+    },
+    {
+     "raw": "70 gram Smør",
+     "name": "Smør",
+     "amount": 70.0,
+     "unit": "g",
+     "ingredient": "smor"
+    },
+    {
+     "raw": "2 desiliter Eplejuice",
+     "name": "Eplejuice",
+     "amount": 2.0,
+     "unit": "dl",
+     "ingredient": null
+    },
+    {
+     "raw": "1 spiseskje Olje til steking",
+     "name": "Olje til steking",
+     "amount": 1.0,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "6 spiseskje Tomatpuré",
+     "name": "Tomatpuré",
+     "amount": 6.0,
+     "unit": "ss",
+     "ingredient": "tomatpure"
+    },
+    {
+     "raw": "1 teskje Rosmarin, tørket",
+     "name": "Rosmarin, tørket",
+     "amount": 1.0,
+     "unit": "ts",
+     "ingredient": null
+    },
+    {
+     "raw": "4 desiliter Kjøttbuljong",
+     "name": "Kjøttbuljong",
+     "amount": 4.0,
+     "unit": "dl",
+     "ingredient": null
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    },
+    {
+     "raw": "400 gram Tagliatelle, , tørket",
+     "name": "Tagliatelle, , tørket",
+     "amount": 400.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "1 dash Parmesan",
+     "name": "Parmesan",
+     "amount": null,
+     "unit": "dash",
+     "ingredient": "parmesan"
+    },
+    {
+     "raw": "1 dash Bladpersille (til servering)",
+     "name": "Bladpersille (til servering)",
+     "amount": null,
+     "unit": "dash",
+     "ingredient": null
+    }
+   ],
+   "rating": 3.83,
+   "ratingCount": 41,
+   "totalTime": "PT90M",
+   "category": "Pasta",
+   "dish": "Pasta",
+   "nrkRank": 4
+  },
+  {
+   "slug": "rema-saftig-cheeseburger",
+   "name": "Saftig cheeseburger",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/kjottdeig/saftig-cheeseburger/",
+   "group": "hverdag",
+   "rank": 4,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "1 pakke Kjøttdeig 600 g Nordfjord",
+     "name": "Kjøttdeig  Nordfjord",
+     "amount": 600.0,
+     "unit": "g",
+     "ingredient": "kjottdeig"
+    },
+    {
+     "raw": "1 stykk Egg Solvinge",
+     "name": "Egg Solvinge",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "egg"
+    },
+    {
+     "raw": "1 stykk Løk",
+     "name": "Løk",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "lok"
+    },
+    {
+     "raw": "1 stykk Tomat",
+     "name": "Tomat",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "tomat"
+    },
+    {
+     "raw": "4 stykk Pitabrød Hatting",
+     "name": "Pitabrød Hatting",
+     "amount": 4.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "4 skive Cheddar REMA 1000",
+     "name": "Cheddar REMA 1000",
+     "amount": null,
+     "unit": "skive",
+     "ingredient": null
+    },
+    {
+     "raw": "1 spiseskje Olivenolje REMA 1000",
+     "name": "Olivenolje REMA 1000",
+     "amount": 1.0,
+     "unit": "ss",
+     "ingredient": "olivenolje"
+    }
+   ],
+   "rating": 4.09,
+   "ratingCount": 22,
+   "totalTime": "PT30M",
+   "category": "Kjøttdeig",
+   "dish": "Hamburger",
+   "nrkRank": 5
+  },
+  {
+   "slug": "rema-lasagne-bolognese",
+   "name": "Lasagne bolognese",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/pasta/lasagne-bolognese/",
+   "group": "hverdag",
+   "rank": 5,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "400 gram Kjøttdeig",
+     "name": "Kjøttdeig",
+     "amount": 400.0,
+     "unit": "g",
+     "ingredient": "kjottdeig"
+    },
+    {
+     "raw": "2 spiseskje Olivenolje",
+     "name": "Olivenolje",
+     "amount": 2.0,
+     "unit": "ss",
+     "ingredient": "olivenolje"
+    },
+    {
+     "raw": "1 glass Pastasaus",
+     "name": "Pastasaus",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 desiliter Vann",
+     "name": "Vann",
+     "amount": 1.0,
+     "unit": "dl",
+     "ingredient": null
+    },
+    {
+     "raw": "1 stykk Løk",
+     "name": "Løk",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "lok"
+    },
+    {
+     "raw": "1 stykk Gulrot, , stor",
+     "name": "Gulrot, , stor",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "gulrot"
+    },
+    {
+     "raw": "1 stykk Stangselleri, , liten",
+     "name": "Stangselleri, , liten",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 pakke Lasagneplater",
+     "name": "Lasagneplater",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 boks Crème fraîche",
+     "name": "Crème fraîche",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "180 gram Mozzarella, , revet",
+     "name": "Mozzarella, , revet",
+     "amount": 180.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    }
+   ],
+   "rating": 3.88,
+   "ratingCount": 66,
+   "totalTime": "PT60M",
+   "category": "Pasta",
+   "dish": "Lasagne",
+   "nrkRank": 6
+  },
+  {
+   "slug": "rema-fiskekaker-med-potetsalat",
+   "name": "Fiskekaker med potetsalat",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/fisk/fiskekaker/fiskekaker-med-potetsalat/",
+   "group": "hverdag",
+   "rank": 6,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "500 gram Poteter, (små)",
+     "name": "Poteter, (små)",
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": "potet"
+    },
+    {
+     "raw": "2 stykk Gulrøtter",
+     "name": "Gulrøtter",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": "gulrot"
+    },
+    {
+     "raw": "1 bunt Reddiker",
+     "name": "Reddiker",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 potte Gressløk",
+     "name": "Gressløk",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "600 gram Fiskekaker",
+     "name": "Fiskekaker",
+     "amount": 600.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "1 spiseskje Sennep",
+     "name": "Sennep",
+     "amount": 1.0,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "1 desiliter Olivenolje",
+     "name": "Olivenolje",
+     "amount": 1.0,
+     "unit": "dl",
+     "ingredient": "olivenolje"
+    },
+    {
+     "raw": "1 spiseskje Smør, (til å pensle fiskekakene)",
+     "name": "Smør, (til å pensle fiskekakene)",
+     "amount": 1.0,
+     "unit": "ss",
+     "ingredient": "smor"
+    },
+    {
+     "raw": "2 spiseskje Hvitvinseddik",
+     "name": "Hvitvinseddik",
+     "amount": 2.0,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "1 teskje Sukker",
+     "name": "Sukker",
+     "amount": 1.0,
+     "unit": "ts",
+     "ingredient": null
+    },
+    {
+     "raw": "1 klype Salt",
+     "name": "Salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "1 klype Pepper",
+     "name": "Pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    }
+   ],
+   "rating": 3.56,
+   "ratingCount": 16,
+   "totalTime": "PT45M",
+   "category": "Fiskekaker",
+   "dish": "Fiskekaker",
+   "nrkRank": 9
+  },
+  {
+   "slug": "rema-ovnsbakte-kjottkaker-med-gronnsaker",
+   "name": "Ovnsbakte kjøttkaker med grønnsaker",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/kjottdeig/ovnsbakte-kjottkaker-med-gronnsaker/",
+   "group": "hverdag",
+   "rank": 7,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "600 gram Kjøttdeig",
+     "name": "Kjøttdeig",
+     "amount": 600.0,
+     "unit": "g",
+     "ingredient": "kjottdeig"
+    },
+    {
+     "raw": "2,5 spiseskje Potetmel",
+     "name": "Potetmel",
+     "amount": 2.5,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "1 teskje Salt",
+     "name": "Salt",
+     "amount": 1.0,
+     "unit": "ts",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "0,5 teskje Pepper",
+     "name": "Pepper",
+     "amount": 0.5,
+     "unit": "ts",
+     "ingredient": "pepper"
+    },
+    {
+     "raw": "0,25 teskje Muskatt, , malt",
+     "name": "Muskatt, , malt",
+     "amount": 0.25,
+     "unit": "ts",
+     "ingredient": null
+    },
+    {
+     "raw": "1 desiliter Vann",
+     "name": "Vann",
+     "amount": 1.0,
+     "unit": "dl",
+     "ingredient": null
+    },
+    {
+     "raw": "1 desiliter Melk",
+     "name": "Melk",
+     "amount": 1.0,
+     "unit": "dl",
+     "ingredient": "melk"
+    },
+    {
+     "raw": "600 gram Søtpotet",
+     "name": "Søtpotet",
+     "amount": 600.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "1 stykk Spisspaprika",
+     "name": "Spisspaprika",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "paprika"
+    },
+    {
+     "raw": "2 spiseskje Olivenolje",
+     "name": "Olivenolje",
+     "amount": 2.0,
+     "unit": "ss",
+     "ingredient": "olivenolje"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    },
+    {
+     "raw": "1 teskje Rosmarin, , tørket",
+     "name": "Rosmarin, , tørket",
+     "amount": 1.0,
+     "unit": "ts",
+     "ingredient": null
+    },
+    {
+     "raw": "1 pose Frosne erter",
+     "name": "Frosne erter",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": "erter"
+    },
+    {
+     "raw": "2 spiseskje Smør",
+     "name": "Smør",
+     "amount": 2.0,
+     "unit": "ss",
+     "ingredient": "smor"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    }
+   ],
+   "rating": 3.41,
+   "ratingCount": 51,
+   "totalTime": "PT30M",
+   "category": "Kjøttdeig",
+   "dish": "Kjøttkaker",
+   "nrkRank": 10
+  },
+  {
+   "slug": "rema-fiskegrateng-med-torsk",
+   "name": "Fiskegrateng med torsk",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/fisk/torsk/fiskegrateng-med-torsk/",
+   "group": "hverdag",
+   "rank": 8,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "500 gram Torskefilet",
+     "name": "Torskefilet",
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "200 gram Makaroni",
+     "name": "Makaroni",
+     "amount": 200.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "2 stykk Gulrøtter",
+     "name": "Gulrøtter",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": "gulrot"
+    },
+    {
+     "raw": "100 gram Purre",
+     "name": "Purre",
+     "amount": 100.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "0,3 teskje Hel muskatnøtt",
+     "name": "Hel muskatnøtt",
+     "amount": 0.3,
+     "unit": "ts",
+     "ingredient": null
+    },
+    {
+     "raw": "5 desiliter Helmelk",
+     "name": "Helmelk",
+     "amount": 5.0,
+     "unit": "dl",
+     "ingredient": "melk"
+    },
+    {
+     "raw": "200 gram Erter",
+     "name": "Erter",
+     "amount": 200.0,
+     "unit": "g",
+     "ingredient": "erter"
+    },
+    {
+     "raw": "3 stykk Egg",
+     "name": "Egg",
+     "amount": 3.0,
+     "unit": "stk",
+     "ingredient": "egg"
+    },
+    {
+     "raw": "50 gram Smør normalsaltet",
+     "name": "Smør normalsaltet",
+     "amount": 50.0,
+     "unit": "g",
+     "ingredient": "smor"
+    },
+    {
+     "raw": "50 gram Hvetemel",
+     "name": "Hvetemel",
+     "amount": 50.0,
+     "unit": "g",
+     "ingredient": "mel"
+    },
+    {
+     "raw": "100 gram Griljermel",
+     "name": "Griljermel",
+     "amount": 100.0,
+     "unit": "g",
+     "ingredient": null
+    }
+   ],
+   "rating": 3.82,
+   "ratingCount": 33,
+   "totalTime": "PT95M",
+   "category": "Torsk",
+   "dish": "Fiskegrateng"
+  },
+  {
+   "slug": "rema-lapskaus-med-polse",
+   "name": "Lapskaus med pølse",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/svin/polser/lapskaus-med-polse/",
+   "group": "hverdag",
+   "rank": 9,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "750 gram Lapskausblanding grovkuttet",
+     "name": "Lapskausblanding grovkuttet",
+     "amount": 750.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "2 stykk Kjøttpølse",
+     "name": "Kjøttpølse",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "7 desiliter Buljong (kjøtt eller grønnsaksbuljong)",
+     "name": "Buljong (kjøtt eller grønnsaksbuljong)",
+     "amount": 7.0,
+     "unit": "dl",
+     "ingredient": null
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "1 klype Salt og pepper",
+     "name": "pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    },
+    {
+     "raw": "2 spiseskje Bladpersille (finhakket)",
+     "name": "Bladpersille (finhakket)",
+     "amount": 2.0,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "1 spiseskje Maizena",
+     "name": "Maizena",
+     "amount": 1.0,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "3 spiseskje Kaldt vann",
+     "name": "Kaldt vann",
+     "amount": 3.0,
+     "unit": "ss",
+     "ingredient": null
+    }
+   ],
+   "rating": 3.47,
+   "ratingCount": 193,
+   "totalTime": "PT15M",
+   "category": "Pølser",
+   "dish": "Lapskaus"
+  },
+  {
+   "slug": "rema-helstekt-lammelar-med-hvitlok-og-urter",
+   "name": "Helstekt lammelår med hvitløk og urter",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/lam-og-farekjott/lammelar/helstekt-lammelar-med-hvitlok-urter/",
+   "group": "sondag",
+   "rank": 1,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "0,5 desiliter Olivenolje",
+     "name": "Olivenolje",
+     "amount": 0.5,
+     "unit": "dl",
+     "ingredient": "olivenolje"
+    },
+    {
+     "raw": "4 fedd Hvitløk",
+     "name": "Hvitløk",
+     "amount": 20.0,
+     "unit": "g",
+     "ingredient": "hvitlok"
+    },
+    {
+     "raw": "0,5 stykk Skall av sitron",
+     "name": "Skall av sitron",
+     "amount": 0.5,
+     "unit": "stk",
+     "ingredient": "sitron"
+    },
+    {
+     "raw": "1 potte Persille",
+     "name": "Persille",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 teskje Malt koriander",
+     "name": "Malt koriander",
+     "amount": 1.0,
+     "unit": "ts",
+     "ingredient": null
+    },
+    {
+     "raw": "3 spiseskje Smør",
+     "name": "Smør",
+     "amount": 3.0,
+     "unit": "ss",
+     "ingredient": "smor"
+    },
+    {
+     "raw": "1 stykk Lammelår",
+     "name": "Lammelår",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "3 klype Pepper",
+     "name": "Pepper",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "pepper"
+    },
+    {
+     "raw": "3 klype Salt",
+     "name": "Salt",
+     "amount": null,
+     "unit": "klype",
+     "ingredient": "salt"
+    }
+   ],
+   "rating": 3.62,
+   "ratingCount": 140,
+   "totalTime": "PT240M",
+   "category": "Lammelår",
+   "dish": "Lammestek"
+  },
+  {
+   "slug": "rema-helstekt-kylling-med-sitron-og-urter",
+   "name": "Helstekt kylling med sitron og urter",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/kylling-og-hons/hel-kylling/helstekt-kylling-med-sitron-og-urter/",
+   "group": "sondag",
+   "rank": 2,
+   "servings": 6,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "1 stykk Hel landkylling",
+     "name": "Hel landkylling",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "1 stykk Sitron, , eller appelsin",
+     "name": "Sitron, , eller appelsin",
+     "amount": 1.0,
+     "unit": "stk",
+     "ingredient": "sitron"
+    },
+    {
+     "raw": "2 spiseskje Persille, , eller annen urt",
+     "name": "Persille, , eller annen urt",
+     "amount": 2.0,
+     "unit": "ss",
+     "ingredient": null
+    },
+    {
+     "raw": "2 fedd Hvitløk",
+     "name": "Hvitløk",
+     "amount": 10.0,
+     "unit": "g",
+     "ingredient": "hvitlok"
+    },
+    {
+     "raw": "1 kilogram Poteter, , løsvekt",
+     "name": "Poteter, , løsvekt",
+     "amount": 1.0,
+     "unit": "kg",
+     "ingredient": "potet"
+    },
+    {
+     "raw": "500 gram Sellerirot",
+     "name": "Sellerirot",
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "300 gram Kålrot",
+     "name": "Kålrot",
+     "amount": 300.0,
+     "unit": "g",
+     "ingredient": null
+    },
+    {
+     "raw": "2 stykk Rødbeter",
+     "name": "Rødbeter",
+     "amount": 2.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "0,5 teskje Salt",
+     "name": "Salt",
+     "amount": 0.5,
+     "unit": "ts",
+     "ingredient": "salt"
+    },
+    {
+     "raw": "0,3 teskje Nykvernet pepper",
+     "name": "Nykvernet pepper",
+     "amount": 0.3,
+     "unit": "ts",
+     "ingredient": "pepper"
+    },
+    {
+     "raw": "4 spiseskje Smør",
+     "name": "Smør",
+     "amount": 4.0,
+     "unit": "ss",
+     "ingredient": "smor"
+    }
+   ],
+   "rating": 3.29,
+   "ratingCount": 96,
+   "totalTime": "PT150M",
+   "category": "Hel kylling",
+   "dish": "Helstekt kylling"
+  },
+  {
+   "slug": "rema-farikal",
+   "name": "Fårikål",
+   "source": "rema",
+   "source_url": "https://www.rema.no/oppskrifter/lam-og-farekjott/farikal/",
+   "group": "sondag",
+   "rank": 3,
+   "servings": 4,
+   "servings_guessed": false,
+   "ingredients": [
+    {
+     "raw": "1,3 kilogram Hodekål",
+     "name": "Hodekål",
+     "amount": 1.3,
+     "unit": "kg",
+     "ingredient": null
+    },
+    {
+     "raw": "600 gram Poteter",
+     "name": "Poteter",
+     "amount": 600.0,
+     "unit": "g",
+     "ingredient": "potet"
+    },
+    {
+     "raw": "1 potte Persille",
+     "name": "Persille",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": null
+    },
+    {
+     "raw": "6 stykk Laurbærblad",
+     "name": "Laurbærblad",
+     "amount": 6.0,
+     "unit": "stk",
+     "ingredient": null
+    },
+    {
+     "raw": "1,5 kilogram Fårikålkjøtt",
+     "name": "Fårikålkjøtt",
+     "amount": 1.5,
+     "unit": "kg",
+     "ingredient": null
+    },
+    {
+     "raw": "0,5 desiliter Hvetemel",
+     "name": "Hvetemel",
+     "amount": 0.5,
+     "unit": "dl",
+     "ingredient": "mel"
+    },
+    {
+     "raw": "1 pose Hel sort pepper",
+     "name": "Hel sort pepper",
+     "amount": 1.0,
+     "unit": "pk",
+     "ingredient": "pepper"
+    }
+   ],
+   "rating": 3.68,
+   "ratingCount": 63,
+   "totalTime": "PT180M",
+   "category": "Lam og fårekjøtt",
+   "dish": "Fårikål"
   },
   {
    "slug": "aicha-kikerter-og-sopp-curry",
