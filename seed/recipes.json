@@ -1,0 +1,313 @@
+[
+  {
+    "slug": "taco",
+    "name": "Fredagstaco",
+    "servings": 4,
+    "ingredients": [
+      {
+        "ingredient": "kjottdeig",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "ingredient": "tacokrydder",
+        "amount": 28,
+        "unit": "g"
+      },
+      {
+        "ingredient": "tortilla",
+        "amount": 8,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "tacosaus",
+        "amount": 230,
+        "unit": "g"
+      },
+      {
+        "ingredient": "isbergsalat",
+        "amount": 0.5,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "tomat",
+        "amount": 2,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "agurk",
+        "amount": 0.5,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "paprika",
+        "amount": 1,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "rodlok",
+        "amount": 1,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "mais",
+        "amount": 160,
+        "unit": "g"
+      },
+      {
+        "ingredient": "ost_revet",
+        "amount": 150,
+        "unit": "g"
+      },
+      {
+        "ingredient": "romme",
+        "amount": 300,
+        "unit": "g"
+      }
+    ]
+  },
+  {
+    "slug": "spaghetti-bolognese",
+    "name": "Spaghetti bolognese",
+    "servings": 4,
+    "ingredients": [
+      {
+        "ingredient": "kjottdeig",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "ingredient": "hakkede_tomater",
+        "amount": 800,
+        "unit": "g",
+        "note": "2 bokser"
+      },
+      {
+        "ingredient": "tomatpure",
+        "amount": 2,
+        "unit": "ss"
+      },
+      {
+        "ingredient": "lok",
+        "amount": 1,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "hvitlok",
+        "amount": 10,
+        "unit": "g",
+        "note": "2 fedd"
+      },
+      {
+        "ingredient": "gulrot",
+        "amount": 2,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "spaghetti",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "ingredient": "parmesan",
+        "amount": 40,
+        "unit": "g"
+      },
+      {
+        "ingredient": "olivenolje",
+        "amount": 2,
+        "unit": "ss"
+      },
+      {
+        "ingredient": "salt",
+        "amount": 1,
+        "unit": "ts"
+      },
+      {
+        "ingredient": "pepper",
+        "amount": 0.5,
+        "unit": "ts"
+      }
+    ]
+  },
+  {
+    "slug": "ovnsbakt-laks",
+    "name": "Ovnsbakt laks med poteter og brokkoli",
+    "servings": 4,
+    "ingredients": [
+      {
+        "ingredient": "laksefilet",
+        "amount": 600,
+        "unit": "g"
+      },
+      {
+        "ingredient": "potet",
+        "amount": 800,
+        "unit": "g"
+      },
+      {
+        "ingredient": "brokkoli",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "ingredient": "erter",
+        "amount": 200,
+        "unit": "g"
+      },
+      {
+        "ingredient": "sitron",
+        "amount": 1,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "olivenolje",
+        "amount": 2,
+        "unit": "ss"
+      },
+      {
+        "ingredient": "smor",
+        "amount": 50,
+        "unit": "g"
+      },
+      {
+        "ingredient": "salt",
+        "amount": 1,
+        "unit": "ts"
+      },
+      {
+        "ingredient": "pepper",
+        "amount": 0.5,
+        "unit": "ts"
+      }
+    ]
+  },
+  {
+    "slug": "kyllingcurry",
+    "name": "Rød kyllingcurry med ris",
+    "servings": 4,
+    "ingredients": [
+      {
+        "ingredient": "kyllingfilet",
+        "amount": 600,
+        "unit": "g"
+      },
+      {
+        "ingredient": "kokosmelk",
+        "amount": 400,
+        "unit": "ml"
+      },
+      {
+        "ingredient": "currypaste",
+        "amount": 2,
+        "unit": "ss"
+      },
+      {
+        "ingredient": "lok",
+        "amount": 1,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "paprika",
+        "amount": 1,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "hvitlok",
+        "amount": 10,
+        "unit": "g",
+        "note": "2 fedd"
+      },
+      {
+        "ingredient": "ris",
+        "amount": 300,
+        "unit": "g"
+      },
+      {
+        "ingredient": "olivenolje",
+        "amount": 1,
+        "unit": "ss"
+      },
+      {
+        "ingredient": "salt",
+        "amount": 1,
+        "unit": "ts"
+      }
+    ]
+  },
+  {
+    "slug": "pasta-carbonara",
+    "name": "Pasta carbonara",
+    "servings": 4,
+    "ingredients": [
+      {
+        "ingredient": "spaghetti",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "ingredient": "bacon",
+        "amount": 200,
+        "unit": "g"
+      },
+      {
+        "ingredient": "egg",
+        "amount": 3,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "parmesan",
+        "amount": 60,
+        "unit": "g"
+      },
+      {
+        "ingredient": "flote",
+        "amount": 1,
+        "unit": "dl"
+      },
+      {
+        "ingredient": "hvitlok",
+        "amount": 5,
+        "unit": "g",
+        "note": "1 fedd"
+      },
+      {
+        "ingredient": "pepper",
+        "amount": 1,
+        "unit": "ts"
+      }
+    ]
+  },
+  {
+    "slug": "pannekaker",
+    "name": "Pannekaker",
+    "servings": 4,
+    "ingredients": [
+      {
+        "ingredient": "mel",
+        "amount": 250,
+        "unit": "g"
+      },
+      {
+        "ingredient": "melk",
+        "amount": 6,
+        "unit": "dl"
+      },
+      {
+        "ingredient": "egg",
+        "amount": 3,
+        "unit": "stk"
+      },
+      {
+        "ingredient": "smor",
+        "amount": 30,
+        "unit": "g"
+      },
+      {
+        "ingredient": "salt",
+        "amount": 0.5,
+        "unit": "ts"
+      }
+    ]
+  }
+]
