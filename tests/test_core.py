@@ -1,7 +1,9 @@
+import json
 import unittest
 from datetime import datetime, timezone
 
-from matglede import db
+from matglede import db, external
+from matglede.recipe_parse import match_ingredient, normalise_for_ingredient, parse_line
 from matglede.matching import IngredientRule, score_product
 from matglede.shopping import compare_chains, shopping_list
 from matglede.units import parse_package, to_base
@@ -160,6 +162,63 @@ class SeedTest(unittest.TestCase):
         db.init_db(conn)
         self.assertGreater(db.load_ingredients(conn), 30)
         self.assertGreater(db.load_recipes(conn), 4)
+
+    def test_external_recipes_load(self):
+        conn = db.connect(":memory:")
+        db.init_db(conn)
+        db.load_ingredients(conn)
+        n, _ = external.load(conn)
+        self.assertGreater(n, 40)
+        row = conn.execute("SELECT source_url FROM recipe WHERE slug='rema-kremet-pasta'").fetchone()
+        self.assertTrue(row["source_url"].startswith("https://www.rema.no/"))
+
+    def test_external_file_has_no_instructions(self):
+        data = json.loads(external.OUT.read_text(encoding="utf-8"))
+        for r in data["recipes"]:
+            self.assertFalse({"instructions", "recipeInstructions", "image"} & set(r))
+
+
+class RecipeParseTest(unittest.TestCase):
+    def p(self, raw):
+        x = parse_line(raw)
+        return x.amount, x.unit, x.name
+
+    def test_schema_org_words(self):
+        self.assertEqual(self.p("2 spiseskje Salt"), (2, "ss", "Salt"))
+        self.assertEqual(self.p("0,5 desiliter Rømme"), (0.5, "dl", "Rømme"))
+        self.assertEqual(self.p("3 kilogram Ribbe"), (3, "kg", "Ribbe"))
+
+    def test_blog_fractions_and_ranges(self):
+        self.assertEqual(self.p("1 1/2 ts havsalt"), (1.5, "ts", "havsalt"))
+        self.assertEqual(self.p("½ ts chiliflak"), (0.5, "ts", "chiliflak"))
+        self.assertEqual(self.p("400 - 500 g poteter"), (450, "g", "poteter"))
+        self.assertEqual(self.p("1 boks (300g) med kokte kikerter")[:2], (300, "g"))
+        self.assertEqual(self.p("500 poteter , gjerne nypoteter")[:2], (500, "g"))
+
+    def test_uncountable(self):
+        self.assertEqual(self.p("1 klype Salt og pepper"), (None, "klype", "Salt og pepper"))
+        self.assertEqual(self.p("Pepper"), (None, None, "Pepper"))
+
+    def test_matching(self):
+        self.assertEqual(match_ingredient("Hvitløk, finhakket"), "hvitlok")
+        self.assertEqual(match_ingredient("hvitløksfedd"), "hvitlok")
+        self.assertIsNone(match_ingredient("Hvitløkspulver"))
+        self.assertEqual(match_ingredient("Rød paprika"), "paprika")
+        self.assertIsNone(match_ingredient("paprika", "ts"))
+        self.assertIsNone(match_ingredient("Paprikapulver"))
+        self.assertEqual(match_ingredient("Rødløk"), "rodlok")
+        self.assertEqual(match_ingredient("løk, finhakket"), "lok")
+        self.assertIsNone(match_ingredient("Vårløk"))
+        self.assertIsNone(match_ingredient("eggnudler"))
+        self.assertIsNone(match_ingredient("risnudler"))
+        self.assertIsNone(match_ingredient("peanøttsmør"))
+        self.assertEqual(match_ingredient("Meierismør"), "smor")
+        self.assertIsNone(match_ingredient("Cherrytomater"))
+
+    def test_normalise(self):
+        self.assertEqual(normalise_for_ingredient("hvitlok", 3, "stk", "hvitløksfedd"), (15, "g"))
+        self.assertEqual(normalise_for_ingredient("hakkede_tomater", 1, "pk"), (400, "g"))
+        self.assertEqual(normalise_for_ingredient("kyllingfilet", 2, "stk"), (300, "g"))
 
 
 if __name__ == "__main__":

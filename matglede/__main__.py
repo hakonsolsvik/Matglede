@@ -7,7 +7,7 @@ import sys
 from dataclasses import asdict
 from datetime import date, timedelta
 
-from . import db
+from . import db, external
 from .kassal import KassalClient, load_dotenv
 from .importer import import_all
 from .shopping import compare_chains, shopping_list
@@ -16,6 +16,17 @@ from .shopping import compare_chains, shopping_list
 def cmd_init(conn, args):
     db.init_db(conn)
     print(f"Ingredienser: {db.load_ingredients(conn)}, oppskrifter: {db.load_recipes(conn)}")
+    n, skipped = external.load(conn)
+    print(f"Eksterne oppskrifter: {n} ({skipped} ingredienslinjer uten kobling hoppet over)")
+
+
+def cmd_external(conn, args):
+    data = external.build()
+    c = external.coverage(data)
+    print(f"Skrev {len(data['recipes'])} oppskrifter til {external.OUT.relative_to(external.ROOT)}")
+    print(f"Koblet {c['mapped']} av {c['lines']} ingredienslinjer. Vanligste som mangler i tabellen:")
+    for name, count in c["top_missing"]:
+        print(f"  {count:>3}  {name}")
 
 
 def cmd_import(conn, args):
@@ -86,6 +97,9 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser("init", help="Opprett database og last inn startdata").set_defaults(fn=cmd_init)
+
+    sub.add_parser("build-external", help="Tolk seed/sources/*.json til seed/external_recipes.json"
+                   ).set_defaults(fn=cmd_external)
 
     p = sub.add_parser("import", help="Hent produkter fra Kassalapp")
     p.add_argument("--only", nargs="*", help="Bare disse ingrediens-slugene")

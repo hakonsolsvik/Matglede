@@ -50,6 +50,29 @@ python -m matglede compare --plan 1
 python -m matglede list --plan 1 --chain ODA
 ```
 
+## Populære oppskrifter fra Rema 1000, Aichas Mat og Marit Kolby
+
+`seed/external_recipes.json` har 45 oppskrifter som lastes inn av `init`. For hver oppskrift
+lagres bare tittel, porsjoner, ingredienser med mengde og lenke til originalen
+(`recipe.source_url`). Fremgangsmåte og bilder er kildens tekst og lagres ikke: appen lenker dit.
+
+| Kilde | Hva "populær" betyr her |
+|---|---|
+| [rema.no/oppskrifter](https://www.rema.no/oppskrifter/) | Remas egen liste «de mest populære oppskriftene», 24 stk, sortert etter antall stemmer. |
+| [aichasmat.no](https://aichasmat.no/) | Bloggens kategori «Populære oppskrifter» (9) og salatene med flest kommentarer (9). |
+| [Marit Kolby](https://www.maritkolby.no/) | Ingen populærliste. De tre oppskriftene fra Kokeboka som er publisert gratis hos ARK. |
+
+Råfilene ligger i `seed/sources/`. Etter endringer der, eller i koblingsreglene i
+`matglede/recipe_parse.py`:
+
+```bash
+python -m matglede build-external   # skriver external_recipes.json og viser hva som mangler
+```
+
+Ingredienser som ikke finnes i `ingredients.csv` (pasta, kikerter, soyasaus og lignende) blir
+stående i JSON-filen med `"ingredient": null`, men tas ikke med i handlelisten før de legges til.
+Salt og pepper "etter smak" (uten mengde) hoppes også over.
+
 Gå gjennom koblingene for en ingrediens og rett opp feil:
 
 ```bash

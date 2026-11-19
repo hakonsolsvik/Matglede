@@ -66,7 +66,9 @@ CREATE TABLE IF NOT EXISTS recipe (
     id              INTEGER PRIMARY KEY,
     slug            TEXT NOT NULL UNIQUE,
     name            TEXT NOT NULL,
-    servings        INTEGER NOT NULL CHECK (servings > 0)
+    servings        INTEGER NOT NULL CHECK (servings > 0),
+    source          TEXT,                      -- NULL for egne oppskrifter, ellers rema/aicha/kolby
+    source_url      TEXT                       -- lenke til originalen (fremgangsmåten står der)
 );
 
 CREATE TABLE IF NOT EXISTS recipe_ingredient (
