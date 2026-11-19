@@ -229,3 +229,60 @@ class RecipeParseTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AppExportTest(unittest.TestCase):
+    def setUp(self):
+        from matglede import app_export
+        self.app_export = app_export
+        self.conn = db.connect(":memory:")
+        db.init_db(self.conn)
+        db.load_ingredients(self.conn)
+        c = self.conn
+        kd = c.execute("SELECT id FROM ingredient WHERE slug='kjottdeig'").fetchone()["id"]
+        for pid, name, amt in [(1, "Kjøttdeig 400g", 400), (2, "Kjøttdeig 1 kg", 1000), (3, "Kjøttdeig feil", 400)]:
+            c.execute("""INSERT INTO product(id, source_key, name, package_amount, package_unit, updated_at)
+                         VALUES (?,?,?,?, 'g','x')""", (pid, f"ean:{pid}", name, amt))
+        for pid, chain, price, d in [(1, "KIWI", 60.0, FRESH), (2, "KIWI", 129.0, FRESH),
+                                     (3, "KIWI", 10.0, FRESH), (1, "REMA", 55.0, OLD)]:
+            c.execute("""INSERT INTO offer(product_id, chain_code, store_name, price, price_date, fetched_at)
+                         VALUES (?,?,?,?,?,'x')""", (pid, chain, f"p{pid}", price, d))
+        for pid, score, status in [(1, 5, "auto"), (2, 4.6, "auto"), (3, 5, "rejected")]:
+            c.execute("INSERT INTO ingredient_product VALUES (?,?,?,?)", (kd, pid, score, status))
+
+    def test_only_collected_recipes_without_instructions(self):
+        data = self.app_export.build(None, NOW)
+        ids = {r["id"] for r in data["recipes"]}
+        self.assertEqual(len(ids), len(json.loads(external.OUT.read_text(encoding="utf-8"))["recipes"]))
+        self.assertTrue(all(i.split("-")[0] in {"rema", "aicha", "kolby"} for i in ids))
+        self.assertNotIn("taco-med-kjottdeig", ids)  # eksempeloppskrift fra designet
+        for r in data["recipes"]:
+            self.assertTrue(r["url"].startswith("https://"))
+            self.assertFalse({"steps", "instructions", "image"} & set(r))
+        self.assertFalse(data["hasPrices"])
+        self.assertEqual(data["stats"]["lines"], sum(len(r["ing"]) for r in data["recipes"]))
+
+    def test_base_amount_and_time(self):
+        data = self.app_export.build(None, NOW)
+        r = next(r for r in data["recipes"] if r["id"] == "rema-enkel-taco")
+        kd = next(i for i in r["ing"] if i["slug"] == "kjottdeig")
+        self.assertEqual(kd["base"], 400)
+        self.assertEqual(self.app_export._minutes("PT1H20M"), 80)
+        self.assertEqual(self.app_export._minutes("PT15M"), 15)
+        self.assertIsNone(self.app_export._minutes(None))
+
+    def test_candidates_per_chain(self):
+        data = self.app_export.build(self.conn, NOW)
+        self.assertTrue(data["hasPrices"])
+        prods = data["ingredients"]["kjottdeig"]["products"]
+        self.assertEqual([p["name"] for p in prods["KIWI"]], ["p2", "p1"])  # avvist kobling er ute, billigst per gram først
+        self.assertEqual(prods["KIWI"][1]["size"], 400)
+        self.assertTrue(prods["REMA"][0]["stale"])
+        self.assertNotIn("ODA", prods)
+
+    def test_write_js(self):
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as d:
+            out = self.app_export.write({"a": "æ"}, Path(d) / "data.js")
+            self.assertIn('window.MATGLEDE_DATA = {"a":"æ"};', out.read_text(encoding="utf-8"))

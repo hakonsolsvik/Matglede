@@ -7,7 +7,9 @@ import sys
 from dataclasses import asdict
 from datetime import date, timedelta
 
-from . import db, external
+import os
+
+from . import app_export, db, external
 from .kassal import KassalClient, load_dotenv
 from .importer import import_all
 from .shopping import compare_chains, shopping_list
@@ -27,6 +29,19 @@ def cmd_external(conn, args):
     print(f"Koblet {c['mapped']} av {c['lines']} ingredienslinjer. Vanligste som mangler i tabellen:")
     for name, count in c["top_missing"]:
         print(f"  {count:>3}  {name}")
+
+
+def cmd_export_app(conn, args):
+    has_db = os.path.exists(args.db)
+    data = app_export.build(conn if has_db else None)
+    out = app_export.write(data)
+    st = data["stats"]
+    print(f"Skrev {out.relative_to(app_export.ROOT)}: {st['recipes']} oppskrifter")
+    print(f"Koblet til ingrediens: {st['mapped']} av {st['lines']} ingredienslinjer")
+    if data["hasPrices"]:
+        print(f"Priser funnet for {st['pricedIngredients']} av {st['ingredients']} ingredienser")
+    else:
+        print("Ingen priser: kjør `init` og `import` først (krever KASSAL_API_KEY)")
 
 
 def cmd_import(conn, args):
@@ -101,6 +116,9 @@ def main(argv=None):
     sub.add_parser("build-external", help="Tolk seed/sources/*.json til seed/external_recipes.json"
                    ).set_defaults(fn=cmd_external)
 
+    sub.add_parser("export-app", help="Skriv app/data.js med oppskrifter og priser til appen"
+                   ).set_defaults(fn=cmd_export_app)
+
     p = sub.add_parser("import", help="Hent produkter fra Kassalapp")
     p.add_argument("--only", nargs="*", help="Bare disse ingrediens-slugene")
     p.add_argument("--chains", nargs="*", help="Bare disse kjedene (ODA KIWI MENY REMA COOP SPAR JOKER)")
@@ -132,6 +150,9 @@ def main(argv=None):
         p.set_defaults(fn=cmd_mark, status=status)
 
     args = ap.parse_args(argv)
+    if args.cmd == "export-app" and not os.path.exists(args.db):
+        args.fn(None, args)  # uten database: ingen priser, ikke lag en tom fil
+        return
     conn = db.connect(args.db)
     args.fn(conn, args)
 
