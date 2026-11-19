@@ -39,6 +39,44 @@ CHAIN_COLORS = {
 }
 
 
+# Logoene Kassalapp viser for kjedene (feltet store.logo i API-svarene). Lastes ned til
+# app/logos/ med `python -m matglede fetch-logos`, så appen virker uten nett.
+CHAIN_LOGOS = {
+    "ODA": "https://kassal.app/logos/Oda.svg",
+    "KIWI": "https://kassal.app/logos/Kiwi.svg",
+    "MENY": "https://kassal.app/logos/Meny.svg",
+    "REMA": "https://kassal.app/logos/Rema-1000.svg",
+    "COOP": "https://kassal.app/logos/Coop.svg",
+    "SPAR": "https://kassal.app/logos/Spar.svg",
+    "JOKER": "https://kassal.app/logos/Joker.svg",
+}
+LOGO_DIR = ROOT / "app" / "logos"
+
+
+def fetch_logos(out: Path = LOGO_DIR) -> list[Path]:
+    """Last ned kjedelogoene til app/logos/<KODE>.svg."""
+    import urllib.request
+    out.mkdir(parents=True, exist_ok=True)
+    written = []
+    for code, url in CHAIN_LOGOS.items():
+        req = urllib.request.Request(url, headers={"User-Agent": "matglede/0.1"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            body = r.read()
+        if not body.lstrip().startswith(b"<svg"):
+            raise ValueError(f"{url} ga ikke en SVG")
+        path = out / f"{code}.svg"
+        path.write_bytes(body)
+        written.append(path)
+    return written
+
+
+def _logo(code: str) -> str | None:
+    """Relativ sti til logoen hvis den er lastet ned, ellers Kassalapp-URL-en."""
+    if (LOGO_DIR / f"{code}.svg").exists():
+        return f"logos/{code}.svg"
+    return CHAIN_LOGOS.get(code)
+
+
 def _minutes(iso: str | None) -> int | None:
     """'PT1H20M' eller 'PT80M' -> 80."""
     if not iso or not iso.startswith("PT"):
@@ -173,7 +211,8 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         "generated": now.strftime("%Y-%m-%d"),
         "hasPrices": priced > 0,
         "sources": {k: {"name": v["name"], "site": v["site"]} for k, v in SOURCE_INFO.items()},
-        "chains": [{"code": code, "name": name, "bg": CHAIN_COLORS[code][0], "fg": CHAIN_COLORS[code][1]}
+        "chains": [{"code": code, "name": name, "bg": CHAIN_COLORS[code][0], "fg": CHAIN_COLORS[code][1],
+                    "logo": _logo(code)}
                    for code, name, _ in CHAINS],
         "ingredients": ingredients,
         "matching": {

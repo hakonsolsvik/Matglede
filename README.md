@@ -130,7 +130,10 @@ cd app && python -m http.server    # åpne http://localhost:8000
   kobles til varer med de samme reglene som `recipe_parse.py` (testet i `tests/app_logic_check.js`),
   og du kan velge vare selv i nedtrekkslisten. Alt lagres i nettleseren (localStorage) til appen
   får brukerkontoer.
-- **Tilbud og priser**: ukeplanen priset i hver kjede. Ekte ukestilbud er ikke koblet på ennå.
+- **Tilbud og priser**: ukeplanen priset i hver kjede, med kjedenes logoer slik Kassalapp oppgir
+  dem (`store.logo`). `python -m matglede fetch-logos` laster dem ned til `app/logos/`.
+  Logoene er kjedenes varemerker og brukes bare for å vise hvilken butikk prisen gjelder.
+  Ekte ukestilbud er ikke koblet på ennå.
 - Uten `matglede.db` gjenbruker `export-app` prisene fra forrige `app/data.js`. Finnes ingen,
   står prisene som «pris kommer».
 

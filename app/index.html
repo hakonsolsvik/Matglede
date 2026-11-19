@@ -138,7 +138,7 @@
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ stores }}" as="st" hint-placeholder-count="7">
 <div onClick="{{ st.open }}" style="height:92px;border-radius:20px;background:{{ st.bg }};color:{{ st.fg }};padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer">
-<div style="font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.05">{{ st.name }}</div>
+<div style="display:flex;align-items:center;gap:9px"><img src="{{ st.logo }}" alt="" style="width:36px;height:36px;flex:none;border-radius:10px;background:#fff;object-fit:contain;box-shadow:0 1px 3px rgba(0,0,0,.18)"><div style="font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.05">{{ st.name }}</div></div>
 <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;gap:6px"><span>{{ st.count }}</span><span style="background:{{ st.fg }};color:{{ st.bg }};font-size:11px;padding:3px 8px;border-radius:99px;white-space:nowrap">{{ st.max }}</span></div>
 </div>
 </sc-for>
@@ -378,7 +378,7 @@
 <button onClick="{{ peoplePlus }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:#1b2a1c;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
 </div>
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
-<sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
+<sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:5px 13px 5px 5px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;gap:7px"><img src="{{ c.logo }}" alt="" style="width:24px;height:24px;border-radius:7px;background:#fff;object-fit:contain">{{ c.label }}</button></sc-for>
 </div>
 <sc-if value="{{ sl.empty }}"><div style="padding:36px 20px;text-align:center;color:#6b7268;font-size:14px;line-height:1.5;background:#fffdf8;border-radius:22px">Ingen retter er planlagt her ennå.<br>Legg til middager i planen først.</div></sc-if>
 <sc-if value="{{ sl.has }}">
@@ -391,7 +391,7 @@
 <div style="text-align:right;flex:none"><div style="font-size:14.5px;font-weight:800;color:{{ i.color }};white-space:nowrap">{{ i.amount }}</div><div style="font-size:11.5px;color:#8a9187;white-space:nowrap">{{ i.price }}</div></div>
 </div>
 </sc-for>
-<div style="display:flex;justify-content:space-between;padding:14px 0 4px;font-size:15px;font-weight:800"><span>Estimert totalt i {{ sl.chain }}</span><span>{{ sl.total }}</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0 4px;font-size:15px;font-weight:800"><span style="display:flex;align-items:center;gap:7px">Estimert totalt i <img src="{{ sl.logo }}" alt="" style="width:22px;height:22px;border-radius:6px;object-fit:contain">{{ sl.chain }}</span><span>{{ sl.total }}</span></div>
 <div style="font-size:11.5px;color:#8a9187;line-height:1.4;padding:0 0 12px">{{ sl.note }}</div>
 </div>
 </sc-if>
@@ -544,7 +544,7 @@
 </div>
 <div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:15px;font-weight:700">Butikk for priser</div>
-<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:5px 13px 5px 5px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;gap:7px"><img src="{{ c.logo }}" alt="" style="width:24px;height:24px;border-radius:7px;background:#fff;object-fit:contain">{{ c.label }}</button></sc-for></div>
 <div style="font-size:12px;color:#6b7268">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
 </div>
 <div style="background:#fffdf8;border-radius:20px;overflow:hidden">
@@ -1041,7 +1041,7 @@ class Component extends DCLogic {
       const unm = arr.filter(e => !e.slug).length;
       sl = { sub: week ? 'Hele uka · 16.–22. november' : `${this.DAYS_FULL[top.day]} ${16 + top.day}. november${names ? ' · ' + names : ''}`,
         items, has: items.length > 0, empty: !items.length, meta: `${items.filter(i => !i.done).length} av ${items.length} igjen`,
-        chain: chainName(s.chain), total: sumText(sm),
+        chain: chainName(s.chain), logo: (D.chainByCode[s.chain] || {}).logo || '', total: sumText(sm),
         note: !M.hasPrices ? `Prisene kommer når vareimporten fra Kassalapp er kjørt. ${arr.length - unm} av ${arr.length} varer er koblet til produkter.`
           : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - sm.found > 0 ? ` ${sm.n - unm - sm.found} finnes ikke i ${chainName(s.chain)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
     }
@@ -1075,12 +1075,12 @@ class Component extends DCLogic {
       dataNote: `Oppskriftene kommer fra Rema 1000, Aichas Mat og Marit Kolby. ${st.mapped || 0} av ${st.lines || 0} ingredienslinjer er koblet til varer i butikkene.`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, bg: s.favSort === id ? '#1b2a1c' : '#fffdf8', fg: s.favSort === id ? '#fff' : '#1b2a1c', pick: () => this.setState({ favSort: id }) })),
       cmp, generated: M.generated || '–',
-      stores: perChain.map(({ ch, sm }) => ({ name: ch.name, bg: ch.bg, fg: ch.fg,
+      stores: perChain.map(({ ch, sm }) => ({ name: ch.name, bg: ch.bg, fg: ch.fg, logo: ch.logo || '',
         count: !shopArr.length ? 'ingen varer' : M.hasPrices ? `${sm.found} av ${shopArr.length} varer` : `${mappedN} av ${shopArr.length} koblet`,
         max: M.hasPrices && sm.found ? `${Math.round(sm.total)} kr` : '– kr',
         open: () => { this.setState({ chain: ch.code }); this.push({ t:'shop', scope:'week' }); } })),
       missingList: unmapped.slice(0, 24), hasMissing: unmapped.length > 0,
-      chainChips: D.CHAINS.map(ch => { const on = s.chain === ch.code; return { label: ch.name, bg: on ? '#1b2a1c' : '#fffdf8', fg: on ? '#fff' : '#1b2a1c', border: on ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ chain: ch.code }) }; }),
+      chainChips: D.CHAINS.map(ch => { const on = s.chain === ch.code; return { label: ch.name, logo: ch.logo || '', bg: on ? '#1b2a1c' : '#fffdf8', fg: on ? '#fff' : '#1b2a1c', border: on ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ chain: ch.code }) }; }),
       days, dayTitle: `${this.DAYS_FULL[s.day]} ${16 + s.day}. november${s.day === this.TODAY ? ' · i dag' : ''}`,
       dayMeals: dayMealsArr.map((id, idx) => this.mk(byId[id], { remove: () => this.setState(st => { const l = [...(st.plan[st.day] || [])]; l.splice(idx, 1); return { plan: { ...st.plan, [st.day]: l } }; }) })),
       addLabel: dayMealsArr.length ? 'Legg til en rett til' : 'Legg til middag',

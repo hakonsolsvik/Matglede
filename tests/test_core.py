@@ -310,3 +310,5 @@ class AppJsTest(unittest.TestCase):
         self.assertEqual(data["ingredients"]["kjottdeig"]["products"]["KIWI"][0]["name"], "x")
         self.assertTrue(data["hasPrices"])
         self.assertEqual(data["matching"]["rules"][0][0], "hakkede_tomater")
+        for ch in data["chains"]:
+            self.assertTrue(ch["logo"].endswith(".svg"), ch)
