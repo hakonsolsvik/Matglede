@@ -124,8 +124,15 @@ cd app && python -m http.server    # åpne http://localhost:8000
 - **Handleliste**: ingrediensene i ukeplanen summeres i basisenhet (g/ml/stk), og appen velger
   billigste antall hele pakker blant produktene fra databasen, som `shopping.pick_product`.
   Varer som ikke er koblet til produkter står med «Ikke koblet til vare ennå».
+- **Endre og lage oppskrifter**: «Endre oppskrift» på en rett lar deg legge til, fjerne og endre
+  ingredienser, porsjoner, tid og notater. Det lagres som din versjon, og «Tilbakestill» gir
+  originalen tilbake. «Lag din egen oppskrift» under Oppskrifter lager en helt ny. Ingrediensene
+  kobles til varer med de samme reglene som `recipe_parse.py` (testet i `tests/app_logic_check.js`),
+  og du kan velge vare selv i nedtrekkslisten. Alt lagres i nettleseren (localStorage) til appen
+  får brukerkontoer.
 - **Tilbud og priser**: ukeplanen priset i hver kjede. Ekte ukestilbud er ikke koblet på ennå.
-- Uten `matglede.db` (før `import` er kjørt) blir prisene stående som «pris kommer».
+- Uten `matglede.db` gjenbruker `export-app` prisene fra forrige `app/data.js`. Finnes ingen,
+  står prisene som «pris kommer».
 
 Per nå er 313 av 627 ingredienslinjer koblet til en ingrediens i `ingredients.csv`. Resten
 (pasta, ris, kikerter, soyasaus, krydder og lignende) må legges til der før de får pris.

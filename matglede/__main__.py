@@ -33,7 +33,7 @@ def cmd_external(conn, args):
 
 def cmd_export_app(conn, args):
     has_db = os.path.exists(args.db)
-    data = app_export.build(conn if has_db else None)
+    data = app_export.build(conn if has_db else None, previous=app_export.previous_products())
     out = app_export.write(data)
     st = data["stats"]
     print(f"Skrev {out.relative_to(app_export.ROOT)}: {st['recipes']} oppskrifter")
@@ -42,6 +42,8 @@ def cmd_export_app(conn, args):
         print(f"Priser funnet for {st['pricedIngredients']} av {st['ingredients']} ingredienser")
     else:
         print("Ingen priser: kjør `init` og `import` først (krever KASSAL_API_KEY)")
+    if not has_db and data["hasPrices"]:
+        print("(ingen database: prisene er hentet fra forrige app/data.js)")
 
 
 def cmd_import(conn, args):

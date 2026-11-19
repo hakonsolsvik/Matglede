@@ -18,6 +18,8 @@ from pathlib import Path
 
 from .db import CHAINS
 from .external import OUT as RECIPES_JSON, SOURCE_INFO
+from .recipe_parse import (GRAMS_PER_CHICKEN_BREAST, GRAMS_PER_CLOVE, PACK_SIZES, RULES,
+                           _WHOLE_WORD)
 from .shopping import SCORE_BAND, _is_stale
 from .units import to_base
 
@@ -101,8 +103,19 @@ def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
     } for r in pool[:MAX_CANDIDATES]]
 
 
+def previous_products(path: Path = APP_DATA) -> dict[str, dict]:
+    """Produktene fra en tidligere app/data.js, slik at oppskriftene kan bygges på nytt uten database."""
+    try:
+        text = path.read_text(encoding="utf-8")
+        data = json.loads(text[text.index("{"):text.rindex("}") + 1])
+    except (OSError, ValueError):
+        return {}
+    return {slug: ing.get("products") or {} for slug, ing in data.get("ingredients", {}).items()}
+
+
 def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
-          recipes_path: Path = RECIPES_JSON) -> dict:
+          recipes_path: Path = RECIPES_JSON, previous: dict[str, dict] | None = None) -> dict:
+    """Uten database brukes produktene fra `previous` (typisk forrige app/data.js)."""
     now = now or datetime.now(timezone.utc)
     data = json.loads(recipes_path.read_text(encoding="utf-8"))
     ing_rows = _ingredients_csv()
@@ -138,10 +151,11 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
             "time": _minutes(r.get("totalTime")), "ing": items,
         })
 
+    # Alle ingrediensene tas med, også de ingen oppskrift bruker ennå: brukeren kan legge
+    # dem til i egne oppskrifter. Søkeordene brukes til å koble fritekst i appen.
     ingredients = {}
     priced = 0
-    for slug in sorted(used):
-        row = ing_rows[slug]
+    for slug, row in ing_rows.items():
         gpp = float(row["grams_per_piece"]) if row["grams_per_piece"] else None
         products = {}
         if has_db:
@@ -149,9 +163,11 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
                 c = _candidates(conn, slug, code, row["base_unit"], gpp, now)
                 if c:
                     products[code] = c
+        elif previous:
+            products = previous.get(slug, {})
         priced += bool(products)
         ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "gpp": gpp,
-                             "products": products}
+                             "category": row["category"], "used": slug in used, "products": products}
 
     return {
         "generated": now.strftime("%Y-%m-%d"),
@@ -160,6 +176,13 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         "chains": [{"code": code, "name": name, "bg": CHAIN_COLORS[code][0], "fg": CHAIN_COLORS[code][1]}
                    for code, name, _ in CHAINS],
         "ingredients": ingredients,
+        "matching": {
+            "rules": [[slug, list(needles), list(excl)] for slug, needles, excl in RULES],
+            "wholeWord": sorted(_WHOLE_WORD),
+            "gramsPerClove": GRAMS_PER_CLOVE,
+            "gramsPerChickenBreast": GRAMS_PER_CHICKEN_BREAST,
+            "packSizes": {k: list(v) for k, v in PACK_SIZES.items()},
+        },
         "recipes": recipes,
         "stats": {"recipes": len(recipes), "lines": lines, "mapped": mapped,
                   "ingredients": len(ingredients), "pricedIngredients": priced},
