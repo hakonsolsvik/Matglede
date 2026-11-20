@@ -1,0 +1,82 @@
+# Henter ukas tilbud per butikk og publiserer appen på nytt.
+# Kjører hver mandag kl. 12 norsk tid. GitHub bruker UTC, så jobben starter både
+# 10:00 og 11:00 UTC og fortsetter bare når klokka er 12 i Oslo (vinter- og sommertid).
+# Krever repo-hemmeligheten KASSAL_API_KEY. Kan også startes for hånd under Actions.
+name: Ukas tilbud
+
+on:
+  schedule:
+    - cron: "0 10 * * 1"
+    - cron: "0 11 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ukas-tilbud
+  cancel-in-progress: false
+
+env:
+  # Grenen appen ligger på. Kan overstyres med repo-variabelen APP_BRANCH.
+  APP_BRANCH: ${{ vars.APP_BRANCH || 'claude/project-thread-brkwjx' }}
+
+jobs:
+  tilbud:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Er klokka 12 i Oslo?
+        id: time
+        run: |
+          h=$(TZ=Europe/Oslo date +%H)
+          echo "Klokka er $h i Oslo"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$h" = "12" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.time.outputs.run == 'true'
+        with:
+          ref: ${{ env.APP_BRANCH }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        if: steps.time.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Hent ukas tilbud fra Kassalapp
+        if: steps.time.outputs.run == 'true'
+        env:
+          KASSAL_API_KEY: ${{ secrets.KASSAL_API_KEY }}
+        run: python -m matglede fetch-offers
+
+      - name: Lagre tilbudene på appgrenen
+        if: steps.time.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/offers.js
+          if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
+          git commit -m "Ukas tilbud, uke $(TZ=Europe/Oslo date +%V)"
+          for i in 1 2 3; do
+            git pull --rebase origin "$APP_BRANCH" && git push origin "HEAD:$APP_BRANCH" && break
+            sleep 5
+          done
+
+      - name: Publiser appen på gh-pages
+        if: steps.time.outputs.run == 'true'
+        run: |
+          sha=$(git rev-parse --short HEAD)
+          rm -rf /tmp/site && cp -r app /tmp/site
+          git fetch origin gh-pages
+          git checkout -B gh-pages origin/gh-pages
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .nojekyll -exec rm -rf {} +
+          cp -r /tmp/site/. .
+          touch .nojekyll
+          git add -A
+          if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
+          git commit -m "Publiser appen (app/ fra $APP_BRANCH @ $sha, ukas tilbud)"
+          git push origin gh-pages

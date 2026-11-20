@@ -49,6 +49,15 @@ def cmd_import(conn, args):
     import_all(conn, KassalClient(), only=args.only, chains=args.chains)
 
 
+def cmd_fetch_offers(conn, args):
+    from . import offers
+    load_dotenv()
+    data = offers.build_offers(KassalClient(per_minute=55))
+    offers.write_offers_js(data, args.out)
+    n = sum(len(s["offers"]) for s in data["stores"])
+    print(f"Skrev {args.out}: {n} tilbud i uke {data['week']}")
+
+
 def cmd_demo_plan(conn, args):
     monday = date.today() - timedelta(days=date.today().weekday())
     slugs = [r["slug"] for r in conn.execute("SELECT slug FROM recipe ORDER BY id LIMIT 5")]
@@ -124,6 +133,10 @@ def main(argv=None):
     p.add_argument("--chains", nargs="*", help="Bare disse kjedene (ODA KIWI MENY REMA COOP SPAR JOKER)")
     p.set_defaults(fn=cmd_import)
 
+    p = sub.add_parser("fetch-offers", help="Hent ukas tilbud per butikk til app/offers.js")
+    p.add_argument("--out", default="app/offers.js")
+    p.set_defaults(fn=cmd_fetch_offers)
+
     p = sub.add_parser("demo-plan", help="Lag en ukeplan med fem middager")
     p.add_argument("--servings", type=int, default=4)
     p.set_defaults(fn=cmd_demo_plan)
@@ -150,6 +163,9 @@ def main(argv=None):
         p.set_defaults(fn=cmd_mark, status=status)
 
     args = ap.parse_args(argv)
+    if args.cmd == "fetch-offers":
+        args.fn(None, args)  # trenger ikke databasen
+        return
     if args.cmd == "export-app" and not os.path.exists(args.db):
         args.fn(None, args)  # uten database: ingen priser, ikke lag en tom fil
         return

@@ -73,6 +73,27 @@ Tester: `python -m unittest discover tests`
   Tjener appen penger, trengs Bedrift-avtalen (750 kr/mnd uten MVA). Lagring og caching er lov.
 - Produktbilder er lenker til kjedenes bilder. Avklar bruksrett før de vises i en publisert app.
 
+## Tilbud-siden
+
+Tilbud-siden i appen viser butikkene som logoer. Trykker man på en butikk, får man ukas
+mest aktuelle tilbud i en karusell, hele lista over ukas tilbud gruppert etter varegruppe,
+og en knapp som åpner kjedens egen tilbudsavis.
+
+```bash
+python -m matglede fetch-offers    # skriver app/offers.js (ca. 6 min med gratisnøkkel)
+```
+
+- Et tilbud er en vare der dagens pris er minst 10 % og 3 kr lavere enn medianprisen de
+  8 til 60 foregående dagene, ut fra prishistorikken i Kassalapp.
+- Rema 1000 og Coop-kjedene har ikke ferske priser i Kassalapp, så der viser appen bare
+  lenken til avisen.
+- Selve avissidene vises ikke i appen. Tjek (eTilbudsavis/Mattilbud) gir bare API-tilgang
+  til betalende kunder med avtale, og innholdet kan ikke kopieres uten den.
+- `.github/workflows/tilbud.yml` kjører hver mandag kl. 12 norsk tid, lagrer `app/offers.js`
+  på appgrenen og publiserer appen på gh-pages. Den trenger repo-hemmeligheten
+  `KASSAL_API_KEY`, og må ligge på standardgrenen (main) for at GitHub skal kjøre den
+  etter tidsplan.
+
 ## Neste steg
 
 - Flytte skjemaet til Postgres/Supabase når appen skal ha brukere.
