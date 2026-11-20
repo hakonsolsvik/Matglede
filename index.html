@@ -7,6 +7,8 @@
 <script src="./vendor/react.production.min.js"></script>
 <script src="./vendor/react-dom.production.min.js"></script>
 <script src="./data.js"></script>
+<script src="./auth-config.js"></script>
+<script src="./auth.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -32,7 +34,7 @@
 <button onClick="{{ goHome }}" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:19px;letter-spacing:-.03em;color:#1b2a1c;padding:6px 10px"><span style="width:10px;height:10px;border-radius:50%;background:#9fcf3a"></span>matglede</button>
 <div style="display:flex;gap:8px">
 <button onClick="{{ openProfile }}" title="Profil" style="width:44px;height:44px;border-radius:50%;border:0;background:{{ avatarBg }};box-shadow:0 1px 3px rgba(30,40,20,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1b2a1c;font-family:inherit;font-weight:800;font-size:14px">
-<sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">IH</sc-if>
+<sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">{{ initials }}</sc-if>
 <sc-if value="{{ notLoggedIn }}" hint-placeholder-val="{{ true }}"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></sc-if>
 </button>
 <button onClick="{{ toggleMenu }}" title="Meny" style="width:44px;height:44px;border-radius:50%;border:0;background:{{ menuBtnBg }};color:{{ menuBtnFg }};box-shadow:0 1px 3px rgba(30,40,20,.1);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
@@ -108,12 +110,6 @@
 <div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.035em">Favoritter</h1><div style="font-size:13.5px;color:#6b7268">{{ favCountLabel }}</div></div>
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
 <sc-for list="{{ favSorts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="flex:none;white-space:nowrap;border:0;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:8px 14px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
-</div>
-<div style="display:flex;align-items:center;gap:10px;font-size:11.5px;color:#6b7268;font-weight:600">
-<span>Vanskelighet:</span>
-<span style="display:flex;gap:3px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#3fae4a"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span></span><span>lett</span>
-<span style="opacity:.5">→</span>
-<span style="display:flex;gap:3px"><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span></span><span>avansert</span>
 </div>
 <sc-for list="{{ favList }}" as="r" hint-placeholder-count="4">
 <div onClick="{{ r.open }}" style="display:flex;gap:14px;align-items:center;padding:10px;background:#fffdf8;border-radius:22px;cursor:pointer;box-shadow:0 1px 2px rgba(30,40,20,.06)">
@@ -456,15 +452,20 @@
 
 <sc-if value="{{ ovLogin }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;top:0;left:0;right:0;bottom:84px;background:#f6f3ea;z-index:20;overflow-y:auto">
-<div style="padding:54px 22px 24px;display:flex;flex-direction:column;gap:20px">
+<div style="padding:54px 22px 24px;display:flex;flex-direction:column;gap:18px">
 <button onClick="{{ back }}" style="width:44px;height:44px;border-radius:50%;border:0;background:#fffdf8;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-<div style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Logg inn</h2><div style="font-size:14.5px;color:#6b7268;line-height:1.45">Lagre favoritter og ukeplan på tvers av enhetene dine.</div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">{{ lg.title }}</h2><div style="font-size:14.5px;color:#6b7268;line-height:1.45">Lagre favoritter, ukeplan og antall personer på kontoen din, og få dem på alle enhetene dine.</div></div>
+<sc-if value="{{ lg.off }}"><div style="background:#fff4d6;color:#6b4e00;border-radius:16px;padding:12px 14px;font-size:13px;line-height:1.45;font-weight:600">Innlogging er ikke slått på ennå. Den åpnes når Firebase-prosjektet er satt opp.</div></sc-if>
+<button onClick="{{ lg.google }}" style="border:1.5px solid #e2ddd0;background:#fffdf8;color:#1b2a1c;font-family:inherit;font-size:15px;font-weight:700;height:54px;border-radius:99px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;opacity:{{ lg.opacity }}"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Fortsett med Google</button>
+<div style="display:flex;align-items:center;gap:12px;color:#9aa196;font-size:12.5px;font-weight:700"><span style="flex:1;height:1px;background:#e2ddd0"></span>eller med e-post<span style="flex:1;height:1px;background:#e2ddd0"></span></div>
 <div style="display:flex;flex-direction:column;gap:10px">
-<label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;color:#4d554a">E-post<input type="email" placeholder="navn@epost.no" style="height:50px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 14px;font-size:15px;outline:none"></label>
-<label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;color:#4d554a">Passord<input type="password" placeholder="••••••••" style="height:50px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 14px;font-size:15px;outline:none"></label>
+<sc-if value="{{ lg.signup }}"><label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;color:#4d554a">Navn<input value="{{ lg.name }}" onChange="{{ lg.setName }}" autoComplete="name" placeholder="Fornavn Etternavn" style="height:50px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 14px;font-size:15px;outline:none;font-family:inherit;color:#1b2a1c"></label></sc-if>
+<label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;color:#4d554a">E-post<input type="email" value="{{ lg.email }}" onChange="{{ lg.setEmail }}" autoComplete="email" placeholder="navn@epost.no" style="height:50px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 14px;font-size:15px;outline:none;font-family:inherit;color:#1b2a1c"></label>
+<label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;color:#4d554a">Passord<input type="password" value="{{ lg.pw }}" onChange="{{ lg.setPw }}" autoComplete="{{ lg.pwAuto }}" placeholder="••••••••" style="height:50px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 14px;font-size:15px;outline:none;font-family:inherit;color:#1b2a1c"></label>
 </div>
-<button onClick="{{ doLogin }}" style="border:0;background:#1f3d24;color:#fff;font-family:inherit;font-size:15px;font-weight:700;height:54px;border-radius:99px;cursor:pointer">Logg inn</button>
-<button onClick="{{ doLogin }}" style="border:1.5px solid #cfc9b8;background:none;color:#1b2a1c;font-family:inherit;font-size:15px;font-weight:700;height:54px;border-radius:99px;cursor:pointer">Opprett konto</button>
+<sc-if value="{{ lg.hasError }}"><div style="background:#fbe3df;color:#8a2a1c;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:700">{{ lg.error }}</div></sc-if>
+<button onClick="{{ lg.submit }}" style="border:0;background:#1f3d24;color:#fff;font-family:inherit;font-size:15px;font-weight:700;height:54px;border-radius:99px;cursor:pointer;opacity:{{ lg.opacity }}">{{ lg.submitLabel }}</button>
+<button onClick="{{ lg.toggle }}" style="border:0;background:none;color:#1b2a1c;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:underline">{{ lg.toggleLabel }}</button>
 </div>
 </div>
 </sc-if>
@@ -473,11 +474,11 @@
 <div style="position:absolute;top:0;left:0;right:0;bottom:84px;background:#f6f3ea;z-index:20;overflow-y:auto">
 <div style="padding:54px 20px 24px;display:flex;flex-direction:column;gap:20px">
 <button onClick="{{ back }}" style="width:44px;height:44px;border-radius:50%;border:0;background:#fffdf8;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div style="display:flex;align-items:center;gap:16px"><div style="width:76px;height:76px;border-radius:50%;background:#d4ee86;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800">IH</div><div><div style="font-size:24px;font-weight:800;letter-spacing:-.03em">Ingrid Hansen</div><div style="font-size:13.5px;color:#6b7268">ingrid@epost.no</div></div></div>
+<div style="display:flex;align-items:center;gap:16px"><div style="width:76px;height:76px;flex:none;border-radius:50%;background:#d4ee86 center/cover no-repeat;background-image:{{ avatarImg }};display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800">{{ avatarText }}</div><div><div style="min-width:0"><div style="font-size:24px;font-weight:800;letter-spacing:-.03em">{{ userName }}</div><div style="font-size:13.5px;color:#6b7268;overflow:hidden;text-overflow:ellipsis">{{ userEmail }}</div><div style="font-size:12px;color:#3d7a2a;font-weight:700;margin-top:4px">{{ syncLabel }}</div></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
 <div style="background:#fffdf8;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:24px;font-weight:800">{{ favNum }}</span><span style="font-size:12px;color:#6b7268;font-weight:600">favoritter</span></div>
 <div style="background:#fffdf8;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:24px;font-weight:800">{{ planNum }}</span><span style="font-size:12px;color:#6b7268;font-weight:600">planlagt</span></div>
-<div style="background:#fffdf8;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:24px;font-weight:800">23</span><span style="font-size:12px;color:#6b7268;font-weight:600">laget</span></div>
+<div style="background:#fffdf8;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:24px;font-weight:800">{{ daysNum }}</span><span style="font-size:12px;color:#6b7268;font-weight:600">dager planlagt</span></div>
 </div>
 <div style="background:#fffdf8;border-radius:20px;overflow:hidden">
 <div onClick="{{ menuSettings }}" style="padding:16px;font-size:15px;font-weight:700;border-bottom:1px solid #efeadf;cursor:pointer;display:flex;justify-content:space-between">Innstillinger<span style="color:#9aa196">›</span></div>
@@ -505,6 +506,11 @@
 </div>
 <div style="background:#fffdf8;border-radius:20px;overflow:hidden">
 <sc-for list="{{ toggles }}" as="t"><div onClick="{{ t.toggle }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid #efeadf;cursor:pointer"><div style="flex:1"><div style="font-size:15px;font-weight:700">{{ t.label }}</div><div style="font-size:12px;color:#6b7268">{{ t.sub }}</div></div><div style="width:48px;height:28px;border-radius:99px;background:{{ t.track }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.justify }};transition:background .2s"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div></sc-for>
+</div>
+<div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:8px">
+<div style="font-size:15px;font-weight:700">Bilder</div>
+<div style="font-size:12px;color:#6b7268">Bildene er fra Wikimedia Commons og brukes under frie lisenser. Trykk på en rett for å se fotograf og lisens.</div>
+<sc-for list="{{ credits }}" as="c"><a href="{{ c.url }}" target="_blank" rel="noopener" style="font-size:13px;color:#2f6a2a;text-decoration:none;padding:3px 0">{{ c.name }} ›</a></sc-for>
 </div>
 </div>
 </div>
@@ -559,12 +565,14 @@ class Component extends DCLogic {
   DIFF_L = ['Veldig lett','Lett','Middels','Krevende','Avansert'];
   D = (() => {
     const M = window.MATGLEDE_DATA || { recipes: [], ingredients: {}, chains: [], sources: {}, stats: {}, hasPrices: false };
+    // Bilder fra Wikimedia Commons (frie lisenser), hentet i nettleseren via Special:FilePath.
+    const photo = f => f ? 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(f) + '?width=720' : null;
     const hue = id => { let h = 7; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
     const R = M.recipes.map(r => {
       const cats = [...(r.cats || [])];
       if (r.time && r.time <= 30) cats.push('rask');
       if (r.ing.length <= 6) cats.push('fa');
-      return { ...r, hue: hue(r.id), cats };
+      return { ...r, hue: hue(r.id), cats, photo: photo(r.img), credit: r.img ? 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(r.img.replace(/ /g, '_')) : null };
     });
     const byId = Object.fromEntries(R.map(r => [r.id, r]));
     const CATS = [['alle','Alle'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['helg','Helg'],['familie','Barnevennlig'],['kjott','Kjøtt'],['kylling','Kylling'],['fisk','Fisk'],['pasta','Pasta'],['gryte','Gryter'],['vegetar','Uten kjøtt'],['tradisjon','Norsk tradisjon'],['rask','Rask'],['fa','Få ingredienser']]
@@ -619,11 +627,64 @@ class Component extends DCLogic {
     favs: this.pickIds(['tacofredag','pasta-carbonara','kyllinggryte-karri','lasagne','ovnslaks-poteter']), favSort: 'recent',
     plan: Object.fromEntries(Object.entries({ 0:'spaghetti-bolognese', 1:'ovnslaks-poteter', 2:'kyllinggryte-karri', 3:'kjottkaker-brun-saus', 4:'tacofredag', 5:'lordagspizza', 6:'lammestek' })
       .filter(([, id]) => this.D.byId[id]).map(([d, id]) => [d, [id]])),
-    day: 3, checked: {}, cat: 'alle', q: '', loggedIn: false, tasks: {}, rdPick: false,
+    day: 3, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
+    lg: { mode: 'login', email: '', pw: '', name: '', error: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null
   };
 
+  // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
+  bg = r => {
+    const stripes = `repeating-linear-gradient(135deg, oklch(0.87 0.07 ${r.hue}) 0 9px, oklch(0.83 0.08 ${r.hue}) 9px 18px)`;
+    return r.photo ? `url("${r.photo}") center/cover no-repeat, ${stripes}` : stripes;
+  };
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks'];
+  syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
+  componentDidMount() {
+    const A = window.MatgledeAuth; if (!A) return;
+    A.onChange(u => this.onUser(u));
+    A.init();
+  }
+  onUser = u => {
+    const A = window.MatgledeAuth;
+    this._syncOn = false; clearTimeout(this._saveT);
+    if (!u) { this.setState({ user: null, loggedIn: false }); return; }
+    const wasOpen = (this.state.stack[this.state.stack.length - 1] || {}).t === 'login';
+    this.setState(st => ({ user: u, loggedIn: true, lg: { ...st.lg, busy: false, error: '', pw: '' }, stack: wasOpen ? [] : st.stack }));
+    this.toast(`Velkommen${u.name ? ', ' + u.name.split(' ')[0] : ''}`);
+    A.loadData(u.uid).then(d => {
+      if (d) {
+        const next = {}; this.SYNC.forEach(k => { if (d[k] !== undefined) next[k] = d[k]; });
+        this.setState(next);
+      } else A.saveData(u.uid, this.syncData()).catch(e => console.error(e));
+      this._lastSaved = JSON.stringify(d ? { ...this.syncData(), ...d } : this.syncData());
+      this._syncOn = true;
+    }).catch(e => { console.error(e); this._syncOn = true; });
+  };
+  saveSoon = () => {
+    const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
+    const json = JSON.stringify(this.syncData()); if (json === this._lastSaved) return;
+    clearTimeout(this._saveT);
+    this._saveT = setTimeout(() => { this._lastSaved = json; A.saveData(u.uid, JSON.parse(json)).catch(e => console.error(e)); }, 800);
+  };
+  setLg = f => this.setState(st => ({ lg: { ...st.lg, ...f } }));
+  authRun = p => { this.setLg({ busy: true, error: '' }); p.catch(e => this.setLg({ busy: false, error: window.MatgledeAuth.message(e) })); };
+  submitLogin = () => {
+    const A = window.MatgledeAuth, l = this.state.lg;
+    if (!A || !A.configured) return this.setLg({ error: 'Innlogging er ikke satt opp ennå.' });
+    if (l.busy) return;
+    if (!l.email.trim() || !l.pw) return this.setLg({ error: 'Skriv inn e-post og passord.' });
+    this.authRun(l.mode === 'signup' ? A.signUpEmail(l.email.trim(), l.pw, l.name.trim()) : A.signInEmail(l.email.trim(), l.pw));
+  };
+  googleLogin = () => {
+    const A = window.MatgledeAuth;
+    if (!A || !A.configured) return this.setLg({ error: 'Innlogging er ikke satt opp ennå.' });
+    if (this.state.lg.busy) return;
+    this.authRun(A.signInGoogle());
+  };
+  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; (A ? A.signOut() : Promise.resolve()).then(() => {}); this.setState({ loggedIn: false, user: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
+
   componentDidUpdate(pp) {
+    this.saveSoon();
     if (pp && pp.startTab !== this.props.startTab && this.props.startTab) this.go(this.props.startTab);
     // runtime sender bare prevProps, så forrige fane holdes her
     if (this._lastTab !== this.state.tab && this.contentRef.current) this.contentRef.current.scrollTop = 0;
@@ -708,8 +769,8 @@ class Component extends DCLogic {
       dots: [0,1,2,3,4].map(i => i < r.diff ? this.DIFF_C[r.diff - 1] : '#e2ddd0'), diffLabel: this.DIFF_L[r.diff - 1], diffColor: this.DIFF_C[r.diff - 1],
       ingCount: r.ing.length + ' ingredienser',
       costLabel: ct.label, costShort: ct.short,
-      img: `repeating-linear-gradient(135deg, oklch(0.87 0.07 ${r.hue}) 0 9px, oklch(0.83 0.08 ${r.hue}) 9px 18px)`,
-      imgLabel: 'foto: ' + r.name.toLowerCase(),
+      img: this.bg(r),
+      imgLabel: r.photo ? '' : 'foto: ' + r.name.toLowerCase(),
       starFill: fav ? '#f5b82e' : 'none', starStroke: fav ? '#e0a51c' : '#8a9187',
       open: () => this.push({ t: 'recipe', id: r.id }),
       toggleFav: e => { e && e.stopPropagation && e.stopPropagation(); this.toggleFav(r.id); },
@@ -718,7 +779,7 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {};
+    const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user;
     const chainName = code => (D.chainByCode[code] || {}).name || code;
     const navCol = { fav:'#f5b82e', tilbud:'#5ccf6e', plan:'#b5e04f', opp:'#ffd43b', laere:'#7ea6ff' };
     const nav = {};
@@ -802,9 +863,9 @@ class Component extends DCLogic {
     const pop = D.R.filter(r => r.popular).sort((a, b) => a.popular - b.popular);
     const firstIn = c => D.R.find(r => r.cats.includes(c));
     const news = [];
-    if (pop[0]) news.push({ tag:'UKENS FAVORITT', tagColor:'#c8402f', title:`${pop[0].name} – klar på ${pop[0].time} minutter`, sub: this.DIFF_L[pop[0].diff - 1], img: ph(pop[0].hue), imgLabel:'foto: ' + pop[0].name.toLowerCase(), open:() => this.push({ t:'recipe', id: pop[0].id }) });
+    if (pop[0]) news.push({ tag:'UKENS FAVORITT', tagColor:'#c8402f', title:`${pop[0].name} – klar på ${pop[0].time} minutter`, sub: this.DIFF_L[pop[0].diff - 1], img: this.bg(pop[0]), imgLabel: '', open:() => this.push({ t:'recipe', id: pop[0].id }) });
     const sun = firstIn('sondag');
-    if (sun) news.push({ tag:'SØNDAGSMIDDAG', tagColor:'#2f8a2a', title:`${sun.name} til søndag`, sub:`${sun.time} min · ${this.DIFF_L[sun.diff - 1].toLowerCase()}`, img: ph(sun.hue), imgLabel:'foto: ' + sun.name.toLowerCase(), open:() => this.setState({ tab:'opp', cat:'sondag', q:'', stack:[], menu:false }) });
+    if (sun) news.push({ tag:'SØNDAGSMIDDAG', tagColor:'#2f8a2a', title:`${sun.name} til søndag`, sub:`${sun.time} min · ${this.DIFF_L[sun.diff - 1].toLowerCase()}`, img: this.bg(sun), imgLabel: '', open:() => this.setState({ tab:'opp', cat:'sondag', q:'', stack:[], menu:false }) });
     news.push({ tag:'RASK HVERDAG', tagColor:'#2f6fe0', title:'Middager på 30 minutter eller mindre', sub:`${D.R.filter(r => r.cats.includes('rask')).length} oppskrifter`, img: ph(60), imgLabel:'rask middag', open:() => this.setState({ tab:'opp', cat:'rask', q:'', stack:[], menu:false }) });
     news.push({ tag:'LÆRE', tagColor:'oklch(0.45 0.13 305)', title:'Ultraprosessert – hva betyr det egentlig?', sub:'Ny artikkel · 6 min', img: ph(305), imgLabel:'illustrasjon', open:() => this.push({ t:'article', id:'a2' }) });
 
@@ -862,11 +923,21 @@ class Component extends DCLogic {
       menuOpen: s.menu, toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }),
       menuBtnBg: s.menu ? '#1b2a1c' : '#fffdf8', menuBtnFg: s.menu ? '#fff' : '#1b2a1c',
       menuProfile: () => this.push({ t: s.loggedIn ? 'profile' : 'login' }), menuSettings: () => this.push({ t:'settings' }),
-      menuAuth: () => s.loggedIn ? (this.setState({ loggedIn:false, menu:false, stack:[] }), this.toast('Du er logget ut')) : this.push({ t:'login' }),
+      menuAuth: () => s.loggedIn ? this.logout() : this.push({ t:'login' }),
       authLabel: s.loggedIn ? 'Logg ut' : 'Logg inn', authColor: s.loggedIn ? '#c8402f' : '#1b2a1c',
-      doLogin: () => { this.setState({ loggedIn: true, stack: [] }); this.toast('Velkommen tilbake, Ingrid'); },
-      doLogout: () => { this.setState({ loggedIn: false, stack: [] }); this.toast('Du er logget ut'); },
-      greeting: s.loggedIn ? 'Hei, Ingrid' : 'Hva blir det til middag?',
+      doLogout: this.logout,
+      lg: (() => { const l = s.lg, A = window.MatgledeAuth, on = !!(A && A.configured), up = l.mode === 'signup';
+        return { title: up ? 'Opprett konto' : 'Logg inn', off: !on, opacity: on && !l.busy ? 1 : .5, signup: up,
+          email: l.email, pw: l.pw, name: l.name, error: l.error, hasError: !!l.error, pwAuto: up ? 'new-password' : 'current-password',
+          setEmail: e => this.setLg({ email: e.target.value, error: '' }), setPw: e => this.setLg({ pw: e.target.value, error: '' }), setName: e => this.setLg({ name: e.target.value }),
+          submit: this.submitLogin, google: this.googleLogin, submitLabel: l.busy ? 'Vent litt …' : (up ? 'Opprett konto' : 'Logg inn'),
+          toggle: () => this.setLg({ mode: up ? 'login' : 'signup', error: '' }), toggleLabel: up ? 'Har du konto? Logg inn' : 'Ny her? Opprett konto med e-post' }; })(),
+      initials: user ? ((user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('')) : '',
+      userName: user ? (user.name || user.email.split('@')[0]) : '', userEmail: user ? user.email : '',
+      avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : (user ? ((user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('')) : ''),
+      syncLabel: user ? (user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
+      daysNum: Object.values(s.plan).filter(l => l.length).length,
+      greeting: user && user.name ? `Hei, ${user.name.split(' ')[0]}` : 'Hva blir det til middag?',
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
       news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
@@ -902,6 +973,7 @@ class Component extends DCLogic {
       ovSearch: top.t === 'search', ovPicker: top.t === 'picker', ovLogin: top.t === 'login', ovProfile: top.t === 'profile', ovSettings: top.t === 'settings',
       rd, td, ad,
       favNum: s.favs.length, planNum,
+      credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
       portionOpts: [2, 4, 6].map(n => ({ label: n + ' pers.', bg: s.people === n ? '#fffdf8' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
       toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', 'Planlegg neste uke')],
       hasToast: !!s.toast, toast: s.toast
