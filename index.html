@@ -7,6 +7,7 @@
 <script src="./vendor/react.production.min.js"></script>
 <script src="./vendor/react-dom.production.min.js"></script>
 <script src="./data.js"></script>
+<script src="./offers.js"></script>
 <script src="./auth-config.js"></script>
 <script src="./auth.js"></script>
 <script src="./support.js"></script>
@@ -128,31 +129,14 @@
 
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
-<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.035em">Tilbud og priser</h1><div style="font-size:13.5px;color:#6b7268">Ukeplanen din priset i hver butikk</div></div>
-<div style="background:#1b2a1c;color:#fff;border-radius:22px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
-<div style="font-size:10.5px;font-weight:800;letter-spacing:.08em;color:#b5e04f">{{ cmp.eyebrow }}</div>
-<div style="font-size:17px;font-weight:700;line-height:1.3">{{ cmp.headline }}</div>
-<div style="font-size:12.5px;color:#c9cfc6;line-height:1.45">{{ cmp.note }}</div>
-</div>
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="font-size:16px;font-weight:800">Butikker</div>
+<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.035em">Tilbud</h1><div style="font-size:13.5px;color:#6b7268">{{ offersSub }}</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<sc-for list="{{ stores }}" as="st" hint-placeholder-count="7">
-<div onClick="{{ st.open }}" style="height:92px;border-radius:20px;background:{{ st.bg }};color:{{ st.fg }};padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer">
-<div style="font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.05">{{ st.name }}</div>
-<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;gap:6px"><span>{{ st.count }}</span><span style="background:{{ st.fg }};color:{{ st.bg }};font-size:11px;padding:3px 8px;border-radius:99px;white-space:nowrap">{{ st.max }}</span></div>
+<sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
+<div onClick="{{ st.open }}" role="button" aria-label="{{ st.name }}" style="height:92px;border-radius:20px;background:{{ st.bg }};overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
+<img src="{{ st.logo }}" alt="{{ st.name }}" style="height:100%;width:auto;display:block">
 </div>
 </sc-for>
 </div>
-</div>
-<sc-if value="{{ hasMissing }}">
-<div style="display:flex;flex-direction:column;gap:8px">
-<div style="font-size:16px;font-weight:800">Mangler vare i butikkene</div>
-<div style="font-size:12.5px;color:#6b7268;line-height:1.45">Disse ingrediensene i ukeplanen er ikke koblet til et produkt ennå, så de er ikke med i prisen.</div>
-<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ missingList }}" as="m"><span style="font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:99px;background:#fffdf8;border:1px solid #e2ddd0">{{ m }}</span></sc-for></div>
-</div>
-</sc-if>
-<div style="font-size:12px;color:#8a9187;line-height:1.5">Priser fra Kassalapp, hentet {{ generated }}. Ukens tilbud fra kjedene er ikke koblet på ennå.</div>
 </div>
 </sc-if>
 
@@ -389,6 +373,54 @@
 </div>
 </sc-if>
 
+<sc-if value="{{ ovStore }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:0;left:0;right:0;bottom:84px;background:#f6f3ea;z-index:20;overflow-y:auto">
+<div style="background:{{ sd.bg }};padding:54px 20px 22px;display:flex;flex-direction:column;gap:14px">
+<button onClick="{{ back }}" style="width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,253,248,.92);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div style="display:flex;justify-content:center"><img src="{{ sd.logo }}" alt="{{ sd.name }}" style="height:120px;width:auto;display:block"></div>
+</div>
+<div style="padding:18px 20px 28px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-.035em">Ukas avis</h2><div style="font-size:13px;color:#6b7268;margin-top:2px">{{ sd.sub }}</div></div><span style="flex:none;background:#1b2a1c;color:#fff;font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:99px">{{ sd.countLabel }}</span></div>
+
+<sc-if value="{{ sd.hasTop }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:16px;font-weight:800">Mest aktuelle tilbud</div>
+<div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
+<div onClick="{{ o.open }}" style="flex:none;width:150px;height:170px;scroll-snap-align:start;border-radius:20px;background:#fffdf8;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+<span style="align-self:flex-start;background:#e0412f;color:#fff;font-size:13px;font-weight:800;padding:4px 9px;border-radius:99px">−{{ o.pct }} %</span>
+<div style="font-size:13.5px;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ o.name }}</div>
+<div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em;color:#c8402f">{{ o.price }}</div><div style="font-size:11.5px;color:#8a9187;text-decoration:line-through">{{ o.before }}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<button onClick="{{ sd.openFlyer }}" style="border:0;cursor:pointer;font-family:inherit;background:#1b2a1c;color:#fff;border-radius:18px;padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:800">Bla i hele tilbudsavisen</span><span style="font-size:12px;color:#c9cfc6">{{ sd.flyerHost }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b5e04f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg></button>
+
+<sc-if value="{{ sd.noOffers }}"><div style="padding:26px 20px;text-align:center;color:#6b7268;font-size:14px;line-height:1.5;background:#fffdf8;border-radius:22px">{{ sd.emptyText }}</div></sc-if>
+
+<sc-for list="{{ sd.groups }}" as="g">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 4px"><span style="font-size:16px;font-weight:800">{{ g.name }}</span><span style="font-size:12px;font-weight:700;color:#8a9187">{{ g.count }}</span></div>
+<div style="background:#fffdf8;border-radius:22px;padding:4px 14px">
+<sc-for list="{{ g.items }}" as="o">
+<div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #efeadf;cursor:pointer">
+<span style="flex:none;width:46px;text-align:center;background:#fde3de;color:#c8402f;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span>
+<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="font-size:11.5px;color:#8a9187;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.brand }}</div></div>
+<div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;color:#c8402f;white-space:nowrap">{{ o.price }}</div><div style="font-size:11.5px;color:#8a9187;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+
+<div style="font-size:12px;color:#8a9187;line-height:1.5">{{ sd.note }}</div>
+</div>
+</div>
+</sc-if>
+
 <sc-if value="{{ ovTopic }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;top:0;left:0;right:0;bottom:84px;background:#f6f3ea;z-index:20;overflow-y:auto">
 <div style="background:{{ td.bg }};padding:54px 20px 26px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden">
@@ -612,7 +644,14 @@ class Component extends DCLogic {
       { id:'a6', topic:'karbo', title:'Grove karbohydrater gir jevn energi', mins:3, lead:'Karbohydrater er kroppens viktigste energikilde – velg de grove.', body:['Fullkorn, havre, bønner og grønnsaker gir fiber som holder deg mett lenger og gir jevnere blodsukker.','Brødskalaen hjelper deg å velge: se etter «Ekstra grovt» eller «Grovt».'] }
     ];
     const CHAINS = M.chains;
-    return { M, R, byId, CATS, CHAINS, chainByCode: Object.fromEntries(CHAINS.map(c => [c.code, c])), ING: M.ingredients || {},
+    // Butikkene på Tilbud-siden. Logoene er fra Kassalapp (app/logos), bakgrunnen er logoens egen farge.
+    const O = window.MATGLEDE_OFFERS || { stores: [] };
+    const oBy = Object.fromEntries((O.stores || []).map(x => [x.code, x]));
+    const STORES = [['ODA','Oda','#FFAB33'],['KIWI','Kiwi','#ffffff'],['MENY','Meny','#D3062A'],['REMA','Rema 1000','#ffffff'],
+      ['EXTRA','Coop Extra','#D23732'],['MEGA','Coop Mega','#315428'],['PRIX','Coop Prix','#FEC63A'],['OBS','Coop Obs','#0A4D8F'],
+      ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','#ffffff'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','#ffffff']]
+      .map(([code, name, bg]) => ({ code, name, bg, logo: `./logos/${code}.svg`, ...(oBy[code] || { offers: [], hasData: false, flyer: '' }) }));
+    return { M, O, STORES, storeByCode: Object.fromEntries(STORES.map(x => [x.code, x])), R, byId, CATS, CHAINS, chainByCode: Object.fromEntries(CHAINS.map(c => [c.code, c])), ING: M.ingredients || {},
       TOPICS, ARTS, topicById: Object.fromEntries(TOPICS.map(t => [t.id, t])), artById: Object.fromEntries(ARTS.map(a => [a.id, a])) };
   })();
 
@@ -780,6 +819,8 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user;
+    const MON = ['jan.','feb.','mars','april','mai','juni','juli','aug.','sep.','okt.','nov.','des.'];
+    const dmy = iso => { const [, m, d] = (iso || '').split('-').map(Number); return d ? `${d}. ${MON[m - 1]}` : ''; };
     const chainName = code => (D.chainByCode[code] || {}).name || code;
     const navCol = { fav:'#f5b82e', tilbud:'#5ccf6e', plan:'#b5e04f', opp:'#ffd43b', laere:'#7ea6ff' };
     const nav = {};
@@ -822,19 +863,6 @@ class Component extends DCLogic {
     const shopLeft = shopItems(shopArr, s.chain).filter(i => !i.done).length;
     const dayArr = buildShop([s.day]);
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
-
-    // Tilbud og priser: ukeplanen priset i hver kjede
-    const perChain = D.CHAINS.map(ch => ({ ch, sm: shopSum(shopArr, ch.code) }));
-    const ranked = perChain.filter(x => x.sm.found).sort((a, b) => (b.sm.found - a.sm.found) || (a.sm.total - b.sm.total));
-    const unmapped = shopArr.filter(e => !e.slug).map(e => e.n);
-    const mappedN = shopArr.filter(e => e.slug).length;
-    const cmp = !shopArr.length
-      ? { eyebrow: 'UKEPLANEN ER TOM', headline: 'Legg til middager i planen for å sammenligne butikkene.', note: '' }
-      : !M.hasPrices
-        ? { eyebrow: 'PRISER KOMMER', headline: `${mappedN} av ${shopArr.length} varer i ukeplanen er koblet til produkter.`, note: 'Prisene fylles inn når vareimporten fra Kassalapp er kjørt.' }
-        : ranked.length
-          ? { eyebrow: 'BILLIGST FOR UKEPLANEN', headline: `${ranked[0].ch.name}: ca. ${Math.round(ranked[0].sm.total)} kr for ${ranked[0].sm.found} av ${shopArr.length} varer`, note: `${shopArr.length - mappedN} varer er ikke koblet til produkter ennå og er ikke med i prisen.` }
-          : { eyebrow: 'INGEN PRISER', headline: 'Fant ingen av varene i butikkene.', note: '' };
 
     const q = s.q.trim().toLowerCase();
     const results = q ? D.R.filter(r => r.name.toLowerCase().includes(q) || r.ing.some(i => i.n.toLowerCase().includes(q)) || D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q))).map(r => this.mk(r)) : [];
@@ -894,6 +922,23 @@ class Component extends DCLogic {
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
         dayChips: this.DAYS.map((l, i) => ({ label: l, date: 16 + i, bg: (s.plan[i] || []).includes(r.id) ? '#d4ee86' : '#f3efe4', add: () => this.addToPlan(i, r.id) })) };
     }
+    let sd = {};
+    if (top.t === 'store') {
+      const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
+      const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, price: kr(o.price), before: 'før ' + kr(o.before),
+        open: () => o.url && window.open(o.url, '_blank', 'noopener') });
+      const groups = [];
+      st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
+      let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
+      sd = { name: st.name, logo: st.logo, bg: st.bg, sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
+        countLabel: st.offers.length ? `${st.offers.length} tilbud` : 'avis', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
+        noOffers: !st.offers.length, flyerHost: host ? 'Åpnes hos ' + host : '',
+        openFlyer: () => st.flyer && window.open(st.flyer, '_blank', 'noopener'),
+        emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka. Åpne avisen for å se alle tilbudene.`
+          : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
+        groups: [...groups].sort((a, b) => b.list.length - a.list.length).map(g => ({ name: g.name, count: `${g.list.length}`, items: g.list.map(item) })),
+        note: `Tilbudene er varer der prisen hos ${st.name} er minst 10 % lavere enn vanlig, funnet i prishistorikken til Kassalapp. Oppdateres hver mandag kl. 12${D.O.generated ? `, sist ${D.O.generated}` : ''}. Sjekk avisen for endelige priser.` };
+    }
     let sl = {};
     if (top.t === 'shop') {
       const week = top.scope === 'week', arr = buildShop(week ? [0,1,2,3,4,5,6] : [top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
@@ -942,12 +987,10 @@ class Component extends DCLogic {
       news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, bg: s.favSort === id ? '#1b2a1c' : '#fffdf8', fg: s.favSort === id ? '#fff' : '#1b2a1c', pick: () => this.setState({ favSort: id }) })),
-      cmp, generated: M.generated || '–',
-      stores: perChain.map(({ ch, sm }) => ({ name: ch.name, bg: ch.bg, fg: ch.fg,
-        count: !shopArr.length ? 'ingen varer' : M.hasPrices ? `${sm.found} av ${shopArr.length} varer` : `${mappedN} av ${shopArr.length} koblet`,
-        max: M.hasPrices && sm.found ? `${Math.round(sm.total)} kr` : '– kr',
-        open: () => { this.setState({ chain: ch.code }); this.push({ t:'shop', scope:'week' }); } })),
-      missingList: unmapped.slice(0, 24), hasMissing: unmapped.length > 0,
+      generated: M.generated || '–',
+      offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
+      flyerStores: D.STORES.map(st => ({ name: st.name, bg: st.bg, logo: st.logo, open: () => this.push({ t:'store', id: st.code }) })),
+      ovStore: top.t === 'store', sd,
       chainChips: D.CHAINS.map(ch => { const on = s.chain === ch.code; return { label: ch.name, bg: on ? '#1b2a1c' : '#fffdf8', fg: on ? '#fff' : '#1b2a1c', border: on ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ chain: ch.code }) }; }),
       days, dayTitle: `${this.DAYS_FULL[s.day]} ${16 + s.day}. november${s.day === this.TODAY ? ' · i dag' : ''}`,
       dayMeals: dayMealsArr.map((id, idx) => this.mk(D.byId[id], { remove: () => this.setState(st => { const l = [...(st.plan[st.day] || [])]; l.splice(idx, 1); return { plan: { ...st.plan, [st.day]: l } }; }) })),
