@@ -131,6 +131,24 @@ cd app && python -m http.server    # åpne http://localhost:8000
   billigste antall hele pakker blant produktene fra databasen, som `shopping.pick_product`.
 - **Tilbud og priser**: ukeplanen priset i hver kjede. Ekte ukestilbud er ikke koblet på ennå.
 - Uten `matglede.db` gjenbruker `export-app` prisene i forrige `app/data.js`.
+- **Bilder**: feltet `img` i `app_recipes.json` er et filnavn på Wikimedia Commons. Appen henter
+  bildet i nettleseren (`Special:FilePath`, 720 px bredt) og viser stripemønsteret mens det laster.
+  Lenker til fotograf og lisens for hvert bilde ligger under Innstillinger → Bilder.
+- **Innlogging** (`app/auth.js`, `app/auth-config.js`, `firestore.rules`): Google-konto eller
+  e-post og passord med Firebase. Favoritter, ukeplan, porsjoner, butikk, avkrysninger og
+  oppgaver lagres i Firestore i `users/{uid}`. Uten verdier i `auth-config.js` er innlogging av
+  og appen virker uten konto.
+
+### Sette opp innlogging (Firebase)
+
+1. Lag et prosjekt på https://console.firebase.google.com (Google Analytics trengs ikke).
+2. Prosjektinnstillinger → Dine apper → Legg til web-app. Kopier `apiKey`, `authDomain`,
+   `projectId` og `appId` inn i `app/auth-config.js`. Verdiene er ikke hemmelige.
+3. Authentication → Sign-in method: slå på **Google** og **E-post/passord**.
+4. Authentication → Settings → Authorized domains: legg til `hakonsolsvik.github.io`
+   (`localhost` står der fra før).
+5. Firestore Database → Opprett database (produksjonsmodus, region `eur3`).
+6. Firestore → Regler: lim inn innholdet i `firestore.rules` og publiser.
 
 Oppskriftene fra Rema 1000, Aichas Mat og Marit Kolby (`seed/external_recipes.json`) ligger
 fortsatt i repoet for databasen, men brukes ikke i appen.

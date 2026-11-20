@@ -134,6 +134,7 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         recipes.append({
             "id": r["id"], "name": r["name"], "servings": r["servings"], "time": r["time"],
             "diff": r["diff"], "cats": r.get("cats", []), "popular": r.get("popular"),
+            "img": r.get("img"),
             "steps": r["steps"], "ing": items,
         })
 

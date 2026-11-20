@@ -3,6 +3,7 @@
  "recipes": [
   {
    "id": "tacofredag", "name": "Tacofredag med kjøttdeig", "servings": 4, "time": 30, "diff": 1,
+   "img": "Tacos on a plate.jpg",
    "cats": ["hverdag", "kjott", "familie"], "popular": 1,
    "ing": [
     {"n": "Kjøttdeig", "q": 400, "u": "g", "slug": "kjottdeig"},
@@ -25,6 +26,7 @@
   },
   {
    "id": "spaghetti-bolognese", "name": "Spaghetti bolognese", "servings": 4, "time": 45, "diff": 2,
+   "img": "Spaghetti bolognese (hozinja).jpg",
    "cats": ["hverdag", "kjott", "pasta", "familie"], "popular": 2,
    "ing": [
     {"n": "Kjøttdeig", "q": 400, "u": "g", "slug": "kjottdeig"},
@@ -48,6 +50,7 @@
   },
   {
    "id": "kyllinggryte-karri", "name": "Kyllinggryte med rød karri og kokos", "servings": 4, "time": 35, "diff": 2,
+   "img": "Creamy Chicken Curry.jpg",
    "cats": ["hverdag", "kylling", "gryte"], "popular": 3,
    "ing": [
     {"n": "Kyllingfilet", "q": 600, "u": "g", "slug": "kyllingfilet"},
@@ -68,6 +71,7 @@
   },
   {
    "id": "ovnslaks-poteter", "name": "Ovnsbakt laks med poteter og brokkoli", "servings": 4, "time": 40, "diff": 1,
+   "img": "Salmon al horno.jpg",
    "cats": ["hverdag", "fisk"], "popular": 4,
    "ing": [
     {"n": "Laksefilet", "q": 600, "u": "g", "slug": "laksefilet"},
@@ -88,6 +92,7 @@
   },
   {
    "id": "pasta-carbonara", "name": "Pasta carbonara", "servings": 4, "time": 20, "diff": 2,
+   "img": "Spaghetti alla Carbonara.jpg",
    "cats": ["hverdag", "pasta", "kjott"], "popular": 5,
    "ing": [
     {"n": "Spaghetti", "q": 400, "u": "g", "slug": "spaghetti"},
@@ -106,6 +111,7 @@
   },
   {
    "id": "kjottkaker-brun-saus", "name": "Kjøttkaker i brun saus", "servings": 4, "time": 60, "diff": 3,
+   "img": "Traditional Kjøttkaker.jpg",
    "cats": ["hverdag", "kjott", "tradisjon"], "popular": 6,
    "ing": [
     {"n": "Kjøttdeig", "q": 500, "u": "g", "slug": "kjottdeig"},
@@ -129,6 +135,7 @@
   },
   {
    "id": "kremet-kyllingpasta", "name": "Kremet kyllingpasta med brokkoli", "servings": 4, "time": 25, "diff": 1,
+   "img": "Pasta with a Chicken Lemon Cream Sauce (764644143).jpg",
    "cats": ["hverdag", "kylling", "pasta"],
    "ing": [
     {"n": "Kyllingfilet", "q": 500, "u": "g", "slug": "kyllingfilet"},
@@ -150,6 +157,7 @@
   },
   {
    "id": "chili-con-carne", "name": "Chili con carne", "servings": 4, "time": 50, "diff": 2,
+   "img": "Chili con carne (4431800858).jpg",
    "cats": ["hverdag", "kjott", "gryte"],
    "ing": [
     {"n": "Kjøttdeig", "q": 400, "u": "g", "slug": "kjottdeig"},
@@ -173,6 +181,7 @@
   },
   {
    "id": "stekt-ris-egg", "name": "Stekt ris med egg og grønnsaker", "servings": 4, "time": 25, "diff": 1,
+   "img": "Egg Fried rice.jpg",
    "cats": ["hverdag", "vegetar"],
    "ing": [
     {"n": "Ris", "q": 300, "u": "g", "slug": "ris"},
@@ -193,6 +202,7 @@
   },
   {
    "id": "omelett-bacon", "name": "Ovnsomelett med bacon og paprika", "servings": 4, "time": 30, "diff": 1,
+   "img": "An omelette.jpg",
    "cats": ["hverdag", "kjott", "familie"],
    "ing": [
     {"n": "Egg", "q": 8, "u": "stk", "slug": "egg"},
@@ -213,6 +223,7 @@
   },
   {
    "id": "tomatsuppe-egg", "name": "Tomatsuppe med kokt egg", "servings": 4, "time": 30, "diff": 1,
+   "img": "Tomato soup.jpg",
    "cats": ["hverdag", "vegetar"],
    "ing": [
     {"n": "Hakkede tomater", "q": 2, "u": "boks", "slug": "hakkede_tomater"},
@@ -235,6 +246,7 @@
   },
   {
    "id": "kylling-ovnsform", "name": "Kylling i ovnsform med paprika og rødløk", "servings": 4, "time": 45, "diff": 1,
+   "img": "Roasted chicken and potatoes.JPG",
    "cats": ["hverdag", "kylling"],
    "ing": [
     {"n": "Kyllingfilet", "q": 600, "u": "g", "slug": "kyllingfilet"},
@@ -256,6 +268,7 @@
   },
   {
    "id": "lordagspizza", "name": "Hjemmelaget lørdagspizza", "servings": 4, "time": 90, "diff": 3,
+   "img": "Homemade pizza (6).jpg",
    "cats": ["helg", "kjott", "familie"],
    "ing": [
     {"n": "Hvetemel", "q": 500, "u": "g", "slug": "mel"},
@@ -278,6 +291,7 @@
   },
   {
    "id": "lasagne", "name": "Lasagne med kjøttsaus", "servings": 6, "time": 100, "diff": 3,
+   "img": "Lasagna.jpg",
    "cats": ["sondag", "kjott", "pasta", "familie"],
    "ing": [
     {"n": "Kjøttdeig", "q": 600, "u": "g", "slug": "kjottdeig"},
@@ -303,6 +317,7 @@
   },
   {
    "id": "laks-flotesaus", "name": "Søndagslaks i fløtesaus med potetmos", "servings": 4, "time": 50, "diff": 3,
+   "img": "Grilled salmon.jpg",
    "cats": ["sondag", "fisk"],
    "ing": [
     {"n": "Laksefilet", "q": 700, "u": "g", "slug": "laksefilet"},
@@ -325,6 +340,7 @@
   },
   {
    "id": "lammestek", "name": "Lammestek med ovnsbakte rotgrønnsaker", "servings": 6, "time": 150, "diff": 4,
+   "img": "Roast Lamb with Yorkshire Pudding in Gravy.jpg",
    "cats": ["sondag", "kjott", "tradisjon"],
    "ing": [
     {"n": "Lammelår uten bein", "q": 1500, "u": "g", "slug": null},
@@ -346,6 +362,7 @@
   },
   {
    "id": "karbonader", "name": "Karbonader med stekt løk og erter", "servings": 4, "time": 40, "diff": 2,
+   "img": "Hamburg steak.jpg",
    "cats": ["hverdag", "kjott", "tradisjon"],
    "ing": [
     {"n": "Kjøttdeig", "q": 500, "u": "g", "slug": "kjottdeig"},
