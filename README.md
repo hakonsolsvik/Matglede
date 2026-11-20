@@ -118,7 +118,7 @@ cd app && python -m http.server    # åpne http://localhost:8000
 ```
 
 - **Oppskrift**: tittel, porsjoner og ingredienser med mengde regnet om til valgt antall personer.
-  Fremgangsmåten står ikke i appen. Knappen «Se oppskriften hos …» lenker til originalen.
+  Fremgangsmåten står ikke i appen, og appen lenker ikke til kilden (`source_url` finnes i dataene).
 - **Pris per rett**: forbrukt andel av pakken for hver ingrediens i valgt butikk.
   «ca. X kr» betyr at alle ingredienser med mengde har pris, «minst X kr» at noen mangler.
 - **Handleliste**: ingrediensene i ukeplanen summeres i basisenhet (g/ml/stk), og appen velger
