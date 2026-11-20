@@ -132,7 +132,7 @@
 
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
-<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.035em">Tilbud og priser</h1><div style="font-size:13.5px;color:#6b7268">Ukeplanen din priset i hver butikk · {{ people }} pers.</div></div>
+<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:34px;font-weight:800;letter-spacing:-.035em">Tilbud og priser</h1><div style="font-size:13.5px;color:#6b7268">Ukeplanen din priset i hver butikk</div></div>
 <div style="background:#1b2a1c;color:#fff;border-radius:22px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
 <div style="font-size:10.5px;font-weight:800;letter-spacing:.08em;color:#b5e04f">{{ cmp.eyebrow }}</div>
 <div style="font-size:17px;font-weight:700;line-height:1.3">{{ cmp.headline }}</div>
@@ -319,6 +319,12 @@
 <div style="background:#fffdf8;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;color:#6b7268">Vanskelighet</span><span style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:11.5px;font-weight:800;color:{{ rd.diffColor }}">{{ rd.diffLabel }}</span></div>
 <div style="background:#fffdf8;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;color:#6b7268">Pris</span><span style="font-size:18px;font-weight:800">{{ rd.costShort }}</span><span style="font-size:11px;color:#6b7268">{{ rd.portions }}</span></div>
 </div>
+<div style="background:#fffdf8;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+<div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:800">Antall personer</div><div style="font-size:12px;color:#6b7268">{{ rd.peopleSub }}</div></div>
+<button onClick="{{ rd.peopleMinus }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid #e2ddd0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1b2a1c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
+<span style="min-width:26px;text-align:center;font-size:22px;font-weight:800">{{ rd.people }}</span>
+<button onClick="{{ rd.peoplePlus }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:#1b2a1c;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
 <div style="display:flex;flex-direction:column;gap:10px">
 <button onClick="{{ rd.togglePick }}" style="border:0;background:#1f3d24;color:#fff;font-family:inherit;font-size:15px;font-weight:700;height:52px;border-radius:99px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
 <sc-if value="{{ rd.pickOpen }}"><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:#fffdf8;border-radius:18px;padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ d.bg }};border-radius:12px;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:#1b2a1c"><span style="font-size:10.5px;font-weight:700;color:#6b7268">{{ d.label }}</span><span style="font-size:15px;font-weight:800">{{ d.date }}</span></button></sc-for></div></sc-if>
@@ -365,12 +371,6 @@
 <div style="padding:54px 20px 28px;display:flex;flex-direction:column;gap:16px">
 <button onClick="{{ back }}" style="width:44px;height:44px;border-radius:50%;border:0;background:#fffdf8;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div><h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Handleliste</h2><div style="font-size:13.5px;color:#6b7268;margin-top:2px">{{ sl.sub }}</div></div>
-<div style="background:#fffdf8;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:12px">
-<div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:800">Antall personer</div><div style="font-size:12px;color:#6b7268">Mengder og pris regnes om automatisk</div></div>
-<button onClick="{{ peopleMinus }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid #e2ddd0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1b2a1c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
-<span style="min-width:26px;text-align:center;font-size:22px;font-weight:800">{{ people }}</span>
-<button onClick="{{ peoplePlus }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:#1b2a1c;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
-</div>
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
 <sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div>
@@ -494,9 +494,9 @@
 <button onClick="{{ back }}" style="width:44px;height:44px;border-radius:50%;border:0;background:#fffdf8;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Innstillinger</h2>
 <div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px">
-<div style="font-size:15px;font-weight:700">Porsjoner per oppskrift</div>
+<div style="font-size:15px;font-weight:700">Standard antall personer</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#f0ece1;border-radius:14px;padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:11px;background:{{ p.bg }};color:#1b2a1c;box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
-<div style="font-size:12px;color:#6b7268">Prisene i appen regnes om etter antall porsjoner.</div>
+<div style="font-size:12px;color:#6b7268">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
 </div>
 <div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:15px;font-weight:700">Butikk for priser</div>
@@ -620,7 +620,7 @@ class Component extends DCLogic {
     plan: Object.fromEntries(Object.entries({ 0:'spaghetti-bolognese', 1:'ovnslaks-poteter', 2:'kyllinggryte-karri', 3:'kjottkaker-brun-saus', 4:'tacofredag', 5:'lordagspizza', 6:'lammestek' })
       .filter(([, id]) => this.D.byId[id]).map(([d, id]) => [d, [id]])),
     day: 3, checked: {}, cat: 'alle', q: '', loggedIn: false, tasks: {}, rdPick: false,
-    people: 4, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null
+    people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null
   };
 
   componentDidUpdate(pp) {
@@ -665,7 +665,10 @@ class Component extends DCLogic {
     return this.c(Math.max(0.5, Math.round(v * 2) / 2)) + ' ' + u;
   };
   fp = n => Math.round(n) + ' kr';
-  factor = r => this.state.people / r.servings;
+  // Antall personer per rett. Uten eget valg brukes standarden fra Innstillinger.
+  pers = r => this.state.portions[r.id] || this.state.people;
+  setPers = (id, n) => this.setState(st => ({ portions: { ...st.portions, [id]: Math.max(1, Math.min(12, n)) } }));
+  factor = r => this.pers(r) / r.servings;
 
   // ---------- priser ----------
   prods = (slug, chain) => ((this.D.ING[slug] || {}).products || {})[chain || this.state.chain] || [];
@@ -817,11 +820,12 @@ class Component extends DCLogic {
       const r = D.byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
       const unl = r.ing.filter(i => !i.slug).length;
       rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
-        portions: `${s.people} pers.`, steps: (r.steps || []).map((t, i) => ({ n: i + 1, text: t })),
-        servingsNote: `Oppskriften er skrevet for ${r.servings} porsjoner. Mengdene her er regnet om til ${s.people}.`,
+        portions: `${this.pers(r)} pers.`, people: this.pers(r), peopleSub: 'Mengder og pris regnes om, også i handlelisten',
+        peopleMinus: () => this.setPers(r.id, this.pers(r) - 1), peoplePlus: () => this.setPers(r.id, this.pers(r) + 1), steps: (r.steps || []).map((t, i) => ({ n: i + 1, text: t })),
+        servingsNote: `Oppskriften er skrevet for ${r.servings} porsjoner. Mengdene her er regnet om til ${this.pers(r)}.`,
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
-          : `Pris i ${chainName(s.chain)} for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten er ikke koblet til en vare ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
-        ing: r.ing.map(i => { const v = this.lineCost(i, f), note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? `ikke funnet i ${chainName(s.chain)}` : '');
+          : `Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
+        ing: r.ing.map(i => { const v = this.lineCost(i, f), note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå' : '');
           return { n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? '#1b2a1c' : '#b3b8ad', note, hasNote: !!note }; }),
         pickOpen: s.rdPick,
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn ? 'blur(7px)' : 'none',
@@ -832,7 +836,7 @@ class Component extends DCLogic {
     let sl = {};
     if (top.t === 'shop') {
       const week = top.scope === 'week', arr = buildShop(week ? [0,1,2,3,4,5,6] : [top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
-      const names = (s.plan[top.day] || []).map(id => D.byId[id].name).join(', ');
+      const names = (s.plan[top.day] || []).map(id => D.byId[id]).map(r => `${r.name} (${this.pers(r)} pers.)`).join(', ');
       const unm = arr.filter(e => !e.slug).length;
       sl = { sub: week ? 'Hele uka · 16.–22. november' : `${this.DAYS_FULL[top.day]} ${16 + top.day}. november${names ? ' · ' + names : ''}`,
         items, has: items.length > 0, empty: !items.length, meta: `${items.filter(i => !i.done).length} av ${items.length} igjen`,
@@ -884,7 +888,6 @@ class Component extends DCLogic {
       dayShopSub: dayArr.length ? `${dayArr.length} varer · ${sumText(daySum)}` : 'Ingen retter planlagt denne dagen',
       openWeekShop: () => this.push({ t:'shop', scope:'week' }), openDayShop: () => this.push({ t:'shop', scope:'day', day: s.day }),
       ovShop: top.t === 'shop', sl, people: s.people,
-      peopleMinus: () => this.setState(st => ({ people: Math.max(1, st.people - 1) })), peoplePlus: () => this.setState(st => ({ people: Math.min(12, st.people + 1) })),
       q: s.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }),
       searching: !!q, notSearching: !q, results, resultsLabel: `${results.length} treff i alle oppskrifter`,
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),

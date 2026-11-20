@@ -119,8 +119,9 @@ python -m matglede export-app      # skriver app/data.js fra app_recipes.json og
 cd app && python -m http.server    # åpne http://localhost:8000
 ```
 
-- **Oppskrift**: ingredienser med mengde regnet om til valgt antall personer, tid,
-  vanskelighetsgrad og steg for steg.
+- **Oppskrift**: ingredienser med mengde regnet om til antall personer, tid,
+  vanskelighetsgrad og steg for steg. Antall personer velges på hver rett (standarden settes i
+  Innstillinger), og handlelisten bruker antallet for hver rett.
 - **Ingredienser** kobles til varedatabasen med feltet `slug` (fra `ingredients.csv`). `null`
   betyr at ingrediensen ikke er koblet ennå (buljong, lasagneplater, lammelår og noen få til).
   «1 boks» regnes om med de vanlige pakningsstørrelsene i `recipe_parse.PACK_SIZES`.
