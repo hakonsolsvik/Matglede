@@ -26,5 +26,14 @@ class OffersTest(unittest.TestCase):
         self.assertEqual(week_info(dt.date(2026, 11, 20)), {"week": 47, "from": "2026-11-16", "to": "2026-11-22"})
 
 
+class CoopPagesTest(unittest.TestCase):
+    def test_parses_spreads(self):
+        from matglede.flyers import coop_pages
+        html = """g_cfg.si_dir = '/aviser/extra/ost/760OPP/'; {"img":"ost-47_00-01.jpg?s=1","nr":"0"},{"img":"ost-47_02-03.jpg?s=1"}"""
+        self.assertEqual(coop_pages(html, "https://kundeavis.coop.no/aviser/?id=1"), [
+            "https://kundeavis.coop.no/aviser/extra/ost/760OPP/ost-47_00-01.jpg?s=1",
+            "https://kundeavis.coop.no/aviser/extra/ost/760OPP/ost-47_02-03.jpg?s=1"])
+
+
 if __name__ == "__main__":
     unittest.main()
