@@ -2,8 +2,8 @@
 
 Kilden er prishistorikken i Kassalapp. En vare regnes som på tilbud når prisen
 i dag er minst 10 % og 3 kr lavere enn medianprisen de 8 til 60 foregående dagene.
-Selve tilbudsavisene (avissidene) har vi ikke lov til å kopiere uten avtale med
-Tjek/Mattilbud eller kjedene, så appen lenker til kjedens egen avis.
+Selve avisen finnes av flyers.py. Appen viser den fra kjedens egen server, uten
+å kopiere den.
 
 Kjøres hver mandag kl. 12 norsk tid av .github/workflows/tilbud.yml.
 """
@@ -16,6 +16,7 @@ import urllib.error
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
+from .flyers import flyer_for
 from .kassal import KassalClient
 
 # code, navn, Kassalapp-butikk (None = ingen ferske priser i Kassalapp), lenke til ukas avis
@@ -108,7 +109,10 @@ def build_offers(client: KassalClient, now: dt.datetime | None = None, log=print
                             offers[key] = {**o, "cat": top_category(p) or cat}
         ranked = sorted(offers.values(), key=lambda o: (-o["pct"], o["name"]))
         log(f"{name}: {len(ranked)} varer på tilbud")
-        stores.append({"code": code, "name": name, "flyer": flyer, "hasData": bool(kassal_code), "offers": ranked})
+        view = flyer_for(code, log)
+        log(f"  avis: {view['type'] if view else 'ikke funnet'}")
+        stores.append({"code": code, "name": name, "flyer": (view or {}).get("url") or flyer, "view": view,
+                       "hasData": bool(kassal_code), "offers": ranked})
     return {"generated": now.astimezone(ZoneInfo("Europe/Oslo")).strftime("%Y-%m-%d %H:%M"),
             **week_info(now.astimezone(ZoneInfo("Europe/Oslo")).date()), "stores": stores}
 

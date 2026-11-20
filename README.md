@@ -87,8 +87,11 @@ python -m matglede fetch-offers    # skriver app/offers.js (ca. 6 min med gratis
   8 til 60 foregående dagene, ut fra prishistorikken i Kassalapp.
 - Rema 1000 og Coop-kjedene har ikke ferske priser i Kassalapp, så der viser appen bare
   lenken til avisen.
-- Selve avissidene vises ikke i appen. Tjek (eTilbudsavis/Mattilbud) gir bare API-tilgang
-  til betalende kunder med avtale, og innholdet kan ikke kopieres uten den.
+- Avisen vises inne i appen, hentet rett fra kjedens egen server (`matglede/flyers.py`
+  finner adressene, ingenting kopieres). Coop Extra, Mega, Prix og Marked: avissidene som
+  bilder. Kiwi og Spar: PDF-en fra kiwi.no og spar.no. Meny og Obs: kjedens iPaper-leser.
+  Joker (Flipsnack), Rema 1000 og Bunnpris (Tjek) blokkerer innebygging, så der får man
+  en knapp som åpner avisen hos kjeden.
 - `.github/workflows/tilbud.yml` kjører hver mandag kl. 12 norsk tid, lagrer `app/offers.js`
   på appgrenen og publiserer appen på gh-pages. Den trenger repo-hemmeligheten
   `KASSAL_API_KEY`, og må ligge på standardgrenen (main) for at GitHub skal kjøre den
