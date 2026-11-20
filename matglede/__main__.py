@@ -33,7 +33,7 @@ def cmd_external(conn, args):
 
 def cmd_export_app(conn, args):
     has_db = os.path.exists(args.db)
-    data = app_export.build(conn if has_db else None, previous=app_export.previous_products())
+    data = app_export.build(conn if has_db else None)
     out = app_export.write(data)
     st = data["stats"]
     print(f"Skrev {out.relative_to(app_export.ROOT)}: {st['recipes']} oppskrifter")
@@ -42,13 +42,6 @@ def cmd_export_app(conn, args):
         print(f"Priser funnet for {st['pricedIngredients']} av {st['ingredients']} ingredienser")
     else:
         print("Ingen priser: kjør `init` og `import` først (krever KASSAL_API_KEY)")
-    if not has_db and data["hasPrices"]:
-        print("(ingen database: prisene er hentet fra forrige app/data.js)")
-
-
-def cmd_fetch_logos(conn, args):
-    for path in app_export.fetch_logos():
-        print(f"Lagret {path.relative_to(app_export.ROOT)}")
 
 
 def cmd_import(conn, args):
@@ -126,9 +119,6 @@ def main(argv=None):
     sub.add_parser("export-app", help="Skriv app/data.js med oppskrifter og priser til appen"
                    ).set_defaults(fn=cmd_export_app)
 
-    sub.add_parser("fetch-logos", help="Last ned kjedelogoene fra Kassalapp til app/logos/"
-                   ).set_defaults(fn=cmd_fetch_logos)
-
     p = sub.add_parser("import", help="Hent produkter fra Kassalapp")
     p.add_argument("--only", nargs="*", help="Bare disse ingrediens-slugene")
     p.add_argument("--chains", nargs="*", help="Bare disse kjedene (ODA KIWI MENY REMA COOP SPAR JOKER)")
@@ -160,7 +150,7 @@ def main(argv=None):
         p.set_defaults(fn=cmd_mark, status=status)
 
     args = ap.parse_args(argv)
-    if args.cmd == "fetch-logos" or (args.cmd == "export-app" and not os.path.exists(args.db)):
+    if args.cmd == "export-app" and not os.path.exists(args.db):
         args.fn(None, args)  # uten database: ingen priser, ikke lag en tom fil
         return
     conn = db.connect(args.db)

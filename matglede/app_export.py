@@ -18,8 +18,6 @@ from pathlib import Path
 
 from .db import CHAINS
 from .external import OUT as RECIPES_JSON, SOURCE_INFO
-from .recipe_parse import (GRAMS_PER_CHICKEN_BREAST, GRAMS_PER_CLOVE, PACK_SIZES, RULES,
-                           _WHOLE_WORD)
 from .shopping import SCORE_BAND, _is_stale
 from .units import to_base
 
@@ -37,44 +35,6 @@ CHAIN_COLORS = {
     "SPAR": ("#d6362a", "#ffffff"),
     "JOKER": ("#ffd23f", "#14306b"),
 }
-
-
-# Logoene Kassalapp viser for kjedene (feltet store.logo i API-svarene). Lastes ned til
-# app/logos/ med `python -m matglede fetch-logos`, så appen virker uten nett.
-CHAIN_LOGOS = {
-    "ODA": "https://kassal.app/logos/Oda.svg",
-    "KIWI": "https://kassal.app/logos/Kiwi.svg",
-    "MENY": "https://kassal.app/logos/Meny.svg",
-    "REMA": "https://kassal.app/logos/Rema-1000.svg",
-    "COOP": "https://kassal.app/logos/Coop.svg",
-    "SPAR": "https://kassal.app/logos/Spar.svg",
-    "JOKER": "https://kassal.app/logos/Joker.svg",
-}
-LOGO_DIR = ROOT / "app" / "logos"
-
-
-def fetch_logos(out: Path = LOGO_DIR) -> list[Path]:
-    """Last ned kjedelogoene til app/logos/<KODE>.svg."""
-    import urllib.request
-    out.mkdir(parents=True, exist_ok=True)
-    written = []
-    for code, url in CHAIN_LOGOS.items():
-        req = urllib.request.Request(url, headers={"User-Agent": "matglede/0.1"})
-        with urllib.request.urlopen(req, timeout=20) as r:
-            body = r.read()
-        if not body.lstrip().startswith(b"<svg"):
-            raise ValueError(f"{url} ga ikke en SVG")
-        path = out / f"{code}.svg"
-        path.write_bytes(body)
-        written.append(path)
-    return written
-
-
-def _logo(code: str) -> str | None:
-    """Relativ sti til logoen hvis den er lastet ned, ellers Kassalapp-URL-en."""
-    if (LOGO_DIR / f"{code}.svg").exists():
-        return f"logos/{code}.svg"
-    return CHAIN_LOGOS.get(code)
 
 
 def _minutes(iso: str | None) -> int | None:
@@ -141,19 +101,8 @@ def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
     } for r in pool[:MAX_CANDIDATES]]
 
 
-def previous_products(path: Path = APP_DATA) -> dict[str, dict]:
-    """Produktene fra en tidligere app/data.js, slik at oppskriftene kan bygges på nytt uten database."""
-    try:
-        text = path.read_text(encoding="utf-8")
-        data = json.loads(text[text.index("{"):text.rindex("}") + 1])
-    except (OSError, ValueError):
-        return {}
-    return {slug: ing.get("products") or {} for slug, ing in data.get("ingredients", {}).items()}
-
-
 def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
-          recipes_path: Path = RECIPES_JSON, previous: dict[str, dict] | None = None) -> dict:
-    """Uten database brukes produktene fra `previous` (typisk forrige app/data.js)."""
+          recipes_path: Path = RECIPES_JSON) -> dict:
     now = now or datetime.now(timezone.utc)
     data = json.loads(recipes_path.read_text(encoding="utf-8"))
     ing_rows = _ingredients_csv()
@@ -189,11 +138,10 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
             "time": _minutes(r.get("totalTime")), "ing": items,
         })
 
-    # Alle ingrediensene tas med, også de ingen oppskrift bruker ennå: brukeren kan legge
-    # dem til i egne oppskrifter. Søkeordene brukes til å koble fritekst i appen.
     ingredients = {}
     priced = 0
-    for slug, row in ing_rows.items():
+    for slug in sorted(used):
+        row = ing_rows[slug]
         gpp = float(row["grams_per_piece"]) if row["grams_per_piece"] else None
         products = {}
         if has_db:
@@ -201,27 +149,17 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
                 c = _candidates(conn, slug, code, row["base_unit"], gpp, now)
                 if c:
                     products[code] = c
-        elif previous:
-            products = previous.get(slug, {})
         priced += bool(products)
         ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "gpp": gpp,
-                             "category": row["category"], "used": slug in used, "products": products}
+                             "products": products}
 
     return {
         "generated": now.strftime("%Y-%m-%d"),
         "hasPrices": priced > 0,
         "sources": {k: {"name": v["name"], "site": v["site"]} for k, v in SOURCE_INFO.items()},
-        "chains": [{"code": code, "name": name, "bg": CHAIN_COLORS[code][0], "fg": CHAIN_COLORS[code][1],
-                    "logo": _logo(code)}
+        "chains": [{"code": code, "name": name, "bg": CHAIN_COLORS[code][0], "fg": CHAIN_COLORS[code][1]}
                    for code, name, _ in CHAINS],
         "ingredients": ingredients,
-        "matching": {
-            "rules": [[slug, list(needles), list(excl)] for slug, needles, excl in RULES],
-            "wholeWord": sorted(_WHOLE_WORD),
-            "gramsPerClove": GRAMS_PER_CLOVE,
-            "gramsPerChickenBreast": GRAMS_PER_CHICKEN_BREAST,
-            "packSizes": {k: list(v) for k, v in PACK_SIZES.items()},
-        },
         "recipes": recipes,
         "stats": {"recipes": len(recipes), "lines": lines, "mapped": mapped,
                   "ingredients": len(ingredients), "pricedIngredients": priced},

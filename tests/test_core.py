@@ -286,29 +286,3 @@ class AppExportTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             out = self.app_export.write({"a": "æ"}, Path(d) / "data.js")
             self.assertIn('window.MATGLEDE_DATA = {"a":"æ"};', out.read_text(encoding="utf-8"))
-
-
-class AppJsTest(unittest.TestCase):
-    """Appens kobling av fritekst til varer må gi samme svar som Python-koden."""
-
-    def test_js_matches_python(self):
-        import shutil
-        import subprocess
-        from pathlib import Path
-        node = shutil.which("node")
-        if not node:
-            self.skipTest("node finnes ikke")
-        script = Path(__file__).with_name("app_logic_check.js")
-        res = subprocess.run([node, str(script)], capture_output=True, text=True)
-        self.assertEqual(res.returncode, 0, res.stdout + res.stderr)
-
-    def test_export_has_all_ingredients_and_rules(self):
-        from matglede import app_export
-        data = app_export.build(None, NOW, previous={"kjottdeig": {"KIWI": [{"name": "x", "price": 1}]}})
-        self.assertIn("tacokrydder", data["ingredients"])  # også ingredienser ingen oppskrift bruker
-        self.assertFalse(data["ingredients"]["tacokrydder"]["used"])
-        self.assertEqual(data["ingredients"]["kjottdeig"]["products"]["KIWI"][0]["name"], "x")
-        self.assertTrue(data["hasPrices"])
-        self.assertEqual(data["matching"]["rules"][0][0], "hakkede_tomater")
-        for ch in data["chains"]:
-            self.assertTrue(ch["logo"].endswith(".svg"), ch)
