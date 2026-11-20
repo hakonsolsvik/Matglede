@@ -109,26 +109,30 @@ skriftlig avtale. DN-serien «Aichas salater» er heller ikke brukt, fordi DN fo
 
 ## Appen (app/)
 
-`app/` er appdesignet fra Claude Design koblet til dataene her. Den viser bare de 57 innsamlede
-oppskriftene fra Rema 1000, Aichas Mat og Marit Kolby, ikke eksempeloppskriftene fra designet.
+`app/` er appdesignet fra Claude Design koblet til dataene her. Appen viser Matgledes egne
+oppskrifter i `seed/app_recipes.json` (17 hverdags-, helge- og søndagsmiddager), ikke
+oppskriftene hentet fra nettet og ikke eksempeloppskriftene fra designet. Hver oppskrift har tid,
+vanskelighetsgrad (1–5), kategorier, ingredienser og fremgangsmåte.
 
 ```bash
-python -m matglede export-app      # skriver app/data.js fra external_recipes.json og matglede.db
+python -m matglede export-app      # skriver app/data.js fra app_recipes.json og matglede.db
 cd app && python -m http.server    # åpne http://localhost:8000
 ```
 
-- **Oppskrift**: tittel, porsjoner og ingredienser med mengde regnet om til valgt antall personer.
-  Fremgangsmåten står ikke i appen, og appen lenker ikke til kilden (`source_url` finnes i dataene).
+- **Oppskrift**: ingredienser med mengde regnet om til valgt antall personer, tid,
+  vanskelighetsgrad og steg for steg.
+- **Ingredienser** kobles til varedatabasen med feltet `slug` (fra `ingredients.csv`). `null`
+  betyr at ingrediensen ikke er koblet ennå (buljong, lasagneplater, lammelår og noen få til).
+  «1 boks» regnes om med de vanlige pakningsstørrelsene i `recipe_parse.PACK_SIZES`.
 - **Pris per rett**: forbrukt andel av pakken for hver ingrediens i valgt butikk.
   «ca. X kr» betyr at alle ingredienser med mengde har pris, «minst X kr» at noen mangler.
 - **Handleliste**: ingrediensene i ukeplanen summeres i basisenhet (g/ml/stk), og appen velger
   billigste antall hele pakker blant produktene fra databasen, som `shopping.pick_product`.
-  Varer som ikke er koblet til produkter står med «Ikke koblet til vare ennå».
 - **Tilbud og priser**: ukeplanen priset i hver kjede. Ekte ukestilbud er ikke koblet på ennå.
-- Uten `matglede.db` (før `import` er kjørt) blir prisene stående som «pris kommer».
+- Uten `matglede.db` gjenbruker `export-app` prisene i forrige `app/data.js`.
 
-Per nå er 313 av 627 ingredienslinjer koblet til en ingrediens i `ingredients.csv`. Resten
-(pasta, ris, kikerter, soyasaus, krydder og lignende) må legges til der før de får pris.
+Oppskriftene fra Rema 1000, Aichas Mat og Marit Kolby (`seed/external_recipes.json`) ligger
+fortsatt i repoet for databasen, men brukes ikke i appen.
 
 `app/support.js` er kjøretiden fra Claude Design, og `app/vendor/` er React 18.3.1 (MIT), så
 appen virker uten nett. Bildene er fortsatt designets stripete plassholdere.

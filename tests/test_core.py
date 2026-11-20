@@ -250,26 +250,34 @@ class AppExportTest(unittest.TestCase):
         for pid, score, status in [(1, 5, "auto"), (2, 4.6, "auto"), (3, 5, "rejected")]:
             c.execute("INSERT INTO ingredient_product VALUES (?,?,?,?)", (kd, pid, score, status))
 
-    def test_only_collected_recipes_without_instructions(self):
+    def test_own_recipes_only(self):
         data = self.app_export.build(None, NOW)
         ids = {r["id"] for r in data["recipes"]}
-        self.assertEqual(len(ids), len(json.loads(external.OUT.read_text(encoding="utf-8"))["recipes"]))
-        self.assertTrue(all(i.split("-")[0] in {"rema", "aicha", "kolby"} for i in ids))
-        self.assertNotIn("taco-med-kjottdeig", ids)  # eksempeloppskrift fra designet
+        self.assertGreaterEqual(len(ids), 12)
+        self.assertFalse(any(i.split("-")[0] in {"rema", "aicha", "kolby"} for i in ids))
         for r in data["recipes"]:
-            self.assertTrue(r["url"].startswith("https://"))
-            self.assertFalse({"steps", "instructions", "image"} & set(r))
+            self.assertIn(r["diff"], range(1, 6), r["id"])
+            self.assertGreater(r["time"], 0, r["id"])
+            self.assertTrue(r["steps"], r["id"])
+            self.assertNotIn("url", r)
         self.assertFalse(data["hasPrices"])
         self.assertEqual(data["stats"]["lines"], sum(len(r["ing"]) for r in data["recipes"]))
+        self.assertTrue({"hverdag", "sondag"} <= {c for r in data["recipes"] for c in r["cats"]})
 
-    def test_base_amount_and_time(self):
+    def test_base_amounts(self):
         data = self.app_export.build(None, NOW)
-        r = next(r for r in data["recipes"] if r["id"] == "rema-enkel-taco")
-        kd = next(i for i in r["ing"] if i["slug"] == "kjottdeig")
-        self.assertEqual(kd["base"], 400)
-        self.assertEqual(self.app_export._minutes("PT1H20M"), 80)
-        self.assertEqual(self.app_export._minutes("PT15M"), 15)
-        self.assertIsNone(self.app_export._minutes(None))
+        rec = {r["id"]: {i["n"]: i["base"] for i in r["ing"]} for r in data["recipes"]}
+        self.assertEqual(rec["tacofredag"]["Kjøttdeig"], 400)
+        self.assertEqual(rec["tacofredag"]["Mais"], 340)  # 1 boks
+        self.assertEqual(rec["spaghetti-bolognese"]["Hakkede tomater"], 800)  # 2 bokser
+        self.assertEqual(rec["spaghetti-bolognese"]["Hvitløk"], 10)  # 2 fedd
+        self.assertEqual(rec["kjottkaker-brun-saus"]["Lettmelk"], 100)  # 1 dl
+        self.assertIsNone(rec["kjottkaker-brun-saus"]["Kjøttbuljong"])
+
+    def test_previous_prices_reused(self):
+        data = self.app_export.build(None, NOW, previous={"kjottdeig": {"KIWI": [{"name": "x", "price": 1}]}})
+        self.assertTrue(data["hasPrices"])
+        self.assertEqual(data["ingredients"]["kjottdeig"]["products"]["KIWI"][0]["name"], "x")
 
     def test_candidates_per_chain(self):
         data = self.app_export.build(self.conn, NOW)

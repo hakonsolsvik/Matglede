@@ -33,7 +33,7 @@ def cmd_external(conn, args):
 
 def cmd_export_app(conn, args):
     has_db = os.path.exists(args.db)
-    data = app_export.build(conn if has_db else None)
+    data = app_export.build(conn if has_db else None, previous=app_export.previous_products())
     out = app_export.write(data)
     st = data["stats"]
     print(f"Skrev {out.relative_to(app_export.ROOT)}: {st['recipes']} oppskrifter")

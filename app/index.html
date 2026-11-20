@@ -109,7 +109,12 @@
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
 <sc-for list="{{ favSorts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="flex:none;white-space:nowrap;border:0;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:8px 14px;border-radius:99px;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
 </div>
-<div style="font-size:12px;color:#6b7268;line-height:1.45">{{ dataNote }}</div>
+<div style="display:flex;align-items:center;gap:10px;font-size:11.5px;color:#6b7268;font-weight:600">
+<span>Vanskelighet:</span>
+<span style="display:flex;gap:3px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#3fae4a"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span><span style="width:7px;height:7px;border-radius:50%;background:#e2ddd0"></span></span><span>lett</span>
+<span style="opacity:.5">→</span>
+<span style="display:flex;gap:3px"><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span><span style="width:7px;height:7px;border-radius:50%;background:#e0412f"></span></span><span>avansert</span>
+</div>
 <sc-for list="{{ favList }}" as="r" hint-placeholder-count="4">
 <div onClick="{{ r.open }}" style="display:flex;gap:14px;align-items:center;padding:10px;background:#fffdf8;border-radius:22px;cursor:pointer;box-shadow:0 1px 2px rgba(30,40,20,.06)">
 <div style="width:92px;height:92px;flex:none;border-radius:16px;background:{{ r.img }};display:flex;align-items:flex-end;padding:7px;box-sizing:border-box;font:500 8px/1.2 'JetBrains Mono',monospace;color:rgba(0,0,0,.45)">{{ r.imgLabel }}</div>
@@ -311,7 +316,7 @@
 </div>
 <div style="display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px">
 <div style="background:#fffdf8;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;color:#6b7268">Tid</span><span style="font-size:18px;font-weight:800">{{ rd.timeLabel }}</span></div>
-<div style="background:#fffdf8;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;color:#6b7268">Kilde</span><span style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:11.5px;font-weight:800;color:{{ rd.diffColor }}">{{ rd.diffLabel }}</span></div>
+<div style="background:#fffdf8;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;color:#6b7268">Vanskelighet</span><span style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:11.5px;font-weight:800;color:{{ rd.diffColor }}">{{ rd.diffLabel }}</span></div>
 <div style="background:#fffdf8;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;font-weight:700;color:#6b7268">Pris</span><span style="font-size:18px;font-weight:800">{{ rd.costShort }}</span><span style="font-size:11px;color:#6b7268">{{ rd.portions }}</span></div>
 </div>
 <div style="display:flex;flex-direction:column;gap:10px">
@@ -326,6 +331,10 @@
 <div style="font-size:11.5px;color:#8a9187;line-height:1.4;padding:0 0 4px">{{ rd.coverage }}</div>
 <div style="font-size:11.5px;color:#8a9187;line-height:1.4;padding:0 0 12px">{{ rd.servingsNote }}</div>
 </div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:18px;font-weight:800">Slik gjør du</div>
+<sc-for list="{{ rd.steps }}" as="s"><div style="display:flex;gap:12px;align-items:flex-start"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:#d4ee86;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">{{ s.n }}</span><span style="font-size:14.5px;line-height:1.5;padding-top:3px">{{ s.text }}</span></div></sc-for>
 </div>
 </div>
 </div>
@@ -545,35 +554,20 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;startTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;fav&quot;,&quot;tilbud&quot;,&quot;plan&quot;,&quot;opp&quot;,&quot;laere&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;navLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   // Data: window.MATGLEDE_DATA fra app/data.js (python -m matglede export-app).
-  // Bare de innsamlede oppskriftene fra Rema 1000, Aichas Mat og Marit Kolby. Ingen fremgangsmåte
-  // eller bilder lagres, og appen viser ikke lenke til kilden.
+  // Matgledes egne oppskrifter fra seed/app_recipes.json, med tid, vanskelighetsgrad og fremgangsmåte.
+  DIFF_C = ['#3fae4a','#8cc63f','#e8b923','#f08a24','#e0412f'];
+  DIFF_L = ['Veldig lett','Lett','Middels','Krevende','Avansert'];
   D = (() => {
     const M = window.MATGLEDE_DATA || { recipes: [], ingredients: {}, chains: [], sources: {}, stats: {}, hasPrices: false };
-    const SRC = {
-      rema: { short: 'REMA 1000', color: '#16408f' },
-      aicha: { short: 'Aichas Mat', color: '#c8402f' },
-      kolby: { short: 'Marit Kolby', color: '#7a4fa8' }
-    };
     const hue = id => { let h = 7; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
-    const txt = r => [r.name, r.category || '', r.dish || ''].join(' ').toLowerCase();
     const R = M.recipes.map(r => {
-      const t = txt(r), cats = [];
-      if (r.group === 'hverdag') cats.push('hverdag');
-      if (r.group === 'sondag' || r.alsoGroup === 'sondag') cats.push('sondag');
-      if (r.source === 'rema' && r.group === 'populaere') cats.push('rema');
-      if (r.source === 'aicha') cats.push('aicha');
-      if (r.source === 'kolby') cats.push('kolby');
-      if (r.group === 'salater' || /salat/.test(t)) cats.push('salat');
-      if (/pasta|spagetti|spaghetti|tagliatelle|lasagne|tortellini/.test(t)) cats.push('pasta');
-      if (/kylling|chicken/.test(t)) cats.push('kylling');
-      if (/laks|torsk|fisk|scampi/.test(t)) cats.push('fisk');
+      const cats = [...(r.cats || [])];
       if (r.time && r.time <= 30) cats.push('rask');
       if (r.ing.length <= 6) cats.push('fa');
-      return { ...r, hue: hue(r.id), cats, src: SRC[r.source] || { short: r.source, color: '#6b7268' },
-        srcName: (M.sources[r.source] || {}).name || r.source };
+      return { ...r, hue: hue(r.id), cats };
     });
     const byId = Object.fromEntries(R.map(r => [r.id, r]));
-    const CATS = [['alle','Alle'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['rema','Populært hos Rema'],['aicha','Aichas Mat'],['kolby','Marit Kolby'],['salat','Salater'],['pasta','Pasta'],['kylling','Kylling'],['fisk','Fisk og sjømat'],['rask','Rask'],['fa','Få ingredienser']]
+    const CATS = [['alle','Alle'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['helg','Helg'],['familie','Barnevennlig'],['kjott','Kjøtt'],['kylling','Kylling'],['fisk','Fisk'],['pasta','Pasta'],['gryte','Gryter'],['vegetar','Uten kjøtt'],['tradisjon','Norsk tradisjon'],['rask','Rask'],['fa','Få ingredienser']]
       .filter(([id]) => id !== 'under100' || M.hasPrices);
     // Lære-koblinger ut fra ingrediensene: [mønster, artikkel, hvorfor]
     const LEARN = [
@@ -622,8 +616,8 @@ class Component extends DCLogic {
   pickIds = ids => ids.filter(id => this.D.byId[id]);
   state = {
     tab: this.props.startTab || 'home', stack: [], menu: false,
-    favs: this.pickIds(['rema-enkel-taco','rema-marry-me-chicken','aicha-kikerter-og-sopp-curry','kolby-curry-in-a-hurry','rema-langtidsstekt-ribbe']), favSort: 'recent',
-    plan: Object.fromEntries(Object.entries({ 0:'rema-pasta-bolognese', 1:'rema-fiskegrateng-med-torsk', 2:'rema-enkel-kyllinggryte', 3:'rema-ovnsbakte-kjottkaker-med-gronnsaker', 4:'rema-enkel-taco', 6:'rema-farikal' })
+    favs: this.pickIds(['tacofredag','pasta-carbonara','kyllinggryte-karri','lasagne','ovnslaks-poteter']), favSort: 'recent',
+    plan: Object.fromEntries(Object.entries({ 0:'spaghetti-bolognese', 1:'ovnslaks-poteter', 2:'kyllinggryte-karri', 3:'kjottkaker-brun-saus', 4:'tacofredag', 5:'lordagspizza', 6:'lammestek' })
       .filter(([, id]) => this.D.byId[id]).map(([d, id]) => [d, [id]])),
     day: 3, checked: {}, cat: 'alle', q: '', loggedIn: false, tasks: {}, rdPick: false,
     people: 4, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null
@@ -707,12 +701,12 @@ class Component extends DCLogic {
   mk(r, extra) {
     const s = this.state, fav = s.favs.includes(r.id), rc = this.recipeCost(r), ct = this.costText(rc);
     return {
-      id: r.id, name: r.name, time: r.time, timeLabel: r.time ? `${r.time} min` : 'Tid: se kilde',
-      dots: [], diffLabel: r.src.short, diffColor: r.src.color,
+      id: r.id, name: r.name, time: r.time, timeLabel: `${r.time} min`,
+      dots: [0,1,2,3,4].map(i => i < r.diff ? this.DIFF_C[r.diff - 1] : '#e2ddd0'), diffLabel: this.DIFF_L[r.diff - 1], diffColor: this.DIFF_C[r.diff - 1],
       ingCount: r.ing.length + ' ingredienser',
       costLabel: ct.label, costShort: ct.short,
       img: `repeating-linear-gradient(135deg, oklch(0.87 0.07 ${r.hue}) 0 9px, oklch(0.83 0.08 ${r.hue}) 9px 18px)`,
-      imgLabel: r.src.short.toLowerCase(),
+      imgLabel: 'foto: ' + r.name.toLowerCase(),
       starFill: fav ? '#f5b82e' : 'none', starStroke: fav ? '#e0a51c' : '#8a9187',
       open: () => this.push({ t: 'recipe', id: r.id }),
       toggleFav: e => { e && e.stopPropagation && e.stopPropagation(); this.toggleFav(r.id); },
@@ -779,7 +773,7 @@ class Component extends DCLogic {
           : { eyebrow: 'INGEN PRISER', headline: 'Fant ingen av varene i butikkene.', note: '' };
 
     const q = s.q.trim().toLowerCase();
-    const results = q ? D.R.filter(r => r.name.toLowerCase().includes(q) || r.src.short.toLowerCase().includes(q) || r.ing.some(i => i.n.toLowerCase().includes(q)) || D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q))).map(r => this.mk(r)) : [];
+    const results = q ? D.R.filter(r => r.name.toLowerCase().includes(q) || r.ing.some(i => i.n.toLowerCase().includes(q)) || D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q))).map(r => this.mk(r)) : [];
 
     const costOf = r => { const rc = this.recipeCost(r); return rc.priced ? rc.sum : Infinity; };
     let favR = s.favs.map(id => D.byId[id]).filter(Boolean);
@@ -802,12 +796,13 @@ class Component extends DCLogic {
       toggle: () => this.setState(st => ({ tasks: { ...st.tasks, [t.id]: !st.tasks[t.id] } })) }; });
 
     const ph = h => `repeating-linear-gradient(135deg, oklch(0.87 0.07 ${h}) 0 9px, oklch(0.83 0.08 ${h}) 9px 18px)`;
-    const topOf = (src, group) => D.R.filter(r => r.source === src && r.group === group).sort((a, b) => a.rank - b.rank);
-    const remaTop = topOf('rema', 'populaere'), aichaTop = topOf('aicha', 'populaere');
+    const pop = D.R.filter(r => r.popular).sort((a, b) => a.popular - b.popular);
+    const firstIn = c => D.R.find(r => r.cats.includes(c));
     const news = [];
-    if (remaTop[0]) news.push({ tag:'POPULÆRT · REMA 1000', tagColor:'#16408f', title:`${remaTop[0].name} er mest populær på rema.no`, sub: remaTop[0].ratingCount ? `${remaTop[0].ratingCount} stemmer` : 'Rema 1000', img: ph(remaTop[0].hue), imgLabel: 'rema 1000', open:() => this.push({ t:'recipe', id: remaTop[0].id }) });
-    news.push({ tag:'HVERDAG', tagColor:'#2f8a2a', title:'Norges vanligste middager', sub:'Ipsos Middagsdagboken 2025', img: ph(60), imgLabel:'hverdagsmiddag', open:() => this.setState({ tab:'opp', cat:'hverdag', q:'', stack:[], menu:false }) });
-    if (aichaTop[0]) news.push({ tag:'AICHAS MAT', tagColor:'#c8402f', title:`${aichaTop[0].name}: mest populær hos Aicha`, sub:'aichasmat.no', img: ph(aichaTop[0].hue), imgLabel:'aichas mat', open:() => this.push({ t:'recipe', id: aichaTop[0].id }) });
+    if (pop[0]) news.push({ tag:'UKENS FAVORITT', tagColor:'#c8402f', title:`${pop[0].name} – klar på ${pop[0].time} minutter`, sub: this.DIFF_L[pop[0].diff - 1], img: ph(pop[0].hue), imgLabel:'foto: ' + pop[0].name.toLowerCase(), open:() => this.push({ t:'recipe', id: pop[0].id }) });
+    const sun = firstIn('sondag');
+    if (sun) news.push({ tag:'SØNDAGSMIDDAG', tagColor:'#2f8a2a', title:`${sun.name} til søndag`, sub:`${sun.time} min · ${this.DIFF_L[sun.diff - 1].toLowerCase()}`, img: ph(sun.hue), imgLabel:'foto: ' + sun.name.toLowerCase(), open:() => this.setState({ tab:'opp', cat:'sondag', q:'', stack:[], menu:false }) });
+    news.push({ tag:'RASK HVERDAG', tagColor:'#2f6fe0', title:'Middager på 30 minutter eller mindre', sub:`${D.R.filter(r => r.cats.includes('rask')).length} oppskrifter`, img: ph(60), imgLabel:'rask middag', open:() => this.setState({ tab:'opp', cat:'rask', q:'', stack:[], menu:false }) });
     news.push({ tag:'LÆRE', tagColor:'oklch(0.45 0.13 305)', title:'Ultraprosessert – hva betyr det egentlig?', sub:'Ny artikkel · 6 min', img: ph(305), imgLabel:'illustrasjon', open:() => this.push({ t:'article', id:'a2' }) });
 
     const days = this.DAYS.map((l, i) => { const sel = s.day === i, has = (s.plan[i] || []).length > 0; return {
@@ -822,8 +817,8 @@ class Component extends DCLogic {
       const r = D.byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
       const unl = r.ing.filter(i => !i.slug).length;
       rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
-        portions: `${s.people} pers.`, url: r.url, srcName: r.srcName, srcShort: r.src.short,
-        servingsNote: `Originalen er for ${r.servings} porsjoner${r.servingsGuessed ? ' (antatt, kilden oppgir ikke antall)' : ''}. Mengdene her er regnet om til ${s.people}.`,
+        portions: `${s.people} pers.`, steps: (r.steps || []).map((t, i) => ({ n: i + 1, text: t })),
+        servingsNote: `Oppskriften er skrevet for ${r.servings} porsjoner. Mengdene her er regnet om til ${s.people}.`,
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
           : `Pris i ${chainName(s.chain)} for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten er ikke koblet til en vare ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
         ing: r.ing.map(i => { const v = this.lineCost(i, f), note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? `ikke funnet i ${chainName(s.chain)}` : '');
@@ -871,7 +866,6 @@ class Component extends DCLogic {
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
       news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
-      dataNote: `Oppskriftene kommer fra Rema 1000, Aichas Mat og Marit Kolby. ${st.mapped || 0} av ${st.lines || 0} ingredienslinjer er koblet til varer i butikkene.`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, bg: s.favSort === id ? '#1b2a1c' : '#fffdf8', fg: s.favSort === id ? '#fff' : '#1b2a1c', pick: () => this.setState({ favSort: id }) })),
       cmp, generated: M.generated || '–',
       stores: perChain.map(({ ch, sm }) => ({ name: ch.name, bg: ch.bg, fg: ch.fg,
@@ -894,7 +888,7 @@ class Component extends DCLogic {
       q: s.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }),
       searching: !!q, notSearching: !q, results, resultsLabel: `${results.length} treff i alle oppskrifter`,
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),
-      popular: [...remaTop.slice(0, 4), ...aichaTop.slice(0, 2)].map((r, i) => this.mk(r, { rank: i + 1 })),
+      popular: pop.slice(0, 6).map((r, i) => this.mk(r, { rank: i + 1 })),
       cats: D.CATS.map(([id, label]) => ({ label, bg: s.cat === id ? '#1b2a1c' : '#fffdf8', fg: s.cat === id ? '#fff' : '#1b2a1c', border: s.cat === id ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ cat: id }) })),
       catRecipes: D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (() => { const rc = this.recipeCost(r); return rc.complete && rc.sum < 100; })() : r.cats.includes(s.cat))).map(r => this.mk(r)),
       featured: ['a2','a3','a7','a4'].map(id => artItem(D.artById[id])),

@@ -1,0 +1,368 @@
+{
+ "about": "Matgledes egne oppskrifter, skrevet for appen. Mengder er for 'servings' porsjoner. 'diff' er vanskelighetsgrad 1-5 (Veldig lett, Lett, Middels, Krevende, Avansert), 'time' er total tid i minutter. 'slug' kobler ingrediensen til seed/ingredients.csv og dermed til varer og priser; null betyr at den ikke er koblet ennå.",
+ "recipes": [
+  {
+   "id": "tacofredag", "name": "Tacofredag med kjøttdeig", "servings": 4, "time": 30, "diff": 1,
+   "cats": ["hverdag", "kjott", "familie"], "popular": 1,
+   "ing": [
+    {"n": "Kjøttdeig", "q": 400, "u": "g", "slug": "kjottdeig"},
+    {"n": "Tacokrydder", "q": 1, "u": "pk", "slug": "tacokrydder"},
+    {"n": "Tortillalefser", "q": 8, "u": "stk", "slug": "tortilla"},
+    {"n": "Tacosaus", "q": 1, "u": "pk", "slug": "tacosaus"},
+    {"n": "Tomater", "q": 3, "u": "stk", "slug": "tomat"},
+    {"n": "Agurk", "q": 0.5, "u": "stk", "slug": "agurk"},
+    {"n": "Isbergsalat", "q": 0.5, "u": "stk", "slug": "isbergsalat"},
+    {"n": "Mais", "q": 1, "u": "boks", "slug": "mais"},
+    {"n": "Revet ost", "q": 150, "u": "g", "slug": "ost_revet"},
+    {"n": "Rømme", "q": 3, "u": "dl", "slug": "romme"}
+   ],
+   "steps": [
+    "Brun kjøttdeigen i en stekepanne på høy varme. Del den opp med stekespaden mens den steker.",
+    "Rør inn tacokrydderet og 1 dl vann. La det småkoke i 5 minutter til det tykner.",
+    "Skjær tomat og agurk i terninger og strimle salaten. Tøm mais i en skål.",
+    "Varm lefsene i en tørr panne eller i ovnen. Sett alt på bordet, så fyller hver sin egen."
+   ]
+  },
+  {
+   "id": "spaghetti-bolognese", "name": "Spaghetti bolognese", "servings": 4, "time": 45, "diff": 2,
+   "cats": ["hverdag", "kjott", "pasta", "familie"], "popular": 2,
+   "ing": [
+    {"n": "Kjøttdeig", "q": 400, "u": "g", "slug": "kjottdeig"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Hvitløk", "q": 2, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Gulrøtter", "q": 2, "u": "stk", "slug": "gulrot"},
+    {"n": "Olivenolje", "q": 1, "u": "ss", "slug": "olivenolje"},
+    {"n": "Tomatpuré", "q": 2, "u": "ss", "slug": "tomatpure"},
+    {"n": "Hakkede tomater", "q": 2, "u": "boks", "slug": "hakkede_tomater"},
+    {"n": "Spaghetti", "q": 400, "u": "g", "slug": "spaghetti"},
+    {"n": "Parmesan", "q": 40, "u": "g", "slug": "parmesan"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Finhakk løk og hvitløk, og riv gulrøttene grovt.",
+    "Fres løk, hvitløk og gulrot i olje i en gryte i 5 minutter. Tilsett kjøttdeigen og brun den.",
+    "Rør inn tomatpuré, hakkede tomater, salt og pepper. La sausen småkoke under lokk i minst 20 minutter.",
+    "Kok spaghettien i godt saltet vann etter tiden på pakken. Server med sausen og revet parmesan."
+   ]
+  },
+  {
+   "id": "kyllinggryte-karri", "name": "Kyllinggryte med rød karri og kokos", "servings": 4, "time": 35, "diff": 2,
+   "cats": ["hverdag", "kylling", "gryte"], "popular": 3,
+   "ing": [
+    {"n": "Kyllingfilet", "q": 600, "u": "g", "slug": "kyllingfilet"},
+    {"n": "Rød currypaste", "q": 2, "u": "ss", "slug": "currypaste"},
+    {"n": "Kokosmelk", "q": 1, "u": "boks", "slug": "kokosmelk"},
+    {"n": "Paprika", "q": 1, "u": "stk", "slug": "paprika"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Olivenolje", "q": 1, "u": "ss", "slug": "olivenolje"},
+    {"n": "Ris", "q": 300, "u": "g", "slug": "ris"},
+    {"n": "Salt", "q": 0.5, "u": "ts", "slug": "salt"}
+   ],
+   "steps": [
+    "Sett på risen etter tiden på pakken.",
+    "Skjær kyllingen i biter og løk og paprika i strimler.",
+    "Stek currypasten i olje i et minutt, så den dufter. Tilsett kylling og løk og stek til kyllingen har fått farge.",
+    "Hell i kokosmelken og legg i paprikaen. La gryta småkoke i 15 minutter. Smak til med salt og server med ris."
+   ]
+  },
+  {
+   "id": "ovnslaks-poteter", "name": "Ovnsbakt laks med poteter og brokkoli", "servings": 4, "time": 40, "diff": 1,
+   "cats": ["hverdag", "fisk"], "popular": 4,
+   "ing": [
+    {"n": "Laksefilet", "q": 600, "u": "g", "slug": "laksefilet"},
+    {"n": "Poteter", "q": 800, "u": "g", "slug": "potet"},
+    {"n": "Brokkoli", "q": 1, "u": "stk", "slug": "brokkoli"},
+    {"n": "Sitron", "q": 1, "u": "stk", "slug": "sitron"},
+    {"n": "Olivenolje", "q": 2, "u": "ss", "slug": "olivenolje"},
+    {"n": "Smør", "q": 30, "u": "g", "slug": "smor"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Sett ovnen på 220 °C. Del potetene i båter, vend dem i olje og salt og stek dem på et brett i 20 minutter.",
+    "Legg laksen i en ildfast form. Dryss over salt og pepper, og legg på noen sitronskiver.",
+    "Sett laksen inn sammen med potetene og stek videre i 12–15 minutter.",
+    "Del brokkolien i buketter og kok den i lettsaltet vann i 3 minutter. Server med smeltet smør og resten av sitronen."
+   ]
+  },
+  {
+   "id": "pasta-carbonara", "name": "Pasta carbonara", "servings": 4, "time": 20, "diff": 2,
+   "cats": ["hverdag", "pasta", "kjott"], "popular": 5,
+   "ing": [
+    {"n": "Spaghetti", "q": 400, "u": "g", "slug": "spaghetti"},
+    {"n": "Bacon", "q": 200, "u": "g", "slug": "bacon"},
+    {"n": "Egg", "q": 3, "u": "stk", "slug": "egg"},
+    {"n": "Parmesan", "q": 60, "u": "g", "slug": "parmesan"},
+    {"n": "Pepper", "q": 1, "u": "ts", "slug": "pepper"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"}
+   ],
+   "steps": [
+    "Kok spaghettien i godt saltet vann. Ta vare på en kopp av kokevannet før du heller av.",
+    "Skjær baconet i strimler og stek det sprøtt i en stor panne.",
+    "Visp sammen egg, revet parmesan og rikelig med pepper.",
+    "Ta pannen av varmen. Vend inn pasta og eggeblandingen, og spe med litt kokevann til sausen blir kremet. Server med en gang."
+   ]
+  },
+  {
+   "id": "kjottkaker-brun-saus", "name": "Kjøttkaker i brun saus", "servings": 4, "time": 60, "diff": 3,
+   "cats": ["hverdag", "kjott", "tradisjon"], "popular": 6,
+   "ing": [
+    {"n": "Kjøttdeig", "q": 500, "u": "g", "slug": "kjottdeig"},
+    {"n": "Egg", "q": 1, "u": "stk", "slug": "egg"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Lettmelk", "q": 1, "u": "dl", "slug": "melk"},
+    {"n": "Hvetemel", "q": 4, "u": "ss", "slug": "mel"},
+    {"n": "Smør", "q": 40, "u": "g", "slug": "smor"},
+    {"n": "Kjøttbuljong", "q": 1, "u": "terning", "slug": null},
+    {"n": "Poteter", "q": 1000, "u": "g", "slug": "potet"},
+    {"n": "Erter (frosne)", "q": 300, "u": "g", "slug": "erter"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Riv løken fint. Bland kjøttdeig, løk, egg, melk, 1 ss mel, salt og pepper til en jevn farse.",
+    "Form 12–16 kaker med våte hender og brun dem i smør i en stekepanne. Legg dem over i en gryte.",
+    "Brun resten av melet i smør i pannen til det er nøttebrunt. Spe med 5 dl vann og buljongterningen, og visp til en jevn saus.",
+    "Hell sausen over kjøttkakene og la dem trekke i 15 minutter. Kok poteter og erter ved siden av."
+   ]
+  },
+  {
+   "id": "kremet-kyllingpasta", "name": "Kremet kyllingpasta med brokkoli", "servings": 4, "time": 25, "diff": 1,
+   "cats": ["hverdag", "kylling", "pasta"],
+   "ing": [
+    {"n": "Kyllingfilet", "q": 500, "u": "g", "slug": "kyllingfilet"},
+    {"n": "Spaghetti", "q": 400, "u": "g", "slug": "spaghetti"},
+    {"n": "Matfløte", "q": 3, "u": "dl", "slug": "flote"},
+    {"n": "Brokkoli", "q": 1, "u": "stk", "slug": "brokkoli"},
+    {"n": "Hvitløk", "q": 2, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Parmesan", "q": 40, "u": "g", "slug": "parmesan"},
+    {"n": "Olivenolje", "q": 1, "u": "ss", "slug": "olivenolje"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Kok pastaen. Legg brokkolibukettene i kjelen de siste 3 minuttene.",
+    "Skjær kyllingen i strimler og stek den i olje til den er gjennomstekt. Tilsett finhakket hvitløk det siste minuttet.",
+    "Hell fløten over kyllingen, la det koke opp og rør inn revet parmesan. Smak til med salt og pepper.",
+    "Vend pasta og brokkoli inn i sausen."
+   ]
+  },
+  {
+   "id": "chili-con-carne", "name": "Chili con carne", "servings": 4, "time": 50, "diff": 2,
+   "cats": ["hverdag", "kjott", "gryte"],
+   "ing": [
+    {"n": "Kjøttdeig", "q": 400, "u": "g", "slug": "kjottdeig"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Hvitløk", "q": 2, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Paprika", "q": 1, "u": "stk", "slug": "paprika"},
+    {"n": "Hakkede tomater", "q": 2, "u": "boks", "slug": "hakkede_tomater"},
+    {"n": "Kidneybønner", "q": 1, "u": "boks", "slug": null},
+    {"n": "Chilipulver og spisskummen", "q": 2, "u": "ts", "slug": null},
+    {"n": "Olivenolje", "q": 1, "u": "ss", "slug": "olivenolje"},
+    {"n": "Ris", "q": 300, "u": "g", "slug": "ris"},
+    {"n": "Rømme", "q": 2, "u": "dl", "slug": "romme"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"}
+   ],
+   "steps": [
+    "Hakk løk, hvitløk og paprika. Fres dem i olje med krydderet i et par minutter.",
+    "Tilsett kjøttdeigen og brun den.",
+    "Rør inn tomatene og de avrente bønnene. La gryta småkoke under lokk i 25 minutter, og smak til med salt.",
+    "Server med ris og en klatt rømme."
+   ]
+  },
+  {
+   "id": "stekt-ris-egg", "name": "Stekt ris med egg og grønnsaker", "servings": 4, "time": 25, "diff": 1,
+   "cats": ["hverdag", "vegetar"],
+   "ing": [
+    {"n": "Ris", "q": 300, "u": "g", "slug": "ris"},
+    {"n": "Egg", "q": 4, "u": "stk", "slug": "egg"},
+    {"n": "Erter (frosne)", "q": 150, "u": "g", "slug": "erter"},
+    {"n": "Gulrøtter", "q": 2, "u": "stk", "slug": "gulrot"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Hvitløk", "q": 2, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Soyasaus", "q": 3, "u": "ss", "slug": null},
+    {"n": "Olivenolje", "q": 2, "u": "ss", "slug": "olivenolje"}
+   ],
+   "steps": [
+    "Kok risen og la den dampe av. Kald ris fra dagen før blir aller best.",
+    "Skjær gulrot og løk i små terninger. Stek dem i olje i en vid panne i 4 minutter, sammen med hvitløken.",
+    "Skyv grønnsakene til siden, knekk eggene i pannen og rør dem til eggerøre.",
+    "Tilsett ris og erter og stek alt på høy varme i 5 minutter. Smak til med soyasaus."
+   ]
+  },
+  {
+   "id": "omelett-bacon", "name": "Ovnsomelett med bacon og paprika", "servings": 4, "time": 30, "diff": 1,
+   "cats": ["hverdag", "kjott", "familie"],
+   "ing": [
+    {"n": "Egg", "q": 8, "u": "stk", "slug": "egg"},
+    {"n": "Lettmelk", "q": 2, "u": "dl", "slug": "melk"},
+    {"n": "Bacon", "q": 150, "u": "g", "slug": "bacon"},
+    {"n": "Paprika", "q": 1, "u": "stk", "slug": "paprika"},
+    {"n": "Tomater", "q": 2, "u": "stk", "slug": "tomat"},
+    {"n": "Revet ost", "q": 100, "u": "g", "slug": "ost_revet"},
+    {"n": "Salt", "q": 0.5, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.25, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Sett ovnen på 200 °C. Stek baconet lett i en panne.",
+    "Visp egg, melk, salt og pepper sammen.",
+    "Fordel bacon, paprika og tomat i terninger i en smurt ildfast form. Hell over eggeblandingen og dryss over osten.",
+    "Stek midt i ovnen i 20 minutter, til omeletten har stivnet og fått farge."
+   ]
+  },
+  {
+   "id": "tomatsuppe-egg", "name": "Tomatsuppe med kokt egg", "servings": 4, "time": 30, "diff": 1,
+   "cats": ["hverdag", "vegetar"],
+   "ing": [
+    {"n": "Hakkede tomater", "q": 2, "u": "boks", "slug": "hakkede_tomater"},
+    {"n": "Tomatpuré", "q": 2, "u": "ss", "slug": "tomatpure"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Hvitløk", "q": 2, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Gulrøtter", "q": 2, "u": "stk", "slug": "gulrot"},
+    {"n": "Matfløte", "q": 1, "u": "dl", "slug": "flote"},
+    {"n": "Egg", "q": 4, "u": "stk", "slug": "egg"},
+    {"n": "Grønnsaksbuljong", "q": 1, "u": "terning", "slug": null},
+    {"n": "Olivenolje", "q": 1, "u": "ss", "slug": "olivenolje"},
+    {"n": "Salt", "q": 0.5, "u": "ts", "slug": "salt"}
+   ],
+   "steps": [
+    "Hakk løk, hvitløk og gulrot og fres det mykt i olje i en gryte.",
+    "Rør inn tomatpuré, hakkede tomater, 5 dl vann og buljongterningen. La suppen koke i 15 minutter.",
+    "Kok eggene i 8 minutter og avkjøl dem i kaldt vann.",
+    "Kjør suppen jevn med en stavmikser, rør inn fløten og smak til med salt. Server med eggene i båter."
+   ]
+  },
+  {
+   "id": "kylling-ovnsform", "name": "Kylling i ovnsform med paprika og rødløk", "servings": 4, "time": 45, "diff": 1,
+   "cats": ["hverdag", "kylling"],
+   "ing": [
+    {"n": "Kyllingfilet", "q": 600, "u": "g", "slug": "kyllingfilet"},
+    {"n": "Poteter", "q": 800, "u": "g", "slug": "potet"},
+    {"n": "Paprika", "q": 2, "u": "stk", "slug": "paprika"},
+    {"n": "Rødløk", "q": 2, "u": "stk", "slug": "rodlok"},
+    {"n": "Hvitløk", "q": 3, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Olivenolje", "q": 3, "u": "ss", "slug": "olivenolje"},
+    {"n": "Sitron", "q": 0.5, "u": "stk", "slug": "sitron"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Sett ovnen på 220 °C. Skjær poteter i terninger og paprika og rødløk i store biter.",
+    "Vend grønnsakene i olje, knust hvitløk, salt og pepper i en stor langpanne. Stek i 15 minutter.",
+    "Legg kyllingfiletene oppå, krydre dem og press over sitron.",
+    "Stek videre i 20 minutter, til kyllingen er gjennomstekt."
+   ]
+  },
+  {
+   "id": "lordagspizza", "name": "Hjemmelaget lørdagspizza", "servings": 4, "time": 90, "diff": 3,
+   "cats": ["helg", "kjott", "familie"],
+   "ing": [
+    {"n": "Hvetemel", "q": 500, "u": "g", "slug": "mel"},
+    {"n": "Tørrgjær", "q": 1, "u": "pk", "slug": null},
+    {"n": "Olivenolje", "q": 3, "u": "ss", "slug": "olivenolje"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Hakkede tomater", "q": 1, "u": "boks", "slug": "hakkede_tomater"},
+    {"n": "Tomatpuré", "q": 2, "u": "ss", "slug": "tomatpure"},
+    {"n": "Revet ost", "q": 250, "u": "g", "slug": "ost_revet"},
+    {"n": "Bacon", "q": 150, "u": "g", "slug": "bacon"},
+    {"n": "Paprika", "q": 1, "u": "stk", "slug": "paprika"},
+    {"n": "Rødløk", "q": 1, "u": "stk", "slug": "rodlok"}
+   ],
+   "steps": [
+    "Rør gjæren ut i 3 dl lunkent vann. Elt inn mel, olje og salt til en smidig deig, og la den heve tildekket i 45 minutter.",
+    "Kok tomater og tomatpuré inn til en tykk saus i 10 minutter, og smak til med salt.",
+    "Sett ovnen på 250 °C. Kjevle ut deigen på en langpanne med bakepapir.",
+    "Fordel saus, ost, bacon, paprika og rødløk. Stek nederst i ovnen i 12–15 minutter."
+   ]
+  },
+  {
+   "id": "lasagne", "name": "Lasagne med kjøttsaus", "servings": 6, "time": 100, "diff": 3,
+   "cats": ["sondag", "kjott", "pasta", "familie"],
+   "ing": [
+    {"n": "Kjøttdeig", "q": 600, "u": "g", "slug": "kjottdeig"},
+    {"n": "Løk", "q": 1, "u": "stk", "slug": "lok"},
+    {"n": "Hvitløk", "q": 3, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Gulrøtter", "q": 2, "u": "stk", "slug": "gulrot"},
+    {"n": "Hakkede tomater", "q": 2, "u": "boks", "slug": "hakkede_tomater"},
+    {"n": "Tomatpuré", "q": 3, "u": "ss", "slug": "tomatpure"},
+    {"n": "Lasagneplater", "q": 250, "u": "g", "slug": null},
+    {"n": "Smør", "q": 50, "u": "g", "slug": "smor"},
+    {"n": "Hvetemel", "q": 4, "u": "ss", "slug": "mel"},
+    {"n": "Lettmelk", "q": 7, "u": "dl", "slug": "melk"},
+    {"n": "Revet ost", "q": 200, "u": "g", "slug": "ost_revet"},
+    {"n": "Olivenolje", "q": 1, "u": "ss", "slug": "olivenolje"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"}
+   ],
+   "steps": [
+    "Lag kjøttsaus: fres hakket løk, hvitløk og revet gulrot i olje, brun kjøttdeigen og rør inn tomatpuré og tomater. La det småkoke i 20 minutter.",
+    "Lag hvit saus: smelt smøret, rør inn melet og spe med melken litt etter litt. Kok sausen i 5 minutter og smak til med salt.",
+    "Sett ovnen på 200 °C. Legg kjøttsaus, lasagneplater og hvit saus lagvis i en ildfast form, og avslutt med hvit saus og ost.",
+    "Stek i 40 minutter, og la lasagnen hvile i 10 minutter før du deler den."
+   ]
+  },
+  {
+   "id": "laks-flotesaus", "name": "Søndagslaks i fløtesaus med potetmos", "servings": 4, "time": 50, "diff": 3,
+   "cats": ["sondag", "fisk"],
+   "ing": [
+    {"n": "Laksefilet", "q": 700, "u": "g", "slug": "laksefilet"},
+    {"n": "Poteter", "q": 1000, "u": "g", "slug": "potet"},
+    {"n": "Smør", "q": 60, "u": "g", "slug": "smor"},
+    {"n": "Lettmelk", "q": 2, "u": "dl", "slug": "melk"},
+    {"n": "Matfløte", "q": 3, "u": "dl", "slug": "flote"},
+    {"n": "Hvitløk", "q": 1, "u": "fedd", "slug": "hvitlok"},
+    {"n": "Sitron", "q": 1, "u": "stk", "slug": "sitron"},
+    {"n": "Brokkoli", "q": 1, "u": "stk", "slug": "brokkoli"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Skrell og kok potetene møre. Mos dem med varm melk og halvparten av smøret, og smak til med salt.",
+    "Sett ovnen på 200 °C. Legg laksen i en form, krydre og bak den i 15 minutter.",
+    "Kok opp fløten med knust hvitløk, reven sitronskall og en skvett sitronsaft. Rør inn resten av smøret og smak til.",
+    "Server laksen med sausen, potetmos og dampet brokkoli."
+   ]
+  },
+  {
+   "id": "lammestek", "name": "Lammestek med ovnsbakte rotgrønnsaker", "servings": 6, "time": 150, "diff": 4,
+   "cats": ["sondag", "kjott", "tradisjon"],
+   "ing": [
+    {"n": "Lammelår uten bein", "q": 1500, "u": "g", "slug": null},
+    {"n": "Poteter", "q": 1200, "u": "g", "slug": "potet"},
+    {"n": "Gulrøtter", "q": 6, "u": "stk", "slug": "gulrot"},
+    {"n": "Rødløk", "q": 3, "u": "stk", "slug": "rodlok"},
+    {"n": "Hvitløk", "q": 1, "u": "stk", "slug": "hvitlok"},
+    {"n": "Fersk rosmarin", "q": 1, "u": "bunt", "slug": null},
+    {"n": "Olivenolje", "q": 4, "u": "ss", "slug": "olivenolje"},
+    {"n": "Salt", "q": 2, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 1, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Ta lammet ut av kjøleskapet en time før. Sett ovnen på 160 °C.",
+    "Gni kjøttet med olje, salt, pepper, knust hvitløk og hakket rosmarin, og brun det raskt på alle sider i en varm panne.",
+    "Legg kjøttet i en langpanne med poteter, gulrøtter og rødløk i biter rundt. Stek til kjernetemperaturen er 60 °C, ca. 1 ½ time.",
+    "La steken hvile under folie i 15 minutter mens grønnsakene får 10 minutter til på 220 °C. Skjær i tynne skiver."
+   ]
+  },
+  {
+   "id": "karbonader", "name": "Karbonader med stekt løk og erter", "servings": 4, "time": 40, "diff": 2,
+   "cats": ["hverdag", "kjott", "tradisjon"],
+   "ing": [
+    {"n": "Kjøttdeig", "q": 500, "u": "g", "slug": "kjottdeig"},
+    {"n": "Løk", "q": 3, "u": "stk", "slug": "lok"},
+    {"n": "Smør", "q": 40, "u": "g", "slug": "smor"},
+    {"n": "Poteter", "q": 1000, "u": "g", "slug": "potet"},
+    {"n": "Erter (frosne)", "q": 300, "u": "g", "slug": "erter"},
+    {"n": "Gulrøtter", "q": 3, "u": "stk", "slug": "gulrot"},
+    {"n": "Salt", "q": 1, "u": "ts", "slug": "salt"},
+    {"n": "Pepper", "q": 0.5, "u": "ts", "slug": "pepper"}
+   ],
+   "steps": [
+    "Kok poteter og gulrøtter.",
+    "Del kjøttdeigen i fire og form flate karbonader. Krydre med salt og pepper.",
+    "Skjær løken i skiver og stek den gyllen og myk i halvparten av smøret. Ta den ut av pannen.",
+    "Stek karbonadene i resten av smøret, 3–4 minutter på hver side. Server med løken på toppen, poteter, gulrot og erter."
+   ]
+  }
+ ]
+}
