@@ -138,7 +138,7 @@
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ stores }}" as="st" hint-placeholder-count="7">
 <div onClick="{{ st.open }}" style="height:92px;border-radius:20px;background:{{ st.bg }};color:{{ st.fg }};padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer">
-<div style="display:flex;align-items:center;gap:9px"><img src="{{ st.logo }}" alt="" style="width:36px;height:36px;flex:none;border-radius:10px;background:#fff;object-fit:contain;box-shadow:0 1px 3px rgba(0,0,0,.18)"><div style="font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.05">{{ st.name }}</div></div>
+<div style="font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.05">{{ st.name }}</div>
 <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;gap:6px"><span>{{ st.count }}</span><span style="background:{{ st.fg }};color:{{ st.bg }};font-size:11px;padding:3px 8px;border-radius:99px;white-space:nowrap">{{ st.max }}</span></div>
 </div>
 </sc-for>
@@ -204,7 +204,6 @@
 <sc-if value="{{ searching }}"><button onClick="{{ clearQ }}" style="width:36px;height:36px;border:0;border-radius:50%;background:#f0ece1;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
 </div>
-<div style="padding:0 20px;margin-top:-6px"><button onClick="{{ openNew }}" style="width:100%;border:2px dashed #cfc9b8;background:transparent;color:#1b2a1c;font-family:inherit;font-size:14.5px;font-weight:700;height:50px;border-radius:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Lag din egen oppskrift</button></div>
 <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
 <div style="font-size:13px;font-weight:700;color:#6b7268">{{ resultsLabel }}</div>
@@ -237,7 +236,6 @@
 <div style="display:flex;gap:8px;overflow-x:auto;padding:0 20px 2px">
 <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.pick }}" style="flex:none;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;padding:9px 16px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div>
-<sc-if value="{{ catEmpty }}"><div style="margin:0 20px;padding:28px 20px;text-align:center;color:#6b7268;font-size:14px;line-height:1.5;background:#fffdf8;border-radius:22px">{{ catEmptyText }}</div></sc-if>
 <div style="padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
 <sc-for list="{{ catRecipes }}" as="r" hint-placeholder-count="4">
 <div onClick="{{ r.open }}" style="background:#fffdf8;border-radius:20px;padding:6px;cursor:pointer;display:flex;flex-direction:column">
@@ -318,8 +316,6 @@
 </div>
 <div style="display:flex;flex-direction:column;gap:10px">
 <button onClick="{{ rd.togglePick }}" style="border:0;background:#1f3d24;color:#fff;font-family:inherit;font-size:15px;font-weight:700;height:52px;border-radius:99px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
-<button onClick="{{ rd.edit }}" style="border:1.5px solid #cfc9b8;background:#fffdf8;color:#1b2a1c;font-family:inherit;font-size:15px;font-weight:700;height:50px;border-radius:99px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>{{ rd.editLabel }}</button>
-<sc-if value="{{ rd.edited }}"><div style="display:flex;align-items:center;gap:10px;background:#e6efcf;border-radius:16px;padding:10px 14px;font-size:12.5px;color:#3d5a14;font-weight:600"><span style="flex:1">Du har endret denne oppskriften. Originalen hos {{ rd.srcShort }} er uendret.</span><button onClick="{{ rd.reset }}" style="border:0;background:#fffdf8;color:#1b2a1c;font-family:inherit;font-size:12px;font-weight:800;padding:7px 11px;border-radius:99px;cursor:pointer;white-space:nowrap">Tilbakestill</button></div></sc-if>
 <sc-if value="{{ rd.pickOpen }}"><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:#fffdf8;border-radius:18px;padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ d.bg }};border-radius:12px;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:#1b2a1c"><span style="font-size:10.5px;font-weight:700;color:#6b7268">{{ d.label }}</span><span style="font-size:15px;font-weight:800">{{ d.date }}</span></button></sc-for></div></sc-if>
 </div>
 <div style="display:flex;flex-direction:column;gap:8px">
@@ -332,15 +328,11 @@
 </div>
 <div style="display:flex;flex-direction:column;gap:10px">
 <div style="font-size:18px;font-weight:800">Slik gjør du</div>
-<sc-if value="{{ rd.hasNotes }}"><div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:800;letter-spacing:.06em;color:#6b7268">{{ rd.notesTitle }}</div><sc-for list="{{ rd.notesLines }}" as="l"><div style="font-size:14.5px;line-height:1.5">{{ l }}</div></sc-for></div></sc-if>
-<sc-if value="{{ rd.noNotesCustom }}"><div style="background:#fffdf8;border-radius:20px;padding:16px;font-size:14px;color:#6b7268;line-height:1.5">Ingen fremgangsmåte ennå. Trykk «Endre oppskrift» for å skrive den.</div></sc-if>
-<sc-if value="{{ rd.hasSource }}">
 <div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:14px;line-height:1.5;color:#4d554a">Fremgangsmåten står hos {{ rd.srcName }}. Vi viser bare ingrediensene og lenker til originalen.</div>
 <a href="{{ rd.url }}" target="_blank" rel="noopener" style="text-decoration:none;background:#1b2a1c;color:#fff;font-size:14.5px;font-weight:700;height:48px;border-radius:99px;display:flex;align-items:center;justify-content:center;gap:8px">Se oppskriften hos {{ rd.srcShort }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
 <div style="font-size:11.5px;color:#8a9187">{{ rd.servingsNote }}</div>
 </div>
-</sc-if>
 </div>
 </div>
 </div>
@@ -378,7 +370,7 @@
 <button onClick="{{ peoplePlus }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:#1b2a1c;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
 </div>
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
-<sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:5px 13px 5px 5px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;gap:7px"><img src="{{ c.logo }}" alt="" style="width:24px;height:24px;border-radius:7px;background:#fff;object-fit:contain">{{ c.label }}</button></sc-for>
+<sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div>
 <sc-if value="{{ sl.empty }}"><div style="padding:36px 20px;text-align:center;color:#6b7268;font-size:14px;line-height:1.5;background:#fffdf8;border-radius:22px">Ingen retter er planlagt her ennå.<br>Legg til middager i planen først.</div></sc-if>
 <sc-if value="{{ sl.has }}">
@@ -391,7 +383,7 @@
 <div style="text-align:right;flex:none"><div style="font-size:14.5px;font-weight:800;color:{{ i.color }};white-space:nowrap">{{ i.amount }}</div><div style="font-size:11.5px;color:#8a9187;white-space:nowrap">{{ i.price }}</div></div>
 </div>
 </sc-for>
-<div style="display:flex;justify-content:space-between;padding:14px 0 4px;font-size:15px;font-weight:800"><span style="display:flex;align-items:center;gap:7px">Estimert totalt i <img src="{{ sl.logo }}" alt="" style="width:22px;height:22px;border-radius:6px;object-fit:contain">{{ sl.chain }}</span><span>{{ sl.total }}</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0 4px;font-size:15px;font-weight:800"><span>Estimert totalt i {{ sl.chain }}</span><span>{{ sl.total }}</span></div>
 <div style="font-size:11.5px;color:#8a9187;line-height:1.4;padding:0 0 12px">{{ sl.note }}</div>
 </div>
 </sc-if>
@@ -441,44 +433,6 @@
 <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-weight:700;font-size:14.5px">{{ r.name }}</div><div style="display:flex;gap:9px;align-items:center;font-size:12px;font-weight:600;color:#4d554a"><span>{{ r.timeLabel }}</span><span style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="x"><span style="width:7px;height:7px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
 </div>
 </sc-for>
-</div>
-</div>
-</sc-if>
-
-<sc-if value="{{ ovEdit }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:84px;background:#f6f3ea;z-index:25;overflow-y:auto">
-<div style="padding:54px 20px 28px;display:flex;flex-direction:column;gap:16px">
-<div style="display:flex;align-items:center;gap:10px">
-<button onClick="{{ back }}" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:#fffdf8;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-<div style="flex:1;font-size:13px;font-weight:700;color:#6b7268">{{ ed.kicker }}</div>
-<button onClick="{{ ed.save }}" style="border:0;background:#1b2a1c;color:#fff;font-family:inherit;font-size:14.5px;font-weight:800;height:44px;padding:0 20px;border-radius:99px;cursor:pointer">Lagre</button>
-</div>
-<h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">{{ ed.title }}</h2>
-<sc-if value="{{ ed.hasError }}"><div style="background:#fbe3df;color:#8a2a1c;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:700">{{ ed.error }}</div></sc-if>
-<div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:700">Navn</label><input value="{{ ed.name }}" onChange="{{ ed.setName }}" placeholder="F.eks. Mormors kjøttkaker" style="height:46px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 12px;font-size:15px;outline:none;color:#1b2a1c;box-sizing:border-box;font-family:inherit"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<div style="background:#fffdf8;border-radius:18px;padding:10px 12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700;color:#6b7268">Porsjoner</span><div style="display:flex;align-items:center;gap:8px"><button onClick="{{ ed.servMinus }}" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #e2ddd0;background:none;cursor:pointer;font-size:18px;font-weight:800;color:#1b2a1c">−</button><span style="flex:1;text-align:center;font-size:20px;font-weight:800">{{ ed.servings }}</span><button onClick="{{ ed.servPlus }}" style="width:34px;height:34px;border-radius:50%;border:0;background:#1b2a1c;color:#fff;cursor:pointer;font-size:18px;font-weight:800">+</button></div></div>
-<div style="background:#fffdf8;border-radius:18px;padding:10px 12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700;color:#6b7268">Tid (minutter)</span><input value="{{ ed.time }}" onChange="{{ ed.setTime }}" inputMode="numeric" placeholder="–" style="height:34px;border:0;border-bottom:1.5px solid #e2ddd0;background:none;font-size:20px;font-weight:800;outline:none;width:100%;font-family:inherit;color:#1b2a1c"></div>
-</div>
-<div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:18px;font-weight:800">Ingredienser</div><div style="font-size:12px;color:#6b7268;font-weight:600">{{ ed.linkedLabel }}</div></div>
-<sc-for list="{{ ed.rows }}" as="r">
-<div style="background:#fffdf8;border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px">
-<div style="display:flex;gap:8px;align-items:center">
-<input value="{{ r.n }}" onChange="{{ r.setN }}" placeholder="Ingrediens" style="height:46px;border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 12px;font-size:15px;outline:none;color:#1b2a1c;box-sizing:border-box;font-family:inherit;flex:1;min-width:0;height:42px">
-<button onClick="{{ r.remove }}" title="Fjern" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:#f0ece1;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a2a1c" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-</div>
-<div style="display:flex;gap:6px;align-items:center">
-<input value="{{ r.q }}" onChange="{{ r.setQ }}" inputMode="decimal" placeholder="Mengde" style="height:40px;border-radius:12px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 8px;font-size:13px;outline:none;color:#1b2a1c;font-family:inherit;box-sizing:border-box;width:76px;flex:none">
-<select value="{{ r.u }}" onChange="{{ r.setU }}" style="height:40px;border-radius:12px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 8px;font-size:13px;outline:none;color:#1b2a1c;font-family:inherit;box-sizing:border-box;width:78px;flex:none"><sc-for list="{{ unitOpts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
-<select value="{{ r.slug }}" onChange="{{ r.setSlug }}" style="height:40px;border-radius:12px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:0 8px;font-size:13px;outline:none;color:#1b2a1c;font-family:inherit;box-sizing:border-box;flex:1;min-width:0;color:{{ r.linkColor }};font-weight:700"><sc-for list="{{ ingOpts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
-</div>
-<div style="font-size:11.5px;color:#8a9187;padding:0 2px">{{ r.hint }}</div>
-</div>
-</sc-for>
-<button onClick="{{ ed.addRow }}" style="border:2px dashed #cfc9b8;background:transparent;color:#1b2a1c;font-family:inherit;font-size:14.5px;font-weight:700;height:48px;border-radius:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Legg til ingrediens</button>
-<div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:13px;font-weight:700">{{ ed.notesLabel }}</label><textarea value="{{ ed.notes }}" onChange="{{ ed.setNotes }}" placeholder="{{ ed.notesPlaceholder }}" rows="5" style="border-radius:14px;border:1.5px solid #e2ddd0;background:#fffdf8;padding:12px;font-size:14.5px;line-height:1.5;outline:none;font-family:inherit;color:#1b2a1c;resize:vertical"></textarea></div>
-<div style="font-size:12px;color:#8a9187;line-height:1.45">Oppskriftene dine lagres i denne nettleseren. De følger ikke med til andre enheter ennå.</div>
-<sc-if value="{{ ed.canDelete }}"><button onClick="{{ ed.del }}" style="border:0;background:none;color:#c8402f;font-family:inherit;font-size:14.5px;font-weight:800;height:44px;cursor:pointer">{{ ed.delLabel }}</button></sc-if>
 </div>
 </div>
 </sc-if>
@@ -544,7 +498,7 @@
 </div>
 <div style="background:#fffdf8;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px">
 <div style="font-size:15px;font-weight:700">Butikk for priser</div>
-<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:5px 13px 5px 5px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;gap:7px"><img src="{{ c.logo }}" alt="" style="width:24px;height:24px;border-radius:7px;background:#fff;object-fit:contain">{{ c.label }}</button></sc-for></div>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
 <div style="font-size:12px;color:#6b7268">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
 </div>
 <div style="background:#fffdf8;border-radius:20px;overflow:hidden">
@@ -609,18 +563,8 @@ class Component extends DCLogic {
     };
     const hue = id => { let h = 7; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
     const txt = r => [r.name, r.category || '', r.dish || ''].join(' ').toLowerCase();
-    // Lære-koblinger ut fra ingrediensene: [mønster, artikkel, hvorfor]
-    const LEARN = [
-      [/rømme|fløte|majones|crème|creme|kremost|kesam/, 'a9', 'Rømme, fløte og majones kan ofte byttes til lettere varianter'],
-      [/bacon|pølse|ribbe|smør|parmesan|cheddar|\bost\b|revet ost/, 'a5', 'Bacon, smør og ost gir mye mettet fett'],
-      [/laks|makrell|sild|ørret/, 'a3', 'Fet fisk er en av de beste kildene til omega-3'],
-      [/taco|ketchup|sweet chili|bbq|soyasaus|teriyaki|honning|sukker/, 'a4', 'Sauser og krydderblandinger kan inneholde tilsatt sukker'],
-      [/kikert|bønne|linse|spinat|kjøttdeig|lam|storfe/, 'a1', 'Retten gir jern'],
-      [/pasta|spagetti|spaghetti|nudler|tortilla|pita|lefse|tagliatelle|\bris\b/, 'a6', 'Velg grove varianter for jevnere energi']
-    ];
-    const enrich = r => {
+    const R = M.recipes.map(r => {
       const t = txt(r), cats = [];
-      if (r.custom || r.edited) cats.push('mine');
       if (r.group === 'hverdag') cats.push('hverdag');
       if (r.group === 'sondag' || r.alsoGroup === 'sondag') cats.push('sondag');
       if (r.source === 'rema' && r.group === 'populaere') cats.push('rema');
@@ -632,15 +576,25 @@ class Component extends DCLogic {
       if (/laks|torsk|fisk|scampi/.test(t)) cats.push('fisk');
       if (r.time && r.time <= 30) cats.push('rask');
       if (r.ing.length <= 6) cats.push('fa');
-      const src = r.custom ? { short: 'Din oppskrift', color: '#3d7a2a' } : (SRC[r.source] || { short: r.source, color: '#6b7268' });
-      const names = r.ing.map(i => i.n.toLowerCase()).join(' | ');
-      return { ...r, hue: hue(r.id), cats, src, srcName: r.custom ? 'deg' : ((M.sources[r.source] || {}).name || r.source),
-        learn: LEARN.filter(([re]) => re.test(names)).slice(0, 3).map(([, a, why]) => [a, why]) };
-    };
-    const R = M.recipes.map(enrich);
+      return { ...r, hue: hue(r.id), cats, src: SRC[r.source] || { short: r.source, color: '#6b7268' },
+        srcName: (M.sources[r.source] || {}).name || r.source };
+    });
     const byId = Object.fromEntries(R.map(r => [r.id, r]));
-    const CATS = [['alle','Alle'],['mine','Mine oppskrifter'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['rema','Populært hos Rema'],['aicha','Aichas Mat'],['kolby','Marit Kolby'],['salat','Salater'],['pasta','Pasta'],['kylling','Kylling'],['fisk','Fisk og sjømat'],['rask','Rask'],['fa','Få ingredienser']]
+    const CATS = [['alle','Alle'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['rema','Populært hos Rema'],['aicha','Aichas Mat'],['kolby','Marit Kolby'],['salat','Salater'],['pasta','Pasta'],['kylling','Kylling'],['fisk','Fisk og sjømat'],['rask','Rask'],['fa','Få ingredienser']]
       .filter(([id]) => id !== 'under100' || M.hasPrices);
+    // Lære-koblinger ut fra ingrediensene: [mønster, artikkel, hvorfor]
+    const LEARN = [
+      [/rømme|fløte|majones|crème|creme|kremost|kesam/, 'a9', 'Rømme, fløte og majones kan ofte byttes til lettere varianter'],
+      [/bacon|pølse|ribbe|smør|parmesan|cheddar|\bost\b|revet ost/, 'a5', 'Bacon, smør og ost gir mye mettet fett'],
+      [/laks|makrell|sild|ørret/, 'a3', 'Fet fisk er en av de beste kildene til omega-3'],
+      [/taco|ketchup|sweet chili|bbq|soyasaus|teriyaki|honning|sukker/, 'a4', 'Sauser og krydderblandinger kan inneholde tilsatt sukker'],
+      [/kikert|bønne|linse|spinat|kjøttdeig|lam|storfe/, 'a1', 'Retten gir jern'],
+      [/pasta|spagetti|spaghetti|nudler|tortilla|pita|lefse|tagliatelle|\bris\b/, 'a6', 'Velg grove varianter for jevnere energi']
+    ];
+    R.forEach(r => {
+      const names = r.ing.map(i => i.n.toLowerCase()).join(' | ');
+      r.learn = LEARN.filter(([re]) => re.test(names)).slice(0, 3).map(([, a, why]) => [a, why]);
+    });
     const T = (id, label, sym, h, desc) => ({ id, label, sym, bg:`oklch(0.9 0.06 ${h})`, ink:`oklch(0.42 0.12 ${h})`, h, desc });
     const TOPICS = [
       T('jern','Jern','Fe',35,'Jern frakter oksygen rundt i kroppen. Finnes i kjøtt, belgfrukter og grove kornprodukter.'),
@@ -663,7 +617,7 @@ class Component extends DCLogic {
       { id:'a6', topic:'karbo', title:'Grove karbohydrater gir jevn energi', mins:3, lead:'Karbohydrater er kroppens viktigste energikilde – velg de grove.', body:['Fullkorn, havre, bønner og grønnsaker gir fiber som holder deg mett lenger og gir jevnere blodsukker.','Brødskalaen hjelper deg å velge: se etter «Ekstra grovt» eller «Grovt».'] }
     ];
     const CHAINS = M.chains;
-    return { M, R, byId, enrich, CATS, CHAINS, chainByCode: Object.fromEntries(CHAINS.map(c => [c.code, c])), ING: M.ingredients || {},
+    return { M, R, byId, CATS, CHAINS, chainByCode: Object.fromEntries(CHAINS.map(c => [c.code, c])), ING: M.ingredients || {},
       TOPICS, ARTS, topicById: Object.fromEntries(TOPICS.map(t => [t.id, t])), artById: Object.fromEntries(ARTS.map(a => [a.id, a])) };
   })();
 
@@ -672,113 +626,6 @@ class Component extends DCLogic {
   TODAY = 3;
   contentRef = React.createRef();
 
-  // ---------- egne og endrede oppskrifter (lagres i nettleseren) ----------
-  STORE_KEY = 'matglede.mine.v1';
-  loadMine = () => {
-    try {
-      const v = JSON.parse(window.localStorage.getItem(this.STORE_KEY) || 'null');
-      if (v && typeof v === 'object') return { overrides: v.overrides || {}, custom: Array.isArray(v.custom) ? v.custom : [] };
-    } catch (e) {}
-    return { overrides: {}, custom: [] };
-  };
-  saveMine = mine => { try { window.localStorage.setItem(this.STORE_KEY, JSON.stringify(mine)); return true; } catch (e) { return false; } };
-
-  // Fritekst -> ingrediens i varedatabasen. Samme regler som matglede/recipe_parse.py.
-  matchIng = (name, unit) => {
-    const MT = this.D.M.matching; if (!MT || !name) return null;
-    const head = name.toLowerCase().split(',')[0].replace(/\(.*?\)/g, '');
-    const ww = new Set(MT.wholeWord || []);
-    const esc = t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const has = t => ww.has(t) ? new RegExp(`(?<![a-zæøå])${esc(t)}(?:er|en|ene)?(?![a-zæøå])`).test(head) : head.includes(t);
-    for (const [slug, needles, ex] of MT.rules) {
-      if (needles.some(has) && !ex.some(e => head.includes(e))) {
-        if (slug === 'paprika' && (unit === 'ts' || unit === 'ss')) return null;
-        return this.D.ING[slug] ? slug : null;
-      }
-    }
-    return null;
-  };
-  // Mengde -> ingrediensens basisenhet (g/ml/stk). Samme regler som units.to_base og normalise_for_ingredient.
-  RU = { g:['g',1], kg:['g',1000], ml:['ml',1], cl:['ml',10], dl:['ml',100], l:['ml',1000], ss:['ml',15], ts:['ml',5], stk:['stk',1], pk:['pk',1] };
-  toBase = (q, u, slug, name) => {
-    const I = slug && this.D.ING[slug]; if (q == null || !u || !I) return null;
-    const MT = this.D.M.matching || {}, packs = MT.packSizes || {};
-    if (slug === 'hvitlok' && (u === 'fedd' || (u === 'stk' && /fedd/i.test(name || '')))) { q *= MT.gramsPerClove || 5; u = 'g'; }
-    else if (u === 'fedd') u = 'stk';
-    else if (slug === 'kyllingfilet' && u === 'stk') { q *= MT.gramsPerChickenBreast || 150; u = 'g'; }
-    else if (packs[slug] && ['pk', 'stk', 'boks'].includes(u)) { q *= packs[slug][0]; u = packs[slug][1]; }
-    const ru = this.RU[u]; if (!ru) return null;
-    const v = q * ru[1], bu = I.base;
-    if (ru[0] === bu) return v;
-    if (ru[0] === 'stk' && bu === 'g' && I.gpp) return v * I.gpp;
-    if (ru[0] === 'g' && bu === 'stk' && I.gpp) return v / I.gpp;
-    if ((ru[0] === 'g' && bu === 'ml') || (ru[0] === 'ml' && bu === 'g')) return v;
-    return null;
-  };
-  hydrate = i => ({ n: i.n, q: i.q, u: i.u || null, slug: i.slug || null, base: this.toBase(i.q, i.u, i.slug, i.n) });
-  allRecipes = () => {
-    const mine = this.state.mine;
-    if (this._memo && this._memo.mine === mine) return this._memo;
-    const D = this.D;
-    const R = D.R.map(r => { const o = mine.overrides[r.id]; return o ? D.enrich({ ...r, ...o, id: r.id, edited: true, ing: o.ing.map(this.hydrate) }) : r; });
-    const own = mine.custom.map(c => D.enrich({ ...c, custom: true, source: null, ing: c.ing.map(this.hydrate) }));
-    const all = [...own, ...R];
-    this._memo = { mine, R: all, byId: Object.fromEntries(all.map(r => [r.id, r])) };
-    return this._memo;
-  };
-  rec = id => this.allRecipes().byId[id];
-
-  // ---------- redigering ----------
-  UNITS = ['', 'g', 'kg', 'dl', 'l', 'ml', 'ss', 'ts', 'stk', 'pk', 'boks', 'fedd', 'klype', 'neve', 'skive'];
-  numStr = q => q == null ? '' : String(Math.round(q * 1000) / 1000).replace('.', ',');
-  parseQ = t => {
-    t = String(t || '').trim().replace(',', '.'); if (!t) return null;
-    const F = { '½': 0.5, '¼': 0.25, '¾': 0.75 };
-    if (F[t] != null) return F[t];
-    let m = t.match(/^(\d+)\s+(\d+)\/(\d+)$/); if (m) return +m[1] + m[2] / m[3];
-    m = t.match(/^(\d+)\/(\d+)$/); if (m) return m[1] / m[2];
-    const v = parseFloat(t); return isFinite(v) && v > 0 ? v : null;
-  };
-  rowKey = 0;
-  mkRow = i => ({ k: ++this.rowKey, n: i ? i.n : '', q: i ? this.numStr(i.q) : '', u: i && i.u ? i.u : '', slug: i && i.slug ? i.slug : '', manual: !!i });
-  openEdit = r => this.setState(s => ({ draft: { id: r.id, kind: r.custom ? 'custom' : 'edit', name: r.name, servings: r.servings, time: r.time ? String(r.time) : '',
-      notes: r.notes || '', rows: r.ing.map(this.mkRow), error: '' }, stack: [...s.stack, { t: 'edit' }], rdPick: false, rdLearn: false }));
-  openNew = () => this.setState(s => ({ draft: { id: null, kind: 'new', name: '', servings: 4, time: '', notes: '', rows: [this.mkRow(), this.mkRow(), this.mkRow()], error: '' },
-      stack: [...s.stack, { t: 'edit' }], menu: false }));
-  setDraft = f => this.setState(s => ({ draft: { ...s.draft, ...f(s.draft) } }));
-  setRow = (k, f) => this.setDraft(d => ({ rows: d.rows.map(r => r.k === k ? { ...r, ...f(r) } : r) }));
-  saveDraft = () => {
-    const d = this.state.draft, name = d.name.trim();
-    const ing = d.rows.filter(r => r.n.trim()).map(r => ({ n: r.n.trim(), q: this.parseQ(r.q), u: r.u || null, slug: r.slug || null }));
-    if (!name) return this.setDraft(() => ({ error: 'Gi oppskriften et navn.' }));
-    if (!ing.length) return this.setDraft(() => ({ error: 'Legg til minst én ingrediens.' }));
-    const t = parseInt(d.time, 10), body = { name, servings: d.servings, time: t > 0 ? t : null, notes: d.notes.trim(), ing };
-    const mine = this.state.mine; let next, id = d.id;
-    if (d.kind === 'edit') next = { ...mine, overrides: { ...mine.overrides, [id]: body } };
-    else {
-      if (!id) id = 'egen-' + Date.now().toString(36);
-      next = { ...mine, custom: [{ id, ...body }, ...mine.custom.filter(c => c.id !== id)] };
-    }
-    const ok = this.saveMine(next);
-    this.setState(s => {
-      const stack = s.stack.slice(0, -1);
-      if (d.kind === 'new') stack.push({ t: 'recipe', id });
-      return { mine: next, draft: null, stack };
-    });
-    this.toast(ok ? 'Oppskriften er lagret' : 'Lagret til du lukker siden (nettleseren tillater ikke lagring)');
-  };
-  resetRecipe = id => {
-    const o = { ...this.state.mine.overrides }; delete o[id];
-    const next = { ...this.state.mine, overrides: o }; this.saveMine(next);
-    this.setState({ mine: next }); this.toast('Tilbake til originalen');
-  };
-  deleteCustom = id => {
-    const next = { ...this.state.mine, custom: this.state.mine.custom.filter(c => c.id !== id) }; this.saveMine(next);
-    this.setState(s => ({ mine: next, draft: null, stack: [], favs: s.favs.filter(f => f !== id),
-      plan: Object.fromEntries(Object.entries(s.plan).map(([k, l]) => [k, l.filter(x => x !== id)])) }));
-    this.toast('Oppskriften er slettet');
-  };
-
   pickIds = ids => ids.filter(id => this.D.byId[id]);
   state = {
     tab: this.props.startTab || 'home', stack: [], menu: false,
@@ -786,7 +633,7 @@ class Component extends DCLogic {
     plan: Object.fromEntries(Object.entries({ 0:'rema-pasta-bolognese', 1:'rema-fiskegrateng-med-torsk', 2:'rema-enkel-kyllinggryte', 3:'rema-ovnsbakte-kjottkaker-med-gronnsaker', 4:'rema-enkel-taco', 6:'rema-farikal' })
       .filter(([, id]) => this.D.byId[id]).map(([d, id]) => [d, [id]])),
     day: 3, checked: {}, cat: 'alle', q: '', loggedIn: false, tasks: {}, rdPick: false,
-    people: 4, chain: 'ODA', mine: this.loadMine(), draft: null, rdLearn: false, notif: true, remind: true, toast: null
+    people: 4, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null
   };
 
   componentDidUpdate(pp) {
@@ -807,7 +654,7 @@ class Component extends DCLogic {
   };
   addToPlan = (d, id) => {
     this.setState(s => ({ plan: { ...s.plan, [d]: [...(s.plan[d] || []), id] }, rdPick: false }));
-    this.toast(`${this.rec(id).name} → ${this.DAYS_FULL[d].toLowerCase()}`);
+    this.toast(`${this.D.byId[id].name} → ${this.DAYS_FULL[d].toLowerCase()}`);
   };
 
   // ---------- mengder ----------
@@ -867,7 +714,7 @@ class Component extends DCLogic {
   mk(r, extra) {
     const s = this.state, fav = s.favs.includes(r.id), rc = this.recipeCost(r), ct = this.costText(rc);
     return {
-      id: r.id, name: r.name, time: r.time, timeLabel: r.time ? `${r.time} min` : (r.custom ? 'Tid: –' : 'Tid: se kilde'),
+      id: r.id, name: r.name, time: r.time, timeLabel: r.time ? `${r.time} min` : 'Tid: se kilde',
       dots: [], diffLabel: r.src.short, diffColor: r.src.color,
       ingCount: r.ing.length + ' ingredienser',
       costLabel: ct.label, costShort: ct.short,
@@ -882,7 +729,6 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {};
-    const { R, byId } = this.allRecipes();
     const chainName = code => (D.chainByCode[code] || {}).name || code;
     const navCol = { fav:'#f5b82e', tilbud:'#5ccf6e', plan:'#b5e04f', opp:'#ffd43b', laere:'#7ea6ff' };
     const nav = {};
@@ -891,7 +737,7 @@ class Component extends DCLogic {
     // Handleliste: koblede ingredienser summeres i basisenhet, resten per navn og enhet
     const buildShop = dl => {
       const m = new Map();
-      dl.forEach(d => (s.plan[d] || []).forEach(id => { const r = byId[id], f = this.factor(r); r.ing.forEach(i => {
+      dl.forEach(d => (s.plan[d] || []).forEach(id => { const r = D.byId[id], f = this.factor(r); r.ing.forEach(i => {
         let k, e;
         if (i.slug) {
           k = 's:' + i.slug;
@@ -940,10 +786,10 @@ class Component extends DCLogic {
           : { eyebrow: 'INGEN PRISER', headline: 'Fant ingen av varene i butikkene.', note: '' };
 
     const q = s.q.trim().toLowerCase();
-    const results = q ? R.filter(r => r.name.toLowerCase().includes(q) || r.src.short.toLowerCase().includes(q) || r.ing.some(i => i.n.toLowerCase().includes(q)) || D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q))).map(r => this.mk(r)) : [];
+    const results = q ? D.R.filter(r => r.name.toLowerCase().includes(q) || r.src.short.toLowerCase().includes(q) || r.ing.some(i => i.n.toLowerCase().includes(q)) || D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q))).map(r => this.mk(r)) : [];
 
     const costOf = r => { const rc = this.recipeCost(r); return rc.priced ? rc.sum : Infinity; };
-    let favR = s.favs.map(id => byId[id]).filter(Boolean);
+    let favR = s.favs.map(id => D.byId[id]).filter(Boolean);
     if (s.favSort === 'fast') favR = [...favR].sort((a, b) => (a.time || 999) - (b.time || 999));
     if (s.favSort === 'cheap') favR = [...favR].sort((a, b) => costOf(a) - costOf(b));
     if (s.favSort === 'few') favR = [...favR].sort((a, b) => a.ing.length - b.ing.length);
@@ -954,7 +800,7 @@ class Component extends DCLogic {
 
     const taskDefs = [
       { id:'shop', title:'Handle inn til ukeplanen', sub:`${shopLeft} varer igjen på handlelisten`, act:() => this.go('plan') },
-      { id:'sat', title:'Planlegg middag lørdag', sub: satPlanned ? `Planlagt: ${byId[satPlanned].name}` : 'Lørdag 21. november er tom', act:() => this.setState({ tab:'plan', day:5, stack:[], menu:false }) },
+      { id:'sat', title:'Planlegg middag lørdag', sub: satPlanned ? `Planlagt: ${D.byId[satPlanned].name}` : 'Lørdag 21. november er tom', act:() => this.setState({ tab:'plan', day:5, stack:[], menu:false }) },
       { id:'salat', title:'Prøv en salat fra Aichas Mat', sub:'Ukens utfordring', act:() => this.setState({ tab:'opp', cat:'salat', q:'', stack:[], menu:false }) },
       { id:'omega', title:'Les: Omega-3 og hjernen', sub:'5 min lesing', act:() => this.push({ t:'article', id:'a3' }) }
     ];
@@ -963,7 +809,7 @@ class Component extends DCLogic {
       toggle: () => this.setState(st => ({ tasks: { ...st.tasks, [t.id]: !st.tasks[t.id] } })) }; });
 
     const ph = h => `repeating-linear-gradient(135deg, oklch(0.87 0.07 ${h}) 0 9px, oklch(0.83 0.08 ${h}) 9px 18px)`;
-    const topOf = (src, group) => R.filter(r => r.source === src && r.group === group).sort((a, b) => a.rank - b.rank);
+    const topOf = (src, group) => D.R.filter(r => r.source === src && r.group === group).sort((a, b) => a.rank - b.rank);
     const remaTop = topOf('rema', 'populaere'), aichaTop = topOf('aicha', 'populaere');
     const news = [];
     if (remaTop[0]) news.push({ tag:'POPULÆRT · REMA 1000', tagColor:'#16408f', title:`${remaTop[0].name} er mest populær på rema.no`, sub: remaTop[0].ratingCount ? `${remaTop[0].ratingCount} stemmer` : 'Rema 1000', img: ph(remaTop[0].hue), imgLabel: 'rema 1000', open:() => this.push({ t:'recipe', id: remaTop[0].id }) });
@@ -980,15 +826,11 @@ class Component extends DCLogic {
 
     let rd = {}, td = {}, ad = {};
     if (top.t === 'recipe') {
-      const r = byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
+      const r = D.byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
       const unl = r.ing.filter(i => !i.slug).length;
       rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
         portions: `${s.people} pers.`, url: r.url, srcName: r.srcName, srcShort: r.src.short,
-        hasSource: !!r.url, edited: !!r.edited, edit: () => this.openEdit(r), reset: () => this.resetRecipe(r.id),
-        editLabel: r.custom ? 'Endre oppskrift' : (r.edited ? 'Endre din versjon' : 'Endre oppskrift'),
-        hasNotes: !!r.notes, noNotesCustom: !!r.custom && !r.notes, notesTitle: r.custom ? 'DIN FREMGANGSMÅTE' : 'DINE NOTATER',
-        notesLines: (r.notes || '').split(/\n+/).map(x => x.trim()).filter(Boolean),
-        servingsNote: r.edited ? `Din versjon er for ${r.servings} porsjoner. Mengdene her er regnet om til ${s.people}.` : `Originalen er for ${r.servings} porsjoner${r.servingsGuessed ? ' (antatt, kilden oppgir ikke antall)' : ''}. Mengdene her er regnet om til ${s.people}.`,
+        servingsNote: `Originalen er for ${r.servings} porsjoner${r.servingsGuessed ? ' (antatt, kilden oppgir ikke antall)' : ''}. Mengdene her er regnet om til ${s.people}.`,
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
           : `Pris i ${chainName(s.chain)} for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten er ikke koblet til en vare ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
         ing: r.ing.map(i => { const v = this.lineCost(i, f), note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? `ikke funnet i ${chainName(s.chain)}` : '');
@@ -999,56 +841,20 @@ class Component extends DCLogic {
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
         dayChips: this.DAYS.map((l, i) => ({ label: l, date: 16 + i, bg: (s.plan[i] || []).includes(r.id) ? '#d4ee86' : '#f3efe4', add: () => this.addToPlan(i, r.id) })) };
     }
-    let ed = {};
-    if (top.t === 'edit' && s.draft) {
-      const d = s.draft, linked = d.rows.filter(r => r.n.trim() && r.slug).length, filled = d.rows.filter(r => r.n.trim()).length;
-      ed = { kicker: d.kind === 'new' ? 'Ny oppskrift' : d.kind === 'edit' ? 'Din versjon av oppskriften' : 'Din oppskrift',
-        title: d.kind === 'new' ? 'Lag oppskrift' : 'Endre oppskrift',
-        name: d.name, servings: d.servings, time: d.time, notes: d.notes, error: d.error, hasError: !!d.error,
-        linkedLabel: `${linked} av ${filled} koblet til vare`,
-        notesLabel: d.kind === 'edit' ? 'Dine notater (valgfritt)' : 'Fremgangsmåte (valgfritt)',
-        notesPlaceholder: d.kind === 'edit' ? 'F.eks. «litt mer chili»' : 'Ett steg per linje',
-        setName: e => { const v = e.target.value; this.setDraft(() => ({ name: v, error: '' })); },
-        setTime: e => { const v = e.target.value.replace(/[^0-9]/g, ''); this.setDraft(() => ({ time: v })); },
-        setNotes: e => { const v = e.target.value; this.setDraft(() => ({ notes: v })); },
-        servMinus: () => this.setDraft(x => ({ servings: Math.max(1, x.servings - 1) })),
-        servPlus: () => this.setDraft(x => ({ servings: Math.min(20, x.servings + 1) })),
-        addRow: () => this.setDraft(x => ({ rows: [...x.rows, this.mkRow()] })),
-        save: this.saveDraft,
-        canDelete: d.kind === 'custom' || (d.kind === 'edit' && !!s.mine.overrides[d.id]),
-        delLabel: d.kind === 'custom' ? 'Slett oppskriften' : 'Forkast endringene mine',
-        del: () => d.kind === 'custom' ? this.deleteCustom(d.id) : (this.resetRecipe(d.id), this.back()),
-        rows: d.rows.map(r => {
-          const I = r.slug && D.ING[r.slug], q = this.parseQ(r.q), base = I ? this.toBase(q, r.u, r.slug, r.n) : null;
-          const pp = I && base != null ? this.pickPack(r.slug, base, 0) : (I ? this.pickPack(r.slug, null, 0) : null);
-          let hint;
-          if (!r.n.trim()) hint = 'Skriv navnet, så kobler appen den til en vare hvis den finnes.';
-          else if (!I) hint = 'Ikke koblet til vare: tas med i handlelisten, men uten pris.';
-          else if (!pp) hint = `Koblet til ${I.name}, men ikke funnet i ${chainName(s.chain)}.`;
-          else hint = `${r.manual ? 'Koblet' : 'Koblet automatisk'} til ${I.name} · ${pp.p.name}, ${this.fp(pp.p.price)} i ${chainName(s.chain)}${q != null && r.u && base == null ? ' · mengden kan ikke regnes om, prisen gjelder én pakke' : ''}`;
-          return { n: r.n, q: r.q, u: r.u, slug: r.slug, hint, linkColor: I ? '#2f6a1e' : '#8a9187',
-            setN: e => { const v = e.target.value; this.setRow(r.k, x => ({ n: v, slug: x.manual ? x.slug : (this.matchIng(v, x.u) || '') })); },
-            setQ: e => { const v = e.target.value; this.setRow(r.k, () => ({ q: v })); },
-            setU: e => { const v = e.target.value; this.setRow(r.k, x => ({ u: v, slug: x.manual ? x.slug : (this.matchIng(x.n, v) || '') })); },
-            setSlug: e => { const v = e.target.value; this.setRow(r.k, () => ({ slug: v, manual: true })); },
-            remove: () => this.setDraft(x => ({ rows: x.rows.filter(y => y.k !== r.k) })) };
-        }) };
-    }
     let sl = {};
     if (top.t === 'shop') {
       const week = top.scope === 'week', arr = buildShop(week ? [0,1,2,3,4,5,6] : [top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
-      const names = (s.plan[top.day] || []).map(id => byId[id].name).join(', ');
+      const names = (s.plan[top.day] || []).map(id => D.byId[id].name).join(', ');
       const unm = arr.filter(e => !e.slug).length;
       sl = { sub: week ? 'Hele uka · 16.–22. november' : `${this.DAYS_FULL[top.day]} ${16 + top.day}. november${names ? ' · ' + names : ''}`,
         items, has: items.length > 0, empty: !items.length, meta: `${items.filter(i => !i.done).length} av ${items.length} igjen`,
-        chain: chainName(s.chain), logo: (D.chainByCode[s.chain] || {}).logo || '', total: sumText(sm),
+        chain: chainName(s.chain), total: sumText(sm),
         note: !M.hasPrices ? `Prisene kommer når vareimporten fra Kassalapp er kjørt. ${arr.length - unm} av ${arr.length} varer er koblet til produkter.`
           : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - sm.found > 0 ? ` ${sm.n - unm - sm.found} finnes ikke i ${chainName(s.chain)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
     }
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
 
-    const catList = R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (() => { const rc = this.recipeCost(r); return rc.complete && rc.sum < 100; })() : r.cats.includes(s.cat))).map(r => this.mk(r));
     const tg = (key, label, sub) => ({ label, sub, track: s[key] ? '#3fae4a' : '#d9d4c6', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const st = M.stats || {};
@@ -1069,38 +875,35 @@ class Component extends DCLogic {
       doLogin: () => { this.setState({ loggedIn: true, stack: [] }); this.toast('Velkommen tilbake, Ingrid'); },
       doLogout: () => { this.setState({ loggedIn: false, stack: [] }); this.toast('Du er logget ut'); },
       greeting: s.loggedIn ? 'Hei, Ingrid' : 'Hva blir det til middag?',
-      hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(byId[tonightR]) : {},
+      hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
       news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
       dataNote: `Oppskriftene kommer fra Rema 1000, Aichas Mat og Marit Kolby. ${st.mapped || 0} av ${st.lines || 0} ingredienslinjer er koblet til varer i butikkene.`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, bg: s.favSort === id ? '#1b2a1c' : '#fffdf8', fg: s.favSort === id ? '#fff' : '#1b2a1c', pick: () => this.setState({ favSort: id }) })),
       cmp, generated: M.generated || '–',
-      stores: perChain.map(({ ch, sm }) => ({ name: ch.name, bg: ch.bg, fg: ch.fg, logo: ch.logo || '',
+      stores: perChain.map(({ ch, sm }) => ({ name: ch.name, bg: ch.bg, fg: ch.fg,
         count: !shopArr.length ? 'ingen varer' : M.hasPrices ? `${sm.found} av ${shopArr.length} varer` : `${mappedN} av ${shopArr.length} koblet`,
         max: M.hasPrices && sm.found ? `${Math.round(sm.total)} kr` : '– kr',
         open: () => { this.setState({ chain: ch.code }); this.push({ t:'shop', scope:'week' }); } })),
       missingList: unmapped.slice(0, 24), hasMissing: unmapped.length > 0,
-      chainChips: D.CHAINS.map(ch => { const on = s.chain === ch.code; return { label: ch.name, logo: ch.logo || '', bg: on ? '#1b2a1c' : '#fffdf8', fg: on ? '#fff' : '#1b2a1c', border: on ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ chain: ch.code }) }; }),
+      chainChips: D.CHAINS.map(ch => { const on = s.chain === ch.code; return { label: ch.name, bg: on ? '#1b2a1c' : '#fffdf8', fg: on ? '#fff' : '#1b2a1c', border: on ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ chain: ch.code }) }; }),
       days, dayTitle: `${this.DAYS_FULL[s.day]} ${16 + s.day}. november${s.day === this.TODAY ? ' · i dag' : ''}`,
-      dayMeals: dayMealsArr.map((id, idx) => this.mk(byId[id], { remove: () => this.setState(st => { const l = [...(st.plan[st.day] || [])]; l.splice(idx, 1); return { plan: { ...st.plan, [st.day]: l } }; }) })),
+      dayMeals: dayMealsArr.map((id, idx) => this.mk(D.byId[id], { remove: () => this.setState(st => { const l = [...(st.plan[st.day] || [])]; l.splice(idx, 1); return { plan: { ...st.plan, [st.day]: l } }; }) })),
       addLabel: dayMealsArr.length ? 'Legg til en rett til' : 'Legg til middag',
       openPicker: () => this.push({ t:'picker' }),
-      pickList: R.map(r => this.mk(r, { add: () => { this.addToPlan(s.day, r.id); this.back(); } })),
+      pickList: D.R.map(r => this.mk(r, { add: () => { this.addToPlan(s.day, r.id); this.back(); } })),
       weekShopSub: shopArr.length ? `${planNum} retter · ${shopArr.length} varer · ${sumText(weekSum)}` : 'Ingen retter planlagt',
       dayShopTitle: `Handleliste for ${this.DAYS_FULL[s.day].toLowerCase()}`,
       dayShopSub: dayArr.length ? `${dayArr.length} varer · ${sumText(daySum)}` : 'Ingen retter planlagt denne dagen',
       openWeekShop: () => this.push({ t:'shop', scope:'week' }), openDayShop: () => this.push({ t:'shop', scope:'day', day: s.day }),
       ovShop: top.t === 'shop', sl, people: s.people,
-      ovEdit: top.t === 'edit' && !!s.draft, ed, openNew: this.openNew,
-      unitOpts: this.UNITS.map(u => ({ v: u, l: u || '–' })),
-      ingOpts: [{ v: '', l: 'Ingen vare' }, ...Object.entries(D.ING).sort((a, b) => a[1].name.localeCompare(b[1].name, 'nb')).map(([v, i]) => ({ v, l: i.name }))],
       peopleMinus: () => this.setState(st => ({ people: Math.max(1, st.people - 1) })), peoplePlus: () => this.setState(st => ({ people: Math.min(12, st.people + 1) })),
       q: s.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }),
       searching: !!q, notSearching: !q, results, resultsLabel: `${results.length} treff i alle oppskrifter`,
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),
       popular: [...remaTop.slice(0, 4), ...aichaTop.slice(0, 2)].map((r, i) => this.mk(r, { rank: i + 1 })),
       cats: D.CATS.map(([id, label]) => ({ label, bg: s.cat === id ? '#1b2a1c' : '#fffdf8', fg: s.cat === id ? '#fff' : '#1b2a1c', border: s.cat === id ? '#1b2a1c' : '#e2ddd0', pick: () => this.setState({ cat: id }) })),
-      catRecipes: catList, catEmpty: !catList.length, catEmptyText: s.cat === 'mine' ? 'Du har ingen egne eller endrede oppskrifter ennå. Lag en ny, eller trykk «Endre oppskrift» på en rett.' : 'Ingen oppskrifter i denne kategorien.',
+      catRecipes: D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (() => { const rc = this.recipeCost(r); return rc.complete && rc.sum < 100; })() : r.cats.includes(s.cat))).map(r => this.mk(r)),
       featured: ['a2','a3','a7','a4'].map(id => artItem(D.artById[id])),
       topics: tp.map((t, i) => ({ ...t, rot: [-3, 2, -1.5, 3, -2.5, 1.5, -1][i], open: () => this.push({ t:'topic', id: t.id }) })),
       allArts: D.ARTS.map(artItem),
