@@ -1,0 +1,8 @@
+{
+  "name": "matglede-bilde",
+  "private": true,
+  "type": "module",
+  "scripts": { "deploy": "wrangler deploy", "test": "node test.js" },
+  "dependencies": { "@anthropic-ai/sdk": "^1.0.0" },
+  "devDependencies": { "wrangler": "^4.0.0" }
+}

@@ -88,6 +88,8 @@
         });
     },
     resetPassword: function (email) { return start().then(function () { return auth.sendPasswordResetEmail(email); }); },
+    // Kortvarig bevis på hvem brukeren er, for kall til bildegjenkjenningen (worker/)
+    idToken: function () { return auth && auth.currentUser ? auth.currentUser.getIdToken() : Promise.reject(new Error('not-signed-in')); },
     signOut: function () { return auth ? auth.signOut() : Promise.resolve(); },
     // Brukerdata: ett dokument per bruker i users/{uid}
     loadData: function (uid) {

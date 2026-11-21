@@ -8,3 +8,5 @@ window.MATGLEDE_FIREBASE = {
   projectId: "matglede-4dbc5",
   appId: "1:903715759901:web:eddcac960cb3b9c3cf63f4"
 };
+// Adressen til bildegjenkjenningen (worker/, se README der). Tom = knappen sier at den ikke er slått på ennå.
+window.MATGLEDE_AI_URL = "";
