@@ -394,9 +394,9 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <sc-if value="{{ sl.empty }}"><div style="padding:36px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">Ingen retter er planlagt her ennå.<br>Legg til middager i planen først.</div></sc-if>
 <sc-if value="{{ sl.has }}">
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span class="s8">{{ sl.meta }}</span><span style="font-size:14px;font-weight:700;color:var(--mg-ink-muted);white-space:nowrap">{{ sl.chain }}: {{ sl.total }}</span></div>
-<div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:8px;border-radius:var(--mg-r-pill);background:var(--mg-surface-sunken);overflow:hidden"><div style="height:100%;width:{{ sl.pct }};background:var(--mg-primary);border-radius:var(--mg-r-pill);transition:width .3s"></div></div>
+<div style="background:{{ sl.bg }};color:{{ sl.fg }};border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span class="s8">{{ sl.meta }}</span><span style="font-size:14px;font-weight:700;white-space:nowrap">{{ sl.chain }}: {{ sl.total }}</span></div>
+<div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:8px;border-radius:var(--mg-r-pill);background:color-mix(in srgb,currentColor 25%,transparent);overflow:hidden"><div style="height:100%;width:{{ sl.pct }};background:currentColor;border-radius:var(--mg-r-pill);transition:width .3s"></div></div>
 <button onClick="{{ sl.share }}" style="align-self:flex-start;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:7px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg>Del listen</button>
 </div>
 </sc-if>
@@ -832,6 +832,8 @@ class Component extends DCLogic {
   bg = r => r.photo ? `url("${r.photo}") center/cover no-repeat, ${this.ph(r.hue)}` : this.ph(r.hue);
   // Stil for avkrysningsbokser (handleliste og oppgaver) og valgknapper
   check = done => ({ done, boxBg: done ? 'var(--mg-clay)' : 'transparent', boxBorder: done ? 'var(--mg-clay)' : 'var(--mg-border-strong)', deco: done ? 'line-through' : 'none', color: done ? 'var(--mg-ink-subtle)' : 'var(--mg-ink)' });
+  // Butikkens farge på handlelisten [bakgrunn, tekst]. Kiwi, Oda og Joker har mørk tekst og Spar er mørkere grønn, så teksten blir lesbar.
+  BRAND = { ODA: ['#FFAB33', '#1f2a1c'], KIWI: ['#50B848', '#1f2a1c'], MENY: ['#D3062A', '#fff'], REMA: ['#023EA5', '#fff'], COOP: ['#0A4D8F', '#fff'], SPAR: ['#007A33', '#fff'], JOKER: ['#FFDE3C', '#1f2a1c'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? '#fff' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry'];
@@ -1311,7 +1313,7 @@ class Component extends DCLogic {
       sl = { sub: week ? `Hele uka · ${this.weekRange()}` : `${this.dayLong(top.day)}${names ? ' · ' + names : ''}`,
         items, groups, has: items.length > 0, empty: !items.length, meta: doneN ? `${doneN} av ${items.length} i kurven` : `${items.length} varer`,
         count: items.length, doneCount: doneN, pct: items.length ? Math.round(doneN / items.length * 100) + '%' : '0%',
-        chain: chainName(s.chain), total: sumText(sm),
+        chain: chainName(s.chain), total: sumText(sm), bg: (this.BRAND[s.chain] || [])[0] || 'var(--mg-surface)', fg: (this.BRAND[s.chain] || [])[1] || 'var(--mg-ink)',
         share: () => { const text = 'Handleliste\n\n' + listText();
           if (navigator.share) navigator.share({ title: 'Handleliste', text }).catch(() => {});
           else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => this.toast('Listen er kopiert'), () => this.toast('Fikk ikke kopiert listen'));
@@ -1422,7 +1424,8 @@ class Component extends DCLogic {
       listOffersText: listOffers.length ? `Ukas tilbud på varer i handlelisten din: ${listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map(x => `${x.st.name} (${x.n})`).join(', ')}.` : '',
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
-        return { label: M.hasPrices && sm.found ? `${ch.name} · ${Math.round(sm.total)} kr` : ch.name, ...this.chip(on), pick: () => this.setState({ chain: ch.code }) }; }),
+        const b = on && this.BRAND[ch.code], c = this.chip(on);
+        return { label: M.hasPrices && sm.found ? `${ch.name} · ${Math.round(sm.total)} kr` : ch.name, ...c, ...(b && { bg: b[0], border: b[0], fg: b[1] }), pick: () => this.setState({ chain: ch.code }) }; }),
       chainChips: D.CHAINS.map(ch => ({ label: ch.name, ...this.chip(s.chain === ch.code), pick: () => this.setState({ chain: ch.code }) })),
       days, dayTitle: `${this.dayLong(s.day)}${s.day === this.TODAY ? ' · i dag' : ''}`,
       dayMeals: dayMealsArr.map((id, idx) => this.mk(D.byId[id], { remove: () => {
