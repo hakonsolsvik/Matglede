@@ -53,7 +53,11 @@ def cmd_fetch_offers(conn, args):
     from . import offers
     load_dotenv()
     from .app_export import _ingredients_csv
-    data = offers.tag_offers(offers.build_offers(KassalClient(per_minute=55)), _ingredients_csv())
+    data = offers.build_offers(KassalClient(per_minute=55))
+    if os.environ.get("ANTHROPIC_API_KEY"):  # AI leser avisene og gir prisene slik de står der
+        from .flyer_ai import read_flyers
+        read_flyers(data)
+    data = offers.tag_offers(data, _ingredients_csv())
     offers.write_offers_js(data, args.out)
     n = sum(len(s["offers"]) for s in data["stores"])
     print(f"Skrev {args.out}: {n} tilbud i uke {data['week']}")
