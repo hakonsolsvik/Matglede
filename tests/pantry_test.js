@@ -32,3 +32,20 @@ console.log('pantry ok');
 assert(P.same('mel', 'Hvetemel'));
 assert(P.same('melk', 'Lettmelk'));
 assert(!P.same('melk', 'Kokosmelk'));
+
+// Mengder: nivå for vanlige varer, antall for varer man teller
+assert(P.counted('Egg') && P.counted('Tomater') && P.counted('Løk') && !P.counted('Melk') && !P.counted('Revet ost'));
+assert.deepStrictEqual(P.fresh({ id: 1, n: 'Egg' }, '10'), { id: 1, n: 'Egg', count: 10 });
+assert.deepStrictEqual(P.fresh({ id: 1, n: 'Egg' }), { id: 1, n: 'Egg', count: 6 });
+assert.deepStrictEqual(P.fresh({ id: 2, n: 'Melk', pct: 50 }), { id: 2, n: 'Melk', lvl: 'mye' });
+assert.strictEqual(P.level({ n: 'Melk', pct: 25 }), 'litt'); // gammel prosent
+assert.strictEqual(P.level({ n: 'Melk', pct: 0 }), 'tomt');
+assert.strictEqual(P.level(P.step({ id: 2, n: 'Melk', lvl: 'mye' }, -1)), 'litt');
+assert.strictEqual(P.step({ id: 2, n: 'Melk', lvl: 'tomt' }, -1).lvl, 'tomt');
+assert.strictEqual(P.step({ id: 1, n: 'Egg', count: 1 }, -1).count, 0);
+assert.strictEqual(P.level({ n: 'Egg', count: 2 }), 'litt');
+// «Litt» brukes opp først: ris på litt gjør at risretten velges før potetretten
+const R2 = [{ id: 'pot', ing: [{ n: 'Potet' }, { n: 'Smør' }] }, { id: 'ris', ing: [{ n: 'Ris' }, { n: 'Smør' }] }];
+const lowRice = [{ id: 1, n: 'Poteter', lvl: 'mye' }, { id: 2, n: 'Ris', lvl: 'litt' }, { id: 3, n: 'Smør', lvl: 'mye' }];
+assert.deepStrictEqual(P.week(P.rank(R2, lowRice, i => [i.n]), 1).map(x => x.r.id), ['ris']);
+console.log('mengder ok');
