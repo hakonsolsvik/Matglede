@@ -833,7 +833,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], pName: '', pAmt: '', listening: false, scanning: false, parsing: false
+    pantry: [], popSent: [], pop: {}, pName: '', pAmt: '', listening: false, scanning: false, parsing: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -844,7 +844,7 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFAB33', '#1f2a1c'], KIWI: ['#50B848', '#1f2a1c'], MENY: ['#D3062A', '#fff'], REMA: ['#023EA5', '#fff'], COOP: ['#0A4D8F', '#fff'], SPAR: ['#007A33', '#fff'], JOKER: ['#FFDE3C', '#1f2a1c'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made'];
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -861,7 +861,26 @@ class Component extends DCLogic {
     const A = window.MatgledeAuth; if (!A) return;
     A.onChange(u => this.onUser(u));
     A.init();
+    if (A.configured) A.popular().then(pop => this.setState({ pop })).catch(e => console.error(e));
   }
+  // ---------- popularitet: anonyme tellere for varer og retter (popular/ i Firestore) ----------
+  POP_MIN = 3; // færre brukere enn dette teller ikke, så standardrekkefølgen gjelder
+  POP_KEY = /^(vare|rett):[a-zæøå0-9 -]{1,60}$/;
+  // Det denne kontoen bidrar med: varene i beholdningen og rettene som er favoritt, i planen eller laget
+  popKeys = () => { const s = this.state, P = window.MatgledePantry;
+    const dishes = [...s.favs, ...Object.values(s.plan).flat(), ...Object.keys(s.made).map(k => k.split(':')[2])];
+    return [...new Set([...s.pantry.map(x => 'vare:' + P.key(x.n)), ...dishes.map(id => 'rett:' + id)])].filter(k => this.POP_KEY.test(k)).sort(); };
+  // Teller opp det som er nytt og ned det som er borte siden sist. popSent lagres på kontoen, så hver konto teller én gang.
+  syncPop = () => {
+    const A = window.MatgledeAuth, keys = this.popKeys(), sent = this.state.popSent || [];
+    if (this._bumping || this._popOff || keys.join('|') === sent.join('|')) return;
+    this._bumping = true;
+    Promise.all([...keys.filter(k => !sent.includes(k)).map(k => A.bump(k, 1)), ...sent.filter(k => !keys.includes(k)).map(k => A.bump(k, -1))])
+      .then(() => this.setState({ popSent: keys }), e => { this._popOff = true; console.error(e); }) // stopper til neste oppstart, så feil ikke gjentas
+      .finally(() => { this._bumping = false; });
+  };
+  byPop = (list, key) => window.MatgledePantry.byPop(list, key, this.state.pop, this.POP_MIN);
+  popN = key => this.state.pop[key] >= this.POP_MIN ? this.state.pop[key] : 0;
   onUser = u => {
     const A = window.MatgledeAuth;
     this._syncOn = false; clearTimeout(this._saveT);
@@ -873,13 +892,15 @@ class Component extends DCLogic {
       if (d) {
         const next = {}; this.SYNC.forEach(k => { if (d[k] !== undefined) next[k] = d[k]; });
         this.setState(next);
-      } else A.saveData(u.uid, this.syncData()).catch(e => console.error(e));
+      } else { // ny konto: den har ikke telt noe ennå, selv om forrige konto på enheten hadde det
+        this.setState({ popSent: [] }); A.saveData(u.uid, { ...this.syncData(), popSent: [] }).catch(e => console.error(e)); }
       this._lastSaved = JSON.stringify(d ? { ...this.syncData(), ...d } : this.syncData());
       this._syncOn = true;
     }).catch(e => { console.error(e); this._syncOn = true; });
   };
   saveSoon = () => {
     const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
+    this.syncPop();
     const json = JSON.stringify(this.syncData()); if (json === this._lastSaved) return;
     clearTimeout(this._saveT);
     this._saveT = setTimeout(() => { this._lastSaved = json; A.saveData(u.uid, JSON.parse(json)).catch(e => console.error(e)); }, 800);
@@ -1275,7 +1296,7 @@ class Component extends DCLogic {
       toggle: () => this.setState(st => ({ tasks: { ...st.tasks, [t.id]: !st.tasks[t.id] } })) }));
 
     const ph = this.ph;
-    const pop = D.R.filter(r => r.popular).sort((a, b) => a.popular - b.popular);
+    const pop = this.byPop([...D.R].sort((a, b) => (a.popular || 99) - (b.popular || 99)), r => 'rett:' + r.id).filter(r => r.popular || this.popN('rett:' + r.id));
     const news = [];
     if (pop[0]) news.push({ tag:'UKENS FAVORITT', tagColor:'var(--mg-danger)', title:`${pop[0].name} – klar på ${pop[0].time} minutter`, sub: this.DIFF_L[pop[0].diff - 1], img: this.bg(pop[0]), imgLabel: '', open:() => this.push({ t:'recipe', id: pop[0].id }) });
     const sun = D.R.find(r => r.cats.includes('sondag'));
@@ -1422,7 +1443,7 @@ class Component extends DCLogic {
       add: e => { e.preventDefault(); const n = s.pName.trim(); if (!n) return;
         this.addPantry([{ n: n[0].toUpperCase() + n.slice(1) }]); this.setState({ pName: '' }); },
       quick: [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name,
-        items: this.QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
+        items: this.byPop(this.QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])), q => 'vare:' + P.key(q)).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
       voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : s.parsing ? 'Tolker det du sa …' : 'Si hva du har',
       voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)', voiceFg: s.listening ? '#fff' : 'var(--mg-on-ink)',
       scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
@@ -1527,7 +1548,7 @@ class Component extends DCLogic {
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),
       popular: pop.slice(0, 6).map((r, i) => this.mk(r, { rank: i + 1 })),
       cats: D.CATS.map(([id, label]) => ({ label, ...this.chip(s.cat === id), pick: () => this.setState({ cat: id }) })),
-      catRecipes: D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (rc => rc.complete && rc.sum < 100)(this.recipeCost(r)) : r.cats.includes(s.cat))).map(r => this.mk(r)),
+      catRecipes: this.byPop(D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (rc => rc.complete && rc.sum < 100)(this.recipeCost(r)) : r.cats.includes(s.cat))), r => 'rett:' + r.id).map(r => this.mk(r)),
       featured: ['a2','a3','a7','a4'].map(id => artItem(D.artById[id])),
       topics: D.TOPICS.map((t, i) => ({ ...t, rot: [-3, 2, -1.5, 3, -2.5, 1.5, -1][i], open: () => this.push({ t:'topic', id: t.id }) })),
       allArts: D.ARTS.map(artItem),

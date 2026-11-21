@@ -133,5 +133,13 @@
     return out;
   }
 
-  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  // Popularitet: nøkkelen en vare telles under, lik for «Poteter» og «potet»
+  function key(n) { return words(n).join(' ').slice(0, 60); }
+  // Mest brukte først. Under min brukere teller ikke, så standardrekkefølgen gjelder til nok brukere er med.
+  function byPop(list, k, counts, min) {
+    var c = function (x) { var n = (counts || {})[k(x)] || 0; return n >= min ? n : 0; };
+    return list.map(function (x, i) { return [x, c(x), i]; }).sort(function (a, b) { return b[1] - a[1] || a[2] - b[2]; }).map(function (a) { return a[0]; });
+  }
+
+  root.MatgledePantry = { key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);

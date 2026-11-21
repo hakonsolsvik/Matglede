@@ -1,9 +1,22 @@
 rules_version = '2';
-// Hver bruker kan bare lese og skrive sitt eget dokument users/{uid}.
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Hver bruker kan bare lese og skrive sitt eget dokument users/{uid}.
     match /users/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // Anonyme tellere: hvor mange brukere som har en vare i beholdningen (vare:potet)
+    // eller en rett som favoritt, i planen eller laget (rett:tacofredag). Bare tallet n lagres, aldri hvem.
+    // Alle kan lese. Innloggede kan bare legge til eller trekke fra 1, og aldri under 0.
+    match /popular/{key} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && key.matches('(vare|rett):[a-zæøå0-9 -]{1,60}')
+        && request.resource.data.keys().hasOnly(['n']) && request.resource.data.n == 1;
+      allow update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['n']) && request.resource.data.n is int
+        && request.resource.data.n >= 0
+        && (request.resource.data.n == resource.data.n + 1 || request.resource.data.n == resource.data.n - 1);
     }
   }
 }
