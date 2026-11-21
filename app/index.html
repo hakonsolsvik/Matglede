@@ -580,6 +580,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden">
 <sc-for list="{{ toggles }}" as="t"><div onClick="{{ t.toggle }}" role="switch" tabIndex="0" aria-checked="{{ t.on }}" aria-label="{{ t.label }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer"><div style="flex:1"><div style="font-size:16px;font-weight:700">{{ t.label }}</div><div style="font-size:12px;color:var(--mg-ink-muted)">{{ t.sub }}</div></div><div style="width:48px;height:28px;border-radius:var(--mg-r-pill);background:{{ t.track }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.justify }};transition:background .2s"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div></sc-for>
+<sc-if value="{{ remindOn }}" hint-placeholder-val="{{ true }}"><label style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer"><div style="flex:1"><div style="font-size:16px;font-weight:700">Klokkeslett</div><div style="font-size:12px;color:var(--mg-ink-muted)">Når du vil bli minnet på å planlegge</div></div><input type="time" step="300" value="{{ remindAt }}" onChange="{{ onRemindAt }}" aria-label="Klokkeslett for påminnelse på søndager" style="height:44px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 12px;font-size:16px;font-weight:700;outline:none;font-family:inherit;color:var(--mg-ink)"></label></sc-if>
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:8px">
 <div style="font-size:16px;font-weight:700">Bilder</div>
@@ -746,7 +747,7 @@ class Component extends DCLogic {
     favs: [], favSort: 'recent', plan: {},
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
-    people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null,
+    people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, remindAt: '18:00', toast: null,
     undo: null, have: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
   };
 
@@ -756,7 +757,7 @@ class Component extends DCLogic {
     return r.photo ? `url("${r.photo}") center/cover no-repeat, ${stripes}` : stripes;
   };
   SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra'];
-  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind'];
+  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
@@ -1228,7 +1229,9 @@ class Component extends DCLogic {
       favNum: s.favs.length, planNum,
       credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
       portionOpts: [2, 4, 6].map(n => ({ label: n + ' pers.', bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
-      toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', 'Planlegg neste uke')],
+      toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', s.remind ? `Planlegg neste uke, kl. ${s.remindAt}` : 'Planlegg neste uke')],
+      remindOn: !!s.remind, remindAt: s.remindAt,
+      onRemindAt: e => { const v = e.target.value; if (/^\d\d:\d\d$/.test(v)) this.setState({ remindAt: v }); },
       hasToast: !!s.toast, toast: s.toast, hasUndo: !!s.undo, undo: () => s.undo && s.undo(),
       notHome: s.tab !== 'home', profileLabel: s.loggedIn ? 'Profil' : 'Logg inn',
       todayLabel: this.dayLong(this.TODAY), todayName: this.DAYS_FULL[this.TODAY].toUpperCase(),
