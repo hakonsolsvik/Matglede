@@ -61,3 +61,17 @@ assert.strictEqual(P.have(P.use({ id: 9, n: 'Melk', lvl: 'mye', amt: 1500 }, 100
 assert.deepStrictEqual(P.use({ id: 1, n: 'Egg', count: 6 }, 2, null, 1), { id: 1, n: 'Egg', count: 4 });
 assert.deepStrictEqual(P.step({ id: 9, n: 'Melk', lvl: 'litt', amt: 300 }, 1), { id: 9, n: 'Melk', lvl: 'mye' }); // eget valg nullstiller mengden
 console.log('mengder ok');
+
+// Tale: nivåer og kjente navn
+assert.deepStrictEqual(P.parse('tom for melk, lite smør igjen, ris er nesten tom og masse pasta'),
+  [{ n: 'Melk', amt: 'tomt' }, { n: 'Smør', amt: 'litt' }, { n: 'Ris', amt: 'litt' }, { n: 'Pasta', amt: 'mye' }]);
+assert.deepStrictEqual(P.parse('havregryn er tomt'), [{ n: 'Havregryn', amt: 'tomt' }]);
+assert.deepStrictEqual(P.fresh({ id: 1, n: 'Melk' }, 'tomt'), { id: 1, n: 'Melk', lvl: 'tomt' });
+assert.deepStrictEqual(P.fresh({ id: 1, n: 'Egg' }, 'tomt'), { id: 1, n: 'Egg', count: 0 });
+const KNOWN = ['Poteter', 'Gulrøtter', 'Løk', 'Rødløk', 'Kidneybønner', 'Hvite bønner'];
+assert.strictEqual(P.canon('gulrot', KNOWN), 'Gulrøtter');
+assert.strictEqual(P.canon('Potet', KNOWN), 'Poteter');
+assert.strictEqual(P.canon('rødløk', KNOWN), 'Rødløk');
+assert.strictEqual(P.canon('Tahini', KNOWN), 'Tahini');
+assert(P.same('gulrot', 'Gulrøtter'));
+console.log('tale ok');

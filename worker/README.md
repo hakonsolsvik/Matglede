@@ -1,7 +1,8 @@
-# Bildegjenkjenning for «Min beholdning»
+# AI for «Min beholdning»
 
-Liten Cloudflare Worker som tar imot et bilde av kjøleskapet eller skapet, spør Claude hvilke matvarer som er på bildet,
-og svarer med en liste. Nøkkelen til Claude ligger bare her, aldri i appen. Bare brukere som er logget inn i appen
+Liten Cloudflare Worker som spør Claude hvilke matvarer brukeren har, enten fra et bilde av kjøleskapet eller skapet,
+eller fra det brukeren sa inn med «Si hva du har». Svaret er en liste varer koblet til navnene appen kjenner, med nivå
+(Mye/Litt/Tomt) eller antall når det ble sagt. Uten workeren tolker appen talen selv, enklere. Nøkkelen til Claude ligger bare her, aldri i appen. Bare brukere som er logget inn i appen
 (Firebase-prosjektet `matglede-4dbc5`) kan bruke den.
 
 ## Slik slår du den på (ca. 10 min)
@@ -19,4 +20,4 @@ og svarer med en liste. Nøkkelen til Claude ligger bare her, aldri i appen. Bar
 
 Test av tokensjekken: `npm test`.
 
-Pris: ett bilde koster rundt 10 øre med Claude Opus 5.5 (`model` i `src/index.js`).
+Pris: ett bilde koster rundt 10 øre og én taleinnlegging rundt 3–5 øre med Claude Opus 5.5 (`model` i `src/index.js`).

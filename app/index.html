@@ -605,14 +605,14 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <form onSubmit="{{ pt.add }}" class="s33"><input value="{{ pt.name }}" onChange="{{ pt.onName }}" aria-label="Legg til vare" placeholder="Legg til vare, f.eks. ris" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
 
 <sc-if value="{{ pt.empty }}"><div class="s51">Ingen varer ennå. Skriv inn, si hva du har, eller trykk på vanlige varer under.</div></sc-if>
-<div class="s70"><sc-for list="{{ pt.items }}" as="i"><div role="group" aria-label="{{ i.aria }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--mg-surface-sunken)">
+<sc-for list="{{ pt.groups }}" as="g"><div class="s59"><div class="s19">{{ g.name }}</div><div class="s70"><sc-for list="{{ g.items }}" as="i"><div role="group" aria-label="{{ i.aria }}" style="display:flex;align-items:center;gap:10px;padding:5px 10px 5px 16px;border-bottom:1px solid var(--mg-surface-sunken)">
 <span aria-hidden="true" style="width:12px;height:12px;flex:none;border-radius:50%;background:{{ i.dot }}"></span>
 <span style="flex:1;min-width:0;display:flex;flex-direction:column;opacity:{{ i.op }}"><span class="s13" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.n }}</span><span style="font-size:12px;font-weight:600;color:var(--mg-ink-subtle)">{{ i.approx }}</span></span>
-<button onClick="{{ i.down }}" aria-label="{{ i.downLabel }}" style="width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.downOp }}">−</button>
+<button onClick="{{ i.down }}" aria-label="{{ i.downLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.downOp }}">−</button>
 <span aria-live="polite" style="width:50px;text-align:center;font-size:14px;font-weight:800">{{ i.label }}</span>
-<button onClick="{{ i.up }}" aria-label="{{ i.upLabel }}" style="width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.upOp }}">+</button>
-<button onClick="{{ i.remove }}" aria-label="{{ i.rmLabel }}" style="width:32px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button>
-</div></sc-for></div>
+<button onClick="{{ i.up }}" aria-label="{{ i.upLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.upOp }}">+</button>
+<button onClick="{{ i.remove }}" aria-label="{{ i.rmLabel }}" style="width:32px;height:36px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button>
+</div></sc-for></div></div></sc-for>
 <div class="s1 mg-h" style="margin-top:6px">Legg til vanlige varer</div><sc-for list="{{ pt.quick }}" as="g"><div class="s59"><div class="s19">{{ g.name }}</div><div class="s67"><sc-for list="{{ g.items }}" as="q"><button onClick="{{ q.add }}" class="s53">+ {{ q.label }}</button></sc-for></div></div></sc-for>
 </div>
 </div>
@@ -827,7 +827,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], pName: '', pAmt: '', listening: false, scanning: false
+    pantry: [], pName: '', pAmt: '', listening: false, scanning: false, parsing: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -1023,39 +1023,54 @@ class Component extends DCLogic {
       return { pantry: list }; });
     this.toast(items.length === 1 ? `${items[0].n} er lagt i beholdningen` : `${items.length} varer er lagt i beholdningen`);
   };
-  // Tale i nettleseren (Web Speech API): «to kilo poteter, en liter melk og soyasaus»
+    // Varer man ofte har liggende over tid, og som kan gå tomt plutselig. Grupperes etter butikkavdeling.
+  QUICK = ['Poteter','Løk','Rødløk','Hvitløk','Gulrøtter','Paprika','Tomater','Agurk','Brokkoli','Sitron','Ingefær',
+    'Tortillalefser','Melk','Egg','Smør','Ost','Revet ost','Rømme','Matfløte','Erter (frosne)','Frosne grønnsaker',
+    'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Quinoa','Couscous','Bulgur','Nudler','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Hvite bønner','Svarte bønner','Kikerter','Linser','Tunfisk','Buljong','Gjær','Bakepulver',
+    'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
+  // Navnene appen kjenner: vanlige varer og ingrediensene i oppskriftene
+  known = () => [...new Set([...this.QUICK, ...Object.values(this.D.ING).map(i => i.name)])];
+  // Kall til worker/ (Claude). Krever innlogging, så ingen andre kan bruke nøkkelen.
+  askAI = body => window.MatgledeAuth.idToken()
+    .then(tok => fetch(window.MATGLEDE_AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify(body) }))
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+    .then(d => { const known = this.known(), str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
+      return (Array.isArray(d.items) ? d.items : []).map(x => ({ n: str(x && x.n, 60), lvl: str(x && x.lvl, 10), count: x && Number.isInteger(x.count) ? x.count : 0 }))
+        .filter(x => x.n).map(x => ({ n: window.MatgledePantry.canon(x.n[0].toUpperCase() + x.n.slice(1), known), amt: x.count > 0 ? String(x.count) : x.lvl })); });
+  // Tale i nettleseren (Web Speech API). Med AI på tolker Claude teksten, ellers MatgledePantry.parse.
   listen = () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) return this.toast('Nettleseren støtter ikke tale. Prøv Chrome eller Safari.');
     if (this._rec) return this._rec.stop();
+    if (this.state.parsing) return;
     const r = this._rec = new SR(); let heard = '';
     r.lang = 'nb-NO'; r.continuous = true; r.interimResults = false;
     r.onresult = e => { for (let k = e.resultIndex; k < e.results.length; k++) if (e.results[k].isFinal) heard += ', ' + e.results[k][0].transcript; };
     r.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') this.toast('Gi appen lov til å bruke mikrofonen'); };
     r.onend = () => { this._rec = null; this.setState({ listening: false });
-      const items = window.MatgledePantry.parse(heard);
-      if (items.length) this.addPantry(items); else if (heard.trim()) this.toast('Fikk ikke med meg noen varer. Prøv igjen.'); };
+      const text = heard.replace(/^,\s*/, '').trim(), P = window.MatgledePantry; if (!text) return;
+      const local = () => { const known = this.known(), items = P.parse(text).map(x => ({ ...x, n: P.canon(x.n, known) }));
+        if (items.length) this.addPantry(items); else this.toast('Fikk ikke med meg noen varer. Prøv igjen.'); };
+      if (!window.MATGLEDE_AI_URL || !this.state.user) return local();
+      this.setState({ parsing: true });
+      this.askAI({ text, known: this.known() }).then(items => items.length ? this.addPantry(items) : local())
+        .catch(err => { console.error(err); local(); }).finally(() => this.setState({ parsing: false })); };
     r.start(); this.setState({ listening: true });
   };
-  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer. Krever innlogging, så ingen andre kan bruke nøkkelen.
+  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer
   scanPhoto = e => {
-    const f = e.target.files && e.target.files[0], A = window.MatgledeAuth, url = window.MATGLEDE_AI_URL;
+    const f = e.target.files && e.target.files[0];
     e.target.value = '';
     if (!f || this.state.scanning) return;
-    if (!url) return this.toast('Bildegjenkjenning er ikke slått på ennå');
+    if (!window.MATGLEDE_AI_URL) return this.toast('Bildegjenkjenning er ikke slått på ennå');
     if (!this.state.user) return this.push({ t: 'login' });
     this.setState({ scanning: true });
-    const str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
     createImageBitmap(f).then(b => {
       const k = Math.min(1, 1280 / Math.max(b.width, b.height)), c = document.createElement('canvas');
       c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
       c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
-      return Promise.all([c.toDataURL('image/jpeg', 0.8).split(',')[1], A.idToken()]);
-    }).then(([image, tok]) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify({ image }) }))
-      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
-      .then(d => { const items = (Array.isArray(d.items) ? d.items : []).map(x => ({ n: str(x && x.n, 60) })).filter(x => x.n)
-        .map(x => ({ ...x, n: x.n[0].toUpperCase() + x.n.slice(1) }));
-        if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
+      return this.askAI({ image: c.toDataURL('image/jpeg', 0.8).split(',')[1] });
+    }).then(items => { if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
       .catch(err => { console.error(err); this.toast('Fikk ikke lest bildet. Prøv igjen.'); })
       .finally(() => this.setState({ scanning: false }));
   };
@@ -1393,11 +1408,6 @@ class Component extends DCLogic {
     // Matlageret og forslag ut fra det
     const ranked = P.rank(D.R, stock, this.ingNames);
     const planRun = this.homeRun().meals;
-    // Varer man ofte har liggende over tid, og som kan gå tomt plutselig. Grupperes etter butikkavdeling.
-    const QUICK = ['Poteter','Løk','Rødløk','Hvitløk','Gulrøtter','Paprika','Tomater','Agurk','Brokkoli','Sitron','Ingefær',
-      'Tortillalefser','Melk','Egg','Smør','Ost','Revet ost','Rømme','Matfløte','Erter (frosne)','Frosne grønnsaker',
-      'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Quinoa','Couscous','Bulgur','Nudler','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Hvite bønner','Svarte bønner','Kikerter','Linser','Tunfisk','Buljong','Gjær','Bakepulver',
-      'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
     const stepItem = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? P.step(p, d) : p) }));
     const LV = { mye: ['Mye', 'var(--mg-primary)'], litt: ['Litt', 'var(--mg-butter)'], tomt: ['Tomt', 'var(--mg-border-strong)'] };
     const pt = {
@@ -1406,19 +1416,21 @@ class Component extends DCLogic {
       add: e => { e.preventDefault(); const n = s.pName.trim(); if (!n) return;
         this.addPantry([{ n: n[0].toUpperCase() + n.slice(1) }]); this.setState({ pName: '' }); },
       quick: [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name,
-        items: QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
-      voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : 'Si hva du har',
+        items: this.QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
+      voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : s.parsing ? 'Tolker det du sa …' : 'Si hva du har',
       voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)',
       scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
       items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const lv = P.level(x), cnt = P.counted(x.n), q = P.qty(x);
         const label = cnt ? (q ? q + ' stk' : 'Tomt') : LV[lv][0];
-        return { n: x.n, label, approx: x.amt && x.u ? 'ca. ' + this.fmt(x.amt, x.u) + ' igjen' : '', dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
+        return { n: x.n, section: this.sectionOf(x.n), label, approx: x.amt && x.u ? 'ca. ' + this.fmt(x.amt, x.u) + ' igjen' : '', dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
           aria: `${x.n}: ${cnt ? q + ' igjen' : label}`, upLabel: `Mer ${x.n.toLowerCase()}`, downLabel: `Mindre ${x.n.toLowerCase()}`, rmLabel: `Fjern ${x.n.toLowerCase()}`,
           upOp: cnt || lv !== 'mye' ? 1 : .35, downOp: lv !== 'tomt' ? 1 : .35,
           up: () => stepItem(x.id, 1), down: () => stepItem(x.id, -1),
           remove: () => { const before = s.pantry; this.setState(st => ({ pantry: st.pantry.filter(p => p.id !== x.id) }));
             this.toast(`${x.n} er fjernet`, () => this.setState({ pantry: before, toast: null, undo: null })); } }; })
     };
+    // Samme avdelinger og rekkefølge som handlelisten
+    pt.groups = [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name, items: pt.items.filter(i => i.section === name) })).filter(g => g.items.length);
     const uh = {
       empty: !s.pantry.length, has: ranked.length > 0, none: !!s.pantry.length && !ranked.length,
       sub: s.pantry.length ? `${stock.length} varer i beholdningen` : 'Beholdningen er tom',
