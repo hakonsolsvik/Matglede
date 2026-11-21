@@ -690,9 +690,9 @@ class Component extends DCLogic {
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null
   };
 
-  // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   ph = h => `repeating-linear-gradient(135deg, oklch(0.87 0.07 ${h}) 0 9px, oklch(0.83 0.08 ${h}) 9px 18px)`;
   bg = r => r.photo ? `url("${r.photo}") center/cover no-repeat, ${this.ph(r.hue)}` : this.ph(r.hue);
+  // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -723,7 +723,6 @@ class Component extends DCLogic {
     this._saveT = setTimeout(() => { this._lastSaved = json; A.saveData(u.uid, JSON.parse(json)).catch(e => console.error(e)); }, 800);
   };
   setLg = f => this.setState(st => ({ lg: { ...st.lg, ...f } }));
-  authRun = p => { this.setLg({ busy: true, error: '' }); p.catch(e => this.setLg({ busy: false, error: window.MatgledeAuth.message(e) })); };
   // Felles sjekk før innlogging: run får (auth, skjemadata) og returnerer et løfte
   authRun = run => {
     const A = window.MatgledeAuth, l = this.state.lg;
@@ -916,10 +915,9 @@ class Component extends DCLogic {
 
     const ph = this.ph;
     const pop = D.R.filter(r => r.popular).sort((a, b) => a.popular - b.popular);
-    const firstIn = c => D.R.find(r => r.cats.includes(c));
     const news = [];
     if (pop[0]) news.push({ tag:'UKENS FAVORITT', tagColor:'#c8402f', title:`${pop[0].name} – klar på ${pop[0].time} minutter`, sub: this.DIFF_L[pop[0].diff - 1], img: this.bg(pop[0]), imgLabel: '', open:() => this.push({ t:'recipe', id: pop[0].id }) });
-    const sun = firstIn('sondag');
+    const sun = D.R.find(r => r.cats.includes('sondag'));
     if (sun) news.push({ tag:'SØNDAGSMIDDAG', tagColor:'#2f8a2a', title:`${sun.name} til søndag`, sub:`${sun.time} min · ${this.DIFF_L[sun.diff - 1].toLowerCase()}`, img: this.bg(sun), imgLabel: '', open:() => this.goCat('sondag') });
     news.push({ tag:'RASK HVERDAG', tagColor:'#2f6fe0', title:'Middager på 30 minutter eller mindre', sub:`${D.R.filter(r => r.cats.includes('rask')).length} oppskrifter`, img: ph(60), imgLabel:'rask middag', open:() => this.goCat('rask') });
     news.push({ tag:'LÆRE', tagColor:'oklch(0.45 0.13 305)', title:'Ultraprosessert – hva betyr det egentlig?', sub:'Ny artikkel · 6 min', img: ph(305), imgLabel:'illustrasjon', open:() => this.push({ t:'article', id:'a2' }) });
