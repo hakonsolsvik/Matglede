@@ -25,7 +25,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>:root{--mg-outer:#dfe2d2;--mg-bg:#f3f2ea;--mg-surface:#fffdf8;--mg-surface-sunken:#ebeadf;--mg-border:#e2e2d3;--mg-border-strong:#8d917c;--mg-ink:#1f2a1c;--mg-ink-muted:#5b604f;--mg-ink-subtle:#646958;--mg-nav-bg:#2f4128;--mg-on-nav:#d9dfcb;--mg-nav-active:#f4d77c;--mg-primary:#3d6a4a;--mg-on-primary:#fffdf8;--mg-primary-soft:#dde9d9;--mg-on-primary-soft:#2c5237;--mg-butter:#f4d77c;--mg-butter-ink:#7a4a12;--mg-clay:#c8622f;--mg-clay-text:#a44c1f;--mg-lime:#9fcf3a;--mg-danger:#b0402c;--mg-info:#3568b0;--mg-diff-1:#f1d79a;--mg-diff-2:#e7b46f;--mg-diff-3:#d98f55;--mg-diff-4:#c8622f;--mg-diff-5:#9a4520;--mg-focus:#3d6a4a}:root{--mg-shadow-1:0 1px 2px rgba(30,40,20,.06),0 1px 3px rgba(30,40,20,.06);--mg-shadow-2:0 2px 6px rgba(30,40,20,.07),0 10px 28px rgba(30,40,20,.08);--mg-r-xs:8px;--mg-r-sm:12px;--mg-r-md:18px;--mg-r-lg:26px;--mg-r-xl:34px;--mg-r-pill:999px;--mg-font-sans:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;--mg-font-display:'Bricolage Grotesque','Figtree',system-ui,sans-serif}body{margin:0;background:var(--mg-outer);font-family:var(--mg-font-sans)}a{color:var(--mg-primary)}a:hover{color:var(--mg-clay-text)}*::-webkit-scrollbar{display:none}*{scrollbar-width:none;-webkit-tap-highlight-color:transparent}input{font-family:inherit}:focus-visible{outline:2px solid var(--mg-focus);outline-offset:2px}.mg-phone{--top:44px;--nav:84px}.mg-hit{position:relative}.mg-hit::after{content:'';position:absolute;inset:-9px}@media (max-width:520px){.mg-stage{padding:0!important;align-items:stretch!important;min-height:100dvh!important}.mg-phone{width:100%!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;--top:max(8px,env(safe-area-inset-top));--nav:calc(58px + max(12px,env(safe-area-inset-bottom)))}.mg-fake{display:none!important}.mg-topsp{height:var(--top)!important}.mg-nav{padding-bottom:max(12px,env(safe-area-inset-bottom))!important}}@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
-h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(--mg-font-display);font-weight:800 !important}</style>
+h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(--mg-font-display);font-weight:800 !important}
+/* Felles stiler som går igjen i malen */
+.s1{font-size:18px;font-weight:800;letter-spacing:-.02em}.s2{font-size:12px;color:var(--mg-ink-muted)}.s3{margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em}.s4{display:flex;flex-direction:column;gap:10px}.s5{font-size:12px;font-weight:700}.s6{position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto}.s7{display:flex;gap:3px}.s8{font-size:16px;font-weight:800}.s9{width:7px;height:7px;border-radius:50%}.s10{display:flex;flex-direction:column;gap:2px}.s11{flex:1;min-width:0}.s12{font-size:12px;color:var(--mg-ink-muted);font-weight:600}.s13{font-size:16px;font-weight:700}.s14{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px}.s15{width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center}.s16{font-size:22px;font-weight:800}.s17{font-size:14px;font-weight:700;color:var(--mg-ink-muted)}.s18{font-size:14px;color:var(--mg-ink-muted)}.s19{font-size:12px;font-weight:700;color:var(--mg-ink-muted)}.s20{font-size:18px;font-weight:800}.s21{width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer}.s22{display:flex;flex-direction:column;gap:12px}.s23{width:6px;height:6px;border-radius:50%}.s24{border:0;cursor:pointer;font-family:inherit}.s25{display:flex;gap:12px;align-items:center;padding:8px;background:var(--mg-surface);border-radius:var(--mg-r-lg);cursor:pointer}.s26{font-weight:700;font-size:14px}.s27{display:flex;gap:9px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)}.s28{background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;display:flex;flex-direction:column;gap:6px}.s29{color:var(--mg-ink-subtle)}.s30{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)}.s31{height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)}.s32{background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px;display:flex;flex-direction:column;gap:2px}.s33{display:flex;gap:8px}.s34{width:44px;height:44px;border-radius:50%;border:0}.s35{margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1.1}.s36{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}.s37{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--mg-butter-ink)}.s38{display:flex;justify-content:space-between;align-items:baseline}.s39{display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px}.s40{display:flex;gap:2px}.s41{font-size:12px;font-weight:800;letter-spacing:.08em}.s42{font-size:12px;color:var(--mg-ink-muted);line-height:1.35}.s43{font-size:14px;font-weight:700}.s44{display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px}.s45{font-size:17px;font-weight:800;letter-spacing:-.02em}.s46{display:flex;gap:10px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)}.s47{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.s48{font-size:12px;opacity:.8;font-weight:600}.s49{display:flex;flex-direction:column;gap:20px}.s50{padding:0 20px;display:flex;flex-direction:column;gap:14px}.s51{padding:26px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg);display:flex;flex-direction:column;gap:12px;align-items:center}.s52{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.s53{border:0;background:var(--mg-surface-sunken);font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)}.s54{width:64px;height:64px;flex:none;border-radius:var(--mg-r-md)}.s55{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.s56{font-size:14px;font-weight:700;line-height:1.25}.s57{display:flex;flex-direction:column;gap:8px}.s58{font-size:14px;color:var(--mg-ink-muted);margin-top:2px}.s59{display:flex;flex-direction:column;gap:6px}.s60{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer}.s61{font-size:12px;color:var(--mg-ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.s62{text-align:right;flex:none}.s63{font-size:14px;font-weight:800}.s64{display:flex;gap:8px;align-items:center}.s65{width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer}.s66{display:flex;flex-direction:column;gap:10px;padding:0 4px}.s67{display:flex;flex-wrap:wrap;gap:8px}.s68{flex:1;height:1px;background:var(--mg-border)}.s69{padding:calc(var(--top) + 10px) 20px 24px;display:flex;flex-direction:column;gap:20px}.s70{background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden}.s71{padding:16px;font-size:16px;font-weight:700;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer;display:flex;justify-content:space-between}.s72{background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px}.s73{border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:var(--mg-ink);text-align:left}</style>
 </helmet>
 <div class="mg-stage" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;box-sizing:border-box;background:var(--mg-outer)">
 <div class="mg-phone" style="position:relative;width:390px;height:844px;flex:none;border-radius:54px;background:var(--mg-bg);overflow:hidden;box-shadow:0 0 0 11px #161a16,0 40px 90px rgba(20,30,15,.35);display:flex;flex-direction:column;font-family:var(--mg-font-sans);color:var(--mg-ink)">
@@ -40,12 +42,12 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="height:58px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:8px">
 <button onClick="{{ openSearch }}" title="Søk oppskrifter" aria-label="Søk oppskrifter" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></button>
 <button onClick="{{ goHome }}" aria-label="Mat-appen, til forsiden" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--mg-ink);padding:6px 10px;min-height:44px"><sc-if value="{{ isHome }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-clay)"></span></sc-if><sc-if value="{{ notHome }}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b5e04f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8.5a1 1 0 01-1 1h-4.5v-6h-5v6H5a1 1 0 01-1-1z"></path></svg></sc-if>mat-appen</button>
-<div style="display:flex;gap:8px">
-<button onClick="{{ openProfile }}" title="Profil" aria-label="{{ profileLabel }}" style="width:44px;height:44px;border-radius:50%;border:0;background:{{ avatarBg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink);font-family:inherit;font-weight:800;font-size:14px">
+<div class="s33">
+<button onClick="{{ openProfile }}" title="Profil" aria-label="{{ profileLabel }}" class="s34" style="background:{{ avatarBg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink);font-family:inherit;font-weight:800;font-size:14px">
 <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">{{ initials }}</sc-if>
 <sc-if value="{{ notLoggedIn }}" hint-placeholder-val="{{ true }}"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></sc-if>
 </button>
-<button onClick="{{ toggleMenu }}" title="Meny" aria-label="Åpne meny" aria-expanded="{{ menuOpen }}" aria-haspopup="menu" style="width:44px;height:44px;border-radius:50%;border:0;background:{{ menuBtnBg }};color:{{ menuBtnFg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<button onClick="{{ toggleMenu }}" title="Meny" aria-label="Åpne meny" aria-expanded="{{ menuOpen }}" aria-haspopup="menu" class="s34" style="background:{{ menuBtnBg }};color:{{ menuBtnFg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 </div>
 </div>
 
@@ -53,59 +55,59 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:26px">
-<div style="display:flex;flex-direction:column;gap:2px">
+<div class="s10">
 <div style="font-size:14px;color:var(--mg-ink-muted);font-weight:600">{{ todayLabel }}</div>
-<h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1.1">{{ greeting }}</h1>
+<h1 class="s35">{{ greeting }}</h1>
 </div>
 <sc-if value="{{ hasTonight }}" hint-placeholder-val="{{ true }}">
 <div onClick="{{ tonight.open }}" role="button" tabIndex="0" style="background:var(--mg-butter);border-radius:var(--mg-r-xl);padding:20px;display:flex;gap:14px;align-items:center;cursor:pointer">
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
-<div style="font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--mg-butter-ink)">I KVELD · MIDDAG</div>
+<div class="s36">
+<div class="s37">I KVELD · MIDDAG</div>
 <div style="font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.15">{{ tonight.name }}</div>
-<div style="display:flex;gap:10px;font-size:12px;color:#3a4a2a;font-weight:600;align-items:center;white-space:nowrap"><span>{{ tonight.timeLabel }}</span><span role="img" aria-label="{{ tonight.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ tonight.dots }}" as="d" hint-placeholder-count="5"><span style="width:7px;height:7px;border-radius:50%;background:{{ d }}"></span></sc-for></span><span>{{ tonight.costLabel }}</span></div>
+<div style="display:flex;gap:10px;font-size:12px;color:#3a4a2a;font-weight:600;align-items:center;white-space:nowrap"><span>{{ tonight.timeLabel }}</span><span role="img" aria-label="{{ tonight.diffAria }}" class="s7"><sc-for list="{{ tonight.dots }}" as="d" hint-placeholder-count="5"><span class="s9" style="background:{{ d }}"></span></sc-for></span><span>{{ tonight.costLabel }}</span></div>
 <div style="margin-top:4px;align-self:flex-start;background:var(--mg-ink);color:#fff;font-size:14px;font-weight:700;padding:9px 16px;border-radius:var(--mg-r-pill)">Se oppskrift</div>
 </div>
 <div style="width:104px;height:104px;flex:none;border-radius:50%;background:{{ tonight.img }};border:4px solid var(--mg-surface);display:flex;align-items:center;justify-content:center;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45);text-align:center" aria-hidden="true"></div>
 </div>
 </sc-if>
 <sc-if value="{{ noTonight }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ goPlan }}" role="button" tabIndex="0" style="background:var(--mg-butter);border-radius:var(--mg-r-xl);padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--mg-butter-ink)">I KVELD</div><div style="font-size:22px;font-weight:800">Ingen middag planlagt ennå</div><div style="align-self:flex-start;background:var(--mg-ink);color:#fff;font-size:14px;font-weight:700;padding:9px 16px;border-radius:var(--mg-r-pill)">Planlegg nå</div></div>
+<div onClick="{{ goPlan }}" role="button" tabIndex="0" style="background:var(--mg-butter);border-radius:var(--mg-r-xl);padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:8px"><div class="s37">I KVELD</div><div class="s16">Ingen middag planlagt ennå</div><div style="align-self:flex-start;background:var(--mg-ink);color:#fff;font-size:14px;font-weight:700;padding:9px 16px;border-radius:var(--mg-r-pill)">Planlegg nå</div></div>
 </sc-if>
 
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Mest populære</div><button onClick="{{ goOpp }}" style="border:0;background:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-primary);cursor:pointer;padding:13px 6px;margin:-13px -6px">Se alle</button></div>
-<div style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<div class="s22">
+<div class="s38"><div class="s1 mg-h">Mest populære</div><button onClick="{{ goOpp }}" style="border:0;background:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-primary);cursor:pointer;padding:13px 6px;margin:-13px -6px">Se alle</button></div>
+<div class="s39">
 <sc-for list="{{ popular }}" as="r" hint-placeholder-count="3">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:164px;scroll-snap-align:start;cursor:pointer;display:flex;flex-direction:column;gap:8px">
 <div style="height:164px;border-radius:var(--mg-r-lg);background:{{ r.img }};position:relative;display:flex;align-items:flex-end;padding:10px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45)">{{ r.imgLabel }}<span style="position:absolute;top:10px;left:10px;background:var(--mg-ink);color:#fff;font:800 11px 'Figtree',sans-serif;padding:4px 9px;border-radius:var(--mg-r-pill)">#{{ r.rank }}</span></div>
-<div style="padding:0 4px;display:flex;flex-direction:column;gap:5px"><div style="font-size:14px;font-weight:700;line-height:1.2">{{ r.name }}</div><div style="display:flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted);white-space:nowrap"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:2px"><sc-for list="{{ r.dots }}" as="x"><span style="width:6px;height:6px;border-radius:50%;background:{{ x }}"></span></sc-for></span></div></div>
+<div style="padding:0 4px;display:flex;flex-direction:column;gap:5px"><div style="font-size:14px;font-weight:700;line-height:1.2">{{ r.name }}</div><div style="display:flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted);white-space:nowrap"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s40"><sc-for list="{{ r.dots }}" as="x"><span class="s23" style="background:{{ x }}"></span></sc-for></span></div></div>
 </div>
 </sc-for>
 </div>
 </div>
 
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Aktuelt</div>
-<div style="display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<div class="s22">
+<div class="s1 mg-h">Aktuelt</div>
+<div class="s39">
 <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
 <div onClick="{{ n.open }}" role="button" tabIndex="0" style="flex:none;width:236px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
 <div style="height:118px;background:{{ n.img }};display:flex;align-items:flex-end;padding:10px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45)">{{ n.imgLabel }}</div>
 <div style="padding:12px 14px 16px;display:flex;flex-direction:column;gap:5px">
-<div style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ n.tagColor }}">{{ n.tag }}</div>
+<div class="s41" style="color:{{ n.tagColor }}">{{ n.tag }}</div>
 <div style="font-size:16px;font-weight:700;line-height:1.25;text-wrap:pretty">{{ n.title }}</div>
-<div style="font-size:12px;color:var(--mg-ink-muted);line-height:1.35">{{ n.sub }}</div>
+<div class="s42">{{ n.sub }}</div>
 </div>
 </div>
 </sc-for>
 </div>
 </div>
 
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Ukens oppgaver</div><div style="font-size:14px;font-weight:700;color:var(--mg-ink-muted)">{{ tasksDone }}</div></div>
+<div class="s4">
+<div class="s38"><div class="s1 mg-h">Ukens oppgaver</div><div class="s17">{{ tasksDone }}</div></div>
 <sc-for list="{{ tasks }}" as="t" hint-placeholder-count="4">
 <div style="display:flex;align-items:center;gap:12px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px 14px;box-shadow:var(--mg-shadow-1)">
 <button onClick="{{ t.toggle }}" class="mg-hit" role="checkbox" aria-checked="{{ t.done }}" aria-label="{{ t.title }}" style="width:26px;height:26px;flex:none;border-radius:var(--mg-r-sm);border:2px solid {{ t.boxBorder }};background:{{ t.boxBg }};display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:var(--mg-ink)"><sc-if value="{{ t.done }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></button>
-<div onClick="{{ t.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:2px"><div style="font-size:14px;font-weight:700;text-decoration:{{ t.deco }};color:{{ t.color }}">{{ t.title }}</div><div style="font-size:12px;color:var(--mg-ink-muted)">{{ t.sub }}</div></div>
+<div onClick="{{ t.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:2px"><div class="s43" style="text-decoration:{{ t.deco }};color:{{ t.color }}">{{ t.title }}</div><div class="s2">{{ t.sub }}</div></div>
 <svg aria-hidden="true" onClick="{{ t.open }}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#646958" stroke-width="2.2" stroke-linecap="round" style="cursor:pointer;flex:none"><path d="M9 5l7 7-7 7"></path></svg>
 </div>
 </sc-for>
@@ -115,17 +117,17 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isFav }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:16px">
-<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Favoritter</h1><div style="font-size:14px;color:var(--mg-ink-muted)">{{ favCountLabel }}</div></div>
-<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
+<div class="s10"><h1 class="s3 mg-h">Favoritter</h1><div class="s18">{{ favCountLabel }}</div></div>
+<div class="s44">
 <sc-for list="{{ favSorts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="flex:none;white-space:nowrap;border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:8px 14px;border-radius:var(--mg-r-pill);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
 </div>
 <sc-for list="{{ favList }}" as="r" hint-placeholder-count="4">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="display:flex;gap:14px;align-items:center;padding:10px;background:var(--mg-surface);border-radius:var(--mg-r-lg);cursor:pointer;box-shadow:var(--mg-shadow-1)">
 <div style="width:92px;height:92px;flex:none;border-radius:var(--mg-r-md);background:{{ r.img }};display:flex;align-items:flex-end;padding:7px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45)">{{ r.imgLabel }}</div>
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
+<div class="s36">
 <div style="font-weight:700;font-size:16px;line-height:1.2;letter-spacing:-.01em">{{ r.name }}</div>
 <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mg-ink-muted);font-weight:600;white-space:nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>{{ r.timeLabel }}<span style="opacity:.35">·</span>{{ r.costLabel }}</div>
-<div style="display:flex;align-items:center;gap:7px"><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="d"><span style="width:8px;height:8px;border-radius:50%;background:{{ d }}"></span></sc-for></span><span style="font-size:12px;font-weight:700;color:var(--mg-butter-ink);white-space:nowrap">{{ r.diffLabel }}</span><span style="font-size:12px;color:var(--mg-ink-subtle);font-weight:600;white-space:nowrap">· {{ r.ingCount }}</span></div>
+<div style="display:flex;align-items:center;gap:7px"><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="d"><span style="width:8px;height:8px;border-radius:50%;background:{{ d }}"></span></sc-for></span><span style="font-size:12px;font-weight:700;color:var(--mg-butter-ink);white-space:nowrap">{{ r.diffLabel }}</span><span style="font-size:12px;color:var(--mg-ink-subtle);font-weight:600;white-space:nowrap">· {{ r.ingCount }}</span></div>
 </div>
 <button onClick="{{ r.toggleFav }}" aria-label="{{ r.favLabel }}" aria-pressed="{{ r.isFav }}" style="align-self:flex-start;border:0;background:none;cursor:pointer;padding:11px;margin:-7px -7px 0 0"><svg width="22" height="22" viewBox="0 0 24 24" fill="{{ r.starFill }}" stroke="{{ r.starStroke }}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></button>
 </div>
@@ -136,7 +138,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
-<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Tilbud</h1><div style="font-size:14px;color:var(--mg-ink-muted)">{{ offersSub }}</div></div>
+<div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div></div>
 <sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-nav-bg)">{{ listOffersText }}</div></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
@@ -151,47 +153,47 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:20px">
-<div style="display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Plan</h1><div style="font-size:14px;color:var(--mg-ink-muted)">{{ weekLabel }}</div></div>
+<div class="s10"><h1 class="s3 mg-h">Plan</h1><div class="s18">{{ weekLabel }}</div></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-xl);padding:14px 10px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;box-shadow:var(--mg-shadow-1)">
 <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
-<button onClick="{{ d.pick }}" aria-pressed="{{ d.sel }}" aria-label="{{ d.aria }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ d.bg }};border-radius:var(--mg-r-md);padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--mg-ink)">
-<span style="font-size:12px;font-weight:700;color:{{ d.lblColor }}">{{ d.label }}</span>
+<button onClick="{{ d.pick }}" aria-pressed="{{ d.sel }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--mg-ink)">
+<span class="s5" style="color:{{ d.lblColor }}">{{ d.label }}</span>
 <span style="font-size:17px;font-weight:800">{{ d.date }}</span>
-<span style="width:6px;height:6px;border-radius:50%;background:{{ d.dot }}"></span>
+<span class="s23" style="background:{{ d.dot }}"></span>
 </button>
 </sc-for>
 </div>
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="font-size:16px;font-weight:800">{{ dayTitle }}</div>
+<div class="s4">
+<div class="s8 mg-h">{{ dayTitle }}</div>
 <sc-for list="{{ dayMeals }}" as="r" hint-placeholder-count="1">
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden;box-shadow:var(--mg-shadow-1)">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="height:130px;background:{{ r.img }};display:flex;align-items:flex-end;padding:10px 14px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45);cursor:pointer">{{ r.imgLabel }}</div>
 <div style="padding:14px 16px;display:flex;align-items:center;gap:10px">
-<div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:6px"><div style="font-size:17px;font-weight:800;letter-spacing:-.02em">{{ r.name }}</div><div style="display:flex;gap:10px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="x"><span style="width:7px;height:7px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
+<div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:6px"><div class="s45 mg-h">{{ r.name }}</div><div class="s46"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
 <button onClick="{{ r.remove }}" style="border:0;background:var(--mg-surface-sunken);color:var(--mg-ink-muted);font-family:inherit;font-weight:700;font-size:12px;padding:8px 12px;border-radius:var(--mg-r-pill);cursor:pointer">Fjern</button>
 </div>
 </div>
 </sc-for>
 <button onClick="{{ openPicker }}" style="border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);padding:16px;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-ink-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>{{ addLabel }}</button>
 </div>
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Handleliste</div>
+<div class="s4">
+<div class="s1 mg-h">Handleliste</div>
 <button onClick="{{ openWeekShop }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-primary);color:#fff;border-radius:var(--mg-r-xl);padding:20px;min-height:96px;display:flex;align-items:center;gap:16px">
 <span style="width:52px;height:52px;flex:none;border-radius:var(--mg-r-md);background:#b5e04f;color:var(--mg-ink);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 7h11M9 12h11M9 17h11"></path><circle cx="4.5" cy="7" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="12" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="17" r="1.3" fill="currentColor"></circle></svg></span>
-<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px"><span style="font-size:18px;font-weight:800;letter-spacing:-.02em">Handleliste for hele uka</span><span style="font-size:12px;opacity:.8;font-weight:600">{{ weekShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
+<span class="s47"><span class="s1 mg-h">Handleliste for hele uka</span><span class="s48">{{ weekShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
 </button>
 <button onClick="{{ openDayShop }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-xl);padding:20px;min-height:96px;display:flex;align-items:center;gap:16px">
 <span style="width:52px;height:52px;flex:none;border-radius:var(--mg-r-md);background:var(--mg-ink);color:var(--mg-butter);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path><circle cx="12" cy="15" r="1.6" fill="currentColor"></circle></svg></span>
-<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px"><span style="font-size:18px;font-weight:800;letter-spacing:-.02em">{{ dayShopTitle }}</span><span style="font-size:12px;opacity:.8;font-weight:600">{{ dayShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
+<span class="s47"><span class="s1 mg-h">{{ dayShopTitle }}</span><span class="s48">{{ dayShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
 </button>
 </div>
 </div>
 </sc-if>
 
 <sc-if value="{{ isOpp }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;flex-direction:column;gap:20px">
-<div style="padding:0 20px;display:flex;flex-direction:column;gap:14px">
-<h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Oppskrifter</h1>
+<div class="s49">
+<div class="s50">
+<h1 class="s3 mg-h">Oppskrifter</h1>
 <div style="display:flex;align-items:center;gap:10px;background:var(--mg-surface);border-radius:var(--mg-r-pill);padding:0 8px 0 18px;height:52px;box-shadow:var(--mg-shadow-1)">
 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#666b5c" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
 <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Søk i alle oppskrifter" aria-label="Søk i alle oppskrifter" type="search" style="flex:1;min-width:0;border:0;outline:none;background:none;font-size:16px;color:var(--mg-ink)">
@@ -200,19 +202,19 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
-<div aria-live="polite" style="font-size:14px;font-weight:700;color:var(--mg-ink-muted)">{{ resultsLabel }}</div>
-<sc-if value="{{ noHits }}"><div style="padding:26px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg);display:flex;flex-direction:column;gap:12px;align-items:center"><span>Ingen oppskrifter passer «{{ q }}».<br>Prøv en ingrediens eller en av disse:</span><span style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><sc-for list="{{ suggestions }}" as="g"><button onClick="{{ g.pick }}" style="border:0;background:var(--mg-surface-sunken);font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)">{{ g.label }}</button></sc-for></span></div></sc-if>
+<div aria-live="polite" class="s17">{{ resultsLabel }}</div>
+<sc-if value="{{ noHits }}"><div class="s51"><span>Ingen oppskrifter passer «{{ q }}».<br>Prøv en ingrediens eller en av disse:</span><span class="s52"><sc-for list="{{ suggestions }}" as="g"><button onClick="{{ g.pick }}" class="s53">{{ g.label }}</button></sc-for></span></div></sc-if>
 <sc-for list="{{ results }}" as="r" hint-placeholder-count="3">
-<div onClick="{{ r.open }}" role="button" tabIndex="0" style="display:flex;gap:12px;align-items:center;padding:8px;background:var(--mg-surface);border-radius:var(--mg-r-lg);cursor:pointer">
-<div style="width:64px;height:64px;flex:none;border-radius:var(--mg-r-md);background:{{ r.img }}"></div>
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-weight:700;font-size:14px">{{ r.name }}</div><div style="display:flex;gap:9px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="x"><span style="width:7px;height:7px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
+<div onClick="{{ r.open }}" role="button" tabIndex="0" class="s25">
+<div class="s54" style="background:{{ r.img }}"></div>
+<div class="s55"><div class="s26">{{ r.name }}</div><div class="s27"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
 </div>
 </sc-for>
 </div>
 </sc-if>
 <sc-if value="{{ notSearching }}" hint-placeholder-val="{{ true }}">
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="padding:0 20px;display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Populært nå</div></div>
+<div class="s22">
+<div style="padding:0 20px;display:flex;justify-content:space-between;align-items:baseline"><div class="s1 mg-h">Populært nå</div></div>
 <div style="display:flex;gap:14px;overflow-x:auto;padding:0 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ popular }}" as="r" hint-placeholder-count="2">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:258px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-xl);padding:8px;cursor:pointer;box-shadow:var(--mg-shadow-1)">
@@ -222,7 +224,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 <div style="padding:12px 8px 8px;display:flex;flex-direction:column;gap:7px">
 <div style="font-size:16px;font-weight:800;letter-spacing:-.02em">{{ r.name }}</div>
-<div style="display:flex;gap:10px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="x"><span style="width:7px;height:7px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="margin-left:auto;font-weight:800;color:var(--mg-ink)">{{ r.costLabel }}</span></div>
+<div class="s46"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span style="margin-left:auto;font-weight:800;color:var(--mg-ink)">{{ r.costLabel }}</span></div>
 </div>
 </div>
 </sc-for>
@@ -239,7 +241,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 <div style="padding:9px 6px 6px;display:flex;flex-direction:column;gap:6px;flex:1">
 <div style="font-size:14px;font-weight:700;line-height:1.2;flex:1">{{ r.name }}</div>
-<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:2px"><sc-for list="{{ r.dots }}" as="x"><span style="width:6px;height:6px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span>{{ r.costShort }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s40"><sc-for list="{{ r.dots }}" as="x"><span class="s23" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costShort }}</span></div>
 </div>
 </div>
 </sc-for>
@@ -250,8 +252,8 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ isLaere }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;flex-direction:column;gap:20px">
-<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Lære</h1><div style="font-size:14px;color:var(--mg-ink-muted)">Kunnskap om maten du spiser</div></div>
+<div class="s49">
+<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s3 mg-h">Lære</h1><div class="s18">Kunnskap om maten du spiser</div></div>
 <div style="padding:0 20px">
 <div onClick="{{ openInsight }}" role="button" tabIndex="0" style="background:var(--mg-ink);color:#fff;border-radius:var(--mg-r-xl);padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative;overflow:hidden">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#7ea6ff"></span><span style="font-size:12px;font-weight:800;letter-spacing:.1em;color:#a9c3ff">DAGENS INNSIKT · {{ todayName }}</span></div>
@@ -264,12 +266,12 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div onClick="{{ a.open }}" role="button" tabIndex="0" style="flex:none;width:272px;height:212px;scroll-snap-align:start;border-radius:var(--mg-r-xl);background:{{ a.bg }};color:{{ a.ink }};padding:20px;box-sizing:border-box;position:relative;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between">
 <div style="position:absolute;right:-10px;bottom:-34px;font-size:120px;font-weight:800;letter-spacing:-.06em;opacity:.13;line-height:1">{{ a.sym }}</div>
 <div style="align-self:flex-start;background:rgba(255,255,255,.55);font-size:12px;font-weight:800;letter-spacing:.08em;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ a.topicLabel }}</div>
-<div style="position:relative;display:flex;flex-direction:column;gap:8px"><div style="font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.15;color:var(--mg-ink);text-wrap:pretty">{{ a.title }}</div><div style="font-size:12px;font-weight:700">{{ a.mins }} min lesing →</div></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:8px"><div style="font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.15;color:var(--mg-ink);text-wrap:pretty">{{ a.title }}</div><div class="s5">{{ a.mins }} min lesing →</div></div>
 </div>
 </sc-for>
 </div>
-<div style="padding:0 20px;display:flex;flex-direction:column;gap:14px">
-<div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Utforsk tema</div>
+<div class="s50">
+<div class="s1 mg-h">Utforsk tema</div>
 <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:6px 0">
 <sc-for list="{{ topics }}" as="t" hint-placeholder-count="7">
 <button onClick="{{ t.open }}" style="border:0;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:10px;background:{{ t.bg }};padding:6px 18px 6px 6px;border-radius:var(--mg-r-pill);transform:rotate({{ t.rot }}deg)">
@@ -280,11 +282,11 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 </div>
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:8px">
-<div style="font-size:18px;font-weight:800;letter-spacing:-.02em">Alle artikler</div>
+<div class="s1 mg-h">Alle artikler</div>
 <sc-for list="{{ allArts }}" as="a" hint-placeholder-count="4">
 <div onClick="{{ a.open }}" role="button" tabIndex="0" style="display:flex;gap:12px;align-items:center;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;cursor:pointer">
 <div style="width:46px;height:46px;flex:none;border-radius:var(--mg-r-md);background:{{ a.bg }};color:{{ a.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ a.sym }}</div>
-<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;line-height:1.25">{{ a.title }}</div><div style="font-size:12px;color:var(--mg-ink-muted);margin-top:2px">{{ a.topicName }} · {{ a.mins }} min</div></div>
+<div class="s11"><div class="s56">{{ a.title }}</div><div style="font-size:12px;color:var(--mg-ink-muted);margin-top:2px">{{ a.topicName }} · {{ a.mins }} min</div></div>
 </div>
 </sc-for>
 </div>
@@ -300,23 +302,23 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <sc-if value="{{ rd.hasLearn }}"><button onClick="{{ rd.openLearn }}" aria-label="{{ rd.learnAria }}" style="position:absolute;top:calc(var(--top) + 10px);right:68px;height:44px;padding:0 14px 0 11px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-info);color:#fff;display:flex;align-items:center;gap:6px;cursor:pointer;font-family:var(--mg-font-sans);font-weight:800;font-size:14px;box-shadow:0 4px 14px rgba(47,111,224,.45)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg>Lær mer · {{ rd.learnCount }}</button></sc-if>
 </div>
 <div style="margin-top:-26px;position:relative;background:var(--mg-bg);border-radius:var(--mg-r-xl) 28px 0 0;padding:24px 20px 32px;display:flex;flex-direction:column;gap:22px;flex:1">
-<div style="display:flex;flex-direction:column;gap:10px">
+<div class="s4">
 <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ rd.catLabels }}" as="c"><span style="font-size:12px;font-weight:800;letter-spacing:.04em;padding:4px 10px;border-radius:var(--mg-r-pill);background:var(--mg-primary-soft);color:var(--mg-butter-ink)">{{ c }}</span></sc-for></div>
-<h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1.1">{{ rd.name }}</h2>
+<h2 class="s35">{{ rd.name }}</h2>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px">
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Tid</span><span style="font-size:18px;font-weight:800">{{ rd.timeLabel }}</span></div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Pris</span><span style="font-size:18px;font-weight:800">{{ rd.costShort }}</span><span style="font-size:12px;color:var(--mg-ink-muted)">{{ rd.portions }}</span></div>
+<div class="s28"><span class="s19">Tid</span><span class="s20 mg-h">{{ rd.timeLabel }}</span></div>
+<div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
+<div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
-<div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:800">Antall personer</div><div style="font-size:12px;color:var(--mg-ink-muted)">{{ rd.peopleSub }}</div></div>
+<div class="s11"><div class="s8">Antall personer</div><div class="s2">{{ rd.peopleSub }}</div></div>
 <button onClick="{{ rd.peopleMinus }}" aria-label="Færre personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
 <span aria-live="polite" style="min-width:26px;text-align:center;font-size:22px;font-weight:800">{{ rd.people }}</span>
 <button onClick="{{ rd.peoplePlus }}" aria-label="Flere personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
 </div>
-<div style="display:flex;flex-direction:column;gap:8px">
-<div style="font-size:18px;font-weight:800">Ingredienser</div>
+<div class="s57">
+<div class="s20 mg-h">Ingredienser</div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px">
 <div style="font-size:12px;color:var(--mg-ink-muted);padding:10px 0 2px">Trykk på det du har, så krysses det av.</div><sc-for list="{{ rd.ing }}" as="i"><div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.have }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);font-size:14px;cursor:pointer;opacity:{{ i.op }}"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-weight:600;text-decoration:{{ i.deco }}">{{ i.n }}</span><sc-if value="{{ i.hasNote }}"><span style="font-size:12px;color:var(--mg-ink-subtle);font-weight:600">{{ i.note }}</span></sc-if></span><span style="color:var(--mg-ink-muted)">{{ i.m }}</span><span style="width:56px;flex:none;text-align:right;font-weight:700;color:{{ i.priceColor }}">{{ i.price }}</span></div></sc-for>
 <div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
@@ -324,13 +326,13 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 12px">{{ rd.servingsNote }}</div>
 </div>
 </div>
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div style="font-size:18px;font-weight:800">Slik gjør du</div><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:#fff;font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></div>
+<div class="s4">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s20 mg-h">Slik gjør du</div><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:#fff;font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></div>
 <sc-for list="{{ rd.steps }}" as="s"><div onClick="{{ s.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ s.done }}" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:{{ s.op }}"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ s.mark }}</span><span style="font-size:14px;line-height:1.5;padding-top:3px;text-decoration:{{ s.deco }}">{{ s.text }}</span></div></sc-for>
 </div>
 </div>
 <div style="position:sticky;bottom:0;z-index:2;background:linear-gradient(rgba(243,242,234,0),var(--mg-bg) 28%);padding:22px 20px max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px">
-<sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ d.label }}</span><span style="font-size:16px;font-weight:800">{{ d.date }}</span></button></sc-for></div></sc-if>
+<sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span></button></sc-for></div></sc-if>
 <button onClick="{{ rd.togglePick }}" aria-expanded="{{ rd.pickOpen }}" style="box-shadow:0 6px 18px rgba(30,50,25,.25);border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
 
 </div>
@@ -342,13 +344,13 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="background:var(--mg-bg);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25)">
 <div style="display:flex;align-items:center;gap:12px;padding:2px 2px 4px">
 <span style="width:42px;height:42px;flex:none;border-radius:50%;background:var(--mg-info);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg></span>
-<div style="flex:1"><div style="font-size:17px;font-weight:800;letter-spacing:-.02em">Lær mer om retten</div><div style="font-size:12px;color:var(--mg-ink-muted);font-weight:600">Utvalgte temaer fra Lære</div></div>
+<div style="flex:1"><div class="s45 mg-h">Lær mer om retten</div><div class="s12">Utvalgte temaer fra Lære</div></div>
 <button onClick="{{ rd.closeLearn }}" aria-label="Lukk" style="border:0;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--mg-surface-sunken);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
 </div>
 <sc-for list="{{ rd.learn }}" as="l">
 <div onClick="{{ l.open }}" role="button" tabIndex="0" style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px;display:flex;gap:14px;align-items:center;cursor:pointer">
 <span style="width:50px;height:50px;flex:none;border-radius:50%;background:{{ l.bg }};color:{{ l.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px">{{ l.sym }}</span>
-<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;color:{{ l.ink }}">{{ l.topicLabel }}</span><span style="font-size:16px;font-weight:800;line-height:1.2;color:var(--mg-ink)">{{ l.title }}</span><span style="font-size:12px;color:var(--mg-ink-muted);line-height:1.35">{{ l.why }}</span></span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span class="s41" style="color:{{ l.ink }}">{{ l.topicLabel }}</span><span style="font-size:16px;font-weight:800;line-height:1.2;color:var(--mg-ink)">{{ l.title }}</span><span class="s42">{{ l.why }}</span></span>
 <span style="color:var(--mg-info);font-weight:800;font-size:18px">→</span>
 </div>
 </sc-for>
@@ -358,32 +360,32 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovShop }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
+<div class="s6">
 <div style="padding:calc(var(--top) + 10px) 20px 28px;display:flex;flex-direction:column;gap:16px">
-<button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div><h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Handleliste</h2><div style="font-size:14px;color:var(--mg-ink-muted);margin-top:2px">{{ sl.sub }}</div></div>
-<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div><h2 class="s3 mg-h">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div>
+<div class="s44">
 <sc-for list="{{ shopChips }}" as="c"><button onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div>
 <sc-if value="{{ sl.empty }}"><div style="padding:36px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">Ingen retter er planlagt her ennå.<br>Legg til middager i planen først.</div></sc-if>
 <sc-if value="{{ sl.has }}">
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="font-size:16px;font-weight:800">{{ sl.meta }}</span><span style="font-size:14px;font-weight:700;color:var(--mg-ink-muted);white-space:nowrap">{{ sl.chain }}: {{ sl.total }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span class="s8">{{ sl.meta }}</span><span style="font-size:14px;font-weight:700;color:var(--mg-ink-muted);white-space:nowrap">{{ sl.chain }}: {{ sl.total }}</span></div>
 <div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:8px;border-radius:var(--mg-r-pill);background:var(--mg-surface-sunken);overflow:hidden"><div style="height:100%;width:{{ sl.pct }};background:var(--mg-primary);border-radius:var(--mg-r-pill);transition:width .3s"></div></div>
 <button onClick="{{ sl.share }}" style="align-self:flex-start;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:7px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg>Del listen</button>
 </div>
 </sc-if>
-<form onSubmit="{{ sl.addOwn }}" style="display:flex;gap:8px"><input value="{{ ownItem }}" onChange="{{ onOwn }}" aria-label="Legg til egen vare" placeholder="Legg til egen vare, f.eks. dopapir" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
+<form onSubmit="{{ sl.addOwn }}" class="s33"><input value="{{ ownItem }}" onChange="{{ onOwn }}" aria-label="Legg til egen vare" placeholder="Legg til egen vare, f.eks. dopapir" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
 <sc-if value="{{ sl.has }}">
 <sc-for list="{{ sl.groups }}" as="g">
-<div style="display:flex;flex-direction:column;gap:6px">
-<div style="display:flex;justify-content:space-between;padding:0 6px;font-size:14px;font-weight:800;color:var(--mg-ink-muted)"><span>{{ g.name }}</span><span style="color:var(--mg-ink-subtle)">{{ g.count }}</span></div>
+<div class="s59">
+<div style="display:flex;justify-content:space-between;padding:0 6px;font-size:14px;font-weight:800;color:var(--mg-ink-muted)"><span>{{ g.name }}</span><span class="s29">{{ g.count }}</span></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:2px 14px">
 <sc-for list="{{ g.items }}" as="i">
-<div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.done }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer">
+<div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.done }}" class="s60">
 <div style="width:24px;height:24px;flex:none;border-radius:var(--mg-r-sm);border:2px solid {{ i.boxBorder }};background:{{ i.boxBg }};display:flex;align-items:center;justify-content:center;color:var(--mg-ink);box-sizing:border-box"><sc-if value="{{ i.done }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></div>
-<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;text-decoration:{{ i.deco }};color:{{ i.color }}">{{ i.name }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.sub }}</div></div>
-<div style="text-align:right;flex:none"><div style="font-size:14px;font-weight:800;color:{{ i.color }};white-space:nowrap">{{ i.amount }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);white-space:nowrap">{{ i.price }}</div></div>
+<div class="s11"><div class="s43" style="text-decoration:{{ i.deco }};color:{{ i.color }}">{{ i.name }}</div><div class="s61">{{ i.sub }}</div></div>
+<div class="s62"><div class="s63" style="color:{{ i.color }};white-space:nowrap">{{ i.amount }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);white-space:nowrap">{{ i.price }}</div></div>
 <sc-if value="{{ i.own }}"><button onClick="{{ i.remove }}" aria-label="Fjern {{ i.name }}" style="width:36px;height:36px;flex:none;border:0;border-radius:50%;background:var(--mg-surface-sunken);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
 </sc-for>
@@ -397,17 +399,17 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovStore }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
+<div class="s6">
 <div style="background:{{ sd.bg }};padding:calc(var(--top) + 10px) 20px 22px;display:flex;flex-direction:column;gap:14px">
 <button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,253,248,.92);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div style="display:flex;justify-content:center"><img src="{{ sd.logo }}" alt="{{ sd.name }}" style="height:120px;width:auto;display:block"></div>
 </div>
 <div style="padding:18px 20px 28px;display:flex;flex-direction:column;gap:20px">
-<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Ukas avis</h2><div style="font-size:14px;color:var(--mg-ink-muted);margin-top:2px">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:#fff;font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 class="s3">Ukas avis</h2><div class="s58">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:#fff;font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
 
 <sc-if value="{{ sd.hasTop }}">
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="font-size:16px;font-weight:800">Mest aktuelle tilbud</div>
+<div class="s4">
+<div class="s8 mg-h">Mest aktuelle tilbud</div>
 <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:170px;scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
@@ -420,8 +422,8 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 </sc-if>
 
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="font-size:16px;font-weight:800">Tilbudsavisen</div>
+<div class="s4">
+<div class="s8 mg-h">Tilbudsavisen</div>
 <sc-if value="{{ sd.isImages }}">
 <div style="display:flex;flex-direction:column;gap:8px;margin:0 -8px">
 <sc-for list="{{ sd.pages }}" as="pg" hint-placeholder-count="4">
@@ -435,21 +437,21 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <sc-if value="{{ sd.isLink }}">
 <div style="padding:20px;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">{{ sd.linkText }}</div>
 </sc-if>
-<button onClick="{{ sd.openFlyer }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ sd.btnBg }};color:{{ sd.btnFg }};border-radius:var(--mg-r-md);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:800">{{ sd.btnLabel }}</span><span style="font-size:12px;opacity:.75">{{ sd.flyerHost }}</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg></button>
+<button onClick="{{ sd.openFlyer }}" class="s24" style="background:{{ sd.btnBg }};color:{{ sd.btnFg }};border-radius:var(--mg-r-md);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left"><span class="s10"><span class="s63">{{ sd.btnLabel }}</span><span style="font-size:12px;opacity:.75">{{ sd.flyerHost }}</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg></button>
 </div>
 
 <sc-if value="{{ sd.hasOffers }}"><div style="font-size:16px;font-weight:800;margin-bottom:-10px">Prisfall denne uka</div></sc-if>
 <sc-if value="{{ sd.noOffers }}"><div style="padding:26px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">{{ sd.emptyText }}</div></sc-if>
 
 <sc-for list="{{ sd.groups }}" as="g">
-<div style="display:flex;flex-direction:column;gap:8px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 4px"><span style="font-size:16px;font-weight:800">{{ g.name }}</span><span style="font-size:12px;font-weight:700;color:var(--mg-ink-subtle)">{{ g.count }}</span></div>
+<div class="s57">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 4px"><span class="s8 mg-h">{{ g.name }}</span><span style="font-size:12px;font-weight:700;color:var(--mg-ink-subtle)">{{ g.count }}</span></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
 <sc-for list="{{ g.items }}" as="o">
-<div onClick="{{ o.open }}" role="button" tabIndex="0" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer">
+<div onClick="{{ o.open }}" role="button" tabIndex="0" class="s60">
 <span style="flex:none;width:46px;text-align:center;background:#fde3de;color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
-<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.brand }}</div></div>
-<div style="text-align:right;flex:none"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
+<div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
+<div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
 </div>
 </sc-for>
 </div>
@@ -462,7 +464,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovTopic }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
+<div class="s6">
 <div style="background:{{ td.bg }};padding:calc(var(--top) + 10px) 20px 26px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden">
 <div style="position:absolute;right:-6px;bottom:-40px;font-size:150px;font-weight:800;color:{{ td.ink }};opacity:.13;letter-spacing:-.06em">{{ td.sym }}</div>
 <button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,253,248,.9);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
@@ -470,7 +472,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="font-size:14px;line-height:1.5;max-width:300px;position:relative">{{ td.desc }}</div>
 </div>
 <div style="padding:18px 20px;display:flex;flex-direction:column;gap:8px">
-<sc-for list="{{ td.arts }}" as="a"><div onClick="{{ a.open }}" role="button" tabIndex="0" style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:4px"><div style="font-size:16px;font-weight:800;line-height:1.25">{{ a.title }}</div><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.4">{{ a.lead }}</div><div style="font-size:12px;font-weight:700;color:{{ td.ink }};margin-top:4px">{{ a.mins }} min lesing →</div></div></sc-for>
+<sc-for list="{{ td.arts }}" as="a"><div onClick="{{ a.open }}" role="button" tabIndex="0" style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:4px"><div style="font-size:16px;font-weight:800;line-height:1.25">{{ a.title }}</div><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.4">{{ a.lead }}</div><div class="s5" style="color:{{ td.ink }};margin-top:4px">{{ a.mins }} min lesing →</div></div></sc-for>
 </div>
 </div>
 </sc-if>
@@ -479,7 +481,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-surface);z-index:20;overflow-y:auto">
 <div style="padding:calc(var(--top) + 10px) 22px 32px;display:flex;flex-direction:column;gap:18px">
 <button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface-sunken);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div style="display:flex;gap:8px;align-items:center"><span style="background:{{ ad.bg }};color:{{ ad.ink }};font-size:12px;font-weight:800;letter-spacing:.08em;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ ad.topicLabel }}</span><span style="font-size:12px;color:var(--mg-ink-muted);font-weight:600">{{ ad.mins }} min lesing</span></div>
+<div class="s64"><span style="background:{{ ad.bg }};color:{{ ad.ink }};font-size:12px;font-weight:800;letter-spacing:.08em;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ ad.topicLabel }}</span><span class="s12">{{ ad.mins }} min lesing</span></div>
 <h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1.12;text-wrap:pretty">{{ ad.title }}</h2>
 <p style="margin:0;font-size:17px;line-height:1.5;font-weight:600;color:#33402f">{{ ad.lead }}</p>
 <div style="height:170px;border-radius:var(--mg-r-lg);background:{{ ad.img }};display:flex;align-items:flex-end;padding:10px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45)">illustrasjon / foto</div>
@@ -489,18 +491,18 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovSearch }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
+<div class="s6">
 <div style="padding:calc(var(--top) + 8px) 16px 24px;display:flex;flex-direction:column;gap:16px">
-<div style="display:flex;gap:8px;align-items:center">
-<button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div class="s64">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s65"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div style="flex:1;display:flex;align-items:center;gap:8px;background:var(--mg-surface);border-radius:var(--mg-r-pill);padding:0 16px;height:48px;box-shadow:var(--mg-shadow-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666b5c" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg><input autoFocus="{{ true }}" value="{{ q }}" onChange="{{ onQ }}" placeholder="Søk etter rett eller ingrediens" aria-label="Søk etter rett eller ingrediens" type="search" style="flex:1;min-width:0;border:0;outline:none;background:none;font-size:16px"></div>
 </div>
-<sc-if value="{{ notSearching }}"><sc-if value="{{ hasRecent }}"><div style="display:flex;flex-direction:column;gap:10px;padding:0 4px"><div style="font-size:14px;font-weight:700;color:var(--mg-ink-muted)">Siste søk</div><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ recent }}" as="g"><button onClick="{{ g.pick }}" style="border:1.5px solid var(--mg-border);background:none;font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)">{{ g.label }}</button></sc-for></div></div></sc-if><div style="display:flex;flex-direction:column;gap:10px;padding:0 4px"><div style="font-size:14px;font-weight:700;color:var(--mg-ink-muted)">Populære søk</div><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ suggestions }}" as="g"><button onClick="{{ g.pick }}" style="border:0;background:var(--mg-surface);font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)">{{ g.label }}</button></sc-for></div></div></sc-if>
-<sc-if value="{{ searching }}"><div aria-live="polite" style="font-size:14px;font-weight:700;color:var(--mg-ink-muted);padding:0 4px">{{ resultsLabel }}</div></sc-if><sc-if value="{{ noHits }}"><div style="padding:26px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg);display:flex;flex-direction:column;gap:12px;align-items:center"><span>Ingen oppskrifter passer «{{ q }}».<br>Prøv en ingrediens eller en av disse:</span><span style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><sc-for list="{{ suggestions }}" as="g"><button onClick="{{ g.pick }}" style="border:0;background:var(--mg-surface-sunken);font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)">{{ g.label }}</button></sc-for></span></div></sc-if>
+<sc-if value="{{ notSearching }}"><sc-if value="{{ hasRecent }}"><div class="s66"><div class="s17">Siste søk</div><div class="s67"><sc-for list="{{ recent }}" as="g"><button onClick="{{ g.pick }}" style="border:1.5px solid var(--mg-border);background:none;font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)">{{ g.label }}</button></sc-for></div></div></sc-if><div class="s66"><div class="s17">Populære søk</div><div class="s67"><sc-for list="{{ suggestions }}" as="g"><button onClick="{{ g.pick }}" style="border:0;background:var(--mg-surface);font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)">{{ g.label }}</button></sc-for></div></div></sc-if>
+<sc-if value="{{ searching }}"><div aria-live="polite" style="font-size:14px;font-weight:700;color:var(--mg-ink-muted);padding:0 4px">{{ resultsLabel }}</div></sc-if><sc-if value="{{ noHits }}"><div class="s51"><span>Ingen oppskrifter passer «{{ q }}».<br>Prøv en ingrediens eller en av disse:</span><span class="s52"><sc-for list="{{ suggestions }}" as="g"><button onClick="{{ g.pick }}" class="s53">{{ g.label }}</button></sc-for></span></div></sc-if>
 <sc-for list="{{ results }}" as="r">
-<div onClick="{{ r.open }}" role="button" tabIndex="0" style="display:flex;gap:12px;align-items:center;padding:8px;background:var(--mg-surface);border-radius:var(--mg-r-lg);cursor:pointer">
-<div style="width:64px;height:64px;flex:none;border-radius:var(--mg-r-md);background:{{ r.img }}"></div>
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px"><div style="font-weight:700;font-size:14px">{{ r.name }}</div><div style="display:flex;gap:9px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="x"><span style="width:7px;height:7px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
+<div onClick="{{ r.open }}" role="button" tabIndex="0" class="s25">
+<div class="s54" style="background:{{ r.img }}"></div>
+<div class="s55"><div class="s26">{{ r.name }}</div><div class="s27"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
 </div>
 </sc-for>
 </div>
@@ -508,13 +510,13 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovPicker }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
+<div class="s6">
 <div style="padding:calc(var(--top) + 8px) 16px 24px;display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;gap:12px;align-items:center"><button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button><div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em">Velg middag</div><div style="font-size:12px;color:var(--mg-ink-muted)">{{ dayTitle }}</div></div></div>
+<div style="display:flex;gap:12px;align-items:center"><button onClick="{{ back }}" aria-label="Tilbake" class="s65"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button><div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em">Velg middag</div><div class="s2">{{ dayTitle }}</div></div></div>
 <sc-for list="{{ pickList }}" as="r">
-<div onClick="{{ r.add }}" role="button" tabIndex="0" style="display:flex;gap:12px;align-items:center;padding:8px;background:var(--mg-surface);border-radius:var(--mg-r-lg);cursor:pointer">
+<div onClick="{{ r.add }}" role="button" tabIndex="0" class="s25">
 <div style="width:56px;height:56px;flex:none;border-radius:var(--mg-r-md);background:{{ r.img }}"></div>
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px"><div style="font-weight:700;font-size:14px">{{ r.name }}</div><div style="display:flex;gap:9px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" style="display:flex;gap:3px"><sc-for list="{{ r.dots }}" as="x"><span style="width:7px;height:7px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px"><div class="s26">{{ r.name }}</div><div class="s27"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
 <span style="width:36px;height:36px;border-radius:50%;background:var(--mg-butter);display:flex;align-items:center;justify-content:center;flex:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
 </div>
 </sc-for>
@@ -523,17 +525,17 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovLogin }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
+<div class="s6">
 <div style="padding:calc(var(--top) + 10px) 22px 24px;display:flex;flex-direction:column;gap:18px">
-<button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-<div style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">{{ lg.title }}</h2><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Lagre favoritter, ukeplan og antall personer på kontoen din, og få dem på alle enhetene dine.</div></div>
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<div class="s59"><h2 class="s3 mg-h">{{ lg.title }}</h2><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Lagre favoritter, ukeplan og antall personer på kontoen din, og få dem på alle enhetene dine.</div></div>
 <sc-if value="{{ lg.off }}"><div style="background:#fff4d6;color:#6b4e00;border-radius:var(--mg-r-md);padding:12px 14px;font-size:14px;line-height:1.45;font-weight:600">Innlogging er ikke slått på ennå. Den åpnes når Firebase-prosjektet er satt opp.</div></sc-if>
 <button onClick="{{ lg.google }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:54px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;opacity:{{ lg.opacity }}"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Fortsett med Google</button>
-<div style="display:flex;align-items:center;gap:12px;color:var(--mg-ink-subtle);font-size:12px;font-weight:700"><span style="flex:1;height:1px;background:var(--mg-border)"></span>eller med e-post<span style="flex:1;height:1px;background:var(--mg-border)"></span></div>
-<div style="display:flex;flex-direction:column;gap:10px">
-<sc-if value="{{ lg.signup }}"><label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Navn<input value="{{ lg.name }}" onChange="{{ lg.setName }}" autoComplete="name" placeholder="Fornavn Etternavn" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label></sc-if>
-<label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">E-post<input type="email" value="{{ lg.email }}" onChange="{{ lg.setEmail }}" onKeyDown="{{ lg.enter }}" autoComplete="email" placeholder="navn@epost.no" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label>
-<label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Passord<input type="password" value="{{ lg.pw }}" onChange="{{ lg.setPw }}" onKeyDown="{{ lg.enter }}" autoComplete="{{ lg.pwAuto }}" placeholder="••••••••" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label>
+<div style="display:flex;align-items:center;gap:12px;color:var(--mg-ink-subtle);font-size:12px;font-weight:700"><span class="s68"></span>eller med e-post<span class="s68"></span></div>
+<div class="s4">
+<sc-if value="{{ lg.signup }}"><label class="s30">Navn<input value="{{ lg.name }}" onChange="{{ lg.setName }}" autoComplete="name" placeholder="Fornavn Etternavn" class="s31"></label></sc-if>
+<label class="s30">E-post<input type="email" value="{{ lg.email }}" onChange="{{ lg.setEmail }}" onKeyDown="{{ lg.enter }}" autoComplete="email" placeholder="navn@epost.no" class="s31"></label>
+<label class="s30">Passord<input type="password" value="{{ lg.pw }}" onChange="{{ lg.setPw }}" onKeyDown="{{ lg.enter }}" autoComplete="{{ lg.pwAuto }}" placeholder="••••••••" class="s31"></label>
 </div>
 <sc-if value="{{ lg.hasError }}"><div style="background:#fbe3df;color:#8a2a1c;border-radius:var(--mg-r-md);padding:10px 14px;font-size:14px;font-weight:700">{{ lg.error }}</div></sc-if>
 <button onClick="{{ lg.submit }}" style="border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:54px;border-radius:var(--mg-r-pill);cursor:pointer;opacity:{{ lg.opacity }}">{{ lg.submitLabel }}</button>
@@ -545,18 +547,18 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovProfile }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
-<div style="padding:calc(var(--top) + 10px) 20px 24px;display:flex;flex-direction:column;gap:20px">
-<button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div class="s6">
+<div class="s69">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div style="display:flex;align-items:center;gap:16px"><div style="width:76px;height:76px;flex:none;border-radius:50%;background:var(--mg-butter) center/cover no-repeat;background-image:{{ avatarImg }};display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800">{{ avatarText }}</div><div><div style="min-width:0"><div style="font-size:22px;font-weight:800;letter-spacing:-.03em">{{ userName }}</div><div style="font-size:14px;color:var(--mg-ink-muted);overflow:hidden;text-overflow:ellipsis">{{ userEmail }}</div><div style="font-size:12px;color:var(--mg-primary);font-weight:700;margin-top:4px">{{ syncLabel }}</div></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:22px;font-weight:800">{{ favNum }}</span><span style="font-size:12px;color:var(--mg-ink-muted);font-weight:600">favoritter</span></div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:22px;font-weight:800">{{ planNum }}</span><span style="font-size:12px;color:var(--mg-ink-muted);font-weight:600">planlagt</span></div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:22px;font-weight:800">{{ daysNum }}</span><span style="font-size:12px;color:var(--mg-ink-muted);font-weight:600">dager planlagt</span></div>
+<div class="s32"><span class="s16 mg-h">{{ favNum }}</span><span class="s12">favoritter</span></div>
+<div class="s32"><span class="s16 mg-h">{{ planNum }}</span><span class="s12">planlagt</span></div>
+<div class="s32"><span class="s16 mg-h">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
 </div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden">
-<div onClick="{{ menuSettings }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer;display:flex;justify-content:space-between">Innstillinger<span style="color:var(--mg-ink-subtle)">›</span></div>
-<div onClick="{{ goFav }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer;display:flex;justify-content:space-between">Mine favoritter<span style="color:var(--mg-ink-subtle)">›</span></div>
+<div class="s70">
+<div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
+<div onClick="{{ goFav }}" role="button" tabIndex="0" class="s71">Mine favoritter<span class="s29">›</span></div>
 <div onClick="{{ doLogout }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;color:var(--mg-danger);cursor:pointer">Logg ut</div>
 </div>
 </div>
@@ -564,27 +566,27 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <sc-if value="{{ ovSettings }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto">
-<div style="padding:calc(var(--top) + 10px) 20px 24px;display:flex;flex-direction:column;gap:20px">
-<button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<h2 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em">Innstillinger</h2>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
-<div style="font-size:16px;font-weight:700">Standard antall personer</div>
+<div class="s6">
+<div class="s69">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<h2 class="s3 mg-h">Innstillinger</h2>
+<div class="s72">
+<div class="s13">Standard antall personer</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
-<div style="font-size:12px;color:var(--mg-ink-muted)">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
+<div class="s2">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
 </div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
-<div style="font-size:16px;font-weight:700">Butikk for priser</div>
+<div class="s72">
+<div class="s13">Butikk for priser</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
-<div style="font-size:12px;color:var(--mg-ink-muted)">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
+<div class="s2">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
 </div>
-<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden">
-<sc-for list="{{ toggles }}" as="t"><div onClick="{{ t.toggle }}" role="switch" tabIndex="0" aria-checked="{{ t.on }}" aria-label="{{ t.label }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer"><div style="flex:1"><div style="font-size:16px;font-weight:700">{{ t.label }}</div><div style="font-size:12px;color:var(--mg-ink-muted)">{{ t.sub }}</div></div><div style="width:48px;height:28px;border-radius:var(--mg-r-pill);background:{{ t.track }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.justify }};transition:background .2s"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div></sc-for>
-<sc-if value="{{ remindOn }}" hint-placeholder-val="{{ true }}"><label style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer"><div style="flex:1"><div style="font-size:16px;font-weight:700">Klokkeslett</div><div style="font-size:12px;color:var(--mg-ink-muted)">Når du vil bli minnet på å planlegge</div></div><input type="time" step="300" value="{{ remindAt }}" onChange="{{ onRemindAt }}" aria-label="Klokkeslett for påminnelse på søndager" style="height:44px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 12px;font-size:16px;font-weight:700;outline:none;font-family:inherit;color:var(--mg-ink)"></label></sc-if>
+<div class="s70">
+<sc-for list="{{ toggles }}" as="t"><div onClick="{{ t.toggle }}" role="switch" tabIndex="0" aria-checked="{{ t.on }}" aria-label="{{ t.label }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer"><div style="flex:1"><div class="s13">{{ t.label }}</div><div class="s2">{{ t.sub }}</div></div><div style="width:48px;height:28px;border-radius:var(--mg-r-pill);background:{{ t.track }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.justify }};transition:background .2s"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div></sc-for>
+<sc-if value="{{ remindOn }}" hint-placeholder-val="{{ true }}"><label style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer"><div style="flex:1"><div class="s13">Klokkeslett</div><div class="s2">Når du vil bli minnet på å planlegge</div></div><input type="time" step="300" value="{{ remindAt }}" onChange="{{ onRemindAt }}" aria-label="Klokkeslett for påminnelse på søndager" style="height:44px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 12px;font-size:16px;font-weight:700;outline:none;font-family:inherit;color:var(--mg-ink)"></label></sc-if>
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:8px">
-<div style="font-size:16px;font-weight:700">Bilder</div>
-<div style="font-size:12px;color:var(--mg-ink-muted)">Bildene er fra Wikimedia Commons og brukes under frie lisenser. Trykk på en rett for å se fotograf og lisens.</div>
+<div class="s13">Bilder</div>
+<div class="s2">Bildene er fra Wikimedia Commons og brukes under frie lisenser. Trykk på en rett for å se fotograf og lisens.</div>
 <sc-for list="{{ credits }}" as="c"><a href="{{ c.url }}" target="_blank" rel="noopener" style="font-size:14px;color:#2f6a2a;text-decoration:none;padding:3px 0">{{ c.name }} ›</a></sc-for>
 </div>
 </div>
@@ -593,7 +595,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ ovCook }}" hint-placeholder-val="{{ false }}">
 <div role="dialog" aria-label="Lagemodus" style="position:absolute;inset:0;z-index:54;background:var(--mg-ink);color:#fff;display:flex;flex-direction:column;padding:calc(var(--top) + 10px) 22px max(22px,env(safe-area-inset-bottom));box-sizing:border-box;gap:18px">
-<div style="display:flex;align-items:center;gap:12px"><button onClick="{{ back }}" aria-label="Lukk lagemodus" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--mg-butter)">{{ ck.progress }}</div><div style="font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ck.name }}</div></div></div>
+<div style="display:flex;align-items:center;gap:12px"><button onClick="{{ back }}" aria-label="Lukk lagemodus" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div class="s11"><div style="font-size:12px;font-weight:700;color:var(--mg-butter)">{{ ck.progress }}</div><div style="font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ck.name }}</div></div></div>
 <div style="display:flex;gap:4px" aria-hidden="true"><sc-for list="{{ ck.bars }}" as="b"><span style="flex:1;height:5px;border-radius:3px;background:{{ b }}"></span></sc-for></div>
 <div aria-live="polite" style="flex:1;overflow-y:auto;font-size:22px;line-height:1.45;font-weight:600;letter-spacing:-.01em;text-wrap:pretty">{{ ck.text }}</div>
 <div style="font-size:12px;color:rgba(255,255,255,.75);text-align:center">{{ ck.awake }}</div>
@@ -607,8 +609,8 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;z-index:45;background:rgba(20,25,18,.12)"></div>
 <div role="menu" aria-label="Meny" data-mgmenu="1" style="position:absolute;top:calc(var(--top) + 56px);right:14px;z-index:46;width:214px;background:var(--mg-surface);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-2);padding:6px;display:flex;flex-direction:column">
-<button role="menuitem" onClick="{{ menuProfile }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:var(--mg-ink);text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg>Profil</button>
-<button role="menuitem" onClick="{{ menuSettings }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:var(--mg-ink);text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
+<button role="menuitem" onClick="{{ menuProfile }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg>Profil</button>
+<button role="menuitem" onClick="{{ menuSettings }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
 <div style="height:1px;background:var(--mg-surface-sunken);margin:4px 8px"></div>
 <button role="menuitem" onClick="{{ menuAuth }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:{{ authColor }};text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10"></path></svg>{{ authLabel }}</button>
 </div>
@@ -619,25 +621,25 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <nav aria-label="Hovedmeny" class="mg-nav" style="position:relative;z-index:50;flex:none;height:var(--nav);background:var(--mg-nav-bg);display:flex;padding:0 6px 20px;box-sizing:border-box">
-<button onClick="{{ goFav }}" aria-current="{{ nav.fav.cur }}" style="flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;color:{{ nav.fav.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
-<div aria-hidden="true" style="width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center;background:{{ nav.fav.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="{{ nav.fav.fill }}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></div>
-<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700">Favoritter</span></sc-if>
+<button onClick="{{ goFav }}" aria-current="{{ nav.fav.cur }}" class="s14" style="color:{{ nav.fav.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
+<div aria-hidden="true" class="s15" style="background:{{ nav.fav.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="{{ nav.fav.fill }}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></div>
+<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Favoritter</span></sc-if>
 </button>
-<button onClick="{{ goTilbud }}" aria-current="{{ nav.tilbud.cur }}" style="flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;color:{{ nav.tilbud.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
-<div aria-hidden="true" style="width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center;background:{{ nav.tilbud.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="7" cy="7" r="2.6" fill="{{ nav.tilbud.fill }}"></circle><circle cx="17" cy="17" r="2.6" fill="{{ nav.tilbud.fill }}"></circle><path d="M19 5L5 19"></path></svg></div>
-<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700">Tilbud</span></sc-if>
+<button onClick="{{ goTilbud }}" aria-current="{{ nav.tilbud.cur }}" class="s14" style="color:{{ nav.tilbud.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
+<div aria-hidden="true" class="s15" style="background:{{ nav.tilbud.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="7" cy="7" r="2.6" fill="{{ nav.tilbud.fill }}"></circle><circle cx="17" cy="17" r="2.6" fill="{{ nav.tilbud.fill }}"></circle><path d="M19 5L5 19"></path></svg></div>
+<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Tilbud</span></sc-if>
 </button>
-<button onClick="{{ goPlan }}" aria-current="{{ nav.plan.cur }}" style="flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;color:{{ nav.plan.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
-<div aria-hidden="true" style="width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center;background:{{ nav.plan.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path><circle cx="12" cy="15" r="1.6" fill="currentColor"></circle></svg></div>
-<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700">Plan</span></sc-if>
+<button onClick="{{ goPlan }}" aria-current="{{ nav.plan.cur }}" class="s14" style="color:{{ nav.plan.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
+<div aria-hidden="true" class="s15" style="background:{{ nav.plan.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path><circle cx="12" cy="15" r="1.6" fill="currentColor"></circle></svg></div>
+<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Plan</span></sc-if>
 </button>
-<button onClick="{{ goOpp }}" aria-current="{{ nav.opp.cur }}" style="flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;color:{{ nav.opp.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
-<div aria-hidden="true" style="width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center;background:{{ nav.opp.bg }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="10" r="3.3" fill="{{ nav.opp.fill }}"></circle><circle cx="16.5" cy="10" r="3.3" fill="{{ nav.opp.fill }}"></circle><circle cx="12" cy="6.5" r="3.6" fill="{{ nav.opp.fill }}"></circle><path d="M10 13.5l.8 7h2.4l.8-7M12 13v-2.5"></path></svg></div>
-<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700">Oppskrifter</span></sc-if>
+<button onClick="{{ goOpp }}" aria-current="{{ nav.opp.cur }}" class="s14" style="color:{{ nav.opp.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
+<div aria-hidden="true" class="s15" style="background:{{ nav.opp.bg }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="10" r="3.3" fill="{{ nav.opp.fill }}"></circle><circle cx="16.5" cy="10" r="3.3" fill="{{ nav.opp.fill }}"></circle><circle cx="12" cy="6.5" r="3.6" fill="{{ nav.opp.fill }}"></circle><path d="M10 13.5l.8 7h2.4l.8-7M12 13v-2.5"></path></svg></div>
+<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Oppskrifter</span></sc-if>
 </button>
-<button onClick="{{ goLaere }}" aria-current="{{ nav.laere.cur }}" style="flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;color:{{ nav.laere.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
-<div aria-hidden="true" style="width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center;background:{{ nav.laere.bg }}"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11" fill="{{ nav.laere.fill }}"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)" fill="{{ nav.laere.fill }}"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg></div>
-<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700">Lære</span></sc-if>
+<button onClick="{{ goLaere }}" aria-current="{{ nav.laere.cur }}" class="s14" style="color:{{ nav.laere.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
+<div aria-hidden="true" class="s15" style="background:{{ nav.laere.bg }}"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11" fill="{{ nav.laere.fill }}"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)" fill="{{ nav.laere.fill }}"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg></div>
+<sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Lære</span></sc-if>
 </button>
 <div class="mg-fake" aria-hidden="true" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:4px;background:var(--mg-bg);opacity:.85"></div>
 </nav>
@@ -652,7 +654,7 @@ class Component extends DCLogic {
   DIFF_C = ['var(--mg-diff-1)','var(--mg-diff-2)','var(--mg-diff-3)','var(--mg-clay)','var(--mg-diff-5)'];
   DIFF_L = ['Veldig lett','Lett','Middels','Krevende','Avansert'];
   D = (() => {
-    const M = window.MATGLEDE_DATA || { recipes: [], ingredients: {}, chains: [], sources: {}, stats: {}, hasPrices: false };
+    const M = window.MATGLEDE_DATA || { recipes: [], ingredients: {}, chains: [], hasPrices: false };
     // Bilder fra Wikimedia Commons (frie lisenser), hentet i nettleseren via Special:FilePath.
     const photo = f => f ? 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(f) + '?width=720' : null;
     const hue = id => { let h = 7; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
@@ -751,11 +753,12 @@ class Component extends DCLogic {
     undo: null, have: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
   };
 
+  ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
+  bg = r => r.photo ? `url("${r.photo}") center/cover no-repeat, ${this.ph(r.hue)}` : this.ph(r.hue);
+  // Stil for avkrysningsbokser (handleliste og oppgaver) og valgknapper
+  check = done => ({ done, boxBg: done ? 'var(--mg-clay)' : 'transparent', boxBorder: done ? 'var(--mg-clay)' : 'var(--mg-border-strong)', deco: done ? 'line-through' : 'none', color: done ? 'var(--mg-ink-subtle)' : 'var(--mg-ink)' });
+  chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? '#fff' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  bg = r => {
-    const h = 70 + (r.hue * 7) % 90, stripes = `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`;
-    return r.photo ? `url("${r.photo}") center/cover no-repeat, ${stripes}` : stripes;
-  };
   SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
@@ -797,14 +800,21 @@ class Component extends DCLogic {
     this._saveT = setTimeout(() => { this._lastSaved = json; A.saveData(u.uid, JSON.parse(json)).catch(e => console.error(e)); }, 800);
   };
   setLg = f => this.setState(st => ({ lg: { ...st.lg, ...f } }));
-  authRun = p => { this.setLg({ busy: true, error: '' }); p.catch(e => this.setLg({ busy: false, error: window.MatgledeAuth.message(e) })); };
-  submitLogin = () => {
+  // Felles sjekk før innlogging: run får (auth, skjemadata) og returnerer et løfte
+  authRun = run => {
     const A = window.MatgledeAuth, l = this.state.lg;
     if (!A || !A.configured) return this.setLg({ error: 'Innlogging er ikke satt opp ennå.' });
     if (l.busy) return;
-    if (!l.email.trim() || !l.pw) return this.setLg({ error: 'Skriv inn e-post og passord.' });
-    this.authRun(l.mode === 'signup' ? A.signUpEmail(l.email.trim(), l.pw, l.name.trim()) : A.signInEmail(l.email.trim(), l.pw));
+    const p = run(A, l); if (!p) return;
+    this.setLg({ busy: true, error: '' });
+    p.catch(e => this.setLg({ busy: false, error: A.message(e) }));
   };
+  submitLogin = () => this.authRun((A, l) => {
+    const email = l.email.trim();
+    if (!email || !l.pw) return void this.setLg({ error: 'Skriv inn e-post og passord.' });
+    return l.mode === 'signup' ? A.signUpEmail(email, l.pw, l.name.trim()) : A.signInEmail(email, l.pw);
+  });
+  googleLogin = () => this.authRun(A => A.signInGoogle());
   forgotPw = () => {
     const A = window.MatgledeAuth, l = this.state.lg;
     if (!A || !A.configured) return this.setLg({ error: 'Innlogging er ikke satt opp ennå.' });
@@ -816,13 +826,7 @@ class Component extends DCLogic {
       .then(() => this.setLg({ busy: false, info: `Hvis det finnes en konto for ${l.email.trim()}, har vi sendt en lenke for å lage nytt passord. Sjekk også søppelpost.` }))
       .catch(e => this.setLg({ busy: false, error: A.message(e) }));
   };
-  googleLogin = () => {
-    const A = window.MatgledeAuth;
-    if (!A || !A.configured) return this.setLg({ error: 'Innlogging er ikke satt opp ennå.' });
-    if (this.state.lg.busy) return;
-    this.authRun(A.signInGoogle());
-  };
-  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; (A ? A.signOut() : Promise.resolve()).then(() => {}); this.setState({ loggedIn: false, user: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
+  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; if (A) A.signOut(); this.setState({ loggedIn: false, user: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
 
   componentDidUpdate(pp) {
     this.saveSoon();
@@ -839,7 +843,8 @@ class Component extends DCLogic {
     this._lastTab = this.state.tab;
   }
 
-  go = tab => this.setState({ tab, stack: [], menu: false });
+  go = (tab, extra) => this.setState({ tab, stack: [], menu: false, ...extra });
+  goCat = cat => this.go('opp', { cat, q: '' });
   push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
@@ -896,11 +901,10 @@ class Component extends DCLogic {
   frac = v => { const w = Math.floor(v), f = Math.round((v - w) * 4) / 4, F = { 0.25:'¼', 0.5:'½', 0.75:'¾' };
     if (f === 1) return String(w + 1); return (w ? w : '') + (F[f] || (w ? '' : '¼')); };
   // v er mengden som skal vises (allerede skalert)
+  TO_SMALL = { kg: [1000, 'g'], l: [1000, 'ml'], dl: [100, 'ml'] };
   fmt = (v, u) => {
     if (v == null) return '';
-    if (u === 'kg') { v *= 1000; u = 'g'; }
-    if (u === 'l') { v *= 1000; u = 'ml'; }
-    if (u === 'dl') { v *= 100; u = 'ml'; }
+    if (this.TO_SMALL[u]) { const [m, b] = this.TO_SMALL[u]; v *= m; u = b; }
     if (u === 'g') return v >= 1000 ? this.c(Math.round(v / 100) / 10) + ' kg' : (v < 50 ? Math.max(5, Math.round(v / 5) * 5) : Math.round(v / 10) * 10) + ' g';
     if (u === 'ml') return v >= 1000 ? this.c(Math.round(v / 100) / 10) + ' l' : v >= 100 ? this.c(Math.max(1, Math.round(v / 50) / 2)) + ' dl' : Math.max(5, Math.round(v / 5) * 5) + ' ml';
     if (this.CNT.includes(u)) { const n = v <= 0.5 ? 0.5 : Math.ceil(v - 1e-9); return (n === 0.5 ? '½' : n) + ' ' + (n > 1 && this.PL[u] ? this.PL[u] : u); }
@@ -925,17 +929,21 @@ class Component extends DCLogic {
     return best;
   };
   // Forbrukt mengde i en oppskrift (andel av pakken), brukt for pris per rett
-  lineCost = (i, f, chain) => {
+  lineCost = (i, f) => {
     if (!i.slug || i.q == null) return null;
-    const c = this.prods(i.slug, chain); if (!c.length) return null;
+    const c = this.prods(i.slug); if (!c.length) return null;
     if (i.base != null) { const sized = c.filter(p => p.size); if (sized.length) return Math.min(...sized.map(p => i.base * f / p.size * p.price)); }
     const cheapest = Math.min(...c.map(p => p.price));
     return i.u === 'pk' ? cheapest * i.q * f : cheapest;
   };
-  recipeCost = (r, chain) => {
+  // Lagres per opptegning (renderVals tømmer _rc), siden samme rett vises flere steder
+  recipeCost = r => {
+    const hit = this._rc && this._rc.get(r.id); if (hit) return hit;
     const f = this.factor(r); let sum = 0, priced = 0, need = 0;
-    r.ing.forEach(i => { if (i.q == null) return; need++; const v = this.lineCost(i, f, chain); if (v != null) { sum += v; priced++; } });
-    return { sum, priced, need, complete: need > 0 && priced === need };
+    r.ing.forEach(i => { if (i.q == null) return; need++; const v = this.lineCost(i, f); if (v != null) { sum += v; priced++; } });
+    const rc = { sum, priced, need, complete: need > 0 && priced === need };
+    if (this._rc) this._rc.set(r.id, rc);
+    return rc;
   };
   costText = rc => {
     if (!this.D.M.hasPrices) return { label: 'pris kommer', short: '– kr' };
@@ -966,6 +974,7 @@ class Component extends DCLogic {
   }
 
   renderVals() {
+    this._rc = new Map();
     const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user;
     const MON = ['jan.','feb.','mars','april','mai','juni','juli','aug.','sep.','okt.','nov.','des.'];
     const dmy = iso => { const [, m, d] = (iso || '').split('-').map(Number); return d ? `${d}. ${MON[m - 1]}` : ''; };
@@ -996,22 +1005,22 @@ class Component extends DCLogic {
       if (dl.length === 7) s.extra.forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [] }));
       return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, 'nb'));
     };
-    const priceEntry = (e, chain) => e.slug ? this.pickPack(e.slug, e.base, e.pk, chain) : null;
+    // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
+    const priceEntry = (e, chain) => { const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.base, e.pk, chain) : null); };
     const amountOf = e => e.own ? '' : e.slug
       ? [e.base ? this.fmt(e.base, e.u) : '', e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
-    const shopItems = (arr, chain) => arr.map(e => { const done = !!s.checked[e.k], pp = priceEntry(e, chain);
+    const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
       const sub = e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå');
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.own ? '' : pp ? this.fp(pp.total) : '–', done,
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.own ? '' : pp ? this.fp(pp.total) : '–', ...this.check(!!s.checked[e.k]),
         section: this.sectionOf(e.n), own: !!e.own,
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
-        boxBg: done ? 'var(--mg-clay)' : 'transparent', boxBorder: done ? 'var(--mg-clay)' : 'var(--mg-border-strong)', deco: done ? 'line-through' : 'none', color: done ? 'var(--mg-ink-subtle)' : 'var(--mg-ink)',
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.k]: !st.checked[e.k] } })) }; });
     const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { const pp = priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
     const sumText = sm => !M.hasPrices ? 'pris kommer' : sm.found ? `ca. ${Math.round(sm.total)} kr` : 'pris mangler';
     const shopArr = buildShop([0,1,2,3,4,5,6]);
-    const shopLeft = shopItems(shopArr, s.chain).filter(i => !i.done).length;
+    const shopLeft = shopArr.filter(e => !s.checked[e.k]).length;
     const dayArr = buildShop([s.day]);
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
 
@@ -1030,29 +1039,26 @@ class Component extends DCLogic {
 
     const taskDefs = [
       { id:'shop', title:'Handle inn til ukeplanen', sub:`${shopLeft} varer igjen på handlelisten`, act:() => this.go('plan') },
-      { id:'sat', title:'Planlegg middag lørdag', sub: satPlanned ? `Planlagt: ${D.byId[satPlanned].name}` : `${this.dayLong(5)} er tom`, act:() => this.setState({ tab:'plan', day:5, stack:[], menu:false }) },
-      { id:'salat', title:'Prøv en salat fra Aichas Mat', sub:'Ukens utfordring', act:() => this.setState({ tab:'opp', cat:'salat', q:'', stack:[], menu:false }) },
+      { id:'sat', title:'Planlegg middag lørdag', sub: satPlanned ? `Planlagt: ${D.byId[satPlanned].name}` : `${this.dayLong(5)} er tom`, act:() => this.go('plan', { day:5 }) },
+      { id:'salat', title:'Prøv en salat fra Aichas Mat', sub:'Ukens utfordring', act:() => this.goCat('salat') },
       { id:'omega', title:'Les: Omega-3 og hjernen', sub:'5 min lesing', act:() => this.push({ t:'article', id:'a3' }) }
     ];
-    const tasks = taskDefs.map(t => { const done = !!s.tasks[t.id]; return { title: t.title, sub: t.sub, done, open: t.act,
-      boxBg: done ? 'var(--mg-clay)' : 'transparent', boxBorder: done ? 'var(--mg-clay)' : 'var(--mg-border-strong)', deco: done ? 'line-through' : 'none', color: done ? 'var(--mg-ink-subtle)' : 'var(--mg-ink)',
-      toggle: () => this.setState(st => ({ tasks: { ...st.tasks, [t.id]: !st.tasks[t.id] } })) }; });
+    const tasks = taskDefs.map(t => ({ title: t.title, sub: t.sub, open: t.act, ...this.check(!!s.tasks[t.id]),
+      toggle: () => this.setState(st => ({ tasks: { ...st.tasks, [t.id]: !st.tasks[t.id] } })) }));
 
-    const ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
+    const ph = this.ph;
     const pop = D.R.filter(r => r.popular).sort((a, b) => a.popular - b.popular);
-    const firstIn = c => D.R.find(r => r.cats.includes(c));
     const news = [];
     if (pop[0]) news.push({ tag:'UKENS FAVORITT', tagColor:'var(--mg-danger)', title:`${pop[0].name} – klar på ${pop[0].time} minutter`, sub: this.DIFF_L[pop[0].diff - 1], img: this.bg(pop[0]), imgLabel: '', open:() => this.push({ t:'recipe', id: pop[0].id }) });
-    const sun = firstIn('sondag');
-    if (sun) news.push({ tag:'SØNDAGSMIDDAG', tagColor:'var(--mg-butter-ink)', title:`${sun.name} til søndag`, sub:`${sun.time} min · ${this.DIFF_L[sun.diff - 1].toLowerCase()}`, img: this.bg(sun), imgLabel: '', open:() => this.setState({ tab:'opp', cat:'sondag', q:'', stack:[], menu:false }) });
-    news.push({ tag:'RASK HVERDAG', tagColor:'var(--mg-info)', title:'Middager på 30 minutter eller mindre', sub:`${D.R.filter(r => r.cats.includes('rask')).length} oppskrifter`, img: ph(60), imgLabel:'rask middag', open:() => this.setState({ tab:'opp', cat:'rask', q:'', stack:[], menu:false }) });
+    const sun = D.R.find(r => r.cats.includes('sondag'));
+    if (sun) news.push({ tag:'SØNDAGSMIDDAG', tagColor:'var(--mg-butter-ink)', title:`${sun.name} til søndag`, sub:`${sun.time} min · ${this.DIFF_L[sun.diff - 1].toLowerCase()}`, img: this.bg(sun), imgLabel: '', open:() => this.goCat('sondag') });
+    news.push({ tag:'RASK HVERDAG', tagColor:'var(--mg-info)', title:'Middager på 30 minutter eller mindre', sub:`${D.R.filter(r => r.cats.includes('rask')).length} oppskrifter`, img: ph(60), imgLabel:'rask middag', open:() => this.goCat('rask') });
     news.push({ tag:'LÆRE', tagColor:'oklch(0.45 0.13 305)', title:'Ultraprosessert – hva betyr det egentlig?', sub:'Ny artikkel · 6 min', img: ph(305), imgLabel:'illustrasjon', open:() => this.push({ t:'article', id:'a2' }) });
 
     const days = this.DAYS.map((l, i) => { const sel = s.day === i, has = (s.plan[i] || []).length > 0; return {
       label: i === this.TODAY ? 'I dag' : l, date: this.dayDate(i), sel, aria: `${this.dayLong(i)}${i === this.TODAY ? ', i dag' : ''}${has ? ', har middag' : ''}`, bg: sel ? 'var(--mg-butter)' : 'transparent', lblColor: sel ? 'var(--mg-butter-ink)' : (i === this.TODAY ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)'),
       dot: has ? (sel ? 'var(--mg-ink)' : 'var(--mg-clay)') : 'transparent', pick: () => this.setState({ day: i }) }; });
 
-    const tp = D.TOPICS;
     const artItem = a => { const t = D.topicById[a.topic]; return { ...a, sym: t.sym, bg: t.bg, ink: t.ink, topicLabel: t.label.toUpperCase(), topicName: t.label, open: () => this.push({ t:'article', id:a.id }) }; };
 
     let rd = {}, td = {}, ad = {};
@@ -1098,7 +1104,7 @@ class Component extends DCLogic {
       const groups = [];
       st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
       let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
-      const view = st.view || {}, pages = [];
+      const view = st.view || {}, linkView = !view.type || view.type === 'link', pages = [];
       (view.type === 'images' ? view.pages : []).forEach((src, i, all) => {
         if (!view.spreads) { pages.push({ src, pos: '0 0', label: `Side ${pages.length + 1}` }); return; }
         if (i > 0) pages.push({ src, pos: '0% 0', label: `Side ${2 * i}` });
@@ -1107,12 +1113,12 @@ class Component extends DCLogic {
       sd = { name: st.name, logo: st.logo, bg: st.bg, sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
         countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} prisfall` : 'avis', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
         noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: host ? 'Åpnes hos ' + host : '',
-        isImages: view.type === 'images', isFrame: view.type === 'pdf' || view.type === 'embed', isLink: !view.type || view.type === 'link',
+        isImages: view.type === 'images', isFrame: view.type === 'pdf' || view.type === 'embed', isLink: linkView,
         pages: pages, frameTitle: `Tilbudsavis fra ${st.name}`,
         frameUrl: view.type === 'pdf' ? view.url + '#view=FitH&toolbar=0&navpanes=0' : (view.url || ''),
         linkText: `${st.name} viser avisen i en leser som ikke kan bygges inn i andre apper, så den åpnes hos ${host || 'kjeden'}.`,
-        btnLabel: view.type === 'link' || !view.type ? 'Åpne ukas avis' : 'Åpne avisen i full størrelse',
-        btnBg: view.type === 'link' || !view.type ? 'var(--mg-ink)' : 'var(--mg-border)', btnFg: view.type === 'link' || !view.type ? '#fff' : 'var(--mg-ink)',
+        btnLabel: linkView ? 'Åpne ukas avis' : 'Åpne avisen i full størrelse',
+        btnBg: linkView ? 'var(--mg-ink)' : 'var(--mg-border)', btnFg: linkView ? '#fff' : 'var(--mg-ink)',
         openFlyer: () => (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
         emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka.`
           : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
@@ -1121,7 +1127,7 @@ class Component extends DCLogic {
     }
     let sl = {};
     if (top.t === 'shop') {
-      const week = top.scope === 'week', arr = buildShop(week ? [0,1,2,3,4,5,6] : [top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
+      const week = top.scope === 'week', arr = week ? shopArr : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
       const names = (s.plan[top.day] || []).map(id => D.byId[id]).map(r => `${r.name} (${this.pers(r)} pers.)`).join(', ');
       const unm = arr.filter(e => !e.slug).length;
       const doneN = items.filter(i => i.done).length, ORDER = [...this.SECTIONS.map(x => x[0]), 'Annet'];
@@ -1152,7 +1158,8 @@ class Component extends DCLogic {
     const listOffers = D.STORES.map(st => ({ st, n: onList(st) })).filter(x => x.n);
     const tg = (key, label, sub) => ({ on: !!s[key], label, sub, track: s[key] ? 'var(--mg-primary)' : 'var(--mg-border-strong)', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
-    const st = M.stats || {};
+    const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
+    const openProfile = () => this.push({ t: s.loggedIn ? 'profile' : 'login' });
 
     return {
       nav, showLabels: this.props.navLabels ?? true,
@@ -1160,11 +1167,11 @@ class Component extends DCLogic {
       goHome: () => this.go('home'), goFav: () => this.go('fav'), goTilbud: () => this.go('tilbud'), goPlan: () => this.go('plan'), goOpp: () => this.go('opp'), goLaere: () => this.go('laere'),
       contentRef: this.contentRef, back: this.back,
       openSearch: () => this.push({ t:'search' }),
-      openProfile: () => this.push({ t: s.loggedIn ? 'profile' : 'login' }),
+      openProfile,
       loggedIn: s.loggedIn, notLoggedIn: !s.loggedIn, avatarBg: s.loggedIn ? 'var(--mg-butter)' : 'var(--mg-surface)',
       menuOpen: s.menu, toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }),
       menuBtnBg: s.menu ? 'var(--mg-ink)' : 'var(--mg-surface)', menuBtnFg: s.menu ? '#fff' : 'var(--mg-ink)',
-      menuProfile: () => this.push({ t: s.loggedIn ? 'profile' : 'login' }), menuSettings: () => this.push({ t:'settings' }),
+      menuProfile: openProfile, menuSettings: () => this.push({ t:'settings' }),
       menuAuth: () => s.loggedIn ? this.logout() : this.push({ t:'login' }),
       authLabel: s.loggedIn ? 'Logg ut' : 'Logg inn', authColor: s.loggedIn ? 'var(--mg-danger)' : 'var(--mg-ink)',
       doLogout: this.logout,
@@ -1175,17 +1182,16 @@ class Component extends DCLogic {
           setEmail: e => this.setLg({ email: e.target.value, error: '', info: '' }), setPw: e => this.setLg({ pw: e.target.value, error: '' }), setName: e => this.setLg({ name: e.target.value }),
           submit: this.submitLogin, google: this.googleLogin, submitLabel: l.busy ? 'Vent litt …' : (up ? 'Opprett konto' : 'Logg inn'),
           toggle: () => this.setLg({ mode: up ? 'login' : 'signup', error: '', info: '' }), toggleLabel: up ? 'Har du konto? Logg inn' : 'Ny her? Opprett konto med e-post' }; })(),
-      initials: user ? ((user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('')) : '',
+      initials,
       userName: user ? (user.name || user.email.split('@')[0]) : '', userEmail: user ? user.email : '',
-      avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : (user ? ((user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('')) : ''),
+      avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : initials,
       syncLabel: user ? (user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
       daysNum: Object.values(s.plan).filter(l => l.length).length,
       greeting: user && user.name ? `Hei, ${user.name.split(' ')[0]}` : 'Hva blir det til middag?',
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
       news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
-      favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, bg: s.favSort === id ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: s.favSort === id ? '#fff' : 'var(--mg-ink)', pick: () => this.setState({ favSort: id }) })),
-      generated: M.generated || '–',
+      favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
       flyerStores: D.STORES.map(st => { const n = onList(st), mine = st.code === s.chain;
         return { name: st.name, bg: st.bg, logo: st.logo, open: () => this.push({ t:'store', id: st.code }),
@@ -1195,8 +1201,8 @@ class Component extends DCLogic {
       listOffersText: listOffers.length ? `Ukas tilbud på varer i handlelisten din: ${listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map(x => `${x.st.name} (${x.n})`).join(', ')}.` : '',
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
-        return { on, label: M.hasPrices && sm.found ? `${ch.name} · ${Math.round(sm.total)} kr` : ch.name, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? '#fff' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)', pick: () => this.setState({ chain: ch.code }) }; }),
-      chainChips: D.CHAINS.map(ch => { const on = s.chain === ch.code; return { label: ch.name, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? '#fff' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)', pick: () => this.setState({ chain: ch.code }) }; }),
+        return { label: M.hasPrices && sm.found ? `${ch.name} · ${Math.round(sm.total)} kr` : ch.name, ...this.chip(on), pick: () => this.setState({ chain: ch.code }) }; }),
+      chainChips: D.CHAINS.map(ch => ({ label: ch.name, ...this.chip(s.chain === ch.code), pick: () => this.setState({ chain: ch.code }) })),
       days, dayTitle: `${this.dayLong(s.day)}${s.day === this.TODAY ? ' · i dag' : ''}`,
       dayMeals: dayMealsArr.map((id, idx) => this.mk(D.byId[id], { remove: () => {
         const before = s.plan, day = s.day;
@@ -1217,10 +1223,10 @@ class Component extends DCLogic {
       ownItem: s.ownItem, onOwn: e => this.setState({ ownItem: e.target.value }),
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),
       popular: pop.slice(0, 6).map((r, i) => this.mk(r, { rank: i + 1 })),
-      cats: D.CATS.map(([id, label]) => ({ label, bg: s.cat === id ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: s.cat === id ? '#fff' : 'var(--mg-ink)', border: s.cat === id ? 'var(--mg-ink)' : 'var(--mg-border)', pick: () => this.setState({ cat: id }) })),
-      catRecipes: D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (() => { const rc = this.recipeCost(r); return rc.complete && rc.sum < 100; })() : r.cats.includes(s.cat))).map(r => this.mk(r)),
+      cats: D.CATS.map(([id, label]) => ({ label, ...this.chip(s.cat === id), pick: () => this.setState({ cat: id }) })),
+      catRecipes: D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (rc => rc.complete && rc.sum < 100)(this.recipeCost(r)) : r.cats.includes(s.cat))).map(r => this.mk(r)),
       featured: ['a2','a3','a7','a4'].map(id => artItem(D.artById[id])),
-      topics: tp.map((t, i) => ({ ...t, rot: [-3, 2, -1.5, 3, -2.5, 1.5, -1][i], open: () => this.push({ t:'topic', id: t.id }) })),
+      topics: D.TOPICS.map((t, i) => ({ ...t, rot: [-3, 2, -1.5, 3, -2.5, 1.5, -1][i], open: () => this.push({ t:'topic', id: t.id }) })),
       allArts: D.ARTS.map(artItem),
       openInsight: () => this.push({ t:'article', id:'a8' }),
       ovRecipe: top.t === 'recipe', ovCook: top.t === 'cook', ck, ovTopic: top.t === 'topic', ovArticle: top.t === 'article',

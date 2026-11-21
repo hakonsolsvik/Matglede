@@ -27,16 +27,8 @@ APP_DATA = ROOT / "app" / "data.js"
 MAX_CANDIDATES = 6
 RECIPES_JSON = ROOT / "seed" / "app_recipes.json"
 
-# Farger fra kjedenes egne profiler, brukt på butikkflisene i appen.
-CHAIN_COLORS = {
-    "ODA": ("#ff5c5c", "#ffffff"),
-    "KIWI": ("#3d9a36", "#ffffff"),
-    "MENY": ("#c41f30", "#ffffff"),
-    "REMA": ("#16408f", "#ffffff"),
-    "COOP": ("#0d5aa7", "#ffffff"),
-    "SPAR": ("#d6362a", "#ffffff"),
-    "JOKER": ("#ffd23f", "#14306b"),
-}
+# Feltene appen leser fra hvert produkt. Andre felt tas ikke med, så data.js blir mindre.
+PRODUCT_FIELDS = ("name", "size", "price", "stale")
 
 
 def _ingredients_csv(path: Path = ROOT / "seed" / "ingredients.csv") -> dict[str, dict]:
@@ -47,7 +39,7 @@ def _ingredients_csv(path: Path = ROOT / "seed" / "ingredients.csv") -> dict[str
 def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
                 gpp: float | None, now: datetime) -> list[dict]:
     rows = conn.execute(
-        """SELECT p.name, p.package_amount, p.package_unit, o.store_name, o.price, o.url,
+        """SELECT p.name, p.package_amount, p.package_unit, o.store_name, o.price,
                   o.price_date, ip.score, ip.status
            FROM ingredient_product ip
            JOIN ingredient i ON i.id = ip.ingredient_id
@@ -83,16 +75,15 @@ def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
     top = max(r["score"] for r in pool)
     pool = [r for r in pool if r["score"] >= top - SCORE_BAND]
     pool = [r for r in pool if not _is_stale(r["price_date"], now)] or pool
-    pool = [r for r in pool if size(r)] or pool
-    pool.sort(key=lambda r: (r["price"] / (size(r) or 1), -r["score"]))
+    sized = [(r, size(r)) for r in pool]
+    sized = [x for x in sized if x[1]] or sized
+    sized.sort(key=lambda x: (x[0]["price"] / (x[1] or 1), -x[0]["score"]))
     return [{
         "name": r["store_name"] or r["name"],
-        "size": round(size(r), 3) if size(r) else None,
+        "size": round(sz, 3) if sz else None,
         "price": r["price"],
-        "url": r["url"],
-        "date": (r["price_date"] or "")[:10] or None,
         "stale": _is_stale(r["price_date"], now),
-    } for r in pool[:MAX_CANDIDATES]]
+    } for r, sz in sized[:MAX_CANDIDATES]]
 
 
 def previous_products(path: Path = APP_DATA) -> dict[str, dict]:
@@ -102,7 +93,9 @@ def previous_products(path: Path = APP_DATA) -> dict[str, dict]:
         data = json.loads(text[text.index("{"):text.rindex("}") + 1])
     except (OSError, ValueError):
         return {}
-    return {slug: ing.get("products") or {} for slug, ing in data.get("ingredients", {}).items()}
+    return {slug: {chain: [{k: p.get(k) for k in PRODUCT_FIELDS} for p in prods]
+                   for chain, prods in (ing.get("products") or {}).items()}
+            for slug, ing in data.get("ingredients", {}).items()}
 
 
 def base_amount(row: dict, slug: str, q: float | None, u: str | None, name: str) -> float | None:
@@ -150,23 +143,18 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
     for slug in sorted(used):
         row = ing_rows[slug]
         gpp = float(row["grams_per_piece"]) if row["grams_per_piece"] else None
-        products = {}
         if has_db:
-            for code, _, _ in CHAINS:
-                c = _candidates(conn, slug, code, row["base_unit"], gpp, now)
-                if c:
-                    products[code] = c
-        elif previous:
-            products = previous.get(slug, {})
+            products = {code: c for code, _, _ in CHAINS
+                        if (c := _candidates(conn, slug, code, row["base_unit"], gpp, now))}
+        else:
+            products = (previous or {}).get(slug, {})
         priced += bool(products)
-        ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "gpp": gpp,
-                             "products": products}
+        ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "products": products}
 
     return {
         "generated": now.strftime("%Y-%m-%d"),
         "hasPrices": priced > 0,
-        "chains": [{"code": code, "name": name, "bg": CHAIN_COLORS[code][0], "fg": CHAIN_COLORS[code][1]}
-                   for code, name, _ in CHAINS],
+        "chains": [{"code": code, "name": name} for code, name, _ in CHAINS],
         "ingredients": ingredients,
         "recipes": recipes,
         "stats": {"recipes": len(recipes), "lines": lines, "mapped": mapped,
