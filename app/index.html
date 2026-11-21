@@ -532,12 +532,14 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="display:flex;align-items:center;gap:12px;color:var(--mg-ink-subtle);font-size:12px;font-weight:700"><span style="flex:1;height:1px;background:var(--mg-border)"></span>eller med e-post<span style="flex:1;height:1px;background:var(--mg-border)"></span></div>
 <div style="display:flex;flex-direction:column;gap:10px">
 <sc-if value="{{ lg.signup }}"><label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Navn<input value="{{ lg.name }}" onChange="{{ lg.setName }}" autoComplete="name" placeholder="Fornavn Etternavn" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label></sc-if>
-<label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">E-post<input type="email" value="{{ lg.email }}" onChange="{{ lg.setEmail }}" autoComplete="email" placeholder="navn@epost.no" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label>
-<label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Passord<input type="password" value="{{ lg.pw }}" onChange="{{ lg.setPw }}" autoComplete="{{ lg.pwAuto }}" placeholder="••••••••" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label>
+<label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">E-post<input type="email" value="{{ lg.email }}" onChange="{{ lg.setEmail }}" onKeyDown="{{ lg.enter }}" autoComplete="email" placeholder="navn@epost.no" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label>
+<label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">Passord<input type="password" value="{{ lg.pw }}" onChange="{{ lg.setPw }}" onKeyDown="{{ lg.enter }}" autoComplete="{{ lg.pwAuto }}" placeholder="••••••••" style="height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)"></label>
 </div>
 <sc-if value="{{ lg.hasError }}"><div style="background:#fbe3df;color:#8a2a1c;border-radius:var(--mg-r-md);padding:10px 14px;font-size:14px;font-weight:700">{{ lg.error }}</div></sc-if>
 <button onClick="{{ lg.submit }}" style="border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:54px;border-radius:var(--mg-r-pill);cursor:pointer;opacity:{{ lg.opacity }}">{{ lg.submitLabel }}</button>
 <button onClick="{{ lg.toggle }}" style="border:0;background:none;color:var(--mg-ink);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:underline">{{ lg.toggleLabel }}</button>
+<sc-if value="{{ lg.login }}"><button onClick="{{ lg.forgot }}" style="border:0;background:none;color:var(--mg-ink-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:underline">Glemt passord?</button></sc-if>
+<sc-if value="{{ lg.hasInfo }}"><div role="status" style="background:#e3f1df;color:#24521c;border-radius:var(--mg-r-md);padding:10px 14px;font-size:14px;font-weight:700">{{ lg.info }}</div></sc-if>
 </div>
 </div>
 </sc-if>
@@ -743,7 +745,7 @@ class Component extends DCLogic {
     tab: this.props.startTab || 'home', stack: [], menu: false,
     favs: [], favSort: 'recent', plan: {},
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
-    lg: { mode: 'login', email: '', pw: '', name: '', error: '', busy: false }, tasks: {}, rdPick: false,
+    lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null,
     undo: null, have: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
   };
@@ -801,6 +803,17 @@ class Component extends DCLogic {
     if (l.busy) return;
     if (!l.email.trim() || !l.pw) return this.setLg({ error: 'Skriv inn e-post og passord.' });
     this.authRun(l.mode === 'signup' ? A.signUpEmail(l.email.trim(), l.pw, l.name.trim()) : A.signInEmail(l.email.trim(), l.pw));
+  };
+  forgotPw = () => {
+    const A = window.MatgledeAuth, l = this.state.lg;
+    if (!A || !A.configured) return this.setLg({ error: 'Innlogging er ikke satt opp ennå.' });
+    if (l.busy) return;
+    if (!l.email.trim()) return this.setLg({ error: 'Skriv inn e-postadressen din først.', info: '' });
+    this.setLg({ busy: true, error: '', info: '' });
+    // Svarer likt om kontoen finnes eller ikke, så ingen kan sjekke hvem som har konto
+    A.resetPassword(l.email.trim()).catch(e => { if (!/user-not-found/.test(e && e.code)) throw e; })
+      .then(() => this.setLg({ busy: false, info: `Hvis det finnes en konto for ${l.email.trim()}, har vi sendt en lenke for å lage nytt passord. Sjekk også søppelpost.` }))
+      .catch(e => this.setLg({ busy: false, error: A.message(e) }));
   };
   googleLogin = () => {
     const A = window.MatgledeAuth;
@@ -1156,10 +1169,11 @@ class Component extends DCLogic {
       doLogout: this.logout,
       lg: (() => { const l = s.lg, A = window.MatgledeAuth, on = !!(A && A.configured), up = l.mode === 'signup';
         return { title: up ? 'Opprett konto' : 'Logg inn', off: !on, opacity: on && !l.busy ? 1 : .5, signup: up,
-          email: l.email, pw: l.pw, name: l.name, error: l.error, hasError: !!l.error, pwAuto: up ? 'new-password' : 'current-password',
-          setEmail: e => this.setLg({ email: e.target.value, error: '' }), setPw: e => this.setLg({ pw: e.target.value, error: '' }), setName: e => this.setLg({ name: e.target.value }),
+          email: l.email, pw: l.pw, name: l.name, error: l.error, hasError: !!l.error, info: l.info, hasInfo: !!l.info && !l.error, login: !up,
+          enter: e => { if (e.key === 'Enter') { e.preventDefault(); this.submitLogin(); } }, forgot: this.forgotPw, pwAuto: up ? 'new-password' : 'current-password',
+          setEmail: e => this.setLg({ email: e.target.value, error: '', info: '' }), setPw: e => this.setLg({ pw: e.target.value, error: '' }), setName: e => this.setLg({ name: e.target.value }),
           submit: this.submitLogin, google: this.googleLogin, submitLabel: l.busy ? 'Vent litt …' : (up ? 'Opprett konto' : 'Logg inn'),
-          toggle: () => this.setLg({ mode: up ? 'login' : 'signup', error: '' }), toggleLabel: up ? 'Har du konto? Logg inn' : 'Ny her? Opprett konto med e-post' }; })(),
+          toggle: () => this.setLg({ mode: up ? 'login' : 'signup', error: '', info: '' }), toggleLabel: up ? 'Har du konto? Logg inn' : 'Ny her? Opprett konto med e-post' }; })(),
       initials: user ? ((user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('')) : '',
       userName: user ? (user.name || user.email.split('@')[0]) : '', userEmail: user ? user.email : '',
       avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : (user ? ((user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('')) : ''),
