@@ -6,10 +6,22 @@ import sqlite3
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
+from .matching import IngredientRule, excluded_name
 from .units import to_base
 
 STALE_DAYS = 30
 SCORE_BAND = 1.0  # velg billigste blant produkter som er nesten like gode treff
+# Et treff som er mye svakere enn det beste for ingrediensen i noen kjede er trolig feil
+# ("Pepsi Max Lime" når "Lime pr stk" finnes). Da er det bedre å vise "ikke funnet".
+GLOBAL_GAP = 3.0
+
+
+def score_floor(conn: sqlite3.Connection, ingredient_id: int) -> float:
+    row = conn.execute(
+        "SELECT MAX(score) AS best FROM ingredient_product WHERE ingredient_id=? AND status != 'rejected'",
+        (ingredient_id,),
+    ).fetchone()
+    return (row["best"] or 0) - GLOBAL_GAP
 
 
 @dataclass
@@ -86,6 +98,12 @@ def pick_product(conn: sqlite3.Connection, need: Need, chain_code: str, now: dat
            WHERE ip.ingredient_id = ? AND ip.status != 'rejected' AND o.price IS NOT NULL""",
         (chain_code, need.ingredient_id),
     ).fetchall()
+    ing = conn.execute("SELECT * FROM ingredient WHERE id=?", (need.ingredient_id,)).fetchone()
+    if ing is not None and "exclude_terms" in ing.keys():
+        rule = IngredientRule.from_row(ing)
+        cands = [c for c in cands if not excluded_name(rule, c["store_name"])]
+    floor = score_floor(conn, need.ingredient_id)
+    cands = [c for c in cands if c["status"] == "verified" or c["score"] >= floor]
     if not cands:
         return line
 

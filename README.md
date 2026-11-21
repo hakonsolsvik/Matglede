@@ -43,7 +43,7 @@ Krever bare Python 3.10 eller nyere, ingen pakker.
 
 ```bash
 cp .env.example .env               # lim inn KASSAL_API_KEY
-python -m matglede init            # lager matglede.db med 37 ingredienser og 6 middager
+python -m matglede init            # lager matglede.db med 129 ingredienser og 6 middager
 python -m matglede import          # henter varer fra Kassalapp (ca. 10 min med gratisnøkkel)
 python -m matglede demo-plan       # lager en ukeplan med fem middager
 python -m matglede compare --plan 1
@@ -124,7 +124,7 @@ Råfilene ligger i `seed/sources/`. Etter endringer der, eller i koblingsreglene
 python -m matglede build-external   # skriver external_recipes.json og viser hva som mangler
 ```
 
-Ingredienser som ikke finnes i `ingredients.csv` (pasta, kikerter, soyasaus og lignende) blir
+Ingredienser som ikke finnes i `ingredients.csv` (vann, ribbe, surkål og lignende) blir
 stående i JSON-filen med `"ingredient": null`, men tas ikke med i handlelisten før de legges til.
 Salt og pepper "etter smak" (uten mengde) hoppes også over.
 
