@@ -80,7 +80,7 @@
      "name": "Pastaskruer (fullkorn/grov eller lys pasta)",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "pastaskruer"
     },
     {
      "raw": "1 pakke Salatkylling",
@@ -122,14 +122,14 @@
      "name": "Soltørkede tomater",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soltorkede_tomater"
     },
     {
      "raw": "4 spiseskje Basilikum, , finhakket",
      "name": "Basilikum, , finhakket",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "basilikum"
     },
     {
      "raw": "1 klype Salt og pepper",
@@ -173,7 +173,7 @@
      "name": "Lettkokte havregryn",
      "amount": 1.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "havregryn"
     },
     {
      "raw": "1 desiliter Hvetemel",
@@ -208,7 +208,7 @@
      "name": "Oregano",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "oregano"
     },
     {
      "raw": "2 stykk Egg",
@@ -243,7 +243,7 @@
      "name": "Bakepulver",
      "amount": 2.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "bakepulver"
     }
    ],
    "rating": 3.38,
@@ -280,7 +280,7 @@
      "name": "Grønnsakskraft",
      "amount": 2.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "1 stykk Rød paprika",
@@ -336,7 +336,7 @@
      "name": "Bladpersille (til servering)",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "persille"
     }
    ],
    "rating": 3.35,
@@ -364,7 +364,7 @@
      "name": "Pad thai nudler / rice sticks",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "risnudler"
     },
     {
      "raw": "400 gram Kyllingfilet",
@@ -378,7 +378,7 @@
      "name": "Olje til steking",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "1 fedd Hvitløk",
@@ -426,29 +426,29 @@
      "raw": "1 bunt Vårløk, hakket",
      "name": "Vårløk, hakket",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "varlok"
     },
     {
      "raw": "1 stykk Lime, i båter",
      "name": "Lime, i båter",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "lime"
     },
     {
      "raw": "1 neve Peanøtter, usaltede (hakket)",
      "name": "Peanøtter, usaltede (hakket)",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "peanotter"
     },
     {
      "raw": "1 klype Chiliflakes (valgfritt)",
      "name": "Chiliflakes (valgfritt)",
      "amount": null,
      "unit": "klype",
-     "ingredient": null
+     "ingredient": "chiliflak"
     }
    ],
    "rating": 3.6,
@@ -471,21 +471,21 @@
      "name": "Majones",
      "amount": 100.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "majones"
     },
     {
      "raw": "2 spiseskje Ketchup",
      "name": "Ketchup",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "ketchup"
     },
     {
      "raw": "2 teskje Sennep",
      "name": "Sennep",
      "amount": 2.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "sennep"
     },
     {
      "raw": "1 spiseskje Finhakket løk",
@@ -513,7 +513,7 @@
      "name": "Paprikapulver",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "paprikapulver"
     },
     {
      "raw": "0,5 teskje Løkpulver",
@@ -620,14 +620,14 @@
      "name": "Spinat",
      "amount": 200.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "spinat"
     },
     {
      "raw": "1 pakke Tortellini,  (250g)",
      "name": "Tortellini",
      "amount": 250.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tortellini"
     }
    ],
    "rating": 3.45,
@@ -671,7 +671,7 @@
      "name": "Penne",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "penne"
     },
     {
      "raw": "4 spiseskje Tomatpuré",
@@ -685,7 +685,7 @@
      "name": "Chiliflakes",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "chiliflak"
     },
     {
      "raw": "3 desiliter Fløte",
@@ -720,7 +720,7 @@
      "name": "Persille, til pynt",
      "amount": null,
      "unit": "klype",
-     "ingredient": null
+     "ingredient": "persille"
     }
    ],
    "rating": 3.68,
@@ -743,21 +743,21 @@
      "name": "Tagliatelle",
      "amount": 500.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tagliatelle"
     },
     {
      "raw": "1 pose Rå scampi uten skall (frosne)",
      "name": "Rå scampi uten skall (frosne)",
      "amount": 1.0,
      "unit": "pk",
-     "ingredient": null
+     "ingredient": "scampi"
     },
     {
      "raw": "3 desiliter Crème Fraîche, (alt. matfløte)",
      "name": "Crème Fraîche, (alt. matfløte)",
      "amount": 3.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "creme_fraiche"
     },
     {
      "raw": "1 stykk Sitron",
@@ -770,8 +770,8 @@
      "raw": "1 potte Kruspersille, , liten",
      "name": "Kruspersille, , liten",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "persille"
     },
     {
      "raw": "4 spiseskje Olivenolje",
@@ -792,7 +792,7 @@
      "name": "Kajennepepper",
      "amount": null,
      "unit": "klype",
-     "ingredient": null
+     "ingredient": "chilipulver"
     },
     {
      "raw": "1 klype Salt",
@@ -822,7 +822,7 @@
      "name": "Tørr tagliatelle",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tagliatelle"
     },
     {
      "raw": "2 stykk Kyllingbryst",
@@ -862,16 +862,16 @@
     {
      "raw": "1 glass Pastasaus",
      "name": "Pastasaus",
-     "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": "pastasaus"
     },
     {
      "raw": "4 spiseskje Bladpersille (finhakket)",
      "name": "Bladpersille (finhakket)",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "persille"
     }
    ],
    "rating": 3.54,
@@ -894,14 +894,14 @@
      "name": "Penne med fullkorn",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "penne"
     },
     {
      "raw": "1 glass Pastasaus",
      "name": "Pastasaus",
-     "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": "pastasaus"
     },
     {
      "raw": "1 stykk Rød paprika",
@@ -957,7 +957,7 @@
      "name": "Basilikum",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "basilikum"
     }
    ],
    "rating": 3.49,
@@ -980,7 +980,7 @@
      "name": "Små sjampinjonger, , delt i 4-6 båter",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "sopp"
     },
     {
      "raw": "2 stykk Rødløk",
@@ -1015,7 +1015,7 @@
      "name": "Kyllingkraft",
      "amount": 3.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "1 spiseskje Tomatpuré",
@@ -1029,7 +1029,7 @@
      "name": "Paprikapulver",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "paprikapulver"
     },
     {
      "raw": "1,5 spiseskje Tørket estragon",
@@ -1157,7 +1157,7 @@
      "name": "Sukker",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sukker"
     },
     {
      "raw": "2 desiliter Vann",
@@ -1194,7 +1194,7 @@
      "name": "Buljongterning",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "buljong"
     },
     {
      "raw": "2 spiseskje Hvetemel",
@@ -1266,14 +1266,14 @@
      "name": "Olje til steking",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "300 gram Penne, fullkorn",
      "name": "Penne, fullkorn",
      "amount": 300.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "penne"
     },
     {
      "raw": "120 gram Bacon eller spekeskinke",
@@ -1308,7 +1308,7 @@
      "name": "Crème Fraîche",
      "amount": 2.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "creme_fraiche"
     },
     {
      "raw": "0,5 stykk Sitron",
@@ -1343,7 +1343,7 @@
      "name": "Hakket basilikum",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "basilikum"
     }
    ],
    "rating": 3.51,
@@ -1387,35 +1387,35 @@
      "name": "Ingefær, , revet",
      "amount": 1.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "1,5 spiseskje Soyasaus",
      "name": "Soyasaus",
      "amount": 1.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soyasaus"
     },
     {
      "raw": "1 spiseskje Honning",
      "name": "Honning",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "honning"
     },
     {
      "raw": "1 spiseskje Risvinseddik",
      "name": "Risvinseddik",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "riseddik"
     },
     {
      "raw": "0,5 pose Bokbabyspinat",
      "name": "Bokbabyspinat",
-     "amount": 0.5,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 100.0,
+     "unit": "g",
+     "ingredient": "spinat"
     },
     {
      "raw": "1 pose Gyoza",
@@ -1429,21 +1429,21 @@
      "name": "Vårløk",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "varlok"
     },
     {
      "raw": "1 bunt Koriander",
      "name": "Koriander",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "1 spiseskje Sesamfrø",
      "name": "Sesamfrø",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sesamfro"
     }
    ],
    "rating": 3.33,
@@ -1466,7 +1466,7 @@
      "name": "Tagliatelle",
      "amount": 300.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tagliatelle"
     },
     {
      "raw": "2 stykk Rød spisspaprika",
@@ -1501,7 +1501,7 @@
      "name": "Oregano",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "oregano"
     },
     {
      "raw": "1 klype Salt og pepper",
@@ -1529,14 +1529,14 @@
      "name": "Olje til steking",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "1 klype Persille",
      "name": "Persille",
      "amount": null,
      "unit": "klype",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "100 gram Parmesan, (valgfritt)",
@@ -1566,7 +1566,7 @@
      "name": "Sjampinjong",
      "amount": 250.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "sopp"
     },
     {
      "raw": "1 spiseskje Smør",
@@ -1580,7 +1580,7 @@
      "name": "Soyasaus",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soyasaus"
     },
     {
      "raw": "2 fedd Hvitløk",
@@ -1599,16 +1599,16 @@
     {
      "raw": "0,5 pose Vasket spinat",
      "name": "Vasket spinat",
-     "amount": 0.5,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 100.0,
+     "unit": "g",
+     "ingredient": "spinat"
     },
     {
      "raw": "360 gram Tagliatelle",
      "name": "Tagliatelle",
      "amount": 360.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tagliatelle"
     },
     {
      "raw": "1 klype Salt og pepper",
@@ -1652,28 +1652,28 @@
      "name": "Pitabrød",
      "amount": 4.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "pitabrod"
     },
     {
      "raw": "150 gram Crème Fraîche",
      "name": "Crème Fraîche",
      "amount": 150.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "creme_fraiche"
     },
     {
      "raw": "2 stykk Avokado",
      "name": "Avokado",
      "amount": 2.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "avokado"
     },
     {
      "raw": "1 pose Romanomiks",
      "name": "Romanomiks",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "hjertesalat"
     }
    ],
    "rating": 3.38,
@@ -1710,7 +1710,7 @@
      "name": "Timian, , tørket",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "timian"
     },
     {
      "raw": "3 fedd Hvitløk",
@@ -1738,7 +1738,7 @@
      "name": "Tørr tagliatelle, (eller 400 g fersk)",
      "amount": 200.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tagliatelle"
     },
     {
      "raw": "2 stykk Eggeplommer",
@@ -1801,14 +1801,14 @@
      "name": "Fetaost, , blokk",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "feta"
     },
     {
      "raw": "500 gram Cherrytomater",
      "name": "Cherrytomater",
      "amount": 500.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "cherrytomater"
     },
     {
      "raw": "3 fedd Hvitløk",
@@ -1822,21 +1822,21 @@
      "name": "Oregano, , tørket",
      "amount": 2.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "oregano"
     },
     {
      "raw": "3 spiseskje Bladpersille, , hakket",
      "name": "Bladpersille, , hakket",
      "amount": 3.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "250 gram Pastaskruer, (Fusilli)",
      "name": "Pastaskruer, (Fusilli)",
      "amount": 250.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "pastaskruer"
     },
     {
      "raw": "2 spiseskje Olivenolje",
@@ -1901,14 +1901,14 @@
      "name": "Nøytral olje til steking",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "1 pakke Eggnudler",
      "name": "Eggnudler",
-     "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 250.0,
+     "unit": "g",
+     "ingredient": "eggnudler"
     },
     {
      "raw": "2 fedd Hvitløk (finhakket)",
@@ -1922,7 +1922,7 @@
      "name": "Soyasaus",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soyasaus"
     },
     {
      "raw": "3 spiseskje Varmt vann",
@@ -1936,28 +1936,28 @@
      "name": "Brunt sukker",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sukker"
     },
     {
      "raw": "1 spiseskje Østerssaus",
      "name": "Østerssaus",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "ostersaus"
     },
     {
      "raw": "1 spiseskje Eplesidereddik (5 %)",
      "name": "Eplesidereddik (5 %)",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "eddik"
     },
     {
      "raw": "1 spiseskje Sesamolje",
      "name": "Sesamolje",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sesamolje"
     },
     {
      "raw": "0,5 teskje Sort pepper, malt",
@@ -2048,14 +2048,14 @@
      "name": "Kyllingkraft",
      "amount": 2.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "1 desiliter Soltørkede tomater",
      "name": "Soltørkede tomater",
      "amount": 1.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "soltorkede_tomater"
     },
     {
      "raw": "1 desiliter Parmesan",
@@ -2069,7 +2069,7 @@
      "name": "Pizzakrydder",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "pizzakrydder"
     },
     {
      "raw": "0,5 teskje Chili explosion",
@@ -2083,7 +2083,7 @@
      "name": "Basilikum",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "basilikum"
     }
    ],
    "rating": 3.52,
@@ -2106,21 +2106,21 @@
      "name": "Lårfilet eller strimler av kylling",
      "amount": 600.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kyllinglar"
     },
     {
      "raw": "3 desiliter Kefir",
      "name": "Kefir",
      "amount": 3.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kefir"
     },
     {
      "raw": "1 teskje Ingefær, , finrevet",
      "name": "Ingefær, , finrevet",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "2 fedd Hvitløk, , presset",
@@ -2134,7 +2134,7 @@
      "name": "Limesaft",
      "amount": 0.5,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "lime"
     },
     {
      "raw": "1 teskje Flaksalt",
@@ -2148,21 +2148,21 @@
      "name": "Gurkemeie",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "gurkemeie"
     },
     {
      "raw": "0,3 teskje Chilipulver",
      "name": "Chilipulver",
      "amount": 0.3,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "chilipulver"
     },
     {
      "raw": "1 teskje Malt koriander",
      "name": "Malt koriander",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "koriander_malt"
     },
     {
      "raw": "1 stykk Løk",
@@ -2183,7 +2183,7 @@
      "name": "Ingefær",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "1 fedd Hvitløk",
@@ -2197,28 +2197,28 @@
      "name": "Malt spisskummen",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "spisskummen"
     },
     {
      "raw": "1 teskje Garam masala (eller karripulver)",
      "name": "Garam masala (eller karripulver)",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "garam_masala"
     },
     {
      "raw": "1 teskje Malt paprika",
      "name": "Malt paprika",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "paprikapulver"
     },
     {
      "raw": "0,5 desiliter Kefir",
      "name": "Kefir",
      "amount": 0.5,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kefir"
     },
     {
      "raw": "100 gram Smør",
@@ -2239,21 +2239,21 @@
      "name": "Chilipulver",
      "amount": 0.3,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "chilipulver"
     },
     {
      "raw": "1 teskje Malt koriander",
      "name": "Malt koriander",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "koriander_malt"
     },
     {
      "raw": "1 neve Fersk koriander",
      "name": "Fersk koriander",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "4 desiliter Basmatiris",
@@ -2267,14 +2267,14 @@
      "name": "Cashewnøtter, (valgfritt)",
      "amount": 50.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "cashew"
     },
     {
      "raw": "4 stykk Naanbrød",
      "name": "Naanbrød",
      "amount": 4.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "naanbrod"
     }
    ],
    "rating": 3.52,
@@ -2309,9 +2309,9 @@
     {
      "raw": "1 stykk Tørrgjær Idun",
      "name": "Tørrgjær Idun",
-     "amount": 1.0,
-     "unit": "stk",
-     "ingredient": null
+     "amount": 12.0,
+     "unit": "g",
+     "ingredient": "gjaer"
     },
     {
      "raw": "1 boks Tomatpuré REMA 1000",
@@ -2346,7 +2346,7 @@
      "name": "Oregano, , tørket",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "oregano"
     }
    ],
    "rating": 3.19,
@@ -2392,7 +2392,7 @@
      "name": "Miniplommetomater",
      "amount": 1.0,
      "unit": "pk",
-     "ingredient": null
+     "ingredient": "cherrytomater"
     },
     {
      "raw": "1 pose Ferdig preppa mexikansk kit",
@@ -2405,8 +2405,8 @@
      "raw": "1 bunt Koriander",
      "name": "Koriander",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "1 boks Mais",
@@ -2452,7 +2452,7 @@
      "name": "Stangselleri",
      "amount": 2.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "stangselleri"
     },
     {
      "raw": "2 stykk Gulrøtter",
@@ -2487,7 +2487,7 @@
      "name": "Olje til steking",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "6 spiseskje Tomatpuré",
@@ -2501,14 +2501,14 @@
      "name": "Rosmarin, tørket",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "rosmarin"
     },
     {
      "raw": "4 desiliter Kjøttbuljong",
      "name": "Kjøttbuljong",
      "amount": 4.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "1 klype Salt og pepper",
@@ -2529,7 +2529,7 @@
      "name": "Tagliatelle, , tørket",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "tagliatelle"
     },
     {
      "raw": "1 dash Parmesan",
@@ -2543,7 +2543,7 @@
      "name": "Bladpersille (til servering)",
      "amount": null,
      "unit": "dash",
-     "ingredient": null
+     "ingredient": "persille"
     }
    ],
    "rating": 3.83,
@@ -2596,7 +2596,7 @@
      "name": "Pitabrød Hatting",
      "amount": 4.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "pitabrod"
     },
     {
      "raw": "4 skive Cheddar REMA 1000",
@@ -2647,9 +2647,9 @@
     {
      "raw": "1 glass Pastasaus",
      "name": "Pastasaus",
-     "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": "pastasaus"
     },
     {
      "raw": "1 desiliter Vann",
@@ -2677,28 +2677,28 @@
      "name": "Stangselleri, , liten",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "stangselleri"
     },
     {
      "raw": "1 pakke Lasagneplater",
      "name": "Lasagneplater",
-     "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "amount": 500.0,
+     "unit": "g",
+     "ingredient": "lasagneplater"
     },
     {
      "raw": "1 boks Crème fraîche",
      "name": "Crème fraîche",
      "amount": 1.0,
      "unit": "pk",
-     "ingredient": null
+     "ingredient": "creme_fraiche"
     },
     {
      "raw": "180 gram Mozzarella, , revet",
      "name": "Mozzarella, , revet",
      "amount": 180.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "mozzarella"
     },
     {
      "raw": "1 klype Salt og pepper",
@@ -2757,8 +2757,8 @@
      "raw": "1 potte Gressløk",
      "name": "Gressløk",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "gresslok"
     },
     {
      "raw": "600 gram Fiskekaker",
@@ -2772,7 +2772,7 @@
      "name": "Sennep",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sennep"
     },
     {
      "raw": "1 desiliter Olivenolje",
@@ -2793,14 +2793,14 @@
      "name": "Hvitvinseddik",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "eddik"
     },
     {
      "raw": "1 teskje Sukker",
      "name": "Sukker",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "sukker"
     },
     {
      "raw": "1 klype Salt",
@@ -2846,7 +2846,7 @@
      "name": "Potetmel",
      "amount": 2.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "potetmel"
     },
     {
      "raw": "1 teskje Salt",
@@ -2867,7 +2867,7 @@
      "name": "Muskatt, , malt",
      "amount": 0.25,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "muskat"
     },
     {
      "raw": "1 desiliter Vann",
@@ -2888,7 +2888,7 @@
      "name": "Søtpotet",
      "amount": 600.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "sotpotet"
     },
     {
      "raw": "1 stykk Spisspaprika",
@@ -2923,7 +2923,7 @@
      "name": "Rosmarin, , tørket",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "rosmarin"
     },
     {
      "raw": "1 pose Frosne erter",
@@ -2976,14 +2976,14 @@
      "name": "Torskefilet",
      "amount": 500.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "torskefilet"
     },
     {
      "raw": "200 gram Makaroni",
      "name": "Makaroni",
      "amount": 200.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "makaroni"
     },
     {
      "raw": "2 stykk Gulrøtter",
@@ -2997,14 +2997,14 @@
      "name": "Purre",
      "amount": 100.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "purre"
     },
     {
      "raw": "0,3 teskje Hel muskatnøtt",
      "name": "Hel muskatnøtt",
      "amount": 0.3,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "muskat"
     },
     {
      "raw": "5 desiliter Helmelk",
@@ -3084,7 +3084,7 @@
      "name": "Buljong (kjøtt eller grønnsaksbuljong)",
      "amount": 7.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "1 klype Salt og pepper",
@@ -3105,14 +3105,14 @@
      "name": "Bladpersille (finhakket)",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "1 spiseskje Maizena",
      "name": "Maizena",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "maisenna"
     },
     {
      "raw": "3 spiseskje Kaldt vann",
@@ -3163,15 +3163,15 @@
      "raw": "1 potte Persille",
      "name": "Persille",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "persille"
     },
     {
      "raw": "1 teskje Malt koriander",
      "name": "Malt koriander",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "koriander_malt"
     },
     {
      "raw": "3 spiseskje Smør",
@@ -3185,7 +3185,7 @@
      "name": "Lammelår",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "lammelar"
     },
     {
      "raw": "3 klype Pepper",
@@ -3237,7 +3237,7 @@
      "name": "Persille, , eller annen urt",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "2 fedd Hvitløk",
@@ -3265,14 +3265,14 @@
      "name": "Kålrot",
      "amount": 300.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kalrot"
     },
     {
      "raw": "2 stykk Rødbeter",
      "name": "Rødbeter",
      "amount": 2.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "rodbeter"
     },
     {
      "raw": "0,5 teskje Salt",
@@ -3317,7 +3317,7 @@
      "name": "Hodekål",
      "amount": 1.3,
      "unit": "kg",
-     "ingredient": null
+     "ingredient": "hodekal"
     },
     {
      "raw": "600 gram Poteter",
@@ -3330,15 +3330,15 @@
      "raw": "1 potte Persille",
      "name": "Persille",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "persille"
     },
     {
      "raw": "6 stykk Laurbærblad",
      "name": "Laurbærblad",
      "amount": 6.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "laurbaer"
     },
     {
      "raw": "1,5 kilogram Fårikålkjøtt",
@@ -3383,7 +3383,7 @@
      "name": "Kokosnøttolje eller raps olje",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "1 løk, finhakket",
@@ -3404,49 +3404,49 @@
      "name": "fersk ingefær, finhakket",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "300 g sopp, kuttet i skiver eller store biter",
      "name": "sopp, kuttet i skiver eller store biter",
      "amount": 300.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "sopp"
     },
     {
      "raw": "1 boks (300g) med kokte kikerter",
      "name": "med kokte kikerter",
      "amount": 300.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kikerter"
     },
     {
      "raw": "1 ts garam masala",
      "name": "garam masala",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "garam_masala"
     },
     {
      "raw": "1.5 ts karripulver eller mer",
      "name": "karripulver eller mer",
      "amount": 1.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "karri"
     },
     {
      "raw": "1/2 ts spisskummen",
      "name": "spisskummen",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "spisskummen"
     },
     {
      "raw": "1/2 ts gurkemeie",
      "name": "gurkemeie",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "gurkemeie"
     },
     {
      "raw": "1 boks kokosmelk",
@@ -3460,21 +3460,21 @@
      "name": "vann eller buljong",
      "amount": 2.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "100 g fersk spinat",
      "name": "fersk spinat",
      "amount": 100.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "spinat"
     },
     {
      "raw": "I tillegg: Litt lime, koriander og chili",
      "name": "I tillegg: Litt lime, koriander og chili",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "lime"
     }
    ]
   },
@@ -3514,42 +3514,42 @@
      "name": "rød chili, uten frø og hakket",
      "amount": 0.5,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "chili"
     },
     {
      "raw": "1 dl ( bruk gjerne mer) sorte kalamat oliven, hakket",
      "name": "( bruk gjerne mer) sorte kalamat oliven, hakket",
      "amount": 1.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "oliven"
     },
     {
      "raw": "3 ss soltørkete tomater i olje, hakket",
      "name": "soltørkete tomater i olje, hakket",
      "amount": 3.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soltorkede_tomater"
     },
     {
      "raw": "1 neve frisk persille",
      "name": "frisk persille",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "Litt chiliflak",
      "name": "Litt chiliflak",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "chiliflak"
     },
     {
      "raw": "1 Avokado",
      "name": "Avokado",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "avokado"
     },
     {
      "raw": "Pepper",
@@ -3587,16 +3587,16 @@
     {
      "raw": "1 mozzarella ball i tynne skiver",
      "name": "mozzarella ball i tynne skiver",
-     "amount": 1.0,
-     "unit": "stk",
-     "ingredient": null
+     "amount": 125.0,
+     "unit": "g",
+     "ingredient": "mozzarella"
     },
     {
      "raw": "6 skiver soltørkede tomater i olje, skjer i flere biter",
      "name": "soltørkede tomater i olje, skjer i flere biter",
      "amount": null,
      "unit": "skiver",
-     "ingredient": null
+     "ingredient": "soltorkede_tomater"
     },
     {
      "raw": "Oliven olje",
@@ -3624,14 +3624,14 @@
      "name": "frisk pesto, du kan også bruke ferdiglaget pesto på glass",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "pesto"
     },
     {
      "raw": "1 stor bunt frisk basilikum",
      "name": "stor bunt frisk basilikum",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "basilikum"
     },
     {
      "raw": "50 g revet parmesan",
@@ -3645,7 +3645,7 @@
      "name": "pinjekjerner",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "pinjekjerner"
     },
     {
      "raw": "1 fedd hvitløk, hakket",
@@ -3692,7 +3692,7 @@
      "name": "tørkete kikerter",
      "amount": 250.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kikerter"
     },
     {
      "raw": "1/2 løk, hakket",
@@ -3713,28 +3713,28 @@
      "name": "flatpersille, hakket",
      "amount": 1.5,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "1 dl frisk koriander, hakket",
      "name": "frisk koriander, hakket",
      "amount": 1.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "1 ts spisskumin",
      "name": "spisskumin",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "spisskummen"
     },
     {
      "raw": "1/2 ts malt koriander",
      "name": "malt koriander",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "koriander_malt"
     },
     {
      "raw": "1/4 ts kardemomme",
@@ -3748,7 +3748,7 @@
      "name": "bakepulver",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "bakepulver"
     },
     {
      "raw": "ca 3 ss kikertmel ( hvetemel kan brukes)",
@@ -3769,14 +3769,14 @@
      "name": "solsikkeolje",
      "amount": 1.0,
      "unit": "l",
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "1 avokado",
      "name": "avokado",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "avokado"
     },
     {
      "raw": "1 fedd hvitløk",
@@ -3790,21 +3790,21 @@
      "name": "jalapeno, finhakket",
      "amount": 0.5,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "chili"
     },
     {
      "raw": "Et par kvaster persille, hakket",
      "name": "Et par kvaster persille, hakket",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "2 ss tahini",
      "name": "tahini",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "tahini"
     },
     {
      "raw": "1/2 sitron, saft",
@@ -3858,14 +3858,14 @@
      "name": "sopp, i skiver",
      "amount": 250.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "sopp"
     },
     {
      "raw": "1 chili, hakket (kan sløyfes)",
      "name": "chili, hakket (kan sløyfes)",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "chili"
     },
     {
      "raw": "1 gulrot, raspet",
@@ -3879,7 +3879,7 @@
      "name": "stangselleri, i biter",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "stangselleri"
     },
     {
      "raw": "2 ss tomatpuré",
@@ -3900,14 +3900,14 @@
      "name": "grønnsakkraft eller vegetabilsk buljong",
      "amount": 1.0,
      "unit": "l",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "1 boks (250 g) kikerter",
      "name": "kikerter",
      "amount": 250.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kikerter"
     },
     {
      "raw": "Salt",
@@ -3935,7 +3935,7 @@
      "name": "Litt hakket persille til servering",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "persille"
     }
    ]
   },
@@ -3961,7 +3961,7 @@
      "name": "maisenna",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "maisenna"
     },
     {
      "raw": "Litt salt",
@@ -3975,7 +3975,7 @@
      "name": "Neutral olje til steking",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "500 g brokkoli",
@@ -4003,77 +4003,77 @@
      "name": "frisk ingefær, finraspet eller finhakket",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "3 vårløk, det grønne",
      "name": "vårløk, det grønne",
      "amount": 3.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "varlok"
     },
     {
      "raw": "100 g cashewnøtter, usaltet  og 1 ss sesamfrø",
      "name": "cashewnøtter, usaltet og 1 ss sesamfrø",
      "amount": 100.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "cashew"
     },
     {
      "raw": "1 dl kyllingbuljong (+ mer eller litt vann om sausen ser litt tykk ut)",
      "name": "kyllingbuljong (+ mer eller litt vann om sausen ser litt tykk ut)",
      "amount": 1.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "kraft"
     },
     {
      "raw": "3 - 4 ss hoisinsauce",
      "name": "hoisinsauce",
      "amount": 3.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "hoisin"
     },
     {
      "raw": "1 1/2 ss soya sauce",
      "name": "soya sauce",
      "amount": 1.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soyasaus"
     },
     {
      "raw": "1 1/2 ss riseddik",
      "name": "riseddik",
      "amount": 1.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "riseddik"
     },
     {
      "raw": "1 ss flytende honning",
      "name": "flytende honning",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "honning"
     },
     {
      "raw": "1 ts sesamolje eller mer",
      "name": "sesamolje eller mer",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "sesamolje"
     },
     {
      "raw": "2 ss sriracha (chilisaus) eller chili",
      "name": "sriracha (chilisaus) eller chili",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "chilisaus"
     },
     {
      "raw": "1 ss maisenna",
      "name": "maisenna",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "maisenna"
     }
    ]
   },
@@ -4099,7 +4099,7 @@
      "name": "Litt neutral olje",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "2 fedd hvitløk, hakket",
@@ -4113,14 +4113,14 @@
      "name": "mild mangochutney",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "mangochutney"
     },
     {
      "raw": "3 ss mild indisk curry paste eller mer",
      "name": "mild indisk curry paste eller mer",
      "amount": 3.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "currypaste_indisk"
     },
     {
      "raw": "3 dl matfløte",
@@ -4148,7 +4148,7 @@
      "name": "Litt frisk koriander ( kan sløyfes)",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "Ris til servering",
@@ -4216,14 +4216,14 @@
      "name": "En neve bladpersille",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "300 g kokte kikerter eller mer",
      "name": "kokte kikerter eller mer",
      "amount": 300.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kikerter"
     },
     {
      "raw": "Salt",
@@ -4263,14 +4263,14 @@
      "name": "rå scampi",
      "amount": 500.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "scampi"
     },
     {
      "raw": "400 gram eggnudler",
      "name": "eggnudler",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "eggnudler"
     },
     {
      "raw": "1 løk, grov hakket",
@@ -4291,7 +4291,7 @@
      "name": "asparges stenger, halver",
      "amount": 4.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "asparges"
     },
     {
      "raw": "1 rød paprika i skiver",
@@ -4305,49 +4305,49 @@
      "name": "Frisk koriander eller persille, hakket",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "Litt rapsolje, til steking",
      "name": "Litt rapsolje, til steking",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "3 ss hoisan saus",
      "name": "hoisan saus",
      "amount": 3.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "hoisin"
     },
     {
      "raw": "4 ss soyasaus",
      "name": "soyasaus",
      "amount": 4.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soyasaus"
     },
     {
      "raw": "1 ss sesamolje",
      "name": "sesamolje",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sesamolje"
     },
     {
      "raw": "1/2 rød chili, skivet eller hakket",
      "name": "rød chili, skivet eller hakket",
      "amount": 0.5,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "chili"
     },
     {
      "raw": "1 ss frisk ingefær, finhakket",
      "name": "frisk ingefær, finhakket",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "2 fedd hvitløk hakket",
@@ -4373,14 +4373,14 @@
      "name": "risnudler",
      "amount": 200.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "risnudler"
     },
     {
      "raw": "1 hjertesalat, grovsnittet",
      "name": "hjertesalat, grovsnittet",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "hjertesalat"
     },
     {
      "raw": "1 agurk, i skiver",
@@ -4394,7 +4394,7 @@
      "name": "sukkererter, hakket",
      "amount": 150.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "sukkererter"
     },
     {
      "raw": "2 gulrøtter, i tynne skiver eller julienne",
@@ -4408,56 +4408,56 @@
      "name": "scampi",
      "amount": 450.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "scampi"
     },
     {
      "raw": "Litt grovhakket mynte- og korianderblader",
      "name": "Litt grovhakket mynte- og korianderblader",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "1 neve peanøtter, til topping",
      "name": "peanøtter, til topping",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "peanotter"
     },
     {
      "raw": "Lime, til servering",
      "name": "Lime, til servering",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "lime"
     },
     {
      "raw": "3 ss peanøttsmør",
      "name": "peanøttsmør",
      "amount": 3.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "peanottsmor"
     },
     {
      "raw": "2 ss riseddik",
      "name": "riseddik",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "riseddik"
     },
     {
      "raw": "1-2 ss soyasaus",
      "name": "soyasaus",
      "amount": 1.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "soyasaus"
     },
     {
      "raw": "1 ss sesamolje",
      "name": "sesamolje",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sesamolje"
     },
     {
      "raw": "1 hvitløksfedd, hakket",
@@ -4471,14 +4471,14 @@
      "name": "revet ingefær",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "ingefaer"
     },
     {
      "raw": "1 ts chilisaus",
      "name": "chilisaus",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "chilisaus"
     },
     {
      "raw": "Vann for å tynne ut dressing",
@@ -4505,14 +4505,14 @@
      "name": "grønne oliven",
      "amount": 200.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "oliven"
     },
     {
      "raw": "100 g valnøtter, grovhakket",
      "name": "valnøtter, grovhakket",
      "amount": 100.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "valnotter"
     },
     {
      "raw": "1 liten rød løk, chopped",
@@ -4540,14 +4540,14 @@
      "name": "frisk mynte, hakket",
      "amount": 2.5,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "mynte"
     },
     {
      "raw": "Litt koriander, hakket (valgfritt)",
      "name": "Litt koriander, hakket (valgfritt)",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "koriander_frisk"
     }
    ],
    "comments": 2
@@ -4574,7 +4574,7 @@
      "name": "liten chili pepper, finhakket",
      "amount": 1.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "chili"
     },
     {
      "raw": "4 fedd hvitløk, skrelt og finhakket",
@@ -4602,7 +4602,7 @@
      "name": "paprika",
      "amount": 2.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "paprikapulver"
     },
     {
      "raw": "1 1/2 ts havsalt",
@@ -4643,14 +4643,14 @@
      "name": "Litt rapsolje og litt smør",
      "amount": null,
      "unit": null,
-     "ingredient": "smor"
+     "ingredient": "noytral_olje"
     },
     {
      "raw": "600 gram babyspinat, grovhakket",
      "name": "babyspinat, grovhakket",
      "amount": 600.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "spinat"
     },
     {
      "raw": "1 stort granateple, frøene",
@@ -4663,15 +4663,15 @@
      "raw": "½ bundt blad persille, hakket",
      "name": "blad persille, hakket",
      "amount": 0.5,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "persille"
     },
     {
      "raw": "1 neve valnøtter, hakket",
      "name": "valnøtter, hakket",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "valnotter"
     },
     {
      "raw": "2 ss granateplemelasse",
@@ -4685,7 +4685,7 @@
      "name": "honning, flytende",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "honning"
     },
     {
      "raw": "2 ss ekstra virgin olivenolje",
@@ -4699,7 +4699,7 @@
      "name": "chiliflak",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "chiliflak"
     },
     {
      "raw": "2 ss saft fra sitron",
@@ -4768,14 +4768,14 @@
      "name": "hakket rød chili ( kan sløyfes)",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "chili"
     },
     {
      "raw": "1 ss sherryeddik",
      "name": "sherryeddik",
      "amount": 1.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "eddik"
     },
     {
      "raw": "2 ss sitronsaft",
@@ -4796,7 +4796,7 @@
      "name": "persille, hakket",
      "amount": 3.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "persille"
     }
    ],
    "comments": 2
@@ -4823,21 +4823,21 @@
      "name": "asparges",
      "amount": 1.0,
      "unit": "pk",
-     "ingredient": null
+     "ingredient": "asparges"
     },
     {
      "raw": "2 ss majones",
      "name": "majones",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "majones"
     },
     {
      "raw": "2 ss Dijon sennep",
      "name": "Dijon sennep",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "sennep"
     },
     {
      "raw": "2 dl rømme",
@@ -4857,8 +4857,8 @@
      "raw": "1 bunt dill, hakket",
      "name": "dill, hakket",
      "amount": 1.0,
-     "unit": "pk",
-     "ingredient": null
+     "unit": "stk",
+     "ingredient": "dill"
     },
     {
      "raw": "½ ts salt",
@@ -4906,7 +4906,7 @@
      "name": "selleristenger, kutt i tynne skiver.",
      "amount": 4.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "stangselleri"
     },
     {
      "raw": "300 g blå druer uten stein, delt i to",
@@ -4954,21 +4954,21 @@
      "name": "auberginer",
      "amount": 2.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "aubergine"
     },
     {
      "raw": "400 g ferdigkokte kikerter",
      "name": "ferdigkokte kikerter",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kikerter"
     },
     {
      "raw": "1 neve frisk koriander, hakket",
      "name": "frisk koriander, hakket",
      "amount": null,
      "unit": "neve",
-     "ingredient": null
+     "ingredient": "koriander_frisk"
     },
     {
      "raw": "1 rødløk",
@@ -4989,28 +4989,28 @@
      "name": "paprika",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "paprikapulver"
     },
     {
      "raw": "1 ts spisskummen",
      "name": "spisskummen",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "spisskummen"
     },
     {
      "raw": "1 klype hot paprika",
      "name": "hot paprika",
      "amount": null,
      "unit": "klype",
-     "ingredient": null
+     "ingredient": "paprikapulver"
     },
     {
      "raw": "1-2 ts flytende honning",
      "name": "flytende honning",
      "amount": 1.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "honning"
     },
     {
      "raw": "2 ss OIivenolje",
@@ -5044,7 +5044,7 @@
      "name": "auberginer , skjæres i skiver på langs",
      "amount": 3.0,
      "unit": "stk",
-     "ingredient": null
+     "ingredient": "aubergine"
     },
     {
      "raw": "1 fedd hvitløk, finhakket",
@@ -5058,7 +5058,7 @@
      "name": "bladpersille, hakket",
      "amount": 2.0,
      "unit": "ss",
-     "ingredient": null
+     "ingredient": "persille"
     },
     {
      "raw": "Olivenolje",
@@ -5113,7 +5113,7 @@
      "name": "lårfilet av kylling",
      "amount": 600.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "kyllinglar"
     },
     {
      "raw": "smør til steking",
@@ -5148,7 +5148,7 @@
      "name": "karripulver – velg mild eller hot etter smak",
      "amount": 2.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "karri"
     }
    ]
   },
@@ -5167,7 +5167,7 @@
      "name": "Halvparten av det grønne på 1 purre",
      "amount": null,
      "unit": null,
-     "ingredient": null
+     "ingredient": "purre"
     },
     {
      "raw": "2 egg",
@@ -5195,7 +5195,7 @@
      "name": "revet muskat",
      "amount": 0.5,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "muskat"
     },
     {
      "raw": "1/2 ts kvernet pepper",
@@ -5209,14 +5209,14 @@
      "name": "ukokt makaroni",
      "amount": 2.0,
      "unit": "dl",
-     "ingredient": null
+     "ingredient": "makaroni"
     },
     {
      "raw": "ca. 400 g filet av fersk fisk, f.eks. torsk, hyse/kolje eller sei",
      "name": "filet av fersk fisk, f.eks. torsk, hyse/kolje eller sei",
      "amount": 400.0,
      "unit": "g",
-     "ingredient": null
+     "ingredient": "torskefilet"
     },
     {
      "raw": "ca. 100 gram gulost",
@@ -5263,7 +5263,7 @@
      "name": "tørrgjær",
      "amount": 1.0,
      "unit": "ts",
-     "ingredient": null
+     "ingredient": "gjaer"
     },
     {
      "raw": "2 ts salt",

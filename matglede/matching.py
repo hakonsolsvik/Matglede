@@ -54,6 +54,16 @@ def _excluded(haystack: str, needle: str) -> bool:
     return re.search(rf"(^|\s){re.escape(needle)}", haystack) is not None
 
 
+def excluded_name(rule: IngredientRule, name: str) -> bool:
+    """Sant hvis navnet kjeden bruker inneholder et utelukkende ord.
+
+    Samme EAN kan hete "Plantego' Avokado" hos Coop og "Grønnsakspålegg Avokado" hos Meny,
+    så hvert tilbud sjekkes mot sitt eget navn, ikke bare navnet som ga treffet.
+    """
+    n = normalize(name)
+    return any(_excluded(n, ex) for ex in rule.exclude_terms)
+
+
 def score_product(rule: IngredientRule, name: str, categories: list[str], price_date: str | None,
                   has_package: bool, now: datetime | None = None) -> float | None:
     """Returner poengsum, eller None hvis produktet er diskvalifisert."""

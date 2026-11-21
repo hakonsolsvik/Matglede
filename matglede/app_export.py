@@ -18,7 +18,8 @@ from pathlib import Path
 
 from .db import CHAINS
 from .recipe_parse import normalise_for_ingredient
-from .shopping import SCORE_BAND, _is_stale
+from .matching import IngredientRule, excluded_name
+from .shopping import SCORE_BAND, _is_stale, score_floor
 from .units import to_base
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -55,6 +56,12 @@ def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
            WHERE i.slug = ? AND ip.status != 'rejected' AND o.price IS NOT NULL""",
         (chain, slug),
     ).fetchall()
+    ing = conn.execute("SELECT * FROM ingredient WHERE slug=?", (slug,)).fetchone()
+    if ing is not None:
+        rule = IngredientRule.from_row(ing)
+        rows = [r for r in rows if not excluded_name(rule, r["store_name"] or r["name"])]
+        floor = score_floor(conn, ing["id"])
+        rows = [r for r in rows if r["status"] == "verified" or r["score"] >= floor]
     if not rows:
         return []
 
