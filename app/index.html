@@ -956,7 +956,7 @@ class Component extends DCLogic {
     ['Kjøtt og fisk', /bacon|kjøtt|kylling|laks|lam|pølse|fisk|filet|torsk|reke|skinke|svin|biff|ribbe|kalkun/],
     ['Meieri og egg', /egg|melk$|lettmelk|helmelk|fløte|ost$|^ost|parmesan|mozzarella|rømme|smør|yoghurt|kesam|crème|creme/],
     ['Frysevarer', /frosne|frossen|fryst/],
-    ['Tørrvarer og hermetikk', /hakkede tomater|tomatpur|bønne|kikert|linse|kokosmelk|mais|lasagne|spagh|pasta|nudler|\bris\b|^ris|mel$|gjær|buljong|sukker|havre|nøtt|hermetisk/],
+    ['Tørrvarer og hermetikk', /hakkede tomater|tomatpur|bønne|kikert|linse|quinoa|couscous|bulgur|tunfisk|kokosmelk|mais|lasagne|spagh|pasta|nudler|\bris\b|^ris|mel$|gjær|buljong|sukker|havre|nøtt|hermetisk/],
     ['Krydder, olje og sauser', /pepper|salt|pulver|spisskummen|krydder|saus|paste|olje|eddik|sennep|ketchup|honning|kanel|oregano|timian/]
   ];
   // Sjekkes i en annen rekkefølge enn de vises, så «hakkede tomater» og «kokosmelk» havner i tørrvarer
@@ -1338,7 +1338,7 @@ class Component extends DCLogic {
     // Varer man ofte har liggende over tid, og som kan gå tomt plutselig. Grupperes etter butikkavdeling.
     const QUICK = ['Poteter','Løk','Rødløk','Hvitløk','Gulrøtter','Paprika','Tomater','Agurk','Brokkoli','Sitron','Ingefær',
       'Tortillalefser','Melk','Egg','Smør','Ost','Revet ost','Rømme','Matfløte','Erter (frosne)','Frosne grønnsaker',
-      'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Buljong','Gjær',
+      'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Quinoa','Couscous','Bulgur','Nudler','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Hvite bønner','Svarte bønner','Kikerter','Linser','Tunfisk','Buljong','Gjær','Bakepulver',
       'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
     const stepItem = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? P.step(p, d) : p) }));
     const LV = { mye: ['Mye', 'var(--mg-primary)'], litt: ['Litt', 'var(--mg-butter)'], tomt: ['Tomt', 'var(--mg-border-strong)'] };
