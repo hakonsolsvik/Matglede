@@ -1152,8 +1152,8 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       if (dl.length === 7) s.extra.forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [] }));
-      // Varer i matlageret får egen gruppe på handlelisten og telles ikke med i summen
-      m.forEach(e => { e.home = !e.own && !!P.find(stock, [e.n]); });
+      // Min beholdning: Mye = har nok (0 kr, egen gruppe), Litt og Tomt = kjøp til full pris med beskjed
+      m.forEach(e => { const p = !e.own && P.find(s.pantry, [e.n]); e.stock = p ? P.level(p) : null; e.home = e.stock === 'mye'; });
       return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, 'nb'));
     };
     // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
@@ -1162,9 +1162,10 @@ class Component extends DCLogic {
       ? [e.base ? this.fmt(e.base, e.u) : '', e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
-      const sub = e.home ? 'Har hjemme' : e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå');
+      const NOTE = { mye: 'Har nok hjemme, trenger ikke kjøpe', litt: 'Lite igjen hjemme, bør kjøpe mer', tomt: 'Tomt hjemme, må kjøpes' };
+      const sub = e.home ? NOTE.mye : (e.stock ? NOTE[e.stock] + ' · ' : '') + (e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.own || e.home ? '' : pp ? this.fp(pp.total) : '–', ...this.check(!!s.checked[e.k]),
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? '' : pp ? this.fp(pp.total) : '–', ...this.check(!!s.checked[e.k]),
         section: this.sectionOf(e.n), own: !!e.own, home: !!e.home,
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.k]: !st.checked[e.k] } })) }; });
