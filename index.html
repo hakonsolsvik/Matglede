@@ -1044,9 +1044,11 @@ class Component extends DCLogic {
   factor = r => this.pers(r) / r.servings;
 
   // ---------- priser ----------
-  // deal: sparemodus, da regnes ukas tilbud i butikken med som varer
+  // Vanlig pris regnes med vanlige merker. Lavprismerkene og ukas tilbud brukes i sparemodus (deal).
+  BUDGET = /first price|laveste pris|\bxtra\b/i;
   prods = (slug, chain, deal) => { chain = chain || this.state.chain; const c = ((this.D.ING[slug] || {}).products || {})[chain] || [];
-    return deal ? c.concat(this.D.OFF[chain + ':' + slug] || []) : c; };
+    if (deal) return c.concat(this.D.OFF[chain + ':' + slug] || []);
+    const n = c.filter(p => !this.BUDGET.test(p.name)); return n.length ? n : c; };
   // Hele pakker for handlelisten: billigste antall pakker x pris blant kandidatene
   pickPack = (slug, need, pk, chain, deal) => {
     const c = this.prods(slug, chain, deal); if (!c.length) return null;
