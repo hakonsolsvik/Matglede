@@ -298,6 +298,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:var(--mg-bg);z-index:52;overflow-y:auto;filter:{{ rd.blur }};transition:filter .25s;display:flex;flex-direction:column">
 <div style="height:310px;flex:none;background:{{ rd.img }};position:relative;display:flex;align-items:flex-end;padding:0 20px 40px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45)">{{ rd.imgLabel }}
 <button onClick="{{ back }}" aria-label="Tilbake" style="position:absolute;top:calc(var(--top) + 10px);left:16px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,253,248,.92);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<sc-if value="{{ rd.pig.show }}"><button onClick="{{ rd.pig.open }}" aria-label="{{ rd.pig.aria }}" aria-haspopup="dialog" style="position:absolute;top:calc(var(--top) + 10px);left:68px;width:44px;height:44px;border-radius:50%;border:{{ rd.pig.ring }};box-sizing:border-box;background:#f5c42c;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(233,184,26,.5)"><svg width="28" height="28" viewBox="0 0 24 24" fill="#ffe27a" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></button></sc-if>
 <button onClick="{{ rd.toggleFav }}" aria-label="{{ rd.favLabel }}" aria-pressed="{{ rd.isFav }}" style="position:absolute;top:calc(var(--top) + 10px);right:16px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,253,248,.92);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" fill="{{ rd.starFill }}" stroke="{{ rd.starStroke }}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></button>
 <sc-if value="{{ rd.hasLearn }}"><button onClick="{{ rd.openLearn }}" aria-label="{{ rd.learnAria }}" style="position:absolute;top:calc(var(--top) + 10px);right:68px;height:44px;padding:0 14px 0 11px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-info);color:#fff;display:flex;align-items:center;gap:6px;cursor:pointer;font-family:var(--mg-font-sans);font-weight:800;font-size:14px;box-shadow:0 4px 14px rgba(47,111,224,.45)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg>Lær mer · {{ rd.learnCount }}</button></sc-if>
 </div>
@@ -311,12 +312,6 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
 <div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
 </div>
-<sc-if value="{{ rd.pig.show }}"><div style="display:flex;flex-direction:column;gap:8px">
-<button onClick="{{ rd.pig.toggle }}" aria-pressed="{{ rd.pig.on }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 16px;border-radius:var(--mg-r-lg);border:2px solid #e9b81a;background:{{ rd.pig.bg }};cursor:pointer;font-family:inherit;color:var(--mg-ink)">
-<span aria-hidden="true" style="width:50px;height:50px;flex:none;border-radius:50%;background:#f5c42c;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(233,184,26,.45)"><svg width="32" height="32" viewBox="0 0 24 24" fill="#ffe27a" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></span>
-<span class="s11"><span class="s8" style="display:block">{{ rd.pig.title }}</span><span class="s2" style="display:block;color:var(--mg-ink)">{{ rd.pig.sub }}</span></span></button>
-<sc-if value="{{ rd.pig.hasSwaps }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px"><sc-for list="{{ rd.pig.swaps }}" as="w"><div style="padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken);display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ w.text }}</span><span class="s2">{{ w.why }}</span></div></sc-for></div></sc-if>
-</div></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
 <div class="s11"><div class="s8">Antall personer</div><div class="s2">{{ rd.peopleSub }}</div></div>
 <button onClick="{{ rd.peopleMinus }}" aria-label="Færre personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
@@ -341,6 +336,26 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span></button></sc-for></div></sc-if>
 <button onClick="{{ rd.togglePick }}" aria-expanded="{{ rd.pickOpen }}" style="box-shadow:0 6px 18px rgba(30,50,25,.25);border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
 
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ rd.pigOpen }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ rd.pig.close }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:53;background:rgba(27,42,28,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:12px;box-sizing:border-box;cursor:pointer">
+<div role="dialog" aria-label="Billigere versjon" onClick="{{ rd.pig.stop }}" style="background:var(--mg-bg);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25);cursor:default;max-height:80vh;overflow-y:auto">
+<div style="display:flex;align-items:center;gap:12px;padding:2px 2px 4px">
+<span aria-hidden="true" style="width:42px;height:42px;flex:none;border-radius:50%;background:#f5c42c;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="#ffe27a" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></span>
+<div style="flex:1"><div class="s45 mg-h">Billigere versjon</div><div class="s12">{{ rd.pig.store }}</div></div>
+<button onClick="{{ rd.pig.close }}" aria-label="Lukk" style="border:0;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--mg-surface-sunken);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div class="s28"><span class="s19">Vanlig</span><span class="s20 mg-h" style="text-decoration:line-through;color:var(--mg-ink-subtle)">{{ rd.pig.normal }}</span></div>
+<div class="s28" style="background:var(--mg-butter)"><span class="s19">Billig</span><span class="s20 mg-h">{{ rd.pig.low }}</span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.pig.saveLabel }}</span></div>
+</div>
+<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px"><sc-for list="{{ rd.pig.swaps }}" as="w"><div style="padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken);display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ w.text }}</span><span class="s2">{{ w.why }}</span></div></sc-for><div class="s2" style="padding:10px 0">{{ rd.pig.extra }}</div></div>
+<button onClick="{{ rd.pig.toggle }}" aria-pressed="{{ rd.pig.on }}" style="border:2px solid #e9b81a;background:{{ rd.pig.btnBg }};color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer">{{ rd.pig.btn }}</button>
+<div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Legg billig versjon i ukeplanen</div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.pig.days }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span></button></sc-for></div>
 </div>
 </div>
 </sc-if>
@@ -758,7 +773,7 @@ class Component extends DCLogic {
     favs: [], favSort: 'recent', plan: {},
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
-    people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, remindAt: '18:00', toast: null,
+    people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', toast: null,
     undo: null, have: {}, cheap: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
   };
 
@@ -779,7 +794,7 @@ class Component extends DCLogic {
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
       if (this.state.wake && !p.stack.some(x => x.t === 'cook')) this.keepAwake(false);
-      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false }); });
+      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false }); });
     window.addEventListener('keydown', this.onKey);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && this.state.wake) this.keepAwake(true); });
     const A = window.MatgledeAuth; if (!A) return;
@@ -854,12 +869,12 @@ class Component extends DCLogic {
 
   go = (tab, extra) => this.setState({ tab, stack: [], menu: false, ...extra });
   goCat = cat => this.go('opp', { cat, q: '' });
-  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false }));
+  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
     // Bruk nettleserens historikk når siden ble åpnet fra appen, så tilbake-knappen på telefonen følger med
     if (history.state && history.state.mg > 0) history.back();
-    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false }));
+    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false }));
   };
   toast = (msg, undo) => { this.setState({ toast: msg, undo: undo || null }); clearTimeout(this._t);
     this._t = setTimeout(() => this.setState({ toast: null, undo: null }), undo ? 5000 : 1900); };
@@ -869,7 +884,7 @@ class Component extends DCLogic {
     if (e.key !== 'Escape') return;
     const s = this.state;
     if (s.menu) { this.setState({ menu: false }); const b = document.querySelector('[aria-haspopup=menu]'); b && b.focus(); }
-    else if (s.rdLearn) this.setState({ rdLearn: false });
+    else if (s.rdLearn || s.rdPig) this.setState({ rdLearn: false, rdPig: false });
     else if (s.stack.length) this.back();
   };
   keepAwake = on => {
@@ -1096,7 +1111,7 @@ class Component extends DCLogic {
     let rd = {}, td = {}, ad = {};
     if (top.t === 'recipe') {
       const r = D.byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
-      const cheap = this.isCheap(r), save = Math.round(this.saving(r)), ings = this.ingOf(r), changes = cheap ? this.cheapIng(r).filter(i => i.from || i.drop) : [];
+      const cheap = this.isCheap(r), save = Math.round(this.saving(r)), ings = this.ingOf(r), changes = this.cheapIng(r).filter(i => i.from || i.drop);
       const unl = r.ing.filter(i => !i.slug).length;
       rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
         portions: `${this.pers(r)} pers.`, people: this.pers(r), peopleSub: 'Mengder og pris regnes om, også i handlelisten',
@@ -1110,11 +1125,20 @@ class Component extends DCLogic {
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
           : `Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
         // Sparegrisen vises bare når en billigere versjon finnes (minst 5 kr), eller når den er slått på
-        pig: { show: cheap || save >= 5, on: cheap, toggle: () => this.toggleCheap(r.id),
-          bg: cheap ? 'var(--mg-butter)' : 'var(--mg-surface)',
-          title: cheap ? `Sparemodus: ${this.costText(rc).label}` : 'Gjør retten billigere',
-          sub: cheap ? (save ? `Du sparer ca. ${save} kr. Trykk for vanlig versjon.` : 'Trykk for vanlig versjon.') : `Spar ca. ${save} kr med billigere varer og ukas tilbud`,
-          swaps: changes.map(i => ({ text: i.drop ? `Sløyfes: ${i.n}` : `${i.from} → ${i.n}`, why: i.why })), hasSwaps: !!changes.length },
+        pig: { show: cheap || save >= 5, on: cheap, ring: cheap ? '3px solid var(--mg-ink)' : '0',
+          aria: cheap ? 'Sparemodus er på. Vis billigere versjon' : `Billigere versjon, spar ca. ${save} kr`,
+          open: () => this.setState({ rdPig: true, rdPick: false, rdLearn: false }), close: () => this.setState({ rdPig: false }),
+          stop: e => e && e.stopPropagation && e.stopPropagation(),
+          store: `${chainName(s.chain)}, ${this.pers(r)} pers.`,
+          normal: this.costText(this.recipeCost(r, false)).short, low: this.costText(this.recipeCost(r, true)).short,
+          saveLabel: save ? `Spar ca. ${save} kr` : '',
+          swaps: changes.map(i => ({ text: i.drop ? `Sløyfes: ${i.n}` : `${i.from} → ${i.n}`, why: i.why })),
+          extra: 'Ellers velges billigste vare og ukas tilbud. Ingredienslisten viser hva du skal kjøpe.',
+          toggle: () => { this.toggleCheap(r.id); this.setState({ rdPig: false }); this.toast(cheap ? 'Vanlig versjon' : 'Billig versjon er valgt'); },
+          btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c',
+          days: this.DAYS.map((l, i) => ({ label: l, date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}`,
+            bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
+            add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); } })) },
         ing: ings.map(i => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null;
           const note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå'
             : cheap && b ? [i.from && `I stedet for ${i.from.toLowerCase()}`, (b.p.offer ? 'Tilbud: ' : 'Kjøp: ') + b.p.name].filter(Boolean).join(' · ') : '');
@@ -1122,7 +1146,7 @@ class Component extends DCLogic {
           return { have, op: have ? .5 : 1, deco: have ? 'line-through' : 'none', toggle: () => this.setState(st => ({ have: { ...st.have, [hk]: !st.have[hk] } })),
             n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note, hasNote: !!note }; }),
         pickOpen: s.rdPick,
-        hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn ? 'blur(7px)' : 'none',
+        hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
         dayChips: this.DAYS.map((l, i) => ({ label: l, date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })) };
