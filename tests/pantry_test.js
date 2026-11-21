@@ -49,3 +49,15 @@ const R2 = [{ id: 'pot', ing: [{ n: 'Potet' }, { n: 'Smør' }] }, { id: 'ris', i
 const lowRice = [{ id: 1, n: 'Poteter', lvl: 'mye' }, { id: 2, n: 'Ris', lvl: 'litt' }, { id: 3, n: 'Smør', lvl: 'mye' }];
 assert.deepStrictEqual(P.week(P.rank(R2, lowRice, i => [i.n]), 1).map(x => x.r.id), ['ris']);
 console.log('mengder ok');
+
+// Omtrentlige mengder: Mye = én pakke, Litt = en halv, og nedtrekk etter middag
+const milk = { id: 9, n: 'Melk', lvl: 'litt' };
+assert.strictEqual(P.have(milk, 1000), 500);
+assert.strictEqual(P.have({ n: 'Melk', lvl: 'tomt' }, 1000), 0);
+assert.strictEqual(P.have({ n: 'Soyasaus', lvl: 'mye' }, null), null);
+assert.deepStrictEqual(P.use({ id: 9, n: 'Melk', lvl: 'mye' }, 400, 1000), { id: 9, n: 'Melk', lvl: 'litt', amt: 600 });
+assert.deepStrictEqual(P.use({ id: 9, n: 'Melk', lvl: 'mye' }, 1500, 1000), { id: 9, n: 'Melk', lvl: 'tomt', amt: 0 });
+assert.strictEqual(P.have(P.use({ id: 9, n: 'Melk', lvl: 'mye', amt: 1500 }, 1000, 1000), 1000), 500); // 1,5 l hjemme, 1 l brukt
+assert.deepStrictEqual(P.use({ id: 1, n: 'Egg', count: 6 }, 2, null, 1), { id: 1, n: 'Egg', count: 4 });
+assert.deepStrictEqual(P.step({ id: 9, n: 'Melk', lvl: 'litt', amt: 300 }, 1), { id: 9, n: 'Melk', lvl: 'mye' }); // eget valg nullstiller mengden
+console.log('mengder ok');

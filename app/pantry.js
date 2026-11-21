@@ -91,6 +91,21 @@
     return counted(x.n) ? make(x, { count: c > 0 ? c : qty({ n: x.n }) }) : make(x, { lvl: 'mye' });
   }
 
+  // Omtrent hvor mye som er hjemme, i varens basisenhet (g, ml, stk). pack = en vanlig pakke, perStk = basisenhet per stk.
+  // Til appen vet bedre (amt lagres når en dag er laget) er Mye én pakke og Litt en halv. null = ukjent.
+  function have(x, pack, perStk) {
+    if (counted(x.n)) return perStk ? qty(x) * perStk : null;
+    if (x.amt != null) return x.amt;
+    var l = level(x); return l === 'tomt' ? 0 : pack ? (l === 'mye' ? pack : pack / 2) : null;
+  }
+  // Varen etter at «used» er brukt opp. Nivået følger mengden: under ¾ pakke er Litt.
+  function use(x, used, pack, perStk) {
+    var h = have(x, pack, perStk); if (h == null) return x;
+    var left = Math.max(0, h - used);
+    if (counted(x.n)) return make(x, { count: Math.max(0, Math.round(left / perStk)) });
+    return make(x, { lvl: left <= 0 ? 'tomt' : left < pack * 0.75 ? 'litt' : 'mye', amt: Math.round(left) });
+  }
+
   // Ukeplan: én rett per dag, grådig etter flest varer fra matlageret som ingen rett i planen bruker ennå.
   // Varer på «Litt» teller mer, så de brukes opp først.
   function week(ranked, n, skip) {
@@ -109,5 +124,5 @@
     return out;
   }
 
-  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week, counted: counted, level: level, qty: qty, step: step, fresh: fresh };
+  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
