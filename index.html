@@ -9,7 +9,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icon.svg">
-<title>Matglede</title>
+<title>Mat-appen</title>
 <script src="./vendor/react.production.min.js"></script>
 <script src="./vendor/react-dom.production.min.js"></script>
 <script src="./data.js"></script>
@@ -39,7 +39,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div class="mg-topsp" style="height:44px;flex:none"></div>
 <div style="height:58px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:8px">
 <button onClick="{{ openSearch }}" title="Søk oppskrifter" aria-label="Søk oppskrifter" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></button>
-<button onClick="{{ goHome }}" aria-label="Matglede, til forsiden" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--mg-ink);padding:6px 10px;min-height:44px"><sc-if value="{{ isHome }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-clay)"></span></sc-if><sc-if value="{{ notHome }}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c8622f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8.5a1 1 0 01-1 1h-4.5v-6h-5v6H5a1 1 0 01-1-1z"></path></svg></sc-if>matglede</button>
+<button onClick="{{ goHome }}" aria-label="Mat-appen, til forsiden" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--mg-ink);padding:6px 10px;min-height:44px"><sc-if value="{{ isHome }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-clay)"></span></sc-if><sc-if value="{{ notHome }}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c8622f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8.5a1 1 0 01-1 1h-4.5v-6h-5v6H5a1 1 0 01-1-1z"></path></svg></sc-if>mat-appen</button>
 <div style="display:flex;gap:8px">
 <button onClick="{{ openProfile }}" title="Profil" aria-label="{{ profileLabel }}" style="width:44px;height:44px;border-radius:50%;border:0;background:{{ avatarBg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink);font-family:inherit;font-weight:800;font-size:14px">
 <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">{{ initials }}</sc-if>
