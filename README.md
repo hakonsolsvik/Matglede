@@ -1,4 +1,4 @@
-# Matglede: varedatabase for oppskrifter og handleliste
+# Mat-appen (Matglede): varedatabase for oppskrifter og handleliste
 
 Prototype på databasen bak oppskriftsappen. Brukeren legger middager i ukeplanen,
 og appen lager en handleliste med ekte varer hos Oda, Kiwi, Meny, Rema 1000, Coop,
