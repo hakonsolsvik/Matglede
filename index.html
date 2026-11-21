@@ -595,21 +595,23 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster hvor mye som er igjen, så foreslår appen middager som bruker det opp.</div></div>
+<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan.</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
 <button onClick="{{ pt.voice }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ pt.voiceBg }};color:#fff;border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg>{{ pt.voiceLabel }}</button>
 <label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
 </div>
 <form onSubmit="{{ pt.add }}" class="s33"><input value="{{ pt.name }}" onChange="{{ pt.onName }}" aria-label="Legg til vare" placeholder="Legg til vare, f.eks. ris" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
-<div class="s67"><sc-for list="{{ pt.quick }}" as="q"><button onClick="{{ q.add }}" class="s53">+ {{ q.label }}</button></sc-for></div>
-<sc-if value="{{ pt.empty }}"><div class="s51">Ingen varer ennå. Trykk på vanlige varer over, skriv inn, eller si hva du har.</div></sc-if>
+
+<sc-if value="{{ pt.empty }}"><div class="s51">Ingen varer ennå. Skriv inn, si hva du har, eller trykk på vanlige varer under.</div></sc-if>
 <div class="s70"><sc-for list="{{ pt.items }}" as="i"><div role="group" aria-label="{{ i.aria }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--mg-surface-sunken)">
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;opacity:{{ i.op }}"><span class="s13" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.n }}</span><span style="height:5px;border-radius:3px;background:var(--mg-surface-sunken);overflow:hidden"><span style="display:block;height:100%;width:{{ i.bar }};background:{{ i.barBg }}"></span></span></div>
+<span aria-hidden="true" style="width:12px;height:12px;flex:none;border-radius:50%;background:{{ i.dot }}"></span>
+<span class="s13" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:{{ i.op }}">{{ i.n }}</span>
 <button onClick="{{ i.down }}" aria-label="{{ i.downLabel }}" style="width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.downOp }}">−</button>
-<span aria-live="polite" style="width:46px;text-align:center;font-size:14px;font-weight:800">{{ i.pct }}</span>
+<span aria-live="polite" style="width:50px;text-align:center;font-size:14px;font-weight:800">{{ i.label }}</span>
 <button onClick="{{ i.up }}" aria-label="{{ i.upLabel }}" style="width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.upOp }}">+</button>
 <button onClick="{{ i.remove }}" aria-label="{{ i.rmLabel }}" style="width:32px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button>
 </div></sc-for></div>
+<div class="s1 mg-h" style="margin-top:6px">Legg til vanlige varer</div><sc-for list="{{ pt.quick }}" as="g"><div class="s59"><div class="s19">{{ g.name }}</div><div class="s67"><sc-for list="{{ g.items }}" as="q"><button onClick="{{ q.add }}" class="s53">+ {{ q.label }}</button></sc-for></div></div></sc-for>
 </div>
 </div>
 </sc-if>
@@ -949,12 +951,12 @@ class Component extends DCLogic {
   remember = q => this.setState(st => ({ recent: [q.toLowerCase(), ...st.recent.filter(x => x !== q.toLowerCase())].slice(0, 5) }));
   // Butikkavdeling ut fra varenavnet, i den rekkefølgen man går i butikken
   SECTIONS = [
-    ['Frukt og grønt', /agurk|brokkoli|gulrot|hvitløk|salat|løk|paprika|potet|tomater$|^tomat|sitron|lime|rosmarin|persille|basilikum|koriander|spinat|eple|banan|avokado|squash|sopp|ingefær|purre|selleri|kål|chili$|frukt|bær/],
+    ['Frukt og grønt', /agurk|brokkoli|gulrot|gulrøtt|hvitløk|salat|løk|paprika|potet|tomater$|^tomat|sitron|lime|rosmarin|persille|basilikum|koriander|spinat|eple|banan|avokado|squash|sopp|ingefær|purre|selleri|kål|chili$|frukt|bær/],
     ['Brød og bakst', /tortilla|lefse|brød|pita|rundstykk|baguette|naan/],
     ['Kjøtt og fisk', /bacon|kjøtt|kylling|laks|lam|pølse|fisk|filet|torsk|reke|skinke|svin|biff|ribbe|kalkun/],
     ['Meieri og egg', /egg|melk$|lettmelk|helmelk|fløte|ost$|^ost|parmesan|mozzarella|rømme|smør|yoghurt|kesam|crème|creme/],
     ['Frysevarer', /frosne|frossen|fryst/],
-    ['Tørrvarer og hermetikk', /hakkede tomater|tomatpur|bønne|kikert|linse|kokosmelk|mais|lasagne|spagh|pasta|nudler|\bris\b|^ris|mel$|gjær|buljong|sukker|havre|nøtt|hermetisk/],
+    ['Tørrvarer og hermetikk', /hakkede tomater|tomatpur|bønne|kikert|linse|quinoa|couscous|bulgur|tunfisk|kokosmelk|mais|lasagne|spagh|pasta|nudler|\bris\b|^ris|mel$|gjær|buljong|sukker|havre|nøtt|hermetisk/],
     ['Krydder, olje og sauser', /pepper|salt|pulver|spisskummen|krydder|saus|paste|olje|eddik|sennep|ketchup|honning|kanel|oregano|timian/]
   ];
   // Sjekkes i en annen rekkefølge enn de vises, så «hakkede tomater» og «kokosmelk» havner i tørrvarer
@@ -968,14 +970,14 @@ class Component extends DCLogic {
 
   // ---------- Min beholdning (app/pantry.js) ----------
   ingNames = i => [i.n, (this.D.ING[i.slug] || {}).name].filter(Boolean);
-  // items: [{ n }]. Hver vare har pct: hvor mye som er igjen, 0–100 i steg på 25.
+  // items: [{ n, amt? }]. Mengden (Mye/Litt/Tomt eller antall) styres av MatgledePantry.
   addPantry = items => {
     if (!items.length) return;
     this.setState(st => { const list = [...st.pantry];
       items.forEach(x => { const k = list.findIndex(p => p.n.toLowerCase() === x.n.toLowerCase());
-        // Nye varer og varer man legger inn på nytt står på 100 % igjen
-        if (k < 0) list.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), n: x.n, pct: 100 });
-        else list[k] = { ...list[k], pct: 100 }; });
+        const P = window.MatgledePantry;
+        if (k < 0) list.push(P.fresh({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), n: x.n }, x.amt));
+        else list[k] = P.fresh(list[k], x.amt); });
       return { pantry: list }; });
     this.toast(items.length === 1 ? `${items[0].n} er lagt i beholdningen` : `${items.length} varer er lagt i beholdningen`);
   };
@@ -1122,7 +1124,7 @@ class Component extends DCLogic {
   renderVals() {
     this._rc = new Map();
     const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user, P = window.MatgledePantry;
-    const stock = s.pantry.filter(x => x.pct !== 0); // tomme varer teller ikke
+    const stock = s.pantry.filter(x => P.level(x) !== 'tomt'); // tomme varer teller ikke
     const MON = ['jan.','feb.','mars','april','mai','juni','juli','aug.','sep.','okt.','nov.','des.'];
     const dmy = iso => { const [, m, d] = (iso || '').split('-').map(Number); return d ? `${d}. ${MON[m - 1]}` : ''; };
     const chainName = code => (D.chainByCode[code] || {}).name || code;
@@ -1333,22 +1335,29 @@ class Component extends DCLogic {
     const openProfile = () => this.push({ t: s.loggedIn ? 'profile' : 'login' });
     // Matlageret og forslag ut fra det
     const ranked = P.rank(D.R, stock, this.ingNames);
-    const QUICK = ['Poteter','Mel','Melk','Ris','Havregryn','Pasta','Egg','Smør','Ost','Løk','Gulrøtter','Soyasaus','Olivenolje','Hakkede tomater','Buljong'];
-    const setPct = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? { ...p, pct: Math.max(0, Math.min(100, (p.pct ?? 100) + d)) } : p) }));
+    // Varer man ofte har liggende over tid, og som kan gå tomt plutselig. Grupperes etter butikkavdeling.
+    const QUICK = ['Poteter','Løk','Rødløk','Hvitløk','Gulrøtter','Paprika','Tomater','Agurk','Brokkoli','Sitron','Ingefær',
+      'Tortillalefser','Melk','Egg','Smør','Ost','Revet ost','Rømme','Matfløte','Erter (frosne)','Frosne grønnsaker',
+      'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Quinoa','Couscous','Bulgur','Nudler','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Hvite bønner','Svarte bønner','Kikerter','Linser','Tunfisk','Buljong','Gjær','Bakepulver',
+      'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
+    const stepItem = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? P.step(p, d) : p) }));
+    const LV = { mye: ['Mye', 'var(--mg-primary)'], litt: ['Litt', 'var(--mg-butter)'], tomt: ['Tomt', 'var(--mg-border-strong)'] };
     const pt = {
       count: s.pantry.length, empty: !s.pantry.length,
       name: s.pName, onName: e => this.setState({ pName: e.target.value }),
       add: e => { e.preventDefault(); const n = s.pName.trim(); if (!n) return;
         this.addPantry([{ n: n[0].toUpperCase() + n.slice(1) }]); this.setState({ pName: '' }); },
-      quick: QUICK.filter(q => !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })),
+      quick: [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name,
+        items: QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
       voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : 'Si hva du har',
       voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)',
       scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
-      items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const v = x.pct ?? 100;
-        return { n: x.n, pct: v ? v + ' %' : 'Tomt', op: v ? 1 : .5, bar: v + '%', barBg: v > 25 ? 'var(--mg-primary)' : 'var(--mg-clay)',
-          aria: `${x.n}: ${v} prosent igjen`, upLabel: `Mer ${x.n.toLowerCase()}`, downLabel: `Mindre ${x.n.toLowerCase()}`, rmLabel: `Fjern ${x.n.toLowerCase()}`,
-          upOp: v < 100 ? 1 : .35, downOp: v > 0 ? 1 : .35,
-          up: () => setPct(x.id, 25), down: () => setPct(x.id, -25),
+      items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const lv = P.level(x), cnt = P.counted(x.n), q = P.qty(x);
+        const label = cnt ? (q ? q + ' stk' : 'Tomt') : LV[lv][0];
+        return { n: x.n, label, dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
+          aria: `${x.n}: ${cnt ? q + ' igjen' : label}`, upLabel: `Mer ${x.n.toLowerCase()}`, downLabel: `Mindre ${x.n.toLowerCase()}`, rmLabel: `Fjern ${x.n.toLowerCase()}`,
+          upOp: cnt || lv !== 'mye' ? 1 : .35, downOp: lv !== 'tomt' ? 1 : .35,
+          up: () => stepItem(x.id, 1), down: () => stepItem(x.id, -1),
           remove: () => { const before = s.pantry; this.setState(st => ({ pantry: st.pantry.filter(p => p.id !== x.id) }));
             this.toast(`${x.n} er fjernet`, () => this.setState({ pantry: before, toast: null, undo: null })); } }; })
     };

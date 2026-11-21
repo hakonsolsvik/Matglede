@@ -64,16 +64,42 @@
       var total = have.length + miss.length;
       return { r: r, have: have, miss: miss, ratio: total ? have.length / total : 0 };
     }).filter(function (x) { return x.have.length; })
-      .sort(function (a, b) { return (b.have.length + b.ratio * 4) - (a.have.length + a.ratio * 4); });
+      .sort(function (a, b) { return score(b) - score(a); });
+  }
+  function score(x) { return x.have.length + x.ratio * 4 + x.have.filter(function (h) { return level(h.p) === 'litt'; }).length * 2; }
+
+  // Mengde: varer man teller (egg, løk …) har antall, resten har nivå Mye, Litt eller Tomt.
+  // Eldre lagrede varer har pct (0–100) og gjøres om her.
+  var COUNTED = /^(egg|løk|rødløk|sjalottløk|paprik|sitron|lime|agurk|avokado|tomat|eple|epl|banan|purre|squash|appelsin)$/;
+  var LEVELS = ['tomt', 'litt', 'mye'];
+  function counted(n) { var w = words(n); return w.length === 1 && COUNTED.test(w[0]); }
+  function level(x) {
+    if (counted(x.n)) { var c = qty(x); return c === 0 ? 'tomt' : c <= 2 ? 'litt' : 'mye'; }
+    return x.lvl || (x.pct === 0 ? 'tomt' : x.pct != null && x.pct < 50 ? 'litt' : 'mye');
+  }
+  function qty(x) { return x.count != null ? x.count : x.pct === 0 ? 0 : /^egg/i.test(x.n) ? 6 : 2; }
+  // Bare id, navn og én mengde lagres (Firestore godtar ikke undefined)
+  function make(x, m) { var o = { id: x.id, n: x.n }; for (var k in m) o[k] = m[k]; return o; }
+  // Ett steg opp (d=1) eller ned (d=-1). Returnerer en ny vare.
+  function step(x, d) {
+    if (counted(x.n)) return make(x, { count: Math.max(0, Math.min(99, qty(x) + d)) });
+    return make(x, { lvl: LEVELS[Math.max(0, Math.min(2, LEVELS.indexOf(level(x)) + d))] });
+  }
+  // Ny vare eller lagt inn på nytt: Mye, eller antallet som ble sagt
+  function fresh(x, amt) {
+    var c = parseInt(amt, 10);
+    return counted(x.n) ? make(x, { count: c > 0 ? c : qty({ n: x.n }) }) : make(x, { lvl: 'mye' });
   }
 
-  // Ukeplan: én rett per dag, grådig etter flest varer fra matlageret som ingen rett i planen bruker ennå
+  // Ukeplan: én rett per dag, grådig etter flest varer fra matlageret som ingen rett i planen bruker ennå.
+  // Varer på «Litt» teller mer, så de brukes opp først.
   function week(ranked, n, skip) {
     var used = {}, out = [], left = ranked.filter(function (x) { return !(skip || []).includes(x.r.id); });
     while (out.length < n && left.length) {
       var best = 0, bestV = -1;
       left.forEach(function (x, k) {
-        var fresh = x.have.filter(function (h) { return !used[h.p.id]; }).length, v = fresh * 3 + x.have.length + x.ratio * 4;
+        var v = x.have.length + x.ratio * 4;
+        x.have.forEach(function (h) { if (!used[h.p.id]) v += level(h.p) === 'litt' ? 6 : 3; });
         if (v > bestV) { bestV = v; best = k; }
       });
       var pick = left.splice(best, 1)[0];
@@ -83,5 +109,5 @@
     return out;
   }
 
-  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week };
+  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week, counted: counted, level: level, qty: qty, step: step, fresh: fresh };
 })(typeof window !== 'undefined' ? window : globalThis);
