@@ -100,6 +100,14 @@
       return start().then(function () {
         return db.collection('users').doc(uid).set({ app: data, updatedAt: window.firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
       });
+    },
+    // Anonyme tellere i popular/{nøkkel} = { n }. Se firestore.rules.
+    popular: function () {
+      return start().then(function () { return db.collection('popular').get(); })
+        .then(function (q) { var o = {}; q.forEach(function (d) { o[d.id] = d.data().n || 0; }); return o; });
+    },
+    bump: function (key, d) {
+      return start().then(function () { return db.collection('popular').doc(key).set({ n: window.firebase.firestore.FieldValue.increment(d) }, { merge: true }); });
     }
   };
 })();

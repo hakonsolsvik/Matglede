@@ -75,3 +75,9 @@ assert.strictEqual(P.canon('rødløk', KNOWN), 'Rødløk');
 assert.strictEqual(P.canon('Tahini', KNOWN), 'Tahini');
 assert(P.same('gulrot', 'Gulrøtter'));
 console.log('tale ok');
+
+// Popularitet: flest brukere først, standardrekkefølge under grensen og ved likt antall
+assert.strictEqual(P.key('Poteter'), P.key('potet'));
+assert.deepStrictEqual(P.byPop(['a', 'b', 'c', 'd'], x => x, { c: 5, d: 9, b: 2 }, 3), ['d', 'c', 'a', 'b']);
+assert.deepStrictEqual(P.byPop(['a', 'b'], x => x, {}, 3), ['a', 'b']);
+console.log('popularitet ok');
