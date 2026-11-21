@@ -827,7 +827,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], pName: '', pAmt: '', listening: false, scanning: false
+    pantry: [], pName: '', pAmt: '', listening: false, scanning: false, parsing: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -1023,39 +1023,54 @@ class Component extends DCLogic {
       return { pantry: list }; });
     this.toast(items.length === 1 ? `${items[0].n} er lagt i beholdningen` : `${items.length} varer er lagt i beholdningen`);
   };
-  // Tale i nettleseren (Web Speech API): «to kilo poteter, en liter melk og soyasaus»
+    // Varer man ofte har liggende over tid, og som kan gå tomt plutselig. Grupperes etter butikkavdeling.
+  QUICK = ['Poteter','Løk','Rødløk','Hvitløk','Gulrøtter','Paprika','Tomater','Agurk','Brokkoli','Sitron','Ingefær',
+    'Tortillalefser','Melk','Egg','Smør','Ost','Revet ost','Rømme','Matfløte','Erter (frosne)','Frosne grønnsaker',
+    'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Quinoa','Couscous','Bulgur','Nudler','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Hvite bønner','Svarte bønner','Kikerter','Linser','Tunfisk','Buljong','Gjær','Bakepulver',
+    'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
+  // Navnene appen kjenner: vanlige varer og ingrediensene i oppskriftene
+  known = () => [...new Set([...this.QUICK, ...Object.values(this.D.ING).map(i => i.name)])];
+  // Kall til worker/ (Claude). Krever innlogging, så ingen andre kan bruke nøkkelen.
+  askAI = body => window.MatgledeAuth.idToken()
+    .then(tok => fetch(window.MATGLEDE_AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify(body) }))
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+    .then(d => { const known = this.known(), str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
+      return (Array.isArray(d.items) ? d.items : []).map(x => ({ n: str(x && x.n, 60), lvl: str(x && x.lvl, 10), count: x && Number.isInteger(x.count) ? x.count : 0 }))
+        .filter(x => x.n).map(x => ({ n: window.MatgledePantry.canon(x.n[0].toUpperCase() + x.n.slice(1), known), amt: x.count > 0 ? String(x.count) : x.lvl })); });
+  // Tale i nettleseren (Web Speech API). Med AI på tolker Claude teksten, ellers MatgledePantry.parse.
   listen = () => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) return this.toast('Nettleseren støtter ikke tale. Prøv Chrome eller Safari.');
     if (this._rec) return this._rec.stop();
+    if (this.state.parsing) return;
     const r = this._rec = new SR(); let heard = '';
     r.lang = 'nb-NO'; r.continuous = true; r.interimResults = false;
     r.onresult = e => { for (let k = e.resultIndex; k < e.results.length; k++) if (e.results[k].isFinal) heard += ', ' + e.results[k][0].transcript; };
     r.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') this.toast('Gi appen lov til å bruke mikrofonen'); };
     r.onend = () => { this._rec = null; this.setState({ listening: false });
-      const items = window.MatgledePantry.parse(heard);
-      if (items.length) this.addPantry(items); else if (heard.trim()) this.toast('Fikk ikke med meg noen varer. Prøv igjen.'); };
+      const text = heard.replace(/^,\s*/, '').trim(), P = window.MatgledePantry; if (!text) return;
+      const local = () => { const known = this.known(), items = P.parse(text).map(x => ({ ...x, n: P.canon(x.n, known) }));
+        if (items.length) this.addPantry(items); else this.toast('Fikk ikke med meg noen varer. Prøv igjen.'); };
+      if (!window.MATGLEDE_AI_URL || !this.state.user) return local();
+      this.setState({ parsing: true });
+      this.askAI({ text, known: this.known() }).then(items => items.length ? this.addPantry(items) : local())
+        .catch(err => { console.error(err); local(); }).finally(() => this.setState({ parsing: false })); };
     r.start(); this.setState({ listening: true });
   };
-  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer. Krever innlogging, så ingen andre kan bruke nøkkelen.
+  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer
   scanPhoto = e => {
-    const f = e.target.files && e.target.files[0], A = window.MatgledeAuth, url = window.MATGLEDE_AI_URL;
+    const f = e.target.files && e.target.files[0];
     e.target.value = '';
     if (!f || this.state.scanning) return;
-    if (!url) return this.toast('Bildegjenkjenning er ikke slått på ennå');
+    if (!window.MATGLEDE_AI_URL) return this.toast('Bildegjenkjenning er ikke slått på ennå');
     if (!this.state.user) return this.push({ t: 'login' });
     this.setState({ scanning: true });
-    const str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
     createImageBitmap(f).then(b => {
       const k = Math.min(1, 1280 / Math.max(b.width, b.height)), c = document.createElement('canvas');
       c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
       c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
-      return Promise.all([c.toDataURL('image/jpeg', 0.8).split(',')[1], A.idToken()]);
-    }).then(([image, tok]) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify({ image }) }))
-      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
-      .then(d => { const items = (Array.isArray(d.items) ? d.items : []).map(x => ({ n: str(x && x.n, 60) })).filter(x => x.n)
-        .map(x => ({ ...x, n: x.n[0].toUpperCase() + x.n.slice(1) }));
-        if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
+      return this.askAI({ image: c.toDataURL('image/jpeg', 0.8).split(',')[1] });
+    }).then(items => { if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
       .catch(err => { console.error(err); this.toast('Fikk ikke lest bildet. Prøv igjen.'); })
       .finally(() => this.setState({ scanning: false }));
   };
@@ -1393,11 +1408,6 @@ class Component extends DCLogic {
     // Matlageret og forslag ut fra det
     const ranked = P.rank(D.R, stock, this.ingNames);
     const planRun = this.homeRun().meals;
-    // Varer man ofte har liggende over tid, og som kan gå tomt plutselig. Grupperes etter butikkavdeling.
-    const QUICK = ['Poteter','Løk','Rødløk','Hvitløk','Gulrøtter','Paprika','Tomater','Agurk','Brokkoli','Sitron','Ingefær',
-      'Tortillalefser','Melk','Egg','Smør','Ost','Revet ost','Rømme','Matfløte','Erter (frosne)','Frosne grønnsaker',
-      'Mel','Sukker','Havregryn','Ris','Pasta','Spaghetti','Lasagneplater','Quinoa','Couscous','Bulgur','Nudler','Hakkede tomater','Tomatpuré','Kokosmelk','Mais','Kidneybønner','Hvite bønner','Svarte bønner','Kikerter','Linser','Tunfisk','Buljong','Gjær','Bakepulver',
-      'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
     const stepItem = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? P.step(p, d) : p) }));
     const LV = { mye: ['Mye', 'var(--mg-primary)'], litt: ['Litt', 'var(--mg-butter)'], tomt: ['Tomt', 'var(--mg-border-strong)'] };
     const pt = {
@@ -1406,8 +1416,8 @@ class Component extends DCLogic {
       add: e => { e.preventDefault(); const n = s.pName.trim(); if (!n) return;
         this.addPantry([{ n: n[0].toUpperCase() + n.slice(1) }]); this.setState({ pName: '' }); },
       quick: [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name,
-        items: QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
-      voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : 'Si hva du har',
+        items: this.QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
+      voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : s.parsing ? 'Tolker det du sa …' : 'Si hva du har',
       voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)',
       scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
       items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const lv = P.level(x), cnt = P.counted(x.n), q = P.qty(x);
