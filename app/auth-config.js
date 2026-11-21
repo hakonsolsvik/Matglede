@@ -3,8 +3,8 @@
 // Disse verdiene er ikke hemmelige: de identifiserer bare prosjektet, og tilgangen styres
 // av reglene i firestore.rules. La feltene stå tomme for å kjøre appen uten innlogging.
 window.MATGLEDE_FIREBASE = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  appId: ""
+  apiKey: "AIzaSyDwzAxrmUaNaZUz3LtJrdH0q8TLX2ueTb4",
+  authDomain: "matglede-4dbc5.firebaseapp.com",
+  projectId: "matglede-4dbc5",
+  appId: "1:903715759901:web:eddcac960cb3b9c3cf63f4"
 };

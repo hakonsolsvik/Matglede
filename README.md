@@ -165,6 +165,9 @@ cd app && python -m http.server    # åpne http://localhost:8000
 
 ### Sette opp innlogging (Firebase)
 
+Satt opp 21.11.2026 i Firebase-prosjektet `matglede-4dbc5` (e-post/passord og Google, Firestore i `eur3`).
+E-post-innlogging har «Glemt passord?» som sender en lenke for nytt passord. Stegene under trengs bare for et nytt prosjekt.
+
 1. Lag et prosjekt på https://console.firebase.google.com (Google Analytics trengs ikke).
 2. Prosjektinnstillinger → Dine apper → Legg til web-app. Kopier `apiKey`, `authDomain`,
    `projectId` og `appId` inn i `app/auth-config.js`. Verdiene er ikke hemmelige.

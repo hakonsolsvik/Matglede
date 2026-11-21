@@ -57,6 +57,7 @@
     'auth/cancelled-popup-request': 'Innloggingen ble avbrutt.',
     'auth/unauthorized-domain': 'Dette nettstedet er ikke godkjent for innlogging ennå (Firebase: Authorized domains).',
     'auth/operation-not-allowed': 'Denne innloggingsmåten er ikke slått på i Firebase ennå.',
+    'auth/missing-email': 'Skriv inn e-postadressen din.',
     'auth/network-request-failed': 'Ingen nettforbindelse.',
     'not-configured': 'Innlogging er ikke satt opp ennå.'
   };
@@ -86,6 +87,7 @@
           return cred.user.updateProfile({ displayName: name }).then(function () { current = toUser(cred.user); emit(); return cred; });
         });
     },
+    resetPassword: function (email) { return start().then(function () { return auth.sendPasswordResetEmail(email); }); },
     signOut: function () { return auth ? auth.signOut() : Promise.resolve(); },
     // Brukerdata: ett dokument per bruker i users/{uid}
     loadData: function (uid) {
