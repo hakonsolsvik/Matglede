@@ -311,6 +311,12 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
 <div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
 </div>
+<sc-if value="{{ rd.pig.show }}"><div style="display:flex;flex-direction:column;gap:8px">
+<button onClick="{{ rd.pig.toggle }}" aria-pressed="{{ rd.pig.on }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 16px;border-radius:var(--mg-r-lg);border:2px solid #e9b81a;background:{{ rd.pig.bg }};cursor:pointer;font-family:inherit;color:var(--mg-ink)">
+<span aria-hidden="true" style="width:50px;height:50px;flex:none;border-radius:50%;background:#f5c42c;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(233,184,26,.45)"><svg width="32" height="32" viewBox="0 0 24 24" fill="#ffe27a" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></span>
+<span class="s11"><span class="s8" style="display:block">{{ rd.pig.title }}</span><span class="s2" style="display:block;color:var(--mg-ink)">{{ rd.pig.sub }}</span></span></button>
+<sc-if value="{{ rd.pig.hasSwaps }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px"><sc-for list="{{ rd.pig.swaps }}" as="w"><div style="padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken);display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ w.text }}</span><span class="s2">{{ w.why }}</span></div></sc-for></div></sc-if>
+</div></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
 <div class="s11"><div class="s8">Antall personer</div><div class="s2">{{ rd.peopleSub }}</div></div>
 <button onClick="{{ rd.peopleMinus }}" aria-label="Færre personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
@@ -709,7 +715,10 @@ class Component extends DCLogic {
       ['EXTRA','Coop Extra','#D23732'],['MEGA','Coop Mega','#315428'],['PRIX','Coop Prix','#FEC63A'],['OBS','Coop Obs','#0A4D8F'],
       ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','var(--mg-surface)'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','var(--mg-surface)']]
       .map(([code, name, bg]) => ({ code, name, bg, logo: `./logos/${code}.svg`, ...(oBy[code] || { offers: [], hasData: false, flyer: '' }) }));
-    return { M, O, STORES, storeByCode: Object.fromEntries(STORES.map(x => [x.code, x])), R, byId, CATS, CHAINS, chainByCode: Object.fromEntries(CHAINS.map(c => [c.code, c])), ING: M.ingredients || {},
+    // Tilbud koblet til en ingrediens (offers.py tag_offers), brukt som varer i sparemodus
+    const OFF = {};
+    (O.stores || []).forEach(x => x.offers.forEach(o => { if (o.ing) (OFF[x.code + ':' + o.ing] = OFF[x.code + ':' + o.ing] || []).push({ name: o.name, size: o.size, price: o.price, offer: true }); }));
+    return { M, O, OFF, STORES, storeByCode: Object.fromEntries(STORES.map(x => [x.code, x])), R, byId, CATS, CHAINS, chainByCode: Object.fromEntries(CHAINS.map(c => [c.code, c])), ING: M.ingredients || {},
       TOPICS, ARTS, topicById: Object.fromEntries(TOPICS.map(t => [t.id, t])), artById: Object.fromEntries(ARTS.map(a => [a.id, a])) };
   })();
 
@@ -750,7 +759,7 @@ class Component extends DCLogic {
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, remindAt: '18:00', toast: null,
-    undo: null, have: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
+    undo: null, have: {}, cheap: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -759,7 +768,7 @@ class Component extends DCLogic {
   check = done => ({ done, boxBg: done ? 'var(--mg-clay)' : 'transparent', boxBorder: done ? 'var(--mg-clay)' : 'var(--mg-border-strong)', deco: done ? 'line-through' : 'none', color: done ? 'var(--mg-ink-subtle)' : 'var(--mg-ink)' });
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? '#fff' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra'];
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -919,32 +928,55 @@ class Component extends DCLogic {
   factor = r => this.pers(r) / r.servings;
 
   // ---------- priser ----------
-  prods = (slug, chain) => ((this.D.ING[slug] || {}).products || {})[chain || this.state.chain] || [];
+  // deal: sparemodus, da regnes ukas tilbud i butikken med som varer
+  prods = (slug, chain, deal) => { chain = chain || this.state.chain; const c = ((this.D.ING[slug] || {}).products || {})[chain] || [];
+    return deal ? c.concat(this.D.OFF[chain + ':' + slug] || []) : c; };
   // Hele pakker for handlelisten: billigste antall pakker x pris blant kandidatene
-  pickPack = (slug, need, pk, chain) => {
-    const c = this.prods(slug, chain); if (!c.length) return null;
+  pickPack = (slug, need, pk, chain, deal) => {
+    const c = this.prods(slug, chain, deal); if (!c.length) return null;
     const packs = p => pk ? Math.max(1, Math.ceil(pk - 1e-9)) : (need && p.size ? Math.max(1, Math.ceil(need / p.size - 1e-9)) : 1);
     let best = null;
     c.forEach(p => { const t = packs(p) * p.price; if (!best || t < best.total) best = { p, packs: packs(p), total: t }; });
     return best;
   };
-  // Forbrukt mengde i en oppskrift (andel av pakken), brukt for pris per rett
-  lineCost = (i, f) => {
+  // Forbrukt mengde i en oppskrift (andel av pakken), brukt for pris per rett: { v: kroner, p: varen }
+  lineBest = (i, f, deal) => {
     if (!i.slug || i.q == null) return null;
-    const c = this.prods(i.slug); if (!c.length) return null;
-    if (i.base != null) { const sized = c.filter(p => p.size); if (sized.length) return Math.min(...sized.map(p => i.base * f / p.size * p.price)); }
-    const cheapest = Math.min(...c.map(p => p.price));
-    return i.u === 'pk' ? cheapest * i.q * f : cheapest;
+    const c = this.prods(i.slug, null, deal); if (!c.length) return null;
+    const sized = i.base != null ? c.filter(p => p.size) : [];
+    if (sized.length) return sized.map(p => ({ v: i.base * f / p.size * p.price, p })).reduce((a, b) => b.v < a.v ? b : a);
+    const p = c.reduce((a, b) => b.price < a.price ? b : a);
+    return { v: i.u === 'pk' ? p.price * i.q * f : p.price, p };
   };
+  lineCost = (i, f, deal) => { const b = this.lineBest(i, f, deal); return b ? b.v : null; };
+  // ---------- sparegris ----------
+  isCheap = r => !!this.state.cheap[r.id];
+  // Billigste variant av hver linje (SWAPS i app_export.py): byttet vare når den er billigere i valgt butikk,
+  // eller drop når ingrediensen kan sløyfes
+  cheapIng = r => {
+    const f = this.factor(r), SW = this.D.M.swaps || {};
+    return r.ing.map(i => { const sw = SW[i.slug], b = sw && this.lineCost(i, f, true); if (!b) return i;
+      if (!sw.to) return { ...i, drop: true, why: sw.why };
+      if (i.base == null) return i;
+      const to = this.D.ING[sw.to], alt = { ...i, n: to.name, slug: sw.to, q: i.base, u: to.base, from: i.n, why: sw.why };
+      const a = this.lineCost(alt, f, true);
+      return a != null && a < b ? alt : i; });
+  };
+  ingOf = (r, cheap) => (cheap === undefined ? this.isCheap(r) : cheap) ? this.cheapIng(r).filter(i => !i.drop) : r.ing;
+  toggleCheap = id => this.setState(st => { const c = { ...st.cheap }; if (c[id]) delete c[id]; else c[id] = true; return { cheap: c }; });
   // Lagres per opptegning (renderVals tømmer _rc), siden samme rett vises flere steder
-  recipeCost = r => {
-    const hit = this._rc && this._rc.get(r.id); if (hit) return hit;
+  recipeCost = (r, cheap) => {
+    cheap = cheap === undefined ? this.isCheap(r) : cheap;
+    const key = r.id + (cheap ? ':billig' : ''), hit = this._rc && this._rc.get(key); if (hit) return hit;
     const f = this.factor(r); let sum = 0, priced = 0, need = 0;
-    r.ing.forEach(i => { if (i.q == null) return; need++; const v = this.lineCost(i, f); if (v != null) { sum += v; priced++; } });
+    this.ingOf(r, cheap).forEach(i => { if (i.q == null) return; need++; const v = this.lineCost(i, f, cheap); if (v != null) { sum += v; priced++; } });
     const rc = { sum, priced, need, complete: need > 0 && priced === need };
-    if (this._rc) this._rc.set(r.id, rc);
+    if (this._rc) this._rc.set(key, rc);
     return rc;
   };
+  // Kroner spart i sparemodus. 0 når billig-versjonen mangler flere priser enn vanlig-versjonen.
+  saving = r => { const a = this.recipeCost(r, false), b = this.recipeCost(r, true);
+    return a.priced && b.need - b.priced <= a.need - a.priced ? Math.max(0, a.sum - b.sum) : 0; };
   costText = rc => {
     if (!this.D.M.hasPrices) return { label: 'pris kommer', short: '– kr' };
     if (!rc.priced) return { label: 'pris mangler', short: '– kr' };
@@ -986,12 +1018,12 @@ class Component extends DCLogic {
     // Handleliste: koblede ingredienser summeres i basisenhet, resten per navn og enhet
     const buildShop = dl => {
       const m = new Map();
-      dl.forEach(d => (s.plan[d] || []).forEach(id => { const r = D.byId[id], f = this.factor(r); r.ing.forEach(i => {
+      dl.forEach(d => (s.plan[d] || []).forEach(id => { const r = D.byId[id], f = this.factor(r), deal = this.isCheap(r); this.ingOf(r).forEach(i => {
         let k, e;
         if (i.slug) {
           k = 's:' + i.slug;
           if (!m.has(k)) m.set(k, { k, slug: i.slug, n: (D.ING[i.slug] || {}).name || i.n, u: (D.ING[i.slug] || {}).base, base: 0, pk: 0, extra: [], from: [] });
-          e = m.get(k);
+          e = m.get(k); if (deal) e.deal = true;
           if (i.base != null) e.base += i.base * f;
           else if (i.u === 'pk' && i.q != null) e.pk += i.q * f;
           else if (i.q != null) e.extra.push(this.fmt(i.q * f, i.u));
@@ -1006,7 +1038,7 @@ class Component extends DCLogic {
       return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, 'nb'));
     };
     // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
-    const priceEntry = (e, chain) => { const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.base, e.pk, chain) : null); };
+    const priceEntry = (e, chain) => { const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.base, e.pk, chain, e.deal) : null); };
     const amountOf = e => e.own ? '' : e.slug
       ? [e.base ? this.fmt(e.base, e.u) : '', e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
@@ -1064,6 +1096,7 @@ class Component extends DCLogic {
     let rd = {}, td = {}, ad = {};
     if (top.t === 'recipe') {
       const r = D.byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
+      const cheap = this.isCheap(r), save = Math.round(this.saving(r)), ings = this.ingOf(r), changes = cheap ? this.cheapIng(r).filter(i => i.from || i.drop) : [];
       const unl = r.ing.filter(i => !i.slug).length;
       rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
         portions: `${this.pers(r)} pers.`, people: this.pers(r), peopleSub: 'Mengder og pris regnes om, også i handlelisten',
@@ -1076,7 +1109,15 @@ class Component extends DCLogic {
         servingsNote: `Oppskriften er skrevet for ${r.servings} porsjoner. Mengdene her er regnet om til ${this.pers(r)}.`,
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
           : `Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
-        ing: r.ing.map(i => { const v = this.lineCost(i, f), note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå' : '');
+        // Sparegrisen vises bare når en billigere versjon finnes (minst 5 kr), eller når den er slått på
+        pig: { show: cheap || save >= 5, on: cheap, toggle: () => this.toggleCheap(r.id),
+          bg: cheap ? 'var(--mg-butter)' : 'var(--mg-surface)',
+          title: cheap ? `Sparemodus: ${this.costText(rc).label}` : 'Gjør retten billigere',
+          sub: cheap ? (save ? `Du sparer ca. ${save} kr. Trykk for vanlig versjon.` : 'Trykk for vanlig versjon.') : `Spar ca. ${save} kr med billigere varer og ukas tilbud`,
+          swaps: changes.map(i => ({ text: i.drop ? `Sløyfes: ${i.n}` : `${i.from} → ${i.n}`, why: i.why })), hasSwaps: !!changes.length },
+        ing: ings.map(i => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null;
+          const note = !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå'
+            : cheap && b ? [i.from && `I stedet for ${i.from.toLowerCase()}`, (b.p.offer ? 'Tilbud: ' : 'Kjøp: ') + b.p.name].filter(Boolean).join(' · ') : '');
           const hk = r.id + ':' + i.n, have = !!s.have[hk];
           return { have, op: have ? .5 : 1, deco: have ? 'line-through' : 'none', toggle: () => this.setState(st => ({ have: { ...st.have, [hk]: !st.have[hk] } })),
             n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note, hasNote: !!note }; }),

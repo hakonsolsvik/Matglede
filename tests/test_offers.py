@@ -26,6 +26,17 @@ class OffersTest(unittest.TestCase):
         self.assertEqual(week_info(dt.date(2026, 11, 20)), {"week": 47, "from": "2026-11-16", "to": "2026-11-22"})
 
 
+class TagOffersTest(unittest.TestCase):
+    def test_tags_ingredient_and_size(self):
+        from matglede.app_export import _ingredients_csv
+        from matglede.offers import tag_offers
+        names = ["Kjøttdeig av storfe 14%, 400 g", "Fiskegrateng Bacon 530g Findus", "Kyllinglår med smør 260 g", "Kjøttdeig"]
+        data = {"stores": [{"offers": [{"name": n} for n in names]}]}
+        out = tag_offers(data, _ingredients_csv())["stores"][0]["offers"]
+        self.assertEqual((out[0]["ing"], out[0]["size"]), ("kjottdeig", 400))
+        self.assertFalse(any("ing" in o for o in out[1:]))  # feil vare, smak, ukjent størrelse
+
+
 class CoopPagesTest(unittest.TestCase):
     def test_parses_spreads(self):
         from matglede.flyers import coop_pages

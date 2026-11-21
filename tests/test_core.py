@@ -291,6 +291,14 @@ class AppExportTest(unittest.TestCase):
         self.assertEqual(rec["kjottkaker-brun-saus"]["Kjøttbuljong"], 1)  # 1 terning
         self.assertEqual(rec["chili-con-carne"]["Kidneybønner"], 410)  # 1 boks
 
+    def test_swaps(self):
+        data = self.app_export.build(None, NOW)
+        sw = data["swaps"]
+        self.assertEqual(sw["parmesan"]["to"], "ost_revet")
+        self.assertIsNone(sw["tomatpure"]["to"])  # kan sløyfes
+        self.assertNotIn("basilikum", sw)  # ingen oppskrift bruker den
+        self.assertIn("brokkoli_frossen", data["ingredients"])  # byttet tas med, så det kan få pris
+
     def test_previous_prices_reused(self):
         data = self.app_export.build(None, NOW, previous={"kjottdeig": {"KIWI": [{"name": "x", "price": 1}]}})
         self.assertTrue(data["hasPrices"])

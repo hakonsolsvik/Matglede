@@ -52,7 +52,8 @@ def cmd_import(conn, args):
 def cmd_fetch_offers(conn, args):
     from . import offers
     load_dotenv()
-    data = offers.build_offers(KassalClient(per_minute=55))
+    from .app_export import _ingredients_csv
+    data = offers.tag_offers(offers.build_offers(KassalClient(per_minute=55)), _ingredients_csv())
     offers.write_offers_js(data, args.out)
     n = sum(len(s["offers"]) for s in data["stores"])
     print(f"Skrev {args.out}: {n} tilbud i uke {data['week']}")
