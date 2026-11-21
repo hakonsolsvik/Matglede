@@ -20,8 +20,12 @@
     return String(text || '').split(/\s*(?:,|;|\n|\.\s|\.$|\bog\b)\s*/i).map(function (x) {
       x = x.trim().replace(/^(?:(?:jeg|vi)\s+har|har|også|i tillegg)\s+/i, '').replace(/[.!?]+$/, '').trim();
       if (!x) return null;
-      var m = x.match(LEAD), n = x, amt = '';
-      if (m) { amt = amount(m[1]); n = m[2]; }
+      var m, n = x, amt = '';
+      // «tom for melk», «ikke mer ris», «melk er tom», «lite smør igjen»
+      if ((m = x.match(/^(?:(?:er\s+)?tomt?\s+for|ikke\s+(?:noe|mer)(?:\s+igjen)?(?:\s+av)?|ingen)\s+(.+)$/i)) || (m = x.match(/^(.+?)\s+er\s+(?:helt\s+)?tomt?$/i))) { amt = 'tomt'; n = m[1]; }
+      else if ((m = x.match(/^(?:lite|litt|nesten\s+tom(?:t)?\s+for)\s+(?:igjen\s+)?(?:av\s+)?(.+?)(?:\s+igjen)?$/i)) || (m = x.match(/^(.+?)\s+er\s+(?:snart|nesten)\s+tomt?$/i))) { amt = 'litt'; n = m[1]; }
+      else if ((m = x.match(/^(?:mye|masse|nok)\s+(?:av\s+)?(.+)$/i))) { amt = 'mye'; n = m[1]; }
+      else if ((m = x.match(LEAD))) { amt = amount(m[1]); n = m[2]; }
       else if ((m = x.match(TRAIL))) { n = m[1]; amt = amount(m[2]); }
       n = n.trim();
       return n ? { n: cap(n), amt: amt } : null;
@@ -30,7 +34,11 @@
 
   // Grov ordstamme, lik på begge sider: «poteter» og «potet» blir begge «potet»
   function stem(w) { var s; while (w.length > 4 && (s = w.replace(/(ene|ane|er|en|et|a|r)$/, '')) !== w) w = s; return w; }
-  function words(s) { return String(s || '').toLowerCase().replace(/\(.*?\)/g, ' ').split(/[^a-zæøå]+/).filter(Boolean).map(stem); }
+  // Uregelrette flertall: «gulrøtter» -> «gulrot»
+  var IRREG = { 'gulrøtt': 'gulrot', 'bønn': 'bønne' };
+  function words(s) { return String(s || '').toLowerCase().replace(/\(.*?\)/g, ' ').split(/[^a-zæøå]+/).filter(Boolean).map(function (w) { w = stem(w); return IRREG[w] || w; }); }
+  // Samme vare med kjent navn («poteter» -> «Poteter», «gulrot» -> «Gulrøtter»), ellers navnet som det er
+  function canon(n, known) { var key = words(n).join(' '); for (var i = 0; i < known.length; i++) if (words(known[i]).join(' ') === key) return known[i]; return n; }
   // Sammensatte ord: «kylling» i «kyllingfilet», «mel» i «hvetemel», «melk» i «lettmelk», men ikke «mel» i «melk».
   // OTHER er sammensetninger som er en helt annen vare.
   var OTHER = /^(hvitløk|kokosmelk)$/;
@@ -85,10 +93,11 @@
     if (counted(x.n)) return make(x, { count: Math.max(0, Math.min(99, qty(x) + d)) });
     return make(x, { lvl: LEVELS[Math.max(0, Math.min(2, LEVELS.indexOf(level(x)) + d))] });
   }
-  // Ny vare eller lagt inn på nytt: Mye, eller antallet som ble sagt
+  // Ny vare eller lagt inn på nytt: antallet eller nivået som ble sagt («litt», «tomt»), ellers Mye
   function fresh(x, amt) {
-    var c = parseInt(amt, 10);
-    return counted(x.n) ? make(x, { count: c > 0 ? c : qty({ n: x.n }) }) : make(x, { lvl: 'mye' });
+    var c = parseInt(amt, 10), lv = LEVELS.indexOf(amt) >= 0 ? amt : 'mye';
+    if (!counted(x.n)) return make(x, { lvl: lv });
+    return make(x, { count: c > 0 ? c : lv === 'tomt' ? 0 : lv === 'litt' ? 1 : qty({ n: x.n }) });
   }
 
   // Omtrent hvor mye som er hjemme, i varens basisenhet (g, ml, stk). pack = en vanlig pakke, perStk = basisenhet per stk.
@@ -124,5 +133,5 @@
     return out;
   }
 
-  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  root.MatgledePantry = { parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
