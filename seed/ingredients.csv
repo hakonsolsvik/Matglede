@@ -2,7 +2,7 @@ slug,name,category,base_unit,grams_per_piece,search_terms,must_include,exclude_t
 kjottdeig,Kjøttdeig,Kjøtt,g,,kjøttdeig storfe|kjøttdeig,,laks|kylling|plante|svin|saus|pizza|lasagne|taco|vegetar|erstatning|hakke|kjøttdeigsaus,kjøttdeig
 kyllingfilet,Kyllingfilet,Kjøtt,g,,kyllingfilet|kyllingbryst,,marinert|pålegg|skivet|krydret|panert|nugget|grillet|røkt|tikka|curry|salat|wrap|pizza|strimle|terning|stekt|soltørk|ferdig|skive,kylling
 laksefilet,Laksefilet,Fisk,g,,laksefilet|laks,,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|kjøttdeig|burger|pinner|salat|smørbrød|postei|pate|pâté|hjerter|biter i|sjøkreps|reker|kake|terning,laks
-bacon,Bacon,Kjøtt,g,,bacon,,chips|krydder|snacks|dressing|pizza|majones|ost|pølse|burger|smak|dip|salat|sandwich|postei,bacon
+bacon,Bacon,Kjøtt,g,,bacon,,chips|krydder|snacks|dressing|pizza|majones|ost|pølse|burger|smak|dip|salat|sandwich|postei|grateng|gratin,bacon
 egg,Egg,Meieri og egg,stk,60,egg,,eggnudler|nudler|pasta|eggerøre|eggehvite|eggeplomme|påske|sjokolade|kinder|likør|kartong|kokt|kokte|eggedosis|sandwich|salat|majones|surprise|bobler|smågodt|godt|egget|eggs|noodles|nudler,egg
 melk,Lettmelk,Meieri og egg,ml,,lettmelk,,sjokolade|kakao|pulver|iskaffe|kaffe|is |protein|smoothie|yoghurt,melk
 flote,Matfløte,Meieri og egg,ml,,matfløte|kremfløte,,is|sjokolade|saus|potet|gratin|suppe|kaffe|vegansk|plante|havre|soya|kokos,fløte
@@ -13,10 +13,10 @@ romme,Rømme,Meieri og egg,g,,lettrømme|rømme,,dressing|dip|chips|snacks|krydd
 potet,Poteter,Grønt,g,100,poteter|potet,,chips|mos|stappe|gull|potetmel|gratin|båter|salat|krydder|pommes|frites|lompe|lefse|vodka|flak|kake|søtpotet|søtpoteter|rösti|kroketter|wedges|pai|stuing|ferdig|potetgull|mos|fløtegrat,potet|grønnsak
 lok,Løk,Grønt,g,120,gul løk|løk,,hvitløk|rødløk|vårløk|purre|sprøstekt|stekt|krydder|pulver|ringer|dip|chips|suppe|syltet|sjalott|perleløk|løkringer|saus|rømme|ost|kaviar|pølse|sild|hummus,løk|grønnsak
 rodlok,Rødløk,Grønt,g,100,rødløk,,syltet|stekt|marmelade|chutney|sylteagurk|sprø|chips,løk|grønnsak
-hvitlok,Hvitløk,Grønt,g,50,hvitløk,,saus|smør|brød|krydder|pulver|olje|majones|dressing|dip|chips|granulat|pasta|pizza|tomater|baguette|ost|marinert|aioli|pølse|salt|pepper|kremost|urte|pesto|ingefær|puré|pure|paste|sylt|svart|black|confit|hummus|bønner|oliven|reker|scampi|biff|kylling|svin|kvern|crostini|søtpotet|grønnsaker|rondel|kaker|fisk|steinbit|torsk|laks|knust,hvitløk|grønnsak
+hvitlok,Hvitløk,Grønt,g,50,hvitløk,,saus|smør|brød|krydder|pulver|olje|majones|dressing|dip|chips|granulat|pasta|pizza|tomater|baguette|ost|marinert|aioli|pølse|salt|pepper|kremost|urte|pesto|ingefær|puré|pure|paste|sylt|svart|black|confit|hummus|bønner|oliven|reker|scampi|biff|kylling|svin|kvern|crostini|søtpotet|grønnsaker|rondel|kaker|fisk|steinbit|torsk|laks|knust|potet,hvitløk|grønnsak
 gulrot,Gulrot,Grønt,g,80,gulrøtter|gulrot,,juice|kake|salat|suppe|chips|mos|purè|puré|wok|mix|blanding|stuing|ferdig|kaker|smoothie|baby,gulrot|grønnsak|rotgrønnsak
 brokkoli,Brokkoli,Grønt,g,400,brokkoli,,salat|suppe|gratinert|mix|blanding|wok|blomkål|gulrot|pai|grateng|stuing|sprøtt,brokkoli|grønnsak|kål
-paprika,Paprika,Grønt,g,160,rød paprika|paprika rød|paprika,,krydder|pulver|chips|røkt|grillet|syltet|marinert|pølse|salami|dip|saus|pesto|ost|kremost|snacks|hummus|dressing|smak|mix|blanding|strimlet|wok|fylt|chili|grill,paprika|grønnsak
+paprika,Paprika,Grønt,g,160,rød paprika|paprika rød|paprika,,krydder|pulver|chips|røkt|grillet|syltet|marinert|pølse|salami|dip|saus|pesto|ost|kremost|snacks|hummus|dressing|smak|mix|blanding|strimlet|wok|fylt|chili|grill|pringles,paprika|grønnsak
 tomat,Tomater,Grønt,g,90,tomater|tomat,,hakkede|knuste|puré|pure|purè|saus|ketchup|soltørket|suppe|juice|chips|pizza|pasta|ris|pesto|salsa|polpa|passata|bønner|sardiner|makrell|sild|krydder|ost|basilikum|mozzarella|hermetisk|cherry|cocktail|snack|tørket|grønne|kremost|paste|soltørk|hele tomater|boks,tomat|grønnsak
 agurk,Agurk,Grønt,g,350,agurk,,sylt|salat|majones|dressing|tzatziki|snacks|chips|kremost|sandwich|glass|drikk|vann|smak|maske|skive|skivet|gammeldags|lettsalt|sure|syltet,agurk|grønnsak
 isbergsalat,Isbergsalat,Grønt,g,450,isbergsalat|issalat,,mix|blanding|dressing|ferdig,salat|grønnsak
@@ -47,7 +47,7 @@ sennep,Sennep,Sauser,g,,dijonsennep|sennep|dijon,,sild|pølse|salat|dressing|fr�
 ketchup,Ketchup,Sauser,g,,ketchup|tomatketchup,,chips|pølse|potet|majones|snacks|crisps,ketchup|saus
 ostersaus,Østerssaus,Sauser,ml,,østerssaus|oyster sauce,,nudler|wok|kylling,saus|asiatisk
 hoisin,Hoisinsaus,Sauser,ml,,hoisin|hoisinsaus,,nudler|wok|kylling|and|pannekake|chips,saus|asiatisk
-chilisaus,Chilisaus (sriracha),Sauser,ml,,sriracha|chilisaus|sweet chili,,chips|nøtter|majones|nudler|kylling|snacks|dip|ketchup|rett|mayo,saus|chili|asiatisk
+chilisaus,Chilisaus (sriracha),Sauser,ml,,sriracha|chilisaus|sweet chili,,chips|nøtter|majones|nudler|kylling|snacks|dip|ketchup|rett|mayo|ost,saus|chili|asiatisk
 mangochutney,Mangochutney,Sauser,g,,mango chutney|mangochutney,,papadums|chips|dip,saus|chutney|indisk
 currypaste_indisk,Indisk currypaste,Sauser,g,,tikka masala paste|curry paste|korma paste,,thai|rød|grønn|red|green|saus|kylling|middagskit|kit|ris|nudler|yellow|gul,saus|krydder|indisk
 tahini,Tahini,Sauser,g,,tahini|sesampasta,,hummus|dressing|kjeks|halva,tahini|sesam|pålegg
@@ -128,3 +128,7 @@ oliven,Oliven,Hermetikk,g,,kalamata oliven|grønne oliven|oliven,,olje|olivenolj
 kidneybonner,Kidneybønner,Hermetikk,g,,kidneybønner|røde kidneybønner|kidney bønner,,chili|saus|salat|mix|blanding|meksikansk|taco|ferdig|suppe|gryte,bønner|belgfrukter|hermetikk
 lammelar,Lammelår,Kjøtt,g,,lammelår|lammestek,,pålegg|røkt|spekemat|fenalår|skivet|ferdig|kebab|pølse|burger|kjøttboller|krydret|marinert|stekt|stekepose|ferdigstekt,lam
 rosmarin_frisk,Fersk rosmarin,Grønt,stk,,rosmarin potte|fersk rosmarin|rosmarin,,tørket|krydder|malt|glass|pos|hindu|santa|olje|salt|potet|focaccia|kjeks|lam,urter|krydderurter|grønnsak
+frosne_gronnsaker,Frosne grønnsaker,Frys,g,,wokblanding|grønnsaksblanding|grønnsakblanding|wokgrønnsaker|frosne grønnsaker,,suppe|saus|nudler|kylling|ris|pasta|ferdig|potet|stuing|pizza|lasagne|krydder|chips|smoothie|frukt|bær|biff|svin|reker|scampi,frys|frossen|frosne
+brokkoli_frossen,Brokkoli (frossen),Frys,g,,brokkoli|brokkolibuketter,,salat|suppe|gratinert|blomkål|gulrot|pai|grateng|stuing|ost|blanding|mix,frys|frossen|frosne
+kyllingfilet_frossen,Kyllingfilet (frossen),Frys,g,,kyllingfilet|kyllingbryst,fros,marinert|pålegg|skivet|krydret|panert|nugget|grillet|røkt|tikka|curry|salat|wrap|pizza|strimle|terning|stekt|ferdig|skive,frys|frossen|frosne|kylling
+laks_frossen,Laks (frossen),Frys,g,,laksefilet|laks,fros,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|burger|pinner|salat|kake|panert|marinert|terning,frys|frossen|frosne|fisk

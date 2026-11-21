@@ -18,6 +18,8 @@ from pathlib import Path
 
 from .flyers import flyer_for
 from .kassal import KassalClient
+from .matching import IngredientRule, score_product
+from .units import parse_package, to_base
 
 # code, navn, Kassalapp-butikk (None = ingen ferske priser i Kassalapp), lenke til ukas avis
 STORES = [
@@ -115,6 +117,31 @@ def build_offers(client: KassalClient, now: dt.datetime | None = None, log=print
                        "hasData": bool(kassal_code), "offers": ranked})
     return {"generated": now.astimezone(ZoneInfo("Europe/Oslo")).strftime("%Y-%m-%d %H:%M"),
             **week_info(now.astimezone(ZoneInfo("Europe/Oslo")).date()), "stores": stores}
+
+
+def tag_offers(data: dict, ingredients: dict[str, dict]) -> dict:
+    """Merk tilbud som passer en ingrediens med `ing` og pakkestørrelse `size` i basisenhet.
+
+    Sparegrisen i appen bruker dem som billigere varer. Krever et helt ord-treff uten
+    utelukkende ord ("Kyllinglår med smør" blir ikke smør) og kjent pakkestørrelse.
+    """
+    rules = {slug: IngredientRule.from_row(row) for slug, row in ingredients.items()}
+    for store in data["stores"]:
+        for o in store["offers"]:
+            o.pop("ing", None), o.pop("size", None)
+            amt, unit = parse_package(o["name"])
+            if not amt:
+                continue
+            hits = [(sc, slug) for slug, rule in rules.items()
+                    if (sc := score_product(rule, o["name"], [], None, True)) is not None and sc >= 4.5]
+            if not hits:
+                continue
+            slug = max(hits)[1]
+            row = ingredients[slug]
+            size = to_base(amt, unit, row["base_unit"], float(row["grams_per_piece"] or 0) or None)
+            if size:
+                o["ing"], o["size"] = slug, round(size, 3)
+    return data
 
 
 def write_offers_js(data: dict, path: str | Path = "app/offers.js") -> None:

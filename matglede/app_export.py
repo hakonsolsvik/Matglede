@@ -30,6 +30,25 @@ RECIPES_JSON = ROOT / "seed" / "app_recipes.json"
 # Feltene appen leser fra hvert produkt. Andre felt tas ikke med, så data.js blir mindre.
 PRODUCT_FIELDS = ("name", "size", "price", "stale")
 
+# Sparegrisen: billigere bytter appen kan foreslå. Samme mengde, og byttet brukes bare
+# når det faktisk blir billigere i valgt butikk. None betyr at ingrediensen kan sløyfes.
+SWAPS = {
+    "parmesan": ("ost_revet", "Revet ost smaker nesten likt og koster langt mindre"),
+    "flote": ("melk", "Lettmelk med 1 ss hvetemel rørt inn gir en like fyldig saus"),
+    "olivenolje": ("noytral_olje", "Rapsolje fungerer like godt til steking"),
+    "paprika": ("frosne_gronnsaker", "En pose frosne grønnsaker er billigere enn ferske"),
+    "brokkoli": ("brokkoli_frossen", "Frossen brokkoli er billigere og holder seg lenge"),
+    "kyllingfilet": ("kyllingfilet_frossen", "Frossen kyllingfilet koster mindre per kilo"),
+    "laksefilet": ("laks_frossen", "Frossen laks er like god og ofte billigere"),
+    # Ingen erstatning: kan sløyfes i billig-versjonen
+    "tomatpure": (None, "Retten blir god uten, bare litt mindre fyldig"),
+    "stangselleri": (None, "Godt, men ikke nødvendig"),
+    "sitron": (None, "Kan sløyfes, eller bruk en skvett eddik"),
+    "lime": (None, "Kan sløyfes"),
+    **{herb: (None, "Ferske urter er dyre og kan sløyfes")
+       for herb in ("persille", "koriander_frisk", "basilikum", "dill", "gresslok", "rosmarin_frisk")},
+}
+
 
 def _ingredients_csv(path: Path = ROOT / "seed" / "ingredients.csv") -> dict[str, dict]:
     with open(path, encoding="utf-8", newline="") as f:
@@ -138,6 +157,14 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
             "steps": r["steps"], "ing": items,
         })
 
+    swaps = {}
+    for src, (to, why) in SWAPS.items():
+        if src not in ing_rows or (to and to not in ing_rows):
+            raise ValueError(f"Ukjent ingrediens i SWAPS: {src} -> {to}")
+        if src in used:
+            swaps[src] = {"to": to, "why": why}
+    used |= {x["to"] for x in swaps.values() if x["to"]}
+
     ingredients = {}
     priced = 0
     for slug in sorted(used):
@@ -157,6 +184,7 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         "chains": [{"code": code, "name": name} for code, name, _ in CHAINS],
         "ingredients": ingredients,
         "recipes": recipes,
+        "swaps": swaps,
         "stats": {"recipes": len(recipes), "lines": lines, "mapped": mapped,
                   "ingredients": len(ingredients), "pricedIngredients": priced},
     }
