@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>:root{--mg-outer:#dfe2d2;--mg-bg:#f3f2ea;--mg-surface:#fffdf8;--mg-surface-sunken:#ebeadf;--mg-border:#e2e2d3;--mg-border-strong:#8d917c;--mg-ink:#1f2a1c;--mg-ink-muted:#5b604f;--mg-ink-subtle:#646958;--mg-nav-bg:#2f4128;--mg-on-nav:#d9dfcb;--mg-nav-active:#f4d77c;--mg-primary:#3d6a4a;--mg-on-primary:#fffdf8;--mg-primary-soft:#dde9d9;--mg-on-primary-soft:#2c5237;--mg-butter:#f4d77c;--mg-butter-ink:#7a4a12;--mg-clay:#c8622f;--mg-clay-text:#a44c1f;--mg-lime:#9fcf3a;--mg-danger:#b0402c;--mg-info:#3568b0;--mg-diff-1:#f1d79a;--mg-diff-2:#e7b46f;--mg-diff-3:#d98f55;--mg-diff-4:#c8622f;--mg-diff-5:#9a4520;--mg-focus:#3d6a4a}:root{--mg-shadow-1:0 1px 2px rgba(30,40,20,.06),0 1px 3px rgba(30,40,20,.06);--mg-shadow-2:0 2px 6px rgba(30,40,20,.07),0 10px 28px rgba(30,40,20,.08);--mg-r-xs:8px;--mg-r-sm:12px;--mg-r-md:18px;--mg-r-lg:26px;--mg-r-xl:34px;--mg-r-pill:999px;--mg-font-sans:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;--mg-font-display:'Bricolage Grotesque','Figtree',system-ui,sans-serif}body{margin:0;background:var(--mg-outer);font-family:var(--mg-font-sans)}a{color:var(--mg-primary)}a:hover{color:var(--mg-clay-text)}*::-webkit-scrollbar{display:none}*{scrollbar-width:none;-webkit-tap-highlight-color:transparent}input{font-family:inherit}:focus-visible{outline:2px solid var(--mg-focus);outline-offset:2px}.mg-phone{--top:44px;--nav:84px}.mg-hit{position:relative}.mg-hit::after{content:'';position:absolute;inset:-9px}@media (max-width:520px){.mg-stage{padding:0!important;align-items:stretch!important;min-height:100dvh!important}.mg-phone{width:100%!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important;--top:max(8px,env(safe-area-inset-top));--nav:calc(58px + max(12px,env(safe-area-inset-bottom)))}.mg-fake{display:none!important}.mg-topsp{height:var(--top)!important}.mg-nav{padding-bottom:max(12px,env(safe-area-inset-bottom))!important}}@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
-h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(--mg-font-display);font-weight:800 !important}
+h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(--mg-font-display);font-weight:800 !important}
 /* Felles stiler som går igjen i malen */
 .s1{font-size:18px;font-weight:800;letter-spacing:-.02em}.s2{margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em}.s3{display:flex;flex-direction:column;gap:10px}.s4{font-size:12px;color:var(--mg-ink-muted)}.s5{font-size:12px;font-weight:700}.s6{position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:20;overflow-y:auto}.s7{display:flex;gap:3px}.s8{font-size:16px;font-weight:800}.s9{width:7px;height:7px;border-radius:50%}.s10{display:flex;flex-direction:column;gap:2px}.s11{flex:1;min-width:0}.s12{font-size:12px;color:var(--mg-ink-muted);font-weight:600}.s13{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px}.s14{width:50px;height:34px;border-radius:var(--mg-r-md);display:flex;align-items:center;justify-content:center}.s15{font-size:22px;font-weight:800}.s16{font-size:14px;font-weight:700;color:var(--mg-ink-muted)}.s17{font-size:14px;color:var(--mg-ink-muted)}.s18{font-size:12px;font-weight:700;color:var(--mg-ink-muted)}.s19{font-size:18px;font-weight:800}.s20{width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer}.s21{font-size:16px;font-weight:700}.s22{display:flex;flex-direction:column;gap:12px}.s23{width:6px;height:6px;border-radius:50%}.s24{border:0;cursor:pointer;font-family:inherit}.s25{display:flex;gap:12px;align-items:center;padding:8px;background:var(--mg-surface);border-radius:var(--mg-r-lg);cursor:pointer}.s26{font-weight:700;font-size:14px}.s27{display:flex;gap:9px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)}.s28{background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;display:flex;flex-direction:column;gap:6px}.s29{color:var(--mg-ink-subtle)}.s30{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)}.s31{height:50px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 14px;font-size:16px;outline:none;font-family:inherit;color:var(--mg-ink)}.s32{background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px;display:flex;flex-direction:column;gap:2px}.s33{display:flex;gap:8px}.s34{width:44px;height:44px;border-radius:50%;border:0}.s35{margin:0;font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1.1}.s36{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}.s37{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--mg-butter-ink)}.s38{display:flex;justify-content:space-between;align-items:baseline}.s39{display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px}.s40{display:flex;gap:2px}.s41{font-size:12px;font-weight:800;letter-spacing:.08em}.s42{font-size:12px;color:var(--mg-ink-muted);line-height:1.35}.s43{font-size:14px;font-weight:700}.s44{display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:0 20px}.s45{font-size:17px;font-weight:800;letter-spacing:-.02em}.s46{display:flex;gap:10px;align-items:center;font-size:12px;font-weight:600;color:var(--mg-ink-muted)}.s47{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}.s48{font-size:12px;opacity:.8;font-weight:600}.s49{display:flex;flex-direction:column;gap:20px}.s50{padding:0 20px;display:flex;flex-direction:column;gap:14px}.s51{padding:26px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg);display:flex;flex-direction:column;gap:12px;align-items:center}.s52{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.s53{border:0;background:var(--mg-surface-sunken);font-family:inherit;font-size:14px;font-weight:700;padding:9px 14px;border-radius:var(--mg-r-pill);cursor:pointer;color:var(--mg-ink)}.s54{width:64px;height:64px;flex:none;border-radius:var(--mg-r-md)}.s55{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.s56{font-size:14px;font-weight:700;line-height:1.25}.s57{display:flex;flex-direction:column;gap:8px}.s58{font-size:14px;color:var(--mg-ink-muted);margin-top:2px}.s59{display:flex;flex-direction:column;gap:6px}.s60{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer}.s61{font-size:12px;color:var(--mg-ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.s62{text-align:right;flex:none}.s63{font-size:14px;font-weight:800}.s64{display:flex;gap:8px;align-items:center}.s65{width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer}.s66{display:flex;flex-direction:column;gap:10px;padding:0 4px}.s67{display:flex;flex-wrap:wrap;gap:8px}.s68{flex:1;height:1px;background:var(--mg-border)}.s69{padding:calc(var(--top) + 10px) 20px 24px;display:flex;flex-direction:column;gap:20px}.s70{background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden}.s71{padding:16px;font-size:16px;font-weight:700;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer;display:flex;justify-content:space-between}.s72{background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px}.s73{border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:var(--mg-ink);text-align:left}</style>
 </helmet>
@@ -75,7 +75,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <div class="s22">
-<div class="s38"><div class="s1">Mest populære</div><button onClick="{{ goOpp }}" style="border:0;background:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-primary);cursor:pointer;padding:13px 6px;margin:-13px -6px">Se alle</button></div>
+<div class="s38"><div class="s1 mg-h">Mest populære</div><button onClick="{{ goOpp }}" style="border:0;background:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-primary);cursor:pointer;padding:13px 6px;margin:-13px -6px">Se alle</button></div>
 <div class="s39">
 <sc-for list="{{ popular }}" as="r" hint-placeholder-count="3">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:164px;scroll-snap-align:start;cursor:pointer;display:flex;flex-direction:column;gap:8px">
@@ -87,7 +87,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 
 <div class="s22">
-<div class="s1">Aktuelt</div>
+<div class="s1 mg-h">Aktuelt</div>
 <div class="s39">
 <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
 <div onClick="{{ n.open }}" role="button" tabIndex="0" style="flex:none;width:236px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
@@ -103,7 +103,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 
 <div class="s3">
-<div class="s38"><div class="s1">Ukens oppgaver</div><div class="s16">{{ tasksDone }}</div></div>
+<div class="s38"><div class="s1 mg-h">Ukens oppgaver</div><div class="s16">{{ tasksDone }}</div></div>
 <sc-for list="{{ tasks }}" as="t" hint-placeholder-count="4">
 <div style="display:flex;align-items:center;gap:12px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px 14px;box-shadow:var(--mg-shadow-1)">
 <button onClick="{{ t.toggle }}" class="mg-hit" role="checkbox" aria-checked="{{ t.done }}" aria-label="{{ t.title }}" style="width:26px;height:26px;flex:none;border-radius:var(--mg-r-sm);border:2px solid {{ t.boxBorder }};background:{{ t.boxBg }};display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:var(--mg-ink)"><sc-if value="{{ t.done }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></button>
@@ -117,7 +117,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isFav }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:16px">
-<div class="s10"><h1 class="s2">Favoritter</h1><div class="s17">{{ favCountLabel }}</div></div>
+<div class="s10"><h1 class="s2 mg-h">Favoritter</h1><div class="s17">{{ favCountLabel }}</div></div>
 <div class="s44">
 <sc-for list="{{ favSorts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="flex:none;white-space:nowrap;border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:8px 14px;border-radius:var(--mg-r-pill);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
 </div>
@@ -138,7 +138,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
-<div class="s10"><h1 class="s2">Tilbud</h1><div class="s17">{{ offersSub }}</div></div>
+<div class="s10"><h1 class="s2 mg-h">Tilbud</h1><div class="s17">{{ offersSub }}</div></div>
 <sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-nav-bg)">{{ listOffersText }}</div></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
@@ -153,7 +153,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:20px">
-<div class="s10"><h1 class="s2">Plan</h1><div class="s17">{{ weekLabel }}</div></div>
+<div class="s10"><h1 class="s2 mg-h">Plan</h1><div class="s17">{{ weekLabel }}</div></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-xl);padding:14px 10px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;box-shadow:var(--mg-shadow-1)">
 <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
 <button onClick="{{ d.pick }}" aria-pressed="{{ d.sel }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--mg-ink)">
@@ -164,12 +164,12 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-for>
 </div>
 <div class="s3">
-<div class="s8">{{ dayTitle }}</div>
+<div class="s8 mg-h">{{ dayTitle }}</div>
 <sc-for list="{{ dayMeals }}" as="r" hint-placeholder-count="1">
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);overflow:hidden;box-shadow:var(--mg-shadow-1)">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="height:130px;background:{{ r.img }};display:flex;align-items:flex-end;padding:10px 14px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45);cursor:pointer">{{ r.imgLabel }}</div>
 <div style="padding:14px 16px;display:flex;align-items:center;gap:10px">
-<div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:6px"><div class="s45">{{ r.name }}</div><div class="s46"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
+<div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:6px"><div class="s45 mg-h">{{ r.name }}</div><div class="s46"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div></div>
 <button onClick="{{ r.remove }}" style="border:0;background:var(--mg-surface-sunken);color:var(--mg-ink-muted);font-family:inherit;font-weight:700;font-size:12px;padding:8px 12px;border-radius:var(--mg-r-pill);cursor:pointer">Fjern</button>
 </div>
 </div>
@@ -177,14 +177,14 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <button onClick="{{ openPicker }}" style="border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);padding:16px;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-ink-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>{{ addLabel }}</button>
 </div>
 <div class="s3">
-<div class="s1">Handleliste</div>
+<div class="s1 mg-h">Handleliste</div>
 <button onClick="{{ openWeekShop }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-primary);color:#fff;border-radius:var(--mg-r-xl);padding:20px;min-height:96px;display:flex;align-items:center;gap:16px">
 <span style="width:52px;height:52px;flex:none;border-radius:var(--mg-r-md);background:#b5e04f;color:var(--mg-ink);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 7h11M9 12h11M9 17h11"></path><circle cx="4.5" cy="7" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="12" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="17" r="1.3" fill="currentColor"></circle></svg></span>
-<span class="s47"><span class="s1">Handleliste for hele uka</span><span class="s48">{{ weekShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
+<span class="s47"><span class="s1 mg-h">Handleliste for hele uka</span><span class="s48">{{ weekShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
 </button>
 <button onClick="{{ openDayShop }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-xl);padding:20px;min-height:96px;display:flex;align-items:center;gap:16px">
 <span style="width:52px;height:52px;flex:none;border-radius:var(--mg-r-md);background:var(--mg-ink);color:var(--mg-butter);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path><circle cx="12" cy="15" r="1.6" fill="currentColor"></circle></svg></span>
-<span class="s47"><span class="s1">{{ dayShopTitle }}</span><span class="s48">{{ dayShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
+<span class="s47"><span class="s1 mg-h">{{ dayShopTitle }}</span><span class="s48">{{ dayShopSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
 </button>
 </div>
 </div>
@@ -193,7 +193,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <sc-if value="{{ isOpp }}" hint-placeholder-val="{{ false }}">
 <div class="s49">
 <div class="s50">
-<h1 class="s2">Oppskrifter</h1>
+<h1 class="s2 mg-h">Oppskrifter</h1>
 <div style="display:flex;align-items:center;gap:10px;background:var(--mg-surface);border-radius:var(--mg-r-pill);padding:0 8px 0 18px;height:52px;box-shadow:var(--mg-shadow-1)">
 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#666b5c" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
 <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Søk i alle oppskrifter" aria-label="Søk i alle oppskrifter" type="search" style="flex:1;min-width:0;border:0;outline:none;background:none;font-size:16px;color:var(--mg-ink)">
@@ -214,7 +214,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 <sc-if value="{{ notSearching }}" hint-placeholder-val="{{ true }}">
 <div class="s22">
-<div style="padding:0 20px;display:flex;justify-content:space-between;align-items:baseline"><div class="s1">Populært nå</div></div>
+<div style="padding:0 20px;display:flex;justify-content:space-between;align-items:baseline"><div class="s1 mg-h">Populært nå</div></div>
 <div style="display:flex;gap:14px;overflow-x:auto;padding:0 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ popular }}" as="r" hint-placeholder-count="2">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:258px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-xl);padding:8px;cursor:pointer;box-shadow:var(--mg-shadow-1)">
@@ -253,7 +253,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ isLaere }}" hint-placeholder-val="{{ false }}">
 <div class="s49">
-<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s2">Lære</h1><div class="s17">Kunnskap om maten du spiser</div></div>
+<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s2 mg-h">Lære</h1><div class="s17">Kunnskap om maten du spiser</div></div>
 <div style="padding:0 20px">
 <div onClick="{{ openInsight }}" role="button" tabIndex="0" style="background:var(--mg-ink);color:#fff;border-radius:var(--mg-r-xl);padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative;overflow:hidden">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#7ea6ff"></span><span style="font-size:12px;font-weight:800;letter-spacing:.1em;color:#a9c3ff">DAGENS INNSIKT · {{ todayName }}</span></div>
@@ -271,7 +271,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-for>
 </div>
 <div class="s50">
-<div class="s1">Utforsk tema</div>
+<div class="s1 mg-h">Utforsk tema</div>
 <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:6px 0">
 <sc-for list="{{ topics }}" as="t" hint-placeholder-count="7">
 <button onClick="{{ t.open }}" style="border:0;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:10px;background:{{ t.bg }};padding:6px 18px 6px 6px;border-radius:var(--mg-r-pill);transform:rotate({{ t.rot }}deg)">
@@ -282,7 +282,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 </div>
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:8px">
-<div class="s1">Alle artikler</div>
+<div class="s1 mg-h">Alle artikler</div>
 <sc-for list="{{ allArts }}" as="a" hint-placeholder-count="4">
 <div onClick="{{ a.open }}" role="button" tabIndex="0" style="display:flex;gap:12px;align-items:center;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;cursor:pointer">
 <div style="width:46px;height:46px;flex:none;border-radius:var(--mg-r-md);background:{{ a.bg }};color:{{ a.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ a.sym }}</div>
@@ -307,9 +307,9 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <h2 class="s35">{{ rd.name }}</h2>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px">
-<div class="s28"><span class="s18">Tid</span><span class="s19">{{ rd.timeLabel }}</span></div>
+<div class="s28"><span class="s18">Tid</span><span class="s19 mg-h">{{ rd.timeLabel }}</span></div>
 <div class="s28"><span class="s18">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
-<div class="s28"><span class="s18">Pris</span><span class="s19">{{ rd.costShort }}</span><span class="s4">{{ rd.portions }}</span></div>
+<div class="s28"><span class="s18">Pris</span><span class="s19 mg-h">{{ rd.costShort }}</span><span class="s4">{{ rd.portions }}</span></div>
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
 <div class="s11"><div class="s8">Antall personer</div><div class="s4">{{ rd.peopleSub }}</div></div>
@@ -318,7 +318,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <button onClick="{{ rd.peoplePlus }}" aria-label="Flere personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
 </div>
 <div class="s57">
-<div class="s19">Ingredienser</div>
+<div class="s19 mg-h">Ingredienser</div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px">
 <div style="font-size:12px;color:var(--mg-ink-muted);padding:10px 0 2px">Trykk på det du har, så krysses det av.</div><sc-for list="{{ rd.ing }}" as="i"><div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.have }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);font-size:14px;cursor:pointer;opacity:{{ i.op }}"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-weight:600;text-decoration:{{ i.deco }}">{{ i.n }}</span><sc-if value="{{ i.hasNote }}"><span style="font-size:12px;color:var(--mg-ink-subtle);font-weight:600">{{ i.note }}</span></sc-if></span><span style="color:var(--mg-ink-muted)">{{ i.m }}</span><span style="width:56px;flex:none;text-align:right;font-weight:700;color:{{ i.priceColor }}">{{ i.price }}</span></div></sc-for>
 <div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
@@ -327,7 +327,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </div>
 </div>
 <div class="s3">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s19">Slik gjør du</div><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:#fff;font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s19 mg-h">Slik gjør du</div><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:#fff;font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></div>
 <sc-for list="{{ rd.steps }}" as="s"><div onClick="{{ s.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ s.done }}" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:{{ s.op }}"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ s.mark }}</span><span style="font-size:14px;line-height:1.5;padding-top:3px;text-decoration:{{ s.deco }}">{{ s.text }}</span></div></sc-for>
 </div>
 </div>
@@ -344,7 +344,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div style="background:var(--mg-bg);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25)">
 <div style="display:flex;align-items:center;gap:12px;padding:2px 2px 4px">
 <span style="width:42px;height:42px;flex:none;border-radius:50%;background:var(--mg-info);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="6.5" cy="14" r="3.6"></circle><circle cx="17.5" cy="14" r="3.6"></circle><path d="M10.1 13.6c1.2-.9 2.6-.9 3.8 0M2.9 13.4L4.6 8M21.1 13.4L19.4 8"></path></svg></span>
-<div style="flex:1"><div class="s45">Lær mer om retten</div><div class="s12">Utvalgte temaer fra Lære</div></div>
+<div style="flex:1"><div class="s45 mg-h">Lær mer om retten</div><div class="s12">Utvalgte temaer fra Lære</div></div>
 <button onClick="{{ rd.closeLearn }}" aria-label="Lukk" style="border:0;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--mg-surface-sunken);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
 </div>
 <sc-for list="{{ rd.learn }}" as="l">
@@ -363,7 +363,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div class="s6">
 <div style="padding:calc(var(--top) + 10px) 20px 28px;display:flex;flex-direction:column;gap:16px">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s20"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div><h2 class="s2">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div>
+<div><h2 class="s2 mg-h">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div>
 <div class="s44">
 <sc-for list="{{ shopChips }}" as="c"><button onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div>
@@ -409,7 +409,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-if value="{{ sd.hasTop }}">
 <div class="s3">
-<div class="s8">Mest aktuelle tilbud</div>
+<div class="s8 mg-h">Mest aktuelle tilbud</div>
 <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:170px;scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
@@ -423,7 +423,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 </sc-if>
 
 <div class="s3">
-<div class="s8">Tilbudsavisen</div>
+<div class="s8 mg-h">Tilbudsavisen</div>
 <sc-if value="{{ sd.isImages }}">
 <div style="display:flex;flex-direction:column;gap:8px;margin:0 -8px">
 <sc-for list="{{ sd.pages }}" as="pg" hint-placeholder-count="4">
@@ -445,7 +445,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 
 <sc-for list="{{ sd.groups }}" as="g">
 <div class="s57">
-<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 4px"><span class="s8">{{ g.name }}</span><span style="font-size:12px;font-weight:700;color:var(--mg-ink-subtle)">{{ g.count }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 4px"><span class="s8 mg-h">{{ g.name }}</span><span style="font-size:12px;font-weight:700;color:var(--mg-ink-subtle)">{{ g.count }}</span></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
 <sc-for list="{{ g.items }}" as="o">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" class="s60">
@@ -528,7 +528,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div class="s6">
 <div style="padding:calc(var(--top) + 10px) 22px 24px;display:flex;flex-direction:column;gap:18px">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s20"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-<div class="s59"><h2 class="s2">{{ lg.title }}</h2><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Lagre favoritter, ukeplan og antall personer på kontoen din, og få dem på alle enhetene dine.</div></div>
+<div class="s59"><h2 class="s2 mg-h">{{ lg.title }}</h2><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Lagre favoritter, ukeplan og antall personer på kontoen din, og få dem på alle enhetene dine.</div></div>
 <sc-if value="{{ lg.off }}"><div style="background:#fff4d6;color:#6b4e00;border-radius:var(--mg-r-md);padding:12px 14px;font-size:14px;line-height:1.45;font-weight:600">Innlogging er ikke slått på ennå. Den åpnes når Firebase-prosjektet er satt opp.</div></sc-if>
 <button onClick="{{ lg.google }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:54px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;opacity:{{ lg.opacity }}"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Fortsett med Google</button>
 <div style="display:flex;align-items:center;gap:12px;color:var(--mg-ink-subtle);font-size:12px;font-weight:700"><span class="s68"></span>eller med e-post<span class="s68"></span></div>
@@ -552,9 +552,9 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <button onClick="{{ back }}" aria-label="Tilbake" class="s20"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div style="display:flex;align-items:center;gap:16px"><div style="width:76px;height:76px;flex:none;border-radius:50%;background:var(--mg-butter) center/cover no-repeat;background-image:{{ avatarImg }};display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800">{{ avatarText }}</div><div><div style="min-width:0"><div style="font-size:22px;font-weight:800;letter-spacing:-.03em">{{ userName }}</div><div style="font-size:14px;color:var(--mg-ink-muted);overflow:hidden;text-overflow:ellipsis">{{ userEmail }}</div><div style="font-size:12px;color:var(--mg-primary);font-weight:700;margin-top:4px">{{ syncLabel }}</div></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<div class="s32"><span class="s15">{{ favNum }}</span><span class="s12">favoritter</span></div>
-<div class="s32"><span class="s15">{{ planNum }}</span><span class="s12">planlagt</span></div>
-<div class="s32"><span class="s15">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
+<div class="s32"><span class="s15 mg-h">{{ favNum }}</span><span class="s12">favoritter</span></div>
+<div class="s32"><span class="s15 mg-h">{{ planNum }}</span><span class="s12">planlagt</span></div>
+<div class="s32"><span class="s15 mg-h">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
 </div>
 <div class="s70">
 <div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
@@ -569,7 +569,7 @@ h1,.k4,.k8,.k14,.k16,.k28,.k32,.k44,.k47,[style*='font-weight:800'][style*='lett
 <div class="s6">
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s20"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<h2 class="s2">Innstillinger</h2>
+<h2 class="s2 mg-h">Innstillinger</h2>
 <div class="s72">
 <div class="s21">Standard antall personer</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
