@@ -16,6 +16,7 @@
 <script src="./offers.js"></script>
 <script src="./auth-config.js"></script>
 <script src="./auth.js"></script>
+<script src="./pantry.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -176,6 +177,10 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </sc-for>
 <button onClick="{{ openPicker }}" style="border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);padding:16px;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-ink-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>{{ addLabel }}</button>
 </div>
+<button onClick="{{ openUseHome }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-xl);padding:20px;min-height:96px;display:flex;align-items:center;gap:16px;box-shadow:var(--mg-shadow-1)">
+<span style="width:52px;height:52px;flex:none;border-radius:var(--mg-r-md);background:var(--mg-butter);color:var(--mg-ink);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"></rect><path d="M5 9.5h14M8.5 5.5v1.5M8.5 12.5v3"></path></svg></span>
+<span class="s47"><span class="s1 mg-h">Bruk det du har</span><span class="s48">{{ useHomeSub }}</span></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.7"><path d="M9 5l7 7-7 7"></path></svg>
+</button>
 <div class="s4">
 <div class="s1 mg-h">Handleliste</div>
 <button onClick="{{ openWeekShop }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-primary);color:#fff;border-radius:var(--mg-r-xl);padding:20px;min-height:96px;display:flex;align-items:center;gap:16px">
@@ -577,10 +582,54 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s32"><span class="s16 mg-h">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
 </div>
 <div class="s70">
+<div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71">Min beholdning<span class="s29">{{ pt.count }} varer ›</span></div>
 <div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
 <div onClick="{{ goFav }}" role="button" tabIndex="0" class="s71">Mine favoritter<span class="s29">›</span></div>
 <div onClick="{{ doLogout }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;color:var(--mg-danger);cursor:pointer">Logg ut</div>
 </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ ovPantry }}" hint-placeholder-val="{{ false }}">
+<div class="s6">
+<div class="s69">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster hvor mye som er igjen, så foreslår appen middager som bruker det opp.</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ pt.voice }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ pt.voiceBg }};color:#fff;border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg>{{ pt.voiceLabel }}</button>
+<label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+</div>
+<form onSubmit="{{ pt.add }}" class="s33"><input value="{{ pt.name }}" onChange="{{ pt.onName }}" aria-label="Legg til vare" placeholder="Legg til vare, f.eks. ris" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
+<div class="s67"><sc-for list="{{ pt.quick }}" as="q"><button onClick="{{ q.add }}" class="s53">+ {{ q.label }}</button></sc-for></div>
+<sc-if value="{{ pt.empty }}"><div class="s51">Ingen varer ennå. Trykk på vanlige varer over, skriv inn, eller si hva du har.</div></sc-if>
+<div class="s70"><sc-for list="{{ pt.items }}" as="i"><div role="group" aria-label="{{ i.aria }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--mg-surface-sunken)">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;opacity:{{ i.op }}"><span class="s13" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.n }}</span><span style="height:5px;border-radius:3px;background:var(--mg-surface-sunken);overflow:hidden"><span style="display:block;height:100%;width:{{ i.bar }};background:{{ i.barBg }}"></span></span></div>
+<button onClick="{{ i.down }}" aria-label="{{ i.downLabel }}" style="width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.downOp }}">−</button>
+<span aria-live="polite" style="width:46px;text-align:center;font-size:14px;font-weight:800">{{ i.pct }}</span>
+<button onClick="{{ i.up }}" aria-label="{{ i.upLabel }}" style="width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.upOp }}">+</button>
+<button onClick="{{ i.remove }}" aria-label="{{ i.rmLabel }}" style="width:32px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button>
+</div></sc-for></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ ovUseHome }}" hint-placeholder-val="{{ false }}">
+<div class="s6">
+<div class="s69">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div class="s10"><h2 class="s3 mg-h">Bruk det du har</h2><div class="s18">{{ uh.sub }} · <span onClick="{{ uh.openPantry }}" role="button" tabIndex="0" style="color:var(--mg-primary);font-weight:700;cursor:pointer;text-decoration:underline">endre</span></div></div>
+<sc-if value="{{ uh.has }}"><button onClick="{{ uh.week }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-primary);color:#fff;border-radius:var(--mg-r-xl);padding:18px 20px;display:flex;flex-direction:column;gap:4px"><span class="s1 mg-h">Lag ukeplan fra beholdningen</span><span class="s48">Fyller tomme dager med retter som bruker opp mest mulig av det du har</span></button></sc-if>
+<sc-if value="{{ uh.empty }}"><div class="s51"><span>Legg inn det du har hjemme, så foreslår appen middager som bruker det opp.</span><button onClick="{{ uh.openPantry }}" class="s53">Åpne Min beholdning</button></div></sc-if>
+<sc-if value="{{ uh.none }}"><div class="s51">Ingen av oppskriftene bruker det du har ennå. Legg inn flere varer.</div></sc-if>
+<sc-if value="{{ uh.has }}"><div class="s19">Eller legg én og én rett til {{ uh.dayLabel }}</div></sc-if>
+<sc-for list="{{ uh.list }}" as="r">
+<div class="s25" style="align-items:flex-start">
+<div onClick="{{ r.open }}" role="button" tabIndex="0" class="s54" style="background:{{ r.img }};cursor:pointer"></div>
+<div onClick="{{ r.open }}" role="button" tabIndex="0" class="s55" style="cursor:pointer"><div class="s26">{{ r.name }}</div><div class="s42" style="color:var(--mg-primary);font-weight:700">{{ r.haveText }}</div><div class="s42">{{ r.missText }}</div></div>
+<button onClick="{{ r.add }}" aria-label="{{ r.addLabel }}" style="width:36px;height:36px;border-radius:50%;border:0;background:var(--mg-butter);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+</sc-for>
 </div>
 </div>
 </sc-if>
@@ -761,7 +810,7 @@ class Component extends DCLogic {
     let top = null;
     if (ok[t]) { if (ok[t][id]) top = { t, id }; }
     else if (t === 'shop') top = id === 'week' || !id ? { t, scope: 'week' } : { t, scope: 'day', day: Math.max(0, Math.min(6, +id.replace('day-', '') || 0)) };
-    else if (['search','picker','login','profile','settings'].includes(t)) top = { t };
+    else if (['search','picker','login','profile','settings','pantry','usehome'].includes(t)) top = { t };
     return { tab: this.TABS.includes(tab) ? tab : null, stack: top ? [top] : [] };
   };
   hashOf = st => { const top = st.stack[st.stack.length - 1];
@@ -773,7 +822,8 @@ class Component extends DCLogic {
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', toast: null,
-    undo: null, have: {}, cheap: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false
+    undo: null, have: {}, cheap: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
+    pantry: [], pName: '', pAmt: '', listening: false, scanning: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -782,7 +832,7 @@ class Component extends DCLogic {
   check = done => ({ done, boxBg: done ? 'var(--mg-clay)' : 'transparent', boxBorder: done ? 'var(--mg-clay)' : 'var(--mg-border-strong)', deco: done ? 'line-through' : 'none', color: done ? 'var(--mg-ink-subtle)' : 'var(--mg-ink)' });
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? '#fff' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap'];
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -916,6 +966,56 @@ class Component extends DCLogic {
     this.toast(`${this.D.byId[id].name} er lagt til ${this.DAYS_FULL[d].toLowerCase()}`);
   };
 
+  // ---------- Min beholdning (app/pantry.js) ----------
+  ingNames = i => [i.n, (this.D.ING[i.slug] || {}).name].filter(Boolean);
+  // items: [{ n }]. Hver vare har pct: hvor mye som er igjen, 0–100 i steg på 25.
+  addPantry = items => {
+    if (!items.length) return;
+    this.setState(st => { const list = [...st.pantry];
+      items.forEach(x => { const k = list.findIndex(p => p.n.toLowerCase() === x.n.toLowerCase());
+        // Nye varer og varer man legger inn på nytt står på 100 % igjen
+        if (k < 0) list.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), n: x.n, pct: 100 });
+        else list[k] = { ...list[k], pct: 100 }; });
+      return { pantry: list }; });
+    this.toast(items.length === 1 ? `${items[0].n} er lagt i beholdningen` : `${items.length} varer er lagt i beholdningen`);
+  };
+  // Tale i nettleseren (Web Speech API): «to kilo poteter, en liter melk og soyasaus»
+  listen = () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return this.toast('Nettleseren støtter ikke tale. Prøv Chrome eller Safari.');
+    if (this._rec) return this._rec.stop();
+    const r = this._rec = new SR(); let heard = '';
+    r.lang = 'nb-NO'; r.continuous = true; r.interimResults = false;
+    r.onresult = e => { for (let k = e.resultIndex; k < e.results.length; k++) if (e.results[k].isFinal) heard += ', ' + e.results[k][0].transcript; };
+    r.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') this.toast('Gi appen lov til å bruke mikrofonen'); };
+    r.onend = () => { this._rec = null; this.setState({ listening: false });
+      const items = window.MatgledePantry.parse(heard);
+      if (items.length) this.addPantry(items); else if (heard.trim()) this.toast('Fikk ikke med meg noen varer. Prøv igjen.'); };
+    r.start(); this.setState({ listening: true });
+  };
+  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer. Krever innlogging, så ingen andre kan bruke nøkkelen.
+  scanPhoto = e => {
+    const f = e.target.files && e.target.files[0], A = window.MatgledeAuth, url = window.MATGLEDE_AI_URL;
+    e.target.value = '';
+    if (!f || this.state.scanning) return;
+    if (!url) return this.toast('Bildegjenkjenning er ikke slått på ennå');
+    if (!this.state.user) return this.push({ t: 'login' });
+    this.setState({ scanning: true });
+    const str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
+    createImageBitmap(f).then(b => {
+      const k = Math.min(1, 1280 / Math.max(b.width, b.height)), c = document.createElement('canvas');
+      c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
+      c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
+      return Promise.all([c.toDataURL('image/jpeg', 0.8).split(',')[1], A.idToken()]);
+    }).then(([image, tok]) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify({ image }) }))
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+      .then(d => { const items = (Array.isArray(d.items) ? d.items : []).map(x => ({ n: str(x && x.n, 60) })).filter(x => x.n)
+        .map(x => ({ ...x, n: x.n[0].toUpperCase() + x.n.slice(1) }));
+        if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
+      .catch(err => { console.error(err); this.toast('Fikk ikke lest bildet. Prøv igjen.'); })
+      .finally(() => this.setState({ scanning: false }));
+  };
+
   // ---------- mengder ----------
   PL = { boks:'bokser', pose:'poser', bunt:'bunter', hode:'hoder', terning:'terninger', neve:'never', skive:'skiver', fedd:'fedd', pk:'pk' };
   CNT = ['stk','pose','boks','pk','beger','bunt','hode','skive','skiver','fedd','terning','neve'];
@@ -1021,7 +1121,8 @@ class Component extends DCLogic {
 
   renderVals() {
     this._rc = new Map();
-    const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user;
+    const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user, P = window.MatgledePantry;
+    const stock = s.pantry.filter(x => x.pct !== 0); // tomme varer teller ikke
     const MON = ['jan.','feb.','mars','april','mai','juni','juli','aug.','sep.','okt.','nov.','des.'];
     const dmy = iso => { const [, m, d] = (iso || '').split('-').map(Number); return d ? `${d}. ${MON[m - 1]}` : ''; };
     const chainName = code => (D.chainByCode[code] || {}).name || code;
@@ -1049,6 +1150,8 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       if (dl.length === 7) s.extra.forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [] }));
+      // Varer i matlageret får egen gruppe på handlelisten og telles ikke med i summen
+      m.forEach(e => { e.home = !e.own && !!P.find(stock, [e.n]); });
       return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, 'nb'));
     };
     // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
@@ -1057,13 +1160,13 @@ class Component extends DCLogic {
       ? [e.base ? this.fmt(e.base, e.u) : '', e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
-      const sub = e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå');
+      const sub = e.home ? 'Har hjemme' : e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå');
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.own ? '' : pp ? this.fp(pp.total) : '–', ...this.check(!!s.checked[e.k]),
-        section: this.sectionOf(e.n), own: !!e.own,
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.own || e.home ? '' : pp ? this.fp(pp.total) : '–', ...this.check(!!s.checked[e.k]),
+        section: this.sectionOf(e.n), own: !!e.own, home: !!e.home,
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.k]: !st.checked[e.k] } })) }; });
-    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { const pp = priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
+    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
     const sumText = sm => !M.hasPrices ? 'pris kommer' : sm.found ? `ca. ${Math.round(sm.total)} kr` : 'pris mangler';
     const shopArr = buildShop([0,1,2,3,4,5,6]);
     const shopLeft = shopArr.filter(e => !s.checked[e.k]).length;
@@ -1083,7 +1186,9 @@ class Component extends DCLogic {
     const dayMealsArr = (s.plan[s.day] || []);
     const satPlanned = (s.plan[5] || [])[0];
 
+    const weekend = this.TODAY >= 5;
     const taskDefs = [
+      ...(weekend ? [{ id:'beh' + this.WEEKNO, title:'Oppdater Min beholdning', sub: s.pantry.length ? 'Se over hva du har før du planlegger uka' : 'Legg inn det du har hjemme, så foreslår appen middager', act:() => this.push({ t:'pantry' }) }] : []),
       { id:'shop', title:'Handle inn til ukeplanen', sub:`${shopLeft} varer igjen på handlelisten`, act:() => this.go('plan') },
       { id:'sat', title:'Planlegg middag lørdag', sub: satPlanned ? `Planlagt: ${D.byId[satPlanned].name}` : `${this.dayLong(5)} er tom`, act:() => this.go('plan', { day:5 }) },
       { id:'salat', title:'Prøv en salat fra Aichas Mat', sub:'Ukens utfordring', act:() => this.goCat('salat') },
@@ -1194,11 +1299,13 @@ class Component extends DCLogic {
       const week = top.scope === 'week', arr = week ? shopArr : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
       const names = (s.plan[top.day] || []).map(id => D.byId[id]).map(r => `${r.name} (${this.pers(r)} pers.)`).join(', ');
       const unm = arr.filter(e => !e.slug).length;
+      const hm = arr.filter(e => e.home && e.slug).length;
       const doneN = items.filter(i => i.done).length, ORDER = [...this.SECTIONS.map(x => x[0]), 'Annet'];
-      const groups = ORDER.map(name => ({ name, items: items.filter(i => !i.done && i.section === name) })).filter(g => g.items.length);
+      const groups = ORDER.map(name => ({ name, items: items.filter(i => !i.done && !i.home && i.section === name) })).filter(g => g.items.length);
+      if (items.some(i => i.home && !i.done)) groups.push({ name: 'Har hjemme', items: items.filter(i => i.home && !i.done) });
       if (doneN) groups.push({ name: 'I kurven', items: items.filter(i => i.done) });
       groups.forEach(g => { g.count = String(g.items.length); });
-      const listText = () => groups.filter(g => g.name !== 'I kurven').map(g => g.name + '\n' + g.items.map(i => `- ${i.name}${i.amount ? ' (' + i.amount + ')' : ''}`).join('\n')).join('\n\n');
+      const listText = () => groups.filter(g => g.name !== 'I kurven' && g.name !== 'Har hjemme').map(g => g.name + '\n' + g.items.map(i => `- ${i.name}${i.amount ? ' (' + i.amount + ')' : ''}`).join('\n')).join('\n\n');
       sl = { sub: week ? `Hele uka · ${this.weekRange()}` : `${this.dayLong(top.day)}${names ? ' · ' + names : ''}`,
         items, groups, has: items.length > 0, empty: !items.length, meta: doneN ? `${doneN} av ${items.length} i kurven` : `${items.length} varer`,
         count: items.length, doneCount: doneN, pct: items.length ? Math.round(doneN / items.length * 100) + '%' : '0%',
@@ -1211,7 +1318,7 @@ class Component extends DCLogic {
           this.setState(st => ({ extra: [...st.extra, { id: Date.now().toString(36), n: n[0].toUpperCase() + n.slice(1) }], ownItem: '' }));
           if (!week) this.toast('Egne varer legges på listen for hele uka'); },
         note: !M.hasPrices ? `Prisene kommer når vareimporten fra Kassalapp er kjørt. ${arr.length - unm} av ${arr.length} varer er koblet til produkter.`
-          : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - sm.found > 0 ? ` ${sm.n - unm - sm.found} finnes ikke i ${chainName(s.chain)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
+          : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${hm ? ` ${hm} har du hjemme.` : ''}${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - hm - sm.found > 0 ? ` ${sm.n - unm - hm - sm.found} finnes ikke i ${chainName(s.chain)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
     }
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
@@ -1224,6 +1331,47 @@ class Component extends DCLogic {
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
     const openProfile = () => this.push({ t: s.loggedIn ? 'profile' : 'login' });
+    // Matlageret og forslag ut fra det
+    const ranked = P.rank(D.R, stock, this.ingNames);
+    const QUICK = ['Poteter','Mel','Melk','Ris','Havregryn','Pasta','Egg','Smør','Ost','Løk','Gulrøtter','Soyasaus','Olivenolje','Hakkede tomater','Buljong'];
+    const setPct = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? { ...p, pct: Math.max(0, Math.min(100, (p.pct ?? 100) + d)) } : p) }));
+    const pt = {
+      count: s.pantry.length, empty: !s.pantry.length,
+      name: s.pName, onName: e => this.setState({ pName: e.target.value }),
+      add: e => { e.preventDefault(); const n = s.pName.trim(); if (!n) return;
+        this.addPantry([{ n: n[0].toUpperCase() + n.slice(1) }]); this.setState({ pName: '' }); },
+      quick: QUICK.filter(q => !P.find(s.pantry, [q])).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })),
+      voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : 'Si hva du har',
+      voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)',
+      scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
+      items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const v = x.pct ?? 100;
+        return { n: x.n, pct: v ? v + ' %' : 'Tomt', op: v ? 1 : .5, bar: v + '%', barBg: v > 25 ? 'var(--mg-primary)' : 'var(--mg-clay)',
+          aria: `${x.n}: ${v} prosent igjen`, upLabel: `Mer ${x.n.toLowerCase()}`, downLabel: `Mindre ${x.n.toLowerCase()}`, rmLabel: `Fjern ${x.n.toLowerCase()}`,
+          upOp: v < 100 ? 1 : .35, downOp: v > 0 ? 1 : .35,
+          up: () => setPct(x.id, 25), down: () => setPct(x.id, -25),
+          remove: () => { const before = s.pantry; this.setState(st => ({ pantry: st.pantry.filter(p => p.id !== x.id) }));
+            this.toast(`${x.n} er fjernet`, () => this.setState({ pantry: before, toast: null, undo: null })); } }; })
+    };
+    const uh = {
+      empty: !s.pantry.length, has: ranked.length > 0, none: !!s.pantry.length && !ranked.length,
+      sub: s.pantry.length ? `${stock.length} varer i beholdningen` : 'Beholdningen er tom',
+      dayLabel: this.DAYS_FULL[s.day].toLowerCase(),
+      list: ranked.slice(0, 12).map(x => this.mk(x.r, {
+        haveText: `Du har ${x.have.length} av ${x.have.length + x.miss.length}: ${x.have.map(h => h.i.n.toLowerCase()).join(', ')}`,
+        missText: x.miss.length ? `Mangler: ${x.miss.map(i => i.n.toLowerCase()).join(', ')}` : 'Du har alt',
+        add: () => this.addToPlan(s.day, x.r.id), addLabel: `Legg ${x.r.name} til ${this.DAYS_FULL[s.day].toLowerCase()}` })),
+      week: () => {
+        const free = [0,1,2,3,4,5,6].filter(d => !(s.plan[d] || []).length);
+        if (!free.length) return this.toast('Alle dagene i uka har middag');
+        const picks = P.week(ranked, free.length, Object.values(s.plan).flat());
+        if (!picks.length) return this.toast('Fant ingen retter som bruker det du har');
+        const before = s.plan, plan = { ...s.plan };
+        picks.forEach((x, k) => { plan[free[k]] = [x.r.id]; });
+        this.setState({ plan, day: free[0] }); this.back();
+        this.toast(`${picks.length} middager er lagt i planen`, () => this.setState({ plan: before, toast: null, undo: null }));
+      },
+      openPantry: () => this.push({ t: 'pantry' })
+    };
 
     return {
       nav, showLabels: this.props.navLabels ?? true,
@@ -1294,6 +1442,9 @@ class Component extends DCLogic {
       allArts: D.ARTS.map(artItem),
       openInsight: () => this.push({ t:'article', id:'a8' }),
       ovRecipe: top.t === 'recipe', ovCook: top.t === 'cook', ck, ovTopic: top.t === 'topic', ovArticle: top.t === 'article',
+      ovPantry: top.t === 'pantry', ovUseHome: top.t === 'usehome', pt, uh,
+      openPantry: () => this.push({ t: 'pantry' }), openUseHome: () => this.push({ t: 'usehome' }),
+      useHomeSub: !stock.length ? 'Legg inn det du har i Min beholdning, så foreslår appen middager' : ranked.length ? `${ranked.length} retter bruker noe av det du har · lag en hel ukeplan` : 'Ingen retter passer ennå',
       ovSearch: top.t === 'search', ovPicker: top.t === 'picker', ovLogin: top.t === 'login', ovProfile: top.t === 'profile', ovSettings: top.t === 'settings',
       rd, td, ad,
       favNum: s.favs.length, planNum,
