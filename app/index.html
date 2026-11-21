@@ -724,8 +724,7 @@ class Component extends DCLogic {
     return a.getMonth() === b.getMonth() ? `${a.getDate()}.–${b.getDate()}. ${this.MONTHS[b.getMonth()]}` : `${a.getDate()}. ${this.MONTHS[a.getMonth()]}–${b.getDate()}. ${this.MONTHS[b.getMonth()]}`; };
   contentRef = React.createRef();
 
-  pickIds = ids => ids.filter(id => this.D.byId[id]);
-  LS = 'matglede.v1';
+  LS = 'matglede.v2'; // v2: nye brukere starter med tom plan og ingen favoritter
   TABS = ['home','fav','tilbud','plan','opp','laere'];
   // Adressen: #fane eller #fane/side/id, så lenker kan deles og tilbake-knappen virker
   fromHash = () => {
@@ -742,9 +741,7 @@ class Component extends DCLogic {
   saved = (() => { try { return JSON.parse(localStorage.getItem(this.LS)) || {}; } catch (e) { return {}; } })();
   state = {
     tab: this.props.startTab || 'home', stack: [], menu: false,
-    favs: this.pickIds(['tacofredag','pasta-carbonara','kyllinggryte-karri','lasagne','ovnslaks-poteter']), favSort: 'recent',
-    plan: Object.fromEntries(Object.entries({ 0:'spaghetti-bolognese', 1:'ovnslaks-poteter', 2:'kyllinggryte-karri', 3:'kjottkaker-brun-saus', 4:'tacofredag', 5:'lordagspizza', 6:'lammestek' })
-      .filter(([, id]) => this.D.byId[id]).map(([d, id]) => [d, [id]])),
+    favs: [], favSort: 'recent', plan: {},
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, notif: true, remind: true, toast: null,
