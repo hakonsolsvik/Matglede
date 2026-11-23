@@ -81,3 +81,7 @@ assert.strictEqual(P.key('Poteter'), P.key('potet'));
 assert.deepStrictEqual(P.byPop(['a', 'b', 'c', 'd'], x => x, { c: 5, d: 9, b: 2 }, 3), ['d', 'c', 'a', 'b']);
 assert.deepStrictEqual(P.byPop(['a', 'b'], x => x, {}, 3), ['a', 'b']);
 console.log('popularitet ok');
+// Søndagskort: tegneseriebilde per vare
+assert.deepStrictEqual(['Egg', 'Melk', 'Kokosmelk', 'Hvitløk', 'Rødløk', 'Revet ost', 'Mel', 'Hakkede tomater', 'Tomater', 'Ris', 'Paprikapulver', 'Noe rart'].map(P.art),
+  ['🥚', '🥛', '🥥', '🧄', '🧅', '🧀', '🌾', '🥫', '🍅', '🍚', '🧂', '🛒']);
+console.log('art ok');
