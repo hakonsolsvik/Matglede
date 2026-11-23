@@ -1281,30 +1281,47 @@ class Component extends DCLogic {
 
   // ---------- Mine oppskrifter: skrevet inn selv eller lest fra bilde av en oppskrift (worker/, Claude) ----------
   // Lagres i state.mine (kontoen og nettleseren) og flettes inn i D.R og D.byId, så plan, handleliste og priser virker som ellers.
-  // Ingrediensnavn -> vare: navnene i Matgledes oppskrifter og varedatabasen. per: basismengde per enhet, f.eks. tomat|stk = 90 g.
-  ALIAS = (() => { const a = {}, per = {};
-    this.D.R.forEach(r => r.ing.forEach(i => { if (!i.slug) return; a[i.n.toLowerCase()] = i.slug;
-      if (i.q && i.base != null && i.u) per[i.slug + '|' + i.u] = i.base / i.q; }));
-    Object.entries(this.D.ING).forEach(([slug, x]) => { const n = x.name.toLowerCase(); a[n] = a[n] || slug; a[n.replace(/\s*\(.*\)/, '')] = a[n.replace(/\s*\(.*\)/, '')] || slug; });
-    return { a, per }; })();
-  // shortcut: enkel navnematching (helt navn, eget ord eller bøyning), ikke reglene i recipe_parse.py. Bytt hvis mange ikke kobles.
-  slugOf = n => {
-    const h = String(n || '').toLowerCase().split(',')[0].replace(/\(.*?\)/g, '').trim(), A = this.ALIAS.a; if (!h) return null;
-    if (A[h]) return A[h];
-    const word = k => new RegExp('(^|[^a-zæøå])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(er|en|ene|e)?([^a-zæøå]|$)').test(h);
+  // Ingrediensnavn -> vare med samme regler som recipe_parse.match_ingredient (data.js: matching).
+  // Reserve: navn fra Matgledes oppskrifter og varedatabasen, som helt ord eller bøyning.
+  ALIAS = (() => { const a = {};
+    this.D.R.forEach(r => r.ing.forEach(i => { if (i.slug) a[i.n.toLowerCase()] = i.slug; }));
+    Object.entries(this.D.ING).forEach(([slug, x]) => { const n = x.name.toLowerCase(), m = n.replace(/\s*\(.*\)/, ''); a[n] = a[n] || slug; a[m] = a[m] || slug; });
+    // Vanlige korte navn i oppskrifter som ikke sier hvilken variant
+    Object.entries({ mel: 'mel', olje: 'noytral_olje', ost: 'ost_revet', pasta: 'penne', fløte: 'flote' }).forEach(([k, v]) => { a[k] = a[k] || v; });
+    return a; })();
+  slugOf = (n, u) => {
+    const h = String(n || '').toLowerCase().split(',')[0].replace(/\(.*?\)/g, '').trim(), MT = this.D.M.matching, A = this.ALIAS; if (!h) return null;
+    if (A[h]) return A[h]; // navn fra Matgledes egne oppskrifter og varedatabasen først
+    const esc = t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (MT) { const ww = new Set(MT.wholeWord);
+      const has = t => ww.has(t) ? new RegExp(`(^|[^a-zæøå])${esc(t)}(er|en|ene)?([^a-zæøå]|$)`).test(h) : h.includes(t);
+      for (const [slug, needles, ex] of MT.rules) if (needles.some(has) && !ex.some(e => h.includes(e))) {
+        const sp = u === 'ts' || u === 'ss';
+        const s2 = slug === 'paprika' && sp ? 'paprikapulver' : slug === 'buljong' && ['ml','dl','l','cl'].includes(u) ? 'kraft'
+          : slug === 'koriander_frisk' && sp && !/frisk|fersk/.test(h) ? 'koriander_malt' : slug;
+        if (this.D.ING[s2]) return s2; } }
+    const word = k => new RegExp('(^|[^a-zæøå])' + esc(k) + '(er|en|ene|e)?([^a-zæøå]|$)').test(h);
     const k = Object.keys(A).filter(word).sort((a, b) => b.length - a.length)[0] || (h.length >= 4 && Object.keys(A).find(k => k.startsWith(h) && k.length - h.length <= 3));
     return k ? A[k] : null;
   };
-  RU = { g:['g',1], kg:['g',1000], ml:['ml',1], cl:['ml',10], dl:['ml',100], l:['ml',1000], ss:['ml',15], ts:['ml',5] };
-  // Mengde i varens basisenhet (g, ml eller stk). Gram og milliliter regnes som like (omtrent riktig for mat).
-  toBase = (q, u, slug) => {
-    const I = this.D.ING[slug]; if (q == null || !I) return null;
-    const per = this.ALIAS.per[slug + '|' + u]; if (per != null) return q * per;
-    const ru = this.RU[u]; if (!ru) return u === I.base ? q : null;
-    return I.base === 'stk' ? null : q * ru[1];
+  RU = { g:['g',1], kg:['g',1000], ml:['ml',1], cl:['ml',10], dl:['ml',100], l:['ml',1000], ss:['ml',15], ts:['ml',5], stk:['stk',1], pk:['pk',1] };
+  // Mengde i varens basisenhet (g, ml eller stk). Samme regler som app_export.base_amount.
+  toBase = (q, u, slug, name) => {
+    const I = this.D.ING[slug], MT = this.D.M.matching || {}; if (q == null || !u || !I) return null;
+    if (u === 'boks') u = 'pk';
+    if (slug === 'hvitlok' && (u === 'fedd' || (u === 'stk' && /fedd/i.test(name || '')))) { q *= MT.gramsPerClove || 5; u = 'g'; }
+    else if (u === 'fedd') u = 'stk';
+    else if (slug === 'kyllingfilet' && u === 'stk') { q *= MT.gramsPerChickenBreast || 150; u = 'g'; }
+    else if (I.pack && (u === 'pk' || u === 'stk')) { q *= I.pack[0]; u = I.pack[1]; }
+    const ru = this.RU[u]; if (!ru) return null;
+    const v = q * ru[1], b = ru[0], bu = I.base;
+    if (b === bu) return v;
+    if (b === 'stk' && bu === 'g' && I.gpp) return v * I.gpp;
+    if (b === 'g' && bu === 'stk' && I.gpp) return v / I.gpp;
+    return (b === 'g' && bu === 'ml') || (b === 'ml' && bu === 'g') ? v : null;
   };
   ownR = c => {
-    const ing = (c.ing || []).map(i => { const slug = this.slugOf(i.n); return { n: i.n, q: i.q, u: i.u || '', slug, base: slug ? this.toBase(i.q, i.u, slug) : null }; });
+    const ing = (c.ing || []).map(i => { const slug = this.slugOf(i.n, i.u); return { n: i.n, q: i.q, u: i.u || '', slug, base: slug ? this.toBase(i.q, i.u, slug, i.n) : null }; });
     const cats = ['mine']; if (c.time && c.time <= 30) cats.push('rask'); if (ing.length <= 6) cats.push('fa');
     let hue = 7; for (const ch of c.id) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
     return { ...c, servings: c.servings || 4, diff: c.diff || 2, steps: c.steps || [], ing, cats, hue, learn: [], photo: this.blobOf(c.photo), photoData: c.photo || null, mine: true };
@@ -1760,7 +1777,7 @@ class Component extends DCLogic {
       list: D.R.filter(r => r.mine).map(r => this.mk(r, { ingCount: `${r.ing.length} ingredienser` })) };
     let ed = {};
     if (top.t === 'edit' && s.draft) {
-      const d = s.draft, filled = d.rows.filter(x => x.n.trim()), linked = filled.filter(x => this.slugOf(x.n)).length;
+      const d = s.draft, filled = d.rows.filter(x => x.n.trim()), linked = filled.filter(x => this.slugOf(x.n, x.u)).length;
       ed = { kicker: d.id ? 'Din oppskrift' : 'Ny oppskrift', title: d.id ? 'Endre oppskrift' : 'Legg til oppskrift', ai: d.ai,
         name: d.name, setName: e => this.setDraft({ name: e.target.value, error: '' }),
         servings: d.servings, servMinus: () => this.setDraft({ servings: Math.max(1, d.servings - 1) }), servPlus: () => this.setDraft({ servings: Math.min(12, d.servings + 1) }),
@@ -1768,7 +1785,7 @@ class Component extends DCLogic {
         photoBg: d.photo ? `url("${this.blobOf(d.photo)}") center/cover no-repeat` : 'var(--mg-surface)', hasPhoto: !!d.photo, noPhoto: !d.photo,
         pickPhoto: this.pickPhoto, removePhoto: () => this.setDraft({ photo: null }),
         linked: filled.length ? `${linked} av ${filled.length} koblet til vare` : '',
-        rows: d.rows.map((x, j) => { const slug = x.n.trim() && this.slugOf(x.n);
+        rows: d.rows.map((x, j) => { const slug = x.n.trim() && this.slugOf(x.n, x.u);
           return { n: x.n, q: x.q, u: x.u, num: j + 1, label: x.n.trim() || `ingrediens ${j + 1}`,
             units: this.UNITS.map(v => ({ v, l: v || 'enhet' })),
             link: !x.n.trim() ? '' : slug ? `Koblet til ${D.ING[slug].name}` : 'Ikke koblet til vare: kommer på handlelisten, men uten pris',
