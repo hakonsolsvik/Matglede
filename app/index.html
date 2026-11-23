@@ -141,13 +141,13 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
-<div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div></div>
-<sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-on-primary-soft)">{{ listOffersText }}</div></sc-if>
+<div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div><sc-if value="{{ hasListHint }}"><div class="s18" style="margin-top:4px">Tallet på butikkene viser hvor mange varer fra handlelisten din som er på tilbud der denne uka.</div></sc-if></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
 <img src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
-<sc-if value="{{ st.hasBadge }}"><span style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.badge }}</span></sc-if>
+<sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.nLabel }}</span></sc-if>
+<sc-if value="{{ st.hasBadge }}"><span aria-hidden="true" title="Din butikk" style="position:absolute;left:8px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></span></sc-if>
 </div>
 </sc-for>
 </div>
@@ -441,13 +441,18 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="padding:18px 20px 28px;display:flex;flex-direction:column;gap:20px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 class="s3">Ukas avis</h2><div class="s58">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
 
+<sc-if value="{{ sd.hasMine }}">
+<button onClick="{{ sd.toggleMine }}" aria-expanded="{{ sd.mineOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:#f5b82e;color:#3a2a00;border-radius:16px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-size:15px;font-weight:800"><span>{{ sd.mineLabel }}</span><span aria-hidden="true">{{ sd.mineArrow }}</span></button>
+<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
+</sc-if>
+
 <sc-if value="{{ sd.hasTop }}">
 <div class="s4">
 <div class="s8 mg-h">Mest aktuelle tilbud</div>
 <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
-<div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:170px;scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
-<span style="align-self:flex-start;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
+<div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:{{ o.cardH }};scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+<div style="position:relative"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:96px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:6px"></sc-if><span style="position:{{ o.pctPos }};left:0;top:0;display:inline-block;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span></div>
 <div style="font-size:14px;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ o.name }}</div>
 <div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--mg-danger)">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through">{{ o.before }}</div></div>
 </div>
@@ -466,7 +471,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 <sc-if value="{{ sd.isFrame }}">
-<iframe src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="width:calc(100% + 16px);margin:0 -8px;height:620px;border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)"></iframe>
+<iframe src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="{{ sd.frameStyle }}"></iframe>
+<sc-if value="{{ sd.full }}"><button onClick="{{ sd.closeFull }}" aria-label="Lukk fullskjerm" style="position:fixed;top:calc(env(safe-area-inset-top) + 12px);right:12px;z-index:1001;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)">✕</button></sc-if>
 </sc-if>
 <sc-if value="{{ sd.isLink }}">
 <div style="padding:20px;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">{{ sd.linkText }}</div>
@@ -483,6 +489,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
 <sc-for list="{{ g.items }}" as="o">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" class="s60">
+<sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if>
 <span style="flex:none;width:46px;text-align:center;background:color-mix(in srgb,var(--mg-danger) 16%,var(--mg-surface));color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
 <div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
 <div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
@@ -793,7 +800,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div role="status" style="position:absolute;left:20px;right:20px;bottom:calc(var(--nav) + 16px);z-index:55;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-md);padding:14px 16px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.25)"><span style="width:22px;height:22px;border-radius:50%;background:var(--mg-clay);display:flex;align-items:center;justify-content:center;flex:none"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span style="flex:1">{{ toast }}</span><sc-if value="{{ hasUndo }}"><button onClick="{{ undo }}" style="border:0;background:none;color:var(--mg-butter);font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;padding:10px 6px;margin:-10px -6px -10px 0">Angre</button></sc-if></div>
 </sc-if>
 
-<nav aria-label="Hovedmeny" class="mg-nav" style="position:relative;z-index:50;flex:none;height:var(--nav);background:var(--mg-nav-bg);display:flex;padding:0 6px 20px;box-sizing:border-box">
+<nav aria-label="Hovedmeny" class="mg-nav" style="position:relative;z-index:{{ navZ }};flex:none;height:var(--nav);background:var(--mg-nav-bg);display:flex;padding:0 6px 20px;box-sizing:border-box">
 <button onClick="{{ goFav }}" aria-current="{{ nav.fav.cur }}" class="s14" style="color:{{ nav.fav.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
 <div aria-hidden="true" class="s15" style="background:{{ nav.fav.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="{{ nav.fav.fill }}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></div>
 <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Favoritter</span></sc-if>
@@ -931,7 +938,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -943,7 +950,7 @@ class Component extends DCLogic {
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom', 'mine'];
-  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'pantrySeen'];
+  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'pantrySeen', 'tilbudSeen'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
@@ -954,7 +961,7 @@ class Component extends DCLogic {
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
       if (this.state.wake && !p.stack.some(x => x.t === 'cook')) this.keepAwake(false);
-      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false }); });
+      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false }); });
     window.addEventListener('keydown', this.onKey);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && this.state.wake) this.keepAwake(true); });
     const A = window.MatgledeAuth; if (!A) return;
@@ -1142,14 +1149,14 @@ class Component extends DCLogic {
     this._lastTab = this.state.tab;
   }
 
-  go = (tab, extra) => this.setState({ tab, stack: [], menu: false, ...extra });
+  go = (tab, extra) => this.setState(st => ({ tab, stack: [], menu: false, sdFull: false, ...(tab === 'tilbud' && st.tab !== 'tilbud' ? { tilbudSeen: (st.tilbudSeen || 0) + 1 } : {}), ...extra }));
   goCat = cat => this.go('opp', { cat, q: '' });
-  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false }));
+  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
     // Bruk nettleserens historikk når siden ble åpnet fra appen, så tilbake-knappen på telefonen følger med
     if (history.state && history.state.mg > 0) history.back();
-    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false }));
+    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
   };
   toast = (msg, undo) => { this.setState({ toast: msg, undo: undo || null }); clearTimeout(this._t);
     this._t = setTimeout(() => this.setState({ toast: null, undo: null }), undo ? 5000 : 1900); };
@@ -1688,9 +1695,12 @@ class Component extends DCLogic {
         next: () => { if (last) { this.back(); if ((s.plan[this.TODAY] || []).includes(r.id) && !s.made[this.madeKey(this.TODAY, r.id)]) this.markMade(this.TODAY, r.id); else this.toast('Velbekomme!'); } else this.setState({ cookStep: i + 1 }); } };
     }
     let sd = {};
+    // Bare tilbud som er koblet til en ingrediens (offers.py tag_offers), så kjøttsuppe med poteter ikke teller som poteter
+    const listSlugs = new Set(shopArr.filter(e => !e.own && e.slug).map(e => e.slug));
+    const onList = st => (st.offers || []).filter(o => o.ing && listSlugs.has(o.ing));
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
-      const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, price: kr(o.price), before: 'før ' + kr(o.before),
+      const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, img: o.img || '', hasImg: !!o.img, cardH: o.img ? '260px' : '170px', pctPos: o.img ? 'absolute' : 'static', price: kr(o.price), before: 'før ' + kr(o.before),
         open: () => o.url && window.open(o.url, '_blank', 'noopener') });
       const groups = [];
       st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
@@ -1701,16 +1711,23 @@ class Component extends DCLogic {
         if (i > 0) pages.push({ src, pos: '0% 0', label: `Side ${2 * i}` });
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
-      sd = { name: st.name, logo: st.logo, bg: st.bg, sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
+      const mine = onList(st), listOpen = s.sdList === st.code, frame = view.type === 'pdf' || view.type === 'embed', frameFull = frame && !!s.sdFull;
+      sd = { name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
+        mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
+        toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
         countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} prisfall` : 'avis', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
-        noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: host ? 'Åpnes hos ' + host : '',
+        noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: frame ? 'Fyller hele skjermen' : host ? 'Åpnes hos ' + host : '',
         isImages: view.type === 'images', isFrame: view.type === 'pdf' || view.type === 'embed', isLink: linkView,
         pages: pages, frameTitle: `Tilbudsavis fra ${st.name}`,
         frameUrl: view.type === 'pdf' ? view.url + '#view=FitH&toolbar=0&navpanes=0' : (view.url || ''),
         linkText: `${st.name} viser avisen i en leser som ikke kan bygges inn i andre apper, så den åpnes hos ${host || 'kjeden'}.`,
         btnLabel: linkView ? 'Åpne ukas avis' : 'Åpne avisen i full størrelse',
         btnBg: linkView ? 'var(--mg-ink)' : 'var(--mg-border)', btnFg: linkView ? 'var(--mg-on-ink)' : 'var(--mg-ink)',
-        openFlyer: () => (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
+        // Avis i ramme: «full størrelse» fyller skjermen inne i appen, samme iframe så den ikke lastes på nytt
+        full: frameFull, closeFull: () => this.setState({ sdFull: false }),
+        frameStyle: frameFull ? 'position:fixed;inset:0;z-index:1000;width:100vw;height:100dvh;border:0;background:var(--mg-surface)'
+          : 'width:calc(100% + 16px);margin:0 -8px;height:max(620px,80vh);border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)',
+        openFlyer: () => frame ? this.setState({ sdFull: true }) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
         emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka.`
           : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
         groups: [...groups].sort((a, b) => b.list.length - a.list.length).map(g => ({ name: g.name, count: `${g.list.length}`, items: g.list.map(item) })),
@@ -1746,10 +1763,6 @@ class Component extends DCLogic {
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
 
-    const words = shopArr.filter(e => !e.own).map(e => e.n.toLowerCase().replace(/\s*\(.*\)/, '')).filter(w => w.length > 2)
-      .map(w => new RegExp('(^|[^a-zæøå])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(er|en|ene)?([^a-zæøå]|$)', 'i'));
-    const onList = st => (st.offers || []).filter(o => words.some(re => re.test(o.name))).length;
-    const listOffers = D.STORES.map(st => ({ st, n: onList(st) })).filter(x => x.n);
     const tg = (key, label, sub) => ({ on: !!s[key], label, sub, track: s[key] ? 'var(--mg-primary)' : 'var(--mg-border-strong)', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
@@ -1846,6 +1859,7 @@ class Component extends DCLogic {
     return {
       ovMine: top.t === 'mine', mn, openMine, ovEdit: top.t === 'edit' && !!s.draft, ed, mineNum: s.mine.length,
       nav, showLabels: this.props.navLabels ?? true,
+      navZ: s.sdFull ? 10 : 50, // under avisen i fullskjerm
       isHome: s.tab === 'home', isFav: s.tab === 'fav', isTilbud: s.tab === 'tilbud', isPlan: s.tab === 'plan', isOpp: s.tab === 'opp', isLaere: s.tab === 'laere',
       goHome: () => this.go('home'), goFav: () => this.go('fav'), goTilbud: () => this.go('tilbud'), goPlan: () => this.go('plan'), goOpp: () => this.go('opp'), goLaere: () => this.go('laere'),
       contentRef: this.contentRef, back: this.back,
@@ -1877,12 +1891,11 @@ class Component extends DCLogic {
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
-      flyerStores: D.STORES.map(st => { const n = onList(st), mine = st.code === s.chain;
-        return { name: st.name, bg: st.bg, logo: st.logo, open: () => this.push({ t:'store', id: st.code }),
-          hasBadge: !!n || mine, badge: [mine ? 'Din butikk' : '', n ? `${n} på listen` : ''].filter(Boolean).join(' · '), ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} tilbud på varer fra handlelisten` : ''}` }; }),
-      hasListOffers: listOffers.length > 0,
-      listOffersText: listOffers.length ? `Ukas tilbud på varer i handlelisten din: ${listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map(x => `${x.st.name} (${x.n})`).join(', ')}.` : '',
+      hasListHint: (s.tilbudSeen || 0) <= 3 && D.STORES.some(st => onList(st).length),
+      flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
+        return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
+          nLabel: `${n} på listen din`, hasBadge: mine, ring: mine ? '3px solid var(--mg-primary)' : 'none',
+          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} varer fra handlelisten på tilbud` : ''}` }; }),
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
