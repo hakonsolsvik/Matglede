@@ -131,6 +131,9 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
     ("tahini", ('tahini',), ()),
     ("peanottsmor", ('peanøttsmør', 'peanut butter'), ()),
     ("honning", ('honning',), ()),
+    ("vaniljesukker", ('vaniljesukker',), ()),
+    ("kakao", ('kakao',), ('drikke',)),
+    ("kanel", ('kanel',), ()),
     ("sukker", ('sukker', 'brunt sukker', 'strøsukker'), ('sukkerert', 'uten sukker')),
     ("bakepulver", ('bakepulver',), ()),
     ("maisenna", ('maisenna', 'maizena', 'maisstivelse'), ()),
@@ -177,7 +180,11 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
     ("sotpotet", ('søtpotet',), ()),
     ("rodbeter", ('rødbet',), ()),
     ("aubergine", ('aubergine',), ()),
+    ("gronne_bonner", ('aspargesbønner', 'grønne bønner', 'brekkbønner', 'haricots verts'), ()),
     ("asparges", ('asparges',), ()),
+    ("blomkal", ('blomkål',), ()),
+    ("squash", ('squash', 'zucchini'), ()),
+    ("sjalottlok", ('sjalottløk', 'sjalott'), ()),
     ("sukkererter", ('sukkererter',), ()),
     ("hjertesalat", ('hjertesalat', 'romanomiks', 'romanosalat'), ()),
     ("tagliatelle", ('tagliatelle',), ()),
@@ -196,6 +203,11 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
     ("kikerter", ('kikert',), ('mel',)),
     ("torskefilet", ('torskefilet', 'torsk', 'filet av fersk fisk'), ()),
     ("scampi", ('scampi', 'tigerreke'), ()),
+    ("reker", ('reke',), ()),
+    ("seifilet", ('seifilet', 'sei'), ()),
+    ("polser", ('pølse', 'wiener'), ('salami',)),
+    ("yoghurt", ('yoghurt',), ()),
+    ("mandler", ('mandel', 'mandler'), ('mel', 'melk', 'smør')),
     ("kyllinglar", ('lårfilet', 'kyllinglår'), ()),
     ("feta", ('feta',), ()),
     ("mozzarella", ('mozzarella',), ()),
@@ -247,7 +259,7 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
 ]
 
 # Enkelte ord gjelder bare som hele ord (ellers treffer "ris" i "prisbelønt", "egg" i "eggnudler").
-_WHOLE_WORD = {"ris", "egg", "salt", "mais", "løk", "laks", "melk", "smør", "tomat", "potet", "pepper"}
+_WHOLE_WORD = {"sei", "ris", "egg", "salt", "mais", "løk", "laks", "melk", "smør", "tomat", "potet", "pepper"}
 
 
 def _has(term: str, text: str) -> bool:

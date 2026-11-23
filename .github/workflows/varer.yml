@@ -1,0 +1,67 @@
+# Henter varer og priser fra Kassalapp for alle ingrediensene i seed/ingredients.csv,
+# skriver app/data.js og publiserer appen. Startes for hånd under Actions (tar ca. 30 min),
+# og kjører ellers første mandag i måneden. Krever repo-hemmeligheten KASSAL_API_KEY.
+name: Varer og priser
+
+on:
+  schedule:
+    - cron: "0 4 1-7 * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ukas-tilbud  # samme gruppe som tilbudsjobben, så de ikke skriver til appgrenen samtidig
+  cancel-in-progress: false
+
+env:
+  APP_BRANCH: ${{ vars.APP_BRANCH || 'claude/project-thread-brkwjx' }}
+
+jobs:
+  varer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.APP_BRANCH }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Hent varer og priser fra Kassalapp
+        env:
+          KASSAL_API_KEY: ${{ secrets.KASSAL_API_KEY }}
+        run: |
+          python -m matglede init
+          python -m matglede import
+          python -m matglede export-app
+
+      - name: Lagre app/data.js på appgrenen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/data.js
+          if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
+          git commit -m "Varer og priser fra Kassalapp, $(date +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git pull --rebase origin "$APP_BRANCH" && git push origin "HEAD:$APP_BRANCH" && break
+            sleep 5
+          done
+
+      - name: Publiser appen på gh-pages
+        run: |
+          sha=$(git rev-parse --short HEAD)
+          rm -rf /tmp/site && cp -r app /tmp/site
+          git fetch origin gh-pages
+          git checkout -B gh-pages origin/gh-pages
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .nojekyll -exec rm -rf {} +
+          cp -r /tmp/site/. .
+          touch .nojekyll
+          git add -A
+          if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
+          git commit -m "Publiser appen (app/ fra $APP_BRANCH @ $sha, varer og priser)"
+          git push origin gh-pages

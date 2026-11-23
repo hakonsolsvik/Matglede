@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .db import CHAINS
+from . import recipe_parse
 from .recipe_parse import normalise_for_ingredient
 from .matching import IngredientRule, excluded_name
 from .shopping import SCORE_BAND, _is_stale, score_floor
@@ -165,9 +166,10 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
             swaps[src] = {"to": to, "why": why}
     used |= {x["to"] for x in swaps.values() if x["to"]}
 
+    # Alle ingrediensene tas med, så egne oppskrifter i appen kan kobles til varer som ingen av Matgledes retter bruker.
     ingredients = {}
     priced = 0
-    for slug in sorted(used):
+    for slug in sorted(ing_rows):
         row = ing_rows[slug]
         gpp = float(row["grams_per_piece"]) if row["grams_per_piece"] else None
         if has_db:
@@ -176,7 +178,9 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         else:
             products = (previous or {}).get(slug, {})
         priced += bool(products)
-        ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "products": products}
+        ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "products": products,
+                             **({"gpp": gpp} if gpp else {}),
+                             **({"pack": list(recipe_parse.PACK_SIZES[slug])} if slug in recipe_parse.PACK_SIZES else {})}
 
     return {
         "generated": now.strftime("%Y-%m-%d"),
@@ -185,6 +189,11 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         "ingredients": ingredients,
         "recipes": recipes,
         "swaps": swaps,
+        # Samme koblingsregler som recipe_parse.match_ingredient, så appen kobler egne oppskrifter likt
+        "matching": {"rules": [[slug, list(n), list(e)] for slug, n, e in recipe_parse.RULES],
+                     "wholeWord": sorted(recipe_parse._WHOLE_WORD),
+                     "gramsPerClove": recipe_parse.GRAMS_PER_CLOVE,
+                     "gramsPerChickenBreast": recipe_parse.GRAMS_PER_CHICKEN_BREAST},
         "stats": {"recipes": len(recipes), "lines": lines, "mapped": mapped,
                   "ingredients": len(ingredients), "pricedIngredients": priced},
     }

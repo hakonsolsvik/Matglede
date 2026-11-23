@@ -132,3 +132,15 @@ frosne_gronnsaker,Frosne grønnsaker,Frys,g,,wokblanding|grønnsaksblanding|grø
 brokkoli_frossen,Brokkoli (frossen),Frys,g,,brokkoli|brokkolibuketter,,salat|suppe|gratinert|blomkål|gulrot|pai|grateng|stuing|ost|blanding|mix,frys|frossen|frosne
 kyllingfilet_frossen,Kyllingfilet (frossen),Frys,g,,kyllingfilet|kyllingbryst,fros,marinert|pålegg|skivet|krydret|panert|nugget|grillet|røkt|tikka|curry|salat|wrap|pizza|strimle|terning|stekt|ferdig|skive,frys|frossen|frosne|kylling
 laks_frossen,Laks (frossen),Frys,g,,laksefilet|laks,fros,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|burger|pinner|salat|kake|panert|marinert|terning,frys|frossen|frosne|fisk
+blomkal,Blomkål,Grønt,g,700,blomkål,,brokkoli|gratinert|grateng|suppe|mix|blanding|ris|mos|pizza|salat|wok|stuing|pai,blomkål|grønnsak|kål
+squash,Squash,Grønt,g,300,squash|zucchini,,suppe|mix|blanding|spaghetti|nudler|pasta|wok|grillet|chips,squash|grønnsak
+reker,Reker,Fisk,g,,reker pillet|reker i lake|reker,,salat|smørbrød|pålegg|majones|cocktail|chips|snacks|pizza|saus|wok|panert|tempura|ferdig|kaker|baller|tigerreker|scampi,reker|skalldyr|fisk
+polser,Grillpølser,Kjøtt,g,,grillpølser|wienerpølser|pølser,,pålegg|salami|lompe|brød|sennep|ketchup|chips|snacks|kylling|vegetar|plante|cocktail|pizza|suppe|grateng|lapskaus|vegansk,pølse
+yoghurt,Yoghurt naturell,Meieri og egg,g,,yoghurt naturell|naturell yoghurt,,smak|jordbær|vanilje|bringebær|blåbær|mango|müsli|drikke|skyr|gresk|dessert|sjokolade|is|frukt,yoghurt
+kanel,Kanel,Krydder,g,,kanel malt|kanel,,bolle|snurr|kaker|kjeks|te |sukker|stang|stenger|godteri|frokostblanding|havre|müsli|epler|sirup,krydder
+sjalottlok,Sjalottløk,Grønt,g,30,sjalottløk,,stekt|syltet|sprø|pulver|tørket,løk
+seifilet,Seifilet,Fisk,g,,seifilet|sei filet,,røkt|panert|burger|kaker|gratin|grateng|pinner|lettsalt|saltet|middag|ferdig|i saus,fisk|sei
+gronne_bonner,Grønne bønner,Frys,g,,aspargesbønner|grønne bønner|brekkbønner,,mix|blanding|salat|wok|hermetisk|i lake|syltet|chips,bønner|grønnsak
+mandler,Mandler,Snacks,g,,mandler,,sjokolade|godteri|saltet|salted|krydret|mix|blanding|bar|smør|melk|drikk|mel|marsipan|røkt|honning|kjeks,nøtter
+kakao,Kakao,Bakevarer,g,,kakaopulver|kakao,,drikke|sjokolade|kjeks|kaker|melk|instant|sukker|smoothie|bar|nibs|smør,bake
+vaniljesukker,Vaniljesukker,Bakevarer,g,,vaniljesukker,,is|yoghurt|kjeks|kaker|saus|drikk|pudding|krem,bake
