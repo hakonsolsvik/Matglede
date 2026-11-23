@@ -1332,7 +1332,7 @@ class Component extends DCLogic {
   };
   homeNote = (st, i) => { if (!st) return null; const u = this.homeUnit(st.p, i);
     return st.ok ? 'Har nok hjemme' : st.h > 0 ? `Har ca. ${this.fmt(st.h, u)} hjemme, trenger ${this.fmt(st.need - st.h, u)} til`
-      : `Det du har hjemme går til retter før i planen, trenger ${this.fmt(st.need, u)}`; };
+      : `Trenger ${this.fmt(st.need, u)}`; };
   // Retten er laget: trekk det den brukte fra beholdningen
   markMade = (d, id) => {
     const P = window.MatgledePantry, r = this.D.byId[id], f = this.factor(r), before = this.state.pantry, made = this.state.made, used = [];
