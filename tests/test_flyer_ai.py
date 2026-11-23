@@ -34,6 +34,14 @@ class FlyerAiTest(unittest.TestCase):
         self.assertEqual(flyer_content({"type": "pdf", "url": "x.pdf"}, get)[0]["source"]["media_type"], "application/pdf")
         self.assertEqual(len(flyer_content({"type": "images", "pages": ["a", "b"]}, get)), 2)
         self.assertIsNone(flyer_content({"type": "link", "url": "x"}, get))
+
+        def flaky(url):
+            if url == "bad":
+                raise OSError("HTTP Error 404")
+            return b"jpg"
+        self.assertEqual(len(flyer_content({"type": "images", "pages": ["a", "bad"]}, flaky)), 1)
+        dead = flyer_content({"type": "images", "pages": ["bad", "bad"]}, flaky)
+        self.assertEqual([b["source"]["type"] for b in dead], ["url", "url"])
         self.assertIsNone(flyer_content({"type": "pdf", "url": "x.html"}, lambda u: b"<html>"))
 
     def test_read_flyers_replaces_only_readable(self):

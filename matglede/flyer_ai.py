@@ -58,8 +58,14 @@ def flyer_content(view: dict | None, get=None) -> list[dict] | None:
         return None
     b64 = lambda raw: base64.standard_b64encode(raw).decode()
     if view.get("type") == "images" and view.get("pages"):
-        return [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64(get(u))}}
-                for u in view["pages"][:90]]
+        # Sider som ikke kan lastes ned hoppes over. Går ingen, får Claude adressene i stedet.
+        blocks = []
+        for u in view["pages"][:90]:
+            try:
+                blocks.append({"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64(get(u))}})
+            except OSError:
+                continue
+        return blocks or [{"type": "image", "source": {"type": "url", "url": u}} for u in view["pages"][:90]]
     if view.get("type") == "pdf" and view.get("url"):
         raw = get(view["url"])
         if not raw.startswith(b"%PDF"):
