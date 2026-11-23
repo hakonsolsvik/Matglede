@@ -3,7 +3,7 @@
 Appen viser Matgledes egne oppskrifter i seed/app_recipes.json, med tid, vanskelighetsgrad
 og fremgangsmåte. For hver ingredienslinje tas mengden med i ingrediensens basisenhet
 (g/ml/stk), slik at appen kan skalere og summere den. Fra databasen tas produktkandidatene
-per kjede med, ferdig filtrert på samme måte som `shopping.pick_product`. Appen velger selv
+per kjede med, fra `shopping.candidates` som handlelisten også bruker. Appen velger selv
 billigste antall pakker for mengden handlelisten trenger.
 
 Uten database gjenbrukes prisene i forrige app/data.js. Finnes ingen, blir prisene tomme.
@@ -17,9 +17,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .db import CHAINS
+from . import recipe_parse
 from .recipe_parse import normalise_for_ingredient
-from .matching import IngredientRule, excluded_name
-from .shopping import SCORE_BAND, _is_stale, score_floor
+from .shopping import _is_stale, candidates
 from .units import to_base
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -57,46 +57,11 @@ def _ingredients_csv(path: Path = ROOT / "seed" / "ingredients.csv") -> dict[str
 
 def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
                 gpp: float | None, now: datetime) -> list[dict]:
-    rows = conn.execute(
-        """SELECT p.name, p.package_amount, p.package_unit, o.store_name, o.price,
-                  o.price_date, ip.score, ip.status
-           FROM ingredient_product ip
-           JOIN ingredient i ON i.id = ip.ingredient_id
-           JOIN product p ON p.id = ip.product_id
-           JOIN offer o ON o.product_id = p.id AND o.chain_code = ?
-           WHERE i.slug = ? AND ip.status != 'rejected' AND o.price IS NOT NULL""",
-        (chain, slug),
-    ).fetchall()
-    ing = conn.execute("SELECT * FROM ingredient WHERE slug=?", (slug,)).fetchone()
-    if ing is not None:
-        rule = IngredientRule.from_row(ing)
-        rows = [r for r in rows if not excluded_name(rule, r["store_name"] or r["name"])]
-        floor = score_floor(conn, ing["id"])
-        rows = [r for r in rows if r["status"] == "verified" or r["score"] >= floor]
-    if not rows:
+    ing = conn.execute("SELECT id FROM ingredient WHERE slug=?", (slug,)).fetchone()
+    if ing is None:
         return []
-
-    def size(r) -> float | None:
-        amt, unit = r["package_amount"], r["package_unit"]
-        if not amt:
-            return None
-        if unit == base_unit:
-            return amt
-        if gpp and unit == "g" and base_unit == "stk":
-            return amt / gpp
-        if gpp and unit == "stk" and base_unit == "g":
-            return amt * gpp
-        if {unit, base_unit} == {"g", "ml"}:
-            return amt
-        return None
-
-    pool = [r for r in rows if r["status"] == "verified"] or rows
-    top = max(r["score"] for r in pool)
-    pool = [r for r in pool if r["score"] >= top - SCORE_BAND]
-    pool = [r for r in pool if not _is_stale(r["price_date"], now)] or pool
-    sized = [(r, size(r)) for r in pool]
-    sized = [x for x in sized if x[1]] or sized
-    sized.sort(key=lambda x: (x[0]["price"] / (x[1] or 1), -x[0]["score"]))
+    sized = sorted(candidates(conn, ing["id"], chain, base_unit, gpp, now),
+                   key=lambda x: (x[0]["price"] / (x[1] or 1), -x[0]["score"]))
     return [{
         "name": r["store_name"] or r["name"],
         "size": round(sz, 3) if sz else None,
@@ -165,9 +130,10 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
             swaps[src] = {"to": to, "why": why}
     used |= {x["to"] for x in swaps.values() if x["to"]}
 
+    # Alle ingrediensene tas med, så egne oppskrifter i appen kan kobles til varer som ingen av Matgledes retter bruker.
     ingredients = {}
     priced = 0
-    for slug in sorted(used):
+    for slug in sorted(ing_rows):
         row = ing_rows[slug]
         gpp = float(row["grams_per_piece"]) if row["grams_per_piece"] else None
         if has_db:
@@ -176,7 +142,9 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         else:
             products = (previous or {}).get(slug, {})
         priced += bool(products)
-        ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "products": products}
+        ingredients[slug] = {"name": row["name"], "base": row["base_unit"], "products": products,
+                             **({"gpp": gpp} if gpp else {}),
+                             **({"pack": list(recipe_parse.PACK_SIZES[slug])} if slug in recipe_parse.PACK_SIZES else {})}
 
     return {
         "generated": now.strftime("%Y-%m-%d"),
@@ -185,6 +153,11 @@ def build(conn: sqlite3.Connection | None = None, now: datetime | None = None,
         "ingredients": ingredients,
         "recipes": recipes,
         "swaps": swaps,
+        # Samme koblingsregler som recipe_parse.match_ingredient, så appen kobler egne oppskrifter likt
+        "matching": {"rules": [[slug, list(n), list(e)] for slug, n, e in recipe_parse.RULES],
+                     "wholeWord": sorted(recipe_parse._WHOLE_WORD),
+                     "gramsPerClove": recipe_parse.GRAMS_PER_CLOVE,
+                     "gramsPerChickenBreast": recipe_parse.GRAMS_PER_CHICKEN_BREAST},
         "stats": {"recipes": len(recipes), "lines": lines, "mapped": mapped,
                   "ingredients": len(ingredients), "pricedIngredients": priced},
     }

@@ -36,6 +36,14 @@ class TagOffersTest(unittest.TestCase):
         self.assertEqual((out[0]["ing"], out[0]["size"]), ("kjottdeig", 400))
         self.assertFalse(any("ing" in o for o in out[1:]))  # feil vare, smak, ukjent størrelse
 
+    def test_salma_is_not_plain_laks(self):
+        from matglede.app_export import _ingredients_csv
+        from matglede.offers import tag_offers
+        data = {"stores": [{"offers": [{"name": "Laks Loin Small Ca280g Salma"}, {"name": "Laksefilet 400g"}]}]}
+        out = tag_offers(data, _ingredients_csv())["stores"][0]["offers"]
+        self.assertNotIn("ing", out[0])
+        self.assertEqual(out[1].get("ing"), "laksefilet")
+
 
 class CoopPagesTest(unittest.TestCase):
     def test_parses_spreads(self):

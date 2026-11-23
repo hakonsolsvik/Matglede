@@ -1,7 +1,7 @@
 slug,name,category,base_unit,grams_per_piece,search_terms,must_include,exclude_terms,category_hints
 kjottdeig,Kjøttdeig,Kjøtt,g,,kjøttdeig storfe|kjøttdeig,,laks|kylling|plante|svin|saus|pizza|lasagne|taco|vegetar|erstatning|hakke|kjøttdeigsaus,kjøttdeig
 kyllingfilet,Kyllingfilet,Kjøtt,g,,kyllingfilet|kyllingbryst,,marinert|pålegg|skivet|krydret|panert|nugget|grillet|røkt|tikka|curry|salat|wrap|pizza|strimle|terning|stekt|soltørk|ferdig|skive,kylling
-laksefilet,Laksefilet,Fisk,g,,laksefilet|laks,,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|kjøttdeig|burger|pinner|salat|smørbrød|postei|pate|pâté|hjerter|biter i|sjøkreps|reker|kake|terning,laks
+laksefilet,Laksefilet,Fisk,g,,laksefilet|laks,,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|kjøttdeig|burger|pinner|salat|smørbrød|postei|pate|pâté|hjerter|biter i|sjøkreps|reker|kake|terning|salma,laks
 bacon,Bacon,Kjøtt,g,,bacon,,chips|krydder|snacks|dressing|pizza|majones|ost|pølse|burger|smak|dip|salat|sandwich|postei|grateng|gratin,bacon
 egg,Egg,Meieri og egg,stk,60,egg,,eggnudler|nudler|pasta|eggerøre|eggehvite|eggeplomme|påske|sjokolade|kinder|likør|kartong|kokt|kokte|eggedosis|sandwich|salat|majones|surprise|bobler|smågodt|godt|egget|eggs|noodles|nudler,egg
 melk,Lettmelk,Meieri og egg,ml,,lettmelk,,sjokolade|kakao|pulver|iskaffe|kaffe|is |protein|smoothie|yoghurt,melk
@@ -130,5 +130,22 @@ lammelar,Lammelår,Kjøtt,g,,lammelår|lammestek,,pålegg|røkt|spekemat|fenalå
 rosmarin_frisk,Fersk rosmarin,Grønt,stk,,rosmarin potte|fersk rosmarin|rosmarin,,tørket|krydder|malt|glass|pos|hindu|santa|olje|salt|potet|focaccia|kjeks|lam,urter|krydderurter|grønnsak
 frosne_gronnsaker,Frosne grønnsaker,Frys,g,,wokblanding|grønnsaksblanding|grønnsakblanding|wokgrønnsaker|frosne grønnsaker,,suppe|saus|nudler|kylling|ris|pasta|ferdig|potet|stuing|pizza|lasagne|krydder|chips|smoothie|frukt|bær|biff|svin|reker|scampi,frys|frossen|frosne
 brokkoli_frossen,Brokkoli (frossen),Frys,g,,brokkoli|brokkolibuketter,,salat|suppe|gratinert|blomkål|gulrot|pai|grateng|stuing|ost|blanding|mix,frys|frossen|frosne
-kyllingfilet_frossen,Kyllingfilet (frossen),Frys,g,,kyllingfilet|kyllingbryst,fros,marinert|pålegg|skivet|krydret|panert|nugget|grillet|røkt|tikka|curry|salat|wrap|pizza|strimle|terning|stekt|ferdig|skive,frys|frossen|frosne|kylling
-laks_frossen,Laks (frossen),Frys,g,,laksefilet|laks,fros,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|burger|pinner|salat|kake|panert|marinert|terning,frys|frossen|frosne|fisk
+kyllingfilet_frossen,Kyllingfilet (frossen),Frys,g,,kyllingfilet|kyllingfilet fryst|kyllingbryst,fros/fryst/frys/frozen/iqf,marinert|pålegg|skivet|krydret|panert|nugget|grillet|røkt|tikka|curry|salat|wrap|pizza|strimle|terning|stekt|ferdig|skive,frys|frossen|frosne|kylling
+laks_frossen,Laks (frossen),Frys,g,,laksefilet|laksefilet frys|laks,fros/fryst/frys/frozen/iqf,røkt|gravet|kaldrøkt|pålegg|kaviar|sushi|burger|pinner|salat|kake|panert|marinert|terning|salma,frys|frossen|frosne|fisk
+blomkal,Blomkål,Grønt,g,700,blomkål,,brokkoli|gratinert|grateng|suppe|mix|blanding|ris|mos|pizza|salat|wok|stuing|pai,blomkål|grønnsak|kål
+squash,Squash,Grønt,g,300,squash|zucchini,,suppe|mix|blanding|spaghetti|nudler|pasta|wok|grillet|chips,squash|grønnsak
+reker,Reker,Fisk,g,,reker pillet|reker i lake|reker,,salat|smørbrød|pålegg|majones|cocktail|chips|snacks|pizza|saus|wok|panert|tempura|ferdig|kaker|baller|tigerreker|scampi,reker|skalldyr|fisk
+polser,Grillpølser,Kjøtt,g,,grillpølser|wienerpølser|pølser,,pålegg|salami|lompe|brød|sennep|ketchup|chips|snacks|kylling|vegetar|plante|cocktail|pizza|suppe|grateng|lapskaus|vegansk,pølse
+yoghurt,Yoghurt naturell,Meieri og egg,g,,yoghurt naturell|naturell yoghurt,,smak|jordbær|vanilje|bringebær|blåbær|mango|müsli|drikke|skyr|gresk|dessert|sjokolade|is|frukt,yoghurt
+kanel,Kanel,Krydder,g,,kanel malt|kanel,,bolle|snurr|kaker|kjeks|te |sukker|stang|stenger|godteri|frokostblanding|havre|müsli|epler|sirup,krydder
+sjalottlok,Sjalottløk,Grønt,g,30,sjalottløk,,stekt|syltet|sprø|pulver|tørket,løk
+seifilet,Seifilet,Fisk,g,,seifilet|sei filet,,røkt|panert|burger|kaker|gratin|grateng|pinner|lettsalt|saltet|middag|ferdig|i saus,fisk|sei
+gronne_bonner,Grønne bønner,Frys,g,,aspargesbønner|grønne bønner|brekkbønner,,mix|blanding|salat|wok|hermetisk|i lake|syltet|chips,bønner|grønnsak
+mandler,Mandler,Snacks,g,,mandler,,sjokolade|godteri|saltet|salted|krydret|mix|blanding|bar|smør|melk|drikk|mel|marsipan|røkt|honning|kjeks,nøtter
+kakao,Kakao,Bakevarer,g,,kakaopulver|kakao,,drikke|sjokolade|kjeks|kaker|melk|instant|sukker|smoothie|bar|nibs|smør,bake
+vaniljesukker,Vaniljesukker,Bakevarer,g,,vaniljesukker,,is|yoghurt|kjeks|kaker|saus|drikk|pudding|krem,bake
+brod,Grovbrød,Brød,g,,grovbrød|brød,,rundstykke|knekkebrød|lomper|lefse|pita|naan|tortilla|baguette|ciabatta|toast|pølse|hamburger|sandwich|smør|mel|blanding|mix|glutenfri|søtt|kake|boller|krutonger|tørket|pizza,brød
+fiskeboller,Fiskeboller,Hermetikk,g,,fiskeboller,,kraft|suppe|grateng|karri|i hvit saus|i karri,fisk|fiskeboller
+svinekotelett,Svinekoteletter,Kjøtt,g,150,svinekoteletter|koteletter,,lam|marinert|grillet|krydret|ferdig|røkt|kassler,svin|kjøtt
+kjottboller,Kjøttboller,Kjøtt,g,,kjøttboller,,kylling|vegetar|plante|saus|ferdigrett|middag|lapskaus|suppe|vegansk|pasta,kjøtt
+kokesjokolade,Kokesjokolade,Bakevarer,g,,kokesjokolade|mørk sjokolade,,melkesjokolade|hvit|kakao|kjeks|kaker|nøtter|appelsin|mint|karamell|drikke|is|bar|plate med|chips,sjokolade|bake

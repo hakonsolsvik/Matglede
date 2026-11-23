@@ -42,10 +42,6 @@ def _contains_word(haystack: str, needle: str) -> bool:
     return re.search(rf"(^|\s){re.escape(needle)}{_SUFFIX}(\s|$)", haystack) is not None
 
 
-def _contains_anywhere(haystack: str, needle: str) -> bool:
-    return needle in haystack
-
-
 def _excluded(haystack: str, needle: str) -> bool:
     # Lange ord treffer hvor som helst ("pulver" i "hvitløkspulver"),
     # korte ord bare på ordstart, så "is" ikke treffer "pris".
@@ -67,10 +63,14 @@ def excluded_name(rule: IngredientRule, name: str) -> bool:
 def score_product(rule: IngredientRule, name: str, categories: list[str], price_date: str | None,
                   has_package: bool, now: datetime | None = None) -> float | None:
     """Returner poengsum, eller None hvis produktet er diskvalifisert."""
-    n = normalize(name)
-    if any(_excluded(n, ex) for ex in rule.exclude_terms):
+    if excluded_name(rule, name):
         return None
-    if any(not _contains_anywhere(n, m) for m in rule.must_include):
+    n = normalize(name)
+    cats = [normalize(c) for c in categories if c]
+    # "fros/fryst" betyr at ett av alternativene må finnes, i navnet eller i en kategori
+    # (frossen "Kyllingfilet 1,4kg First Price" sier ikke fryst i navnet).
+    where = " ".join([n, *cats])
+    if any(not any(a in where for a in m.split("/")) for m in rule.must_include):
         return None
 
     score = 0.0
@@ -94,7 +94,6 @@ def score_product(rule: IngredientRule, name: str, categories: list[str], price_
     if any(re.search(rf"(^|\s)(med|m|i)\s+(\S+\s+)?{re.escape(t)}", n) for t in rule.search_terms):
         score -= 3.0
 
-    cats = [normalize(c) for c in categories if c]
     if rule.category_hints and cats:
         if any(h in c for h in rule.category_hints for c in cats):
             score += 2.0

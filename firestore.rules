@@ -1,13 +1,31 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Hver bruker kan bare lese og skrive sitt eget dokument users/{uid}.
     match /users/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
-    // Anonyme tellere: hvor mange brukere som har en vare i beholdningen (vare:potet)
-    // eller en rett som favoritt, i planen eller laget (rett:tacofredag). Bare tallet n lagres, aldri hvem.
-    // Alle kan lese. Innloggede kan bare legge til eller trekke fra 1, og aldri under 0.
+    function myEmail() { return request.auth.token.email.lower(); }
+    function invitedMe(d) {
+      return request.auth.token.email_verified == true && request.auth.token.email != null && myEmail() in d.invited;
+    }
+    match /households/{hid} {
+      allow create: if request.auth != null && request.resource.data.members == [request.auth.uid];
+      allow read: if request.auth != null && (request.auth.uid in resource.data.members || invitedMe(resource.data));
+      allow update: if request.auth != null && (request.auth.uid in resource.data.members || (invitedMe(resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'invited', 'names'])
+        && request.resource.data.invited == resource.data.invited.removeAll([myEmail()])
+        && (request.resource.data.members == resource.data.members
+          || request.resource.data.members == resource.data.members.concat([request.auth.uid]))
+        && request.resource.data.names.diff(resource.data.names).affectedKeys().hasOnly([request.auth.uid])));
+    }
+    function memberOf(hid) {
+      return request.auth != null && request.auth.uid in get(/databases/$(database)/documents/households/$(hid)).data.members;
+    }
+    match /invites/{email} {
+      allow read, delete: if (request.auth != null && request.auth.token.email_verified == true && myEmail() == email) || memberOf(resource.data.hid);
+      allow create, update: if memberOf(request.resource.data.hid) && request.resource.data.keys().hasOnly(['hid', 'from'])
+        && email.matches('[^@ ]+@[^@ ]+[.][^@ ]+');
+    }
     match /popular/{key} {
       allow read: if true;
       allow create: if request.auth != null

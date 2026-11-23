@@ -3,3 +3,7 @@
 __pycache__/
 *.pyc
 node_modules/
+
+# Graphify: bare rapporten committes, resten bygges lokalt
+graphify-out/*
+!graphify-out/GRAPH_REPORT.md

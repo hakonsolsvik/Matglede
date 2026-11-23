@@ -45,9 +45,10 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <button onClick="{{ openSearch }}" title="Søk oppskrifter" aria-label="Søk oppskrifter" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></button>
 <button onClick="{{ goHome }}" aria-label="Mat-appen, til forsiden" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--mg-ink);padding:6px 10px;min-height:44px"><sc-if value="{{ isHome }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-clay)"></span></sc-if><sc-if value="{{ notHome }}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b5e04f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8.5a1 1 0 01-1 1h-4.5v-6h-5v6H5a1 1 0 01-1-1z"></path></svg></sc-if>mat-appen</button>
 <div class="s33">
-<button onClick="{{ openProfile }}" title="Profil" aria-label="{{ profileLabel }}" class="s34" style="background:{{ avatarBg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink);font-family:inherit;font-weight:800;font-size:14px">
+<button onClick="{{ openProfile }}" title="Profil" aria-label="{{ profileLabel }}" class="s34" style="position:relative;background:{{ avatarBg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink);font-family:inherit;font-weight:800;font-size:14px">
 <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">{{ initials }}</sc-if>
 <sc-if value="{{ notLoggedIn }}" hint-placeholder-val="{{ true }}"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></sc-if>
+<sc-if value="{{ nagBadge }}"><span aria-label="Ny påminnelse" style="position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;background:var(--mg-danger);border:2px solid var(--mg-bg)"></span></sc-if>
 </button>
 <button onClick="{{ toggleMenu }}" title="Meny" aria-label="Åpne meny" aria-expanded="{{ menuOpen }}" aria-haspopup="menu" class="s34" style="background:{{ menuBtnBg }};color:{{ menuBtnFg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
 </div>
@@ -140,13 +141,13 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
-<div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div></div>
-<sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-on-primary-soft)">{{ listOffersText }}</div></sc-if>
+<div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div><sc-if value="{{ hasListHint }}"><div class="s18" style="margin-top:4px">Tallet på butikkene viser hvor mange varer fra handlelisten din som er på tilbud der denne uka.</div></sc-if></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
 <img src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
-<sc-if value="{{ st.hasBadge }}"><span style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.badge }}</span></sc-if>
+<sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.nLabel }}</span></sc-if>
+<sc-if value="{{ st.hasBadge }}"><span aria-hidden="true" title="Din butikk" style="position:absolute;left:8px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></span></sc-if>
 </div>
 </sc-for>
 </div>
@@ -207,6 +208,10 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Søk i alle oppskrifter" aria-label="Søk i alle oppskrifter" type="search" style="flex:1;min-width:0;border:0;outline:none;background:none;font-size:16px;color:var(--mg-ink)">
 <sc-if value="{{ searching }}"><button onClick="{{ clearQ }}" aria-label="Tøm søket" style="width:36px;height:36px;border:0;border-radius:50%;background:var(--mg-surface-sunken);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
+<button onClick="{{ openMine }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:12px 14px;display:flex;align-items:center;gap:12px">
+<span style="width:40px;height:40px;flex:none;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+<span class="s47"><span class="s13">Legg til egen oppskrift</span><span class="s12">Skriv den inn, eller ta bilde av en oppskrift</span></span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+</button>
 </div>
 <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
@@ -319,6 +324,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
 <div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
 </div>
+<sc-if value="{{ rd.isMine }}"><button onClick="{{ rd.edit }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Endre oppskrift</button></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
 <div class="s11"><div class="s8">Antall personer</div><div class="s2">{{ rd.peopleSub }}</div></div>
 <button onClick="{{ rd.peopleMinus }}" aria-label="Færre personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
@@ -412,7 +418,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-for list="{{ g.items }}" as="i">
 <div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.done }}" class="s60">
 <div style="width:24px;height:24px;flex:none;border-radius:var(--mg-r-sm);border:2px solid {{ i.boxBorder }};background:{{ i.boxBg }};display:flex;align-items:center;justify-content:center;color:var(--mg-ink);box-sizing:border-box"><sc-if value="{{ i.done }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></div>
-<div class="s11"><div class="s43" style="text-decoration:{{ i.deco }};color:{{ i.color }}">{{ i.name }}</div><div class="s61">{{ i.sub }}</div></div>
+<div class="s11"><div class="s43" style="text-decoration:{{ i.deco }};color:{{ i.color }}">{{ i.name }}<sc-if value="{{ i.hasStore }}"> <span role="img" aria-label="{{ i.storeName }}" style="{{ i.storeChip }}"></span></sc-if></div><div class="s61">{{ i.sub }}</div></div>
 <div class="s62"><div class="s63" style="color:{{ i.color }};white-space:nowrap">{{ i.amount }}</div><div style="font-size:12px;font-weight:700;color:{{ i.priceColor }};white-space:nowrap">{{ i.price }}</div></div>
 <sc-if value="{{ i.own }}"><button onClick="{{ i.remove }}" aria-label="Fjern {{ i.name }}" style="width:36px;height:36px;flex:none;border:0;border-radius:50%;background:var(--mg-surface-sunken);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
@@ -436,13 +442,18 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 class="s3">Ukas avis</h2><div class="s58">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
 <button onClick="{{ sd.voice }}" role="switch" aria-checked="{{ sd.voiceOn }}" style="position:sticky;top:calc(var(--top) + 8px);z-index:5;border:1px solid {{ sd.voiceBorder }};cursor:pointer;font-family:inherit;background:{{ sd.voiceBg }};color:{{ sd.voiceFg }};border-radius:var(--mg-r-pill);padding:10px 12px 10px 14px;display:flex;align-items:center;gap:10px;text-align:left;box-shadow:{{ sd.voiceShadow }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-size:14px;font-weight:700">{{ sd.voiceText }}</span><span style="font-size:12px;opacity:.75">{{ sd.voiceHint }}</span></span><span aria-hidden="true" style="flex:none;width:38px;height:22px;border-radius:11px;background:{{ sd.knobTrack }};position:relative"><span style="position:absolute;top:3px;left:{{ sd.knobLeft }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span></span></button>
 
+<sc-if value="{{ sd.hasMine }}">
+<button onClick="{{ sd.toggleMine }}" aria-expanded="{{ sd.mineOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:#f5b82e;color:#3a2a00;border-radius:16px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-size:15px;font-weight:800"><span>{{ sd.mineLabel }}</span><span aria-hidden="true">{{ sd.mineArrow }}</span></button>
+<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">{{ o.badge }}</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
+</sc-if>
+
 <sc-if value="{{ sd.hasTop }}">
 <div class="s4">
 <div class="s8 mg-h">Mest aktuelle tilbud</div>
 <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
-<div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:170px;scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
-<span style="align-self:flex-start;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">{{ o.badge }}</span>
+<div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:{{ o.cardH }};scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+<div style="position:relative"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:96px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:6px"></sc-if><span style="position:{{ o.pctPos }};left:0;top:0;display:inline-block;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">{{ o.badge }}</span></div>
 <div style="font-size:14px;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ o.name }}</div>
 <div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--mg-danger)">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:{{ o.strike }}">{{ o.before }}</div></div>
 </div>
@@ -461,7 +472,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 <sc-if value="{{ sd.isFrame }}">
-<iframe src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="width:calc(100% + 16px);margin:0 -8px;height:620px;border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)"></iframe>
+<iframe src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="{{ sd.frameStyle }}"></iframe>
+<sc-if value="{{ sd.full }}"><button onClick="{{ sd.closeFull }}" aria-label="Lukk fullskjerm" style="position:fixed;top:calc(env(safe-area-inset-top) + 12px);right:12px;z-index:1001;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)">✕</button></sc-if>
 </sc-if>
 <sc-if value="{{ sd.isLink }}">
 <div style="padding:20px;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">{{ sd.linkText }}</div>
@@ -478,9 +490,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
 <sc-for list="{{ g.items }}" as="o">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" class="s60">
+<sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if>
 <span style="flex:none;width:46px;text-align:center;background:color-mix(in srgb,var(--mg-danger) 16%,var(--mg-surface));color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">{{ o.badge }}</span>
 <div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
 <div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:{{ o.strike }};white-space:nowrap">{{ o.before }}</div></div>
+<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ o.addIcon }}"></path></svg></button>
 </div>
 </sc-for>
 </div>
@@ -586,7 +600,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s32"><span class="s16 mg-h">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
 </div>
 <div class="s70">
-<div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71">Min beholdning<span class="s29">{{ pt.count }} varer ›</span></div>
+<div onClick="{{ openMine }}" role="button" tabIndex="0" class="s71">Mine oppskrifter<span class="s29">{{ mineNum }} ›</span></div>
+<div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71" aria-label="{{ pt.rowLabel }}"><span style="display:flex;align-items:center;gap:8px">Min beholdning<sc-if value="{{ pt.nag }}"><span style="background:var(--mg-danger);color:#fff;font-size:12px;font-weight:800;padding:2px 8px;border-radius:var(--mg-r-pill)">{{ pt.nagText }}</span></sc-if></span><span class="s29">{{ pt.count }} varer ›</span></div>
 <div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
 <div onClick="{{ goFav }}" role="button" tabIndex="0" class="s71">Mine favoritter<span class="s29">›</span></div>
 <div onClick="{{ doLogout }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;color:var(--mg-danger);cursor:pointer">Logg ut</div>
@@ -600,6 +615,10 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan.</div></div>
+<sc-if value="{{ pt.ask }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
+<div class="s10"><span class="s1 mg-h">{{ pt.askTitle }}</span><span style="font-size:14px;line-height:1.45">Gå gjennom varene én og én og velg hvor mye du har. Da stemmer ukeplanen og handlelisten, også om du har brukt noe til annet enn middag, som egg til frokost.</span></div>
+<div class="s33"><button onClick="{{ pt.start }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill)">Oppdater nå</button><button onClick="{{ pt.skip }}" style="border:0;cursor:pointer;font-family:inherit;background:rgba(31,42,28,.1);color:#1f2a1c;font-size:14px;font-weight:700;padding:11px 18px;border-radius:var(--mg-r-pill)">Ikke nå</button></div>
+</div></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
 <button onClick="{{ pt.voice }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ pt.voiceBg }};color:{{ pt.voiceFg }};border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg>{{ pt.voiceLabel }}</button>
 <label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" multiple onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
@@ -619,6 +638,21 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </div>
 </sc-if>
+
+<sc-if value="{{ pt.cards }}" hint-placeholder-val="{{ false }}"><div role="dialog" aria-label="Oppdater beholdningen" style="position:absolute;inset:0;z-index:54;background:var(--mg-bg);display:flex;flex-direction:column;padding:calc(var(--top) + 10px) 22px max(22px,env(safe-area-inset-bottom));box-sizing:border-box;gap:18px">
+<div style="display:flex;align-items:center;gap:12px"><button onClick="{{ pt.card.close }}" aria-label="Lukk" class="s21"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div class="s11"><div class="s19">{{ pt.card.progress }}</div><div class="s8">Oppdater beholdningen</div></div></div>
+<div style="flex:1;display:flex;align-items:center;justify-content:center"><div style="width:100%;max-width:340px;background:var(--mg-surface);border-radius:28px;box-shadow:var(--mg-shadow-2);padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:18px">
+<div aria-hidden="true" style="font-size:120px;line-height:1">{{ pt.card.art }}</div>
+<div class="s16 mg-h" style="text-align:center">{{ pt.card.n }}</div>
+<div class="s17">Hvor mye har du?</div>
+<sc-if value="{{ pt.card.counted }}"><div style="display:flex;align-items:center;gap:18px"><button onClick="{{ pt.card.down }}" aria-label="{{ pt.card.downLabel }}" style="width:56px;height:56px;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:26px;font-weight:800;cursor:pointer">−</button><span aria-live="polite" style="min-width:64px;text-align:center;font-size:34px;font-weight:800">{{ pt.card.q }}</span><button onClick="{{ pt.card.up }}" aria-label="{{ pt.card.upLabel }}" style="width:56px;height:56px;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:26px;font-weight:800;cursor:pointer">+</button></div></sc-if>
+<sc-if value="{{ pt.card.level }}"><div role="radiogroup" aria-label="Hvor mye har du?" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;width:100%"><sc-for list="{{ pt.card.levels }}" as="l"><button role="radio" aria-checked="{{ l.on }}" onClick="{{ l.pick }}" style="height:52px;border-radius:var(--mg-r-pill);border:1.5px solid {{ l.border }};background:{{ l.bg }};color:{{ l.fg }};font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">{{ l.label }}</button></sc-for></div></sc-if>
+</div></div>
+<div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px">
+<button onClick="{{ pt.card.prev }}" disabled="{{ pt.card.first }}" style="border:0;height:58px;border-radius:var(--mg-r-pill);background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;opacity:{{ pt.card.prevOp }}">Forrige</button>
+<button onClick="{{ pt.card.next }}" style="border:0;height:58px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">{{ pt.card.nextLabel }}</button>
+</div>
+</div></sc-if>
 
 <sc-if value="{{ ovUseHome }}" hint-placeholder-val="{{ false }}">
 <div class="s6">
@@ -646,8 +680,22 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <h2 class="s3 mg-h">Innstillinger</h2>
 <div class="s72">
+<div class="s13">Del appen</div>
+<sc-if value="{{ share.out }}"><div class="s2">Logg inn for å dele planen, handlelisten og beholdningen med noen du bor med.</div><button onClick="{{ share.login }}" class="s53" style="align-self:flex-start">Logg inn</button></sc-if>
+<sc-if value="{{ share.hasInvite }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-md);padding:12px 14px;display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:700;line-height:1.4">{{ share.inviteText }}</div><div class="s33"><button onClick="{{ share.join }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Bli med</button><button onClick="{{ share.decline }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;height:44px;padding:0 14px;border-radius:var(--mg-r-pill);background:rgba(31,42,28,.1);color:#1f2a1c">Nei takk</button></div></div></sc-if>
+<sc-if value="{{ share.in }}">
+<div class="s2">{{ share.sub }}</div>
+<sc-if value="{{ share.hasPeople }}"><div style="display:flex;flex-direction:column"><sc-for list="{{ share.people }}" as="p"><div style="display:flex;align-items:center;gap:10px;min-height:40px;border-bottom:1px solid var(--mg-surface-sunken)"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:14px;font-weight:700">{{ p.name }}</span><span class="s2">{{ p.state }}</span><sc-if value="{{ p.canRemove }}"><button onClick="{{ p.remove }}" aria-label="{{ p.rmLabel }}" style="width:36px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button></sc-if></div></sc-for></div></sc-if>
+<form onSubmit="{{ share.submit }}" class="s33"><input type="email" autocomplete="email" value="{{ share.email }}" onChange="{{ share.onEmail }}" aria-label="E-posten til den du vil dele med" placeholder="E-post, f.eks. kari@gmail.com" style="flex:1;min-width:0;height:44px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none;font-family:inherit"><button type="submit" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Del</button></form>
+<sc-if value="{{ share.hasMsg }}"><div role="alert" style="font-size:14px;font-weight:700;color:var(--mg-danger)">{{ share.msg }}</div></sc-if>
+<sc-if value="{{ share.hasSent }}"><div class="s2" style="line-height:1.45">Be {{ share.sent }} logge inn i Matglede med denne e-posten og trykke «Bli med» her i Innstillinger. <a href="{{ share.mailto }}" style="color:var(--mg-primary);font-weight:700">Send en e-post med lenken</a></div></sc-if>
+<sc-if value="{{ share.unverified }}"><div class="s2" style="line-height:1.45">Har noen invitert deg? Bekreft e-postadressen din først, så dukker invitasjonen opp her.</div><div class="s33"><button onClick="{{ share.verify }}" class="s53">Send bekreftelse</button><button onClick="{{ share.recheck }}" class="s53">Jeg har bekreftet</button></div></sc-if>
+<sc-if value="{{ share.inHh }}"><button onClick="{{ share.leave }}" style="align-self:flex-start;border:0;background:none;padding:6px 0;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-danger);cursor:pointer;text-decoration:underline">Slutt å dele</button></sc-if>
+</sc-if>
+</div>
+<div class="s72">
 <div class="s13">Standard antall personer</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
 <div class="s2">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
 </div>
 <div class="s72">
@@ -656,7 +704,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s2">Automatisk følger innstillingen på telefonen.</div>
 </div>
 <div class="s72">
-<div class="s13">Butikk for priser</div>
+<div class="s13">Velg din butikk</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
 <div class="s2">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
 </div>
@@ -669,6 +717,59 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s2">Bildene er fra Wikimedia Commons og brukes under frie lisenser. Trykk på en rett for å se fotograf og lisens.</div>
 <sc-for list="{{ credits }}" as="c"><a href="{{ c.url }}" target="_blank" rel="noopener" style="font-size:14px;color:var(--mg-on-primary-soft);text-decoration:none;padding:3px 0">{{ c.name }} ›</a></sc-for>
 </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ ovMine }}" hint-placeholder-val="{{ false }}">
+<div class="s6">
+<div class="s69">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div class="s10"><h2 class="s3 mg-h">Mine oppskrifter</h2><div class="s18">Skriv inn dine egne oppskrifter med bilde av maten. Eller ta bilde av en oppskrift fra en bok eller en lapp, så fyller appen ut resten for deg.</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ mn.write }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Skriv inn selv</button>
+<label style="position:relative;cursor:pointer;background:{{ mn.scanBg }};color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ mn.scanLabel }}<input type="file" accept="image/*" onChange="{{ mn.scan }}" aria-label="Ta bilde av en oppskrift" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+</div>
+<sc-if value="{{ mn.empty }}"><div class="s51">Du har ingen egne oppskrifter ennå. De du lagrer kommer her, i søket og under Oppskrifter, og kan legges i ukeplanen som alle andre.</div></sc-if>
+<sc-for list="{{ mn.list }}" as="r">
+<div onClick="{{ r.open }}" role="button" tabIndex="0" class="s25">
+<div class="s54" style="background:{{ r.img }}"></div>
+<div class="s55"><div class="s26">{{ r.name }}</div><div class="s27"><span>{{ r.timeLabel }}</span><span>{{ r.ingCount }}</span><span>{{ r.costLabel }}</span></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ ovEdit }}" hint-placeholder-val="{{ false }}">
+<div class="s6" style="z-index:53;bottom:0">
+<div class="s69" style="gap:16px;padding-bottom:40px">
+<div style="display:flex;align-items:center;gap:12px"><button onClick="{{ back }}" aria-label="Lukk uten å lagre" class="s21" style="flex:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div class="s12" style="flex:1">{{ ed.kicker }}</div><button onClick="{{ ed.save }}" style="border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:700;height:44px;padding:0 20px;border-radius:var(--mg-r-pill);cursor:pointer">Lagre</button></div>
+<h2 class="s3 mg-h">{{ ed.title }}</h2>
+<sc-if value="{{ ed.ai }}"><div role="status" style="background:var(--mg-primary-soft);color:var(--mg-on-primary-soft);border-radius:var(--mg-r-md);padding:12px 14px;font-size:14px;line-height:1.45;font-weight:600">Appen har lest oppskriften fra bildet. Se over navn, mengder og steg, og rett det som ble feil før du lagrer.</div></sc-if>
+<label style="position:relative;cursor:pointer;height:170px;border-radius:var(--mg-r-lg);background:{{ ed.photoBg }};border:1.5px dashed var(--mg-border-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--mg-ink-muted);font-size:14px;font-weight:700;overflow:hidden">
+<sc-if value="{{ ed.noPhoto }}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg><span>Legg til bilde av maten</span><span style="font-size:12px;font-weight:600">Valgfritt</span></sc-if>
+<sc-if value="{{ ed.hasPhoto }}"><span style="position:absolute;right:10px;bottom:10px;background:var(--mg-glass);color:var(--mg-ink);font-size:12px;font-weight:800;padding:6px 10px;border-radius:var(--mg-r-pill)">Bytt bilde</span></sc-if>
+<input type="file" accept="image/*" onChange="{{ ed.pickPhoto }}" aria-label="Bilde av maten" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+<sc-if value="{{ ed.hasPhoto }}"><button onClick="{{ ed.removePhoto }}" style="align-self:flex-start;border:0;background:none;color:var(--mg-ink-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:underline;padding:4px 0;margin-top:-8px">Fjern bildet</button></sc-if>
+<label class="s30">Navn<input value="{{ ed.name }}" onChange="{{ ed.setName }}" placeholder="F.eks. Mormors fiskesuppe" class="s31"></label>
+<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:8px">
+<div class="s28"><span class="s19">Porsjoner</span><span style="display:flex;align-items:center;gap:8px"><button onClick="{{ ed.servMinus }}" aria-label="Færre porsjoner" style="width:36px;height:36px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;color:var(--mg-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer">−</button><span aria-live="polite" style="min-width:24px;text-align:center;font-size:20px;font-weight:800">{{ ed.servings }}</span><button onClick="{{ ed.servPlus }}" aria-label="Flere porsjoner" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer">+</button></span></div>
+<label class="s28"><span class="s19">Tid (minutter)</span><input value="{{ ed.time }}" onChange="{{ ed.setTime }}" inputMode="numeric" placeholder="30" style="border:0;border-bottom:1.5px solid var(--mg-border);background:none;font-size:20px;font-weight:800;color:var(--mg-ink);outline:none;padding:4px 0;width:100%;min-width:0"></label>
+</div>
+<div class="s38"><div class="s20 mg-h">Ingredienser</div><div class="s12">{{ ed.linked }}</div></div>
+<sc-for list="{{ ed.rows }}" as="i">
+<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:10px;display:flex;flex-direction:column;gap:8px">
+<div class="s33"><input value="{{ i.n }}" onChange="{{ i.setN }}" placeholder="Ingrediens, f.eks. kjøttdeig" aria-label="Ingrediens {{ i.num }}" class="s31" style="flex:1;min-width:0;height:44px"><button onClick="{{ i.remove }}" aria-label="Fjern {{ i.label }}" style="width:44px;height:44px;flex:none;border:0;border-radius:50%;background:var(--mg-surface-sunken);color:var(--mg-danger);font-size:18px;font-weight:800;cursor:pointer">×</button></div>
+<div class="s33"><input value="{{ i.q }}" onChange="{{ i.setQ }}" inputMode="decimal" placeholder="Mengde" aria-label="Mengde for {{ i.label }}" class="s31" style="width:96px;min-width:0;height:44px"><select value="{{ i.u }}" onChange="{{ i.setU }}" aria-label="Enhet for {{ i.label }}" class="s31" style="height:44px;padding:0 8px"><sc-for list="{{ i.units }}" as="v"><option value="{{ v.v }}">{{ v.l }}</option></sc-for></select></div>
+<sc-if value="{{ i.link }}"><div style="font-size:12px;font-weight:600;color:{{ i.linkColor }};line-height:1.35">{{ i.link }}</div></sc-if>
+</div>
+</sc-for>
+<button onClick="{{ ed.addRow }}" style="border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);padding:14px;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-ink-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Legg til ingrediens</button>
+<label class="s30">Slik gjør du (ett steg per linje)<textarea value="{{ ed.steps }}" onChange="{{ ed.setSteps }}" rows="7" placeholder="Brun kjøttdeigen.&#10;Tilsett krydder og vann." style="border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:12px 14px;font-size:16px;line-height:1.45;outline:none;font-family:inherit;color:var(--mg-ink);resize:vertical"></textarea></label>
+<sc-if value="{{ ed.hasError }}"><div role="alert" style="background:#fbe3df;color:#8a2a1c;border-radius:var(--mg-r-md);padding:10px 14px;font-size:14px;font-weight:700">{{ ed.error }}</div></sc-if>
+<button onClick="{{ ed.save }}" style="border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:54px;border-radius:var(--mg-r-pill);cursor:pointer">Lagre oppskriften</button>
+<sc-if value="{{ ed.canDelete }}"><button onClick="{{ ed.del }}" style="border:0;background:none;color:var(--mg-danger);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;padding:8px">Slett oppskriften</button></sc-if>
 </div>
 </div>
 </sc-if>
@@ -689,7 +790,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;z-index:45;background:rgba(20,25,18,.12)"></div>
 <div role="menu" aria-label="Meny" data-mgmenu="1" style="position:absolute;top:calc(var(--top) + 56px);right:14px;z-index:46;width:214px;background:var(--mg-surface);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-2);padding:6px;display:flex;flex-direction:column">
-<button role="menuitem" onClick="{{ menuProfile }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg>Profil</button>
+<button role="menuitem" onClick="{{ menuProfile }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg><span style="flex:1">Profil</span><sc-if value="{{ nagBadge }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-danger)"></span></sc-if></button>
+<button role="menuitem" onClick="{{ openMine }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h10a2 2 0 012 2v15l-3-2-3 2-3-2-3 2v-15a2 2 0 012-2z"></path><path d="M9 8h6M9 12h4"></path></svg>Mine oppskrifter</button>
 <button role="menuitem" onClick="{{ menuSettings }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
 <div style="height:1px;background:var(--mg-surface-sunken);margin:4px 8px"></div>
 <button role="menuitem" onClick="{{ menuAuth }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:{{ authColor }};text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10"></path></svg>{{ authLabel }}</button>
@@ -700,7 +802,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div role="status" style="position:absolute;left:20px;right:20px;bottom:calc(var(--nav) + 16px);z-index:55;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-md);padding:14px 16px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.25)"><span style="width:22px;height:22px;border-radius:50%;background:var(--mg-clay);display:flex;align-items:center;justify-content:center;flex:none"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span style="flex:1">{{ toast }}</span><sc-if value="{{ hasUndo }}"><button onClick="{{ undo }}" style="border:0;background:none;color:var(--mg-butter);font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;padding:10px 6px;margin:-10px -6px -10px 0">Angre</button></sc-if></div>
 </sc-if>
 
-<nav aria-label="Hovedmeny" class="mg-nav" style="position:relative;z-index:50;flex:none;height:var(--nav);background:var(--mg-nav-bg);display:flex;padding:0 6px 20px;box-sizing:border-box">
+<nav aria-label="Hovedmeny" class="mg-nav" style="position:relative;z-index:{{ navZ }};flex:none;height:var(--nav);background:var(--mg-nav-bg);display:flex;padding:0 6px 20px;box-sizing:border-box">
 <button onClick="{{ goFav }}" aria-current="{{ nav.fav.cur }}" class="s14" style="color:{{ nav.fav.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
 <div aria-hidden="true" class="s15" style="background:{{ nav.fav.bg }}"><svg width="25" height="25" viewBox="0 0 24 24" fill="{{ nav.fav.fill }}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></div>
 <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Favoritter</span></sc-if>
@@ -745,7 +847,7 @@ class Component extends DCLogic {
       return { ...r, hue: hue(r.id), cats, photo: photo(r.img), credit: r.img ? 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(r.img.replace(/ /g, '_')) : null };
     });
     const byId = Object.fromEntries(R.map(r => [r.id, r]));
-    const CATS = [['alle','Alle'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['helg','Helg'],['familie','Barnevennlig'],['kjott','Kjøtt'],['kylling','Kylling'],['fisk','Fisk'],['pasta','Pasta'],['gryte','Gryter'],['vegetar','Uten kjøtt'],['tradisjon','Norsk tradisjon'],['rask','Rask'],['fa','Få ingredienser']]
+    const CATS = [['alle','Alle'],['mine','Mine oppskrifter'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['helg','Helg'],['familie','Barnevennlig'],['kjott','Kjøtt'],['kylling','Kylling'],['fisk','Fisk'],['pasta','Pasta'],['gryte','Gryter'],['vegetar','Uten kjøtt'],['tradisjon','Norsk tradisjon'],['rask','Rask'],['fa','Få ingredienser']]
       .filter(([id]) => id !== 'under100' || M.hasPrices);
     // Lære-koblinger ut fra ingrediensene: [mønster, artikkel, hvorfor]
     const LEARN = [
@@ -825,7 +927,7 @@ class Component extends DCLogic {
     let top = null;
     if (ok[t]) { if (ok[t][id]) top = { t, id }; }
     else if (t === 'shop') top = !id || id.startsWith('week') ? { t, scope: 'week', wk: Math.max(0, +id.slice(5) || 0) } : { t, scope: 'day', day: Math.max(0, Math.min(370, +id.replace('day-', '') || 0)) };
-    else if (['search','picker','login','profile','settings','pantry','usehome'].includes(t)) top = { t };
+    else if (['search','picker','login','profile','settings','pantry','usehome','mine'].includes(t)) top = { t };
     return { tab: this.TABS.includes(tab) ? tab : null, stack: top ? [top] : [] };
   };
   hashOf = st => { const top = st.stack[st.stack.length - 1];
@@ -838,7 +940,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, pName: '', pAmt: '', listening: false, scanning: false, parsing: false, shopVoice: null, shopParsing: 0
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -849,18 +951,19 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFAB33', '#1f2a1c'], KIWI: ['#50B848', '#1f2a1c'], MENY: ['#D3062A', '#fff'], REMA: ['#023EA5', '#fff'], COOP: ['#0A4D8F', '#fff'], SPAR: ['#007A33', '#fff'], JOKER: ['#FFDE3C', '#1f2a1c'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom'];
-  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme'];
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom', 'mine'];
+  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'pantrySeen', 'tilbudSeen'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
+    this.applyMine(restore.mine);
     const h = this.fromHash();
     this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}) });
     this._depth = h.stack.length;
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
       if (this.state.wake && !p.stack.some(x => x.t === 'cook')) this.keepAwake(false);
-      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false }); });
+      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false }); });
     window.addEventListener('keydown', this.onKey);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && this.state.wake) this.keepAwake(true); });
     const A = window.MatgledeAuth; if (!A) return;
@@ -873,7 +976,7 @@ class Component extends DCLogic {
   POP_KEY = /^(vare|rett):[a-zæøå0-9 -]{1,60}$/;
   // Det denne kontoen bidrar med: varene i beholdningen og rettene som er favoritt, i planen eller laget
   popKeys = () => { const s = this.state, P = window.MatgledePantry;
-    const dishes = [...s.favs, ...Object.values(s.plan).flat(), ...Object.keys(s.made).map(k => k.split(':')[2])];
+    const dishes = [...s.favs, ...Object.values(s.plan).flat(), ...Object.keys(s.made).map(k => k.split(':')[2])].filter(id => !/^egen-/.test(id)); // egne oppskrifter telles ikke
     return [...new Set([...s.pantry.map(x => 'vare:' + P.key(x.n)), ...dishes.map(id => 'rett:' + id)])].filter(k => this.POP_KEY.test(k)).sort(); };
   // Teller opp det som er nytt og ned det som er borte siden sist. popSent lagres på kontoen, så hver konto teller én gang.
   syncPop = () => {
@@ -887,21 +990,106 @@ class Component extends DCLogic {
   byPop = (list, key) => window.MatgledePantry.byPop(list, key, this.state.pop, this.POP_MIN);
   popN = key => this.state.pop[key] >= this.POP_MIN ? this.state.pop[key] : 0;
   onUser = u => {
-    const A = window.MatgledeAuth;
-    this._syncOn = false; clearTimeout(this._saveT);
-    if (!u) { this.setState({ user: null, loggedIn: false }); return; }
+    const A = window.MatgledeAuth, same = u && this.state.user && this.state.user.uid === u.uid && this._syncOn;
+    if (same) { this.setState({ user: u }); this.checkInvite(u); return; } // f.eks. etter at e-posten er bekreftet
+    this._syncOn = false; clearTimeout(this._saveT); this.unwatch(); this._srv = null;
+    if (!u) { this.setState({ user: null, loggedIn: false, hh: null, hhInvite: null }); return; }
     const wasOpen = (this.state.stack[this.state.stack.length - 1] || {}).t === 'login';
     this.setState(st => ({ user: u, loggedIn: true, lg: { ...st.lg, busy: false, error: '', pw: '' }, stack: wasOpen ? [] : st.stack }));
     this.toast(`Velkommen${u.name ? ', ' + u.name.split(' ')[0] : ''}`);
-    A.loadData(u.uid).then(d => {
-      if (d) {
-        const next = {}; this.SYNC.forEach(k => { if (d[k] !== undefined) next[k] = d[k]; });
-        this.setState(this.rollPlan(next));
-      } else { // ny konto: den har ikke telt noe ennå, selv om forrige konto på enheten hadde det
-        this.setState({ popSent: [] }); A.saveData(u.uid, { ...this.syncData(), popSent: [] }).catch(e => console.error(e)); }
-      this._lastSaved = JSON.stringify(d ? { ...this.syncData(), ...d } : this.syncData());
-      this._syncOn = true;
-    }).catch(e => { console.error(e); this._syncOn = true; });
+    A.loadData(u.uid).then(doc => {
+      if (doc && doc.household) return this.watch(doc.household, doc.app);
+      const d = doc && doc.app;
+      if (d) this.applyRemote(d);
+      else { // ny konto: den har ikke telt noe ennå, selv om forrige konto på enheten hadde det
+        this.setState({ popSent: [] }); this._srv = {}; }
+      this._syncOn = true; this.saveSoon();
+      this.checkInvite(u);
+    }).catch(e => { console.error(e); this._srv = {}; this._syncOn = true; });
+  };
+  // shortcut: to som endrer samme liste i samme sekund, f.eks. beholdningen, gjør at den siste vinner. Slå sammen per element hvis det blir et problem.
+  // Data fra skyen. _srv er det skyen har per nøkkel (som JSON). Nøkler som er endret her og ikke lagret ennå, beholdes.
+  applyRemote = app => {
+    const prev = this._srv, cur = this.syncData(), next = {}, srv = { ...(prev || {}) };
+    this.SYNC.forEach(k => { if (app[k] === undefined) return;
+      srv[k] = JSON.stringify(app[k]);
+      if (!prev || JSON.stringify(cur[k]) === prev[k]) next[k] = app[k]; });
+    this._srv = srv;
+    const rolled = this.rollPlan({ ...cur, ...next }); // ny uke: flyttet plan lagres tilbake av saveSoon
+    this.setState(Object.fromEntries(this.SYNC.map(k => [k, rolled[k]])));
+  };
+  saveSoon = () => {
+    const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
+    this.syncPop();
+    const data = this.syncData(), srv = this._srv || {}, changed = {};
+    this.SYNC.forEach(k => { const j = JSON.stringify(data[k]); if (j !== srv[k]) changed[k] = data[k]; });
+    if (!Object.keys(changed).length) return;
+    clearTimeout(this._saveT);
+    this._saveT = setTimeout(() => {
+      const data = this.syncData(), srv = this._srv || {}, changed = {};
+      this.SYNC.forEach(k => { const j = JSON.stringify(data[k]); if (j !== srv[k]) { changed[k] = data[k]; srv[k] = j; } });
+      this._srv = srv;
+      if (!Object.keys(changed).length) return;
+      (this.state.hh ? A.hh.save(this.state.hh, changed) : A.saveData(u.uid, data)).catch(e => console.error(e));
+    }, 800);
+  };
+  // ---------- del appen: flere kontoer i samme husholdning (households/ i Firestore) ----------
+  unwatch = () => { if (this._unsub) { this._unsub(); this._unsub = null; } };
+  watch = (hid, fallback) => {
+    const A = window.MatgledeAuth, uid = this.state.user.uid;
+    this.unwatch(); this._srv = null; this._syncOn = false;
+    this.setState({ hh: hid });
+    this._unsub = A.hh.watch(hid, snap => {
+      if (snap.metadata.hasPendingWrites) return; // vår egen endring på vei ut
+      const d = snap.data();
+      if (!d || !(d.members || []).includes(uid)) return this.dropHousehold(); // fjernet av den andre, eller slettet
+      this.setState({ hhNames: d.names || {}, hhMembers: d.members, hhInvited: d.invited || [] });
+      this.applyRemote(d.app || {});
+      if (!this._syncOn) { this._syncOn = true; this.saveSoon(); }
+    }, e => { console.error(e); if (fallback) this.applyRemote(fallback); this.dropHousehold(); });
+  };
+  // Ikke lenger med: fortsett med en egen kopi av det som var delt
+  dropHousehold = () => {
+    const A = window.MatgledeAuth, u = this.state.user, hid = this.state.hh;
+    this.unwatch(); this._srv = {}; this._syncOn = true;
+    this.setState({ hh: null, hhNames: {}, hhMembers: [], hhInvited: [] });
+    if (u) A.hh.leave(hid || '-', u.uid, this.syncData()).catch(e => console.error(e));
+  };
+  myName = () => { const u = this.state.user; return u.name || u.email; };
+  checkInvite = u => {
+    const A = window.MatgledeAuth;
+    if (!u.email || !u.verified) return;
+    A.hh.findInvite(u.email).then(inv => {
+      if (!inv || inv.hid === this.state.hh) return;
+      this.setState({ hhInvite: inv });
+      this.toast(`${inv.from} vil dele appen med deg. Se Innstillinger.`);
+    }).catch(e => console.error(e));
+  };
+  shareApp = e => {
+    if (e) e.preventDefault();
+    const A = window.MatgledeAuth, s = this.state, u = s.user, email = s.shareEmail.trim().toLowerCase();
+    if (!u || s.shareBusy) return;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return this.setState({ shareMsg: 'Skriv inn en gyldig e-postadresse.' });
+    if (email === u.email) return this.setState({ shareMsg: 'Det er din egen e-post. Skriv inn e-posten til den du vil dele med.' });
+    this.setState({ shareBusy: true, shareMsg: '' });
+    (s.hh ? Promise.resolve(s.hh) : A.hh.create(u.uid, this.myName(), this.syncData()).then(hid => { this.watch(hid); return hid; }))
+      .then(hid => A.hh.invite(hid, email, this.myName()))
+      .then(() => { this.setState({ shareBusy: false, shareEmail: '', shareSent: email }); this.toast(`Invitasjon til ${email} er klar`); })
+      .catch(err => { console.error(err); this.setState({ shareBusy: false, shareMsg: 'Fikk ikke delt. Sjekk nettet og prøv igjen.' }); });
+  };
+  joinHousehold = () => {
+    const A = window.MatgledeAuth, s = this.state, u = s.user, inv = s.hhInvite; if (!inv || s.shareBusy) return;
+    this.setState({ shareBusy: true });
+    const done = () => A.hh.join(inv.hid, u.uid, u.email, this.myName()).then(() => {
+      this.setState({ hhInvite: null, shareBusy: false }); this.watch(inv.hid); this.toast(`Du deler nå appen med ${inv.from}`); });
+    (s.hh ? A.hh.leave(s.hh, u.uid, this.syncData()) : Promise.resolve()).then(done)
+      .catch(err => { console.error(err); this.setState({ shareBusy: false, shareMsg: 'Fikk ikke blitt med. Invitasjonen kan være trukket tilbake.' }); });
+  };
+  declineInvite = () => { const inv = this.state.hhInvite; this.setState({ hhInvite: null });
+    window.MatgledeAuth.hh.decline(inv.hid, this.state.user.email); };
+  leaveHousehold = () => {
+    if (!confirm('Slutte å dele appen? Du beholder en kopi av planen, handlelisten og beholdningen.')) return;
+    this.dropHousehold(); this.toast('Du deler ikke appen lenger');
   };
   // Planen lagres med mandagen den gjelder fra (planFrom). Er det gått k uker, flyttes alt k uker frem:
   // neste uke blir denne uka, og uker som er over forsvinner. Avkryssinger og egne varer følger uka si.
@@ -914,13 +1102,6 @@ class Component extends DCLogic {
       if (w > 0) out.checked[w + '|' + m[2]] = v; else if (w === 0) out.checked[m[2]] = v; }); }
     if (d.extra) out.extra = d.extra.map(x => x.w ? (({ w, ...y }) => w > k ? { ...y, w: w - k } : y)(x) : x);
     return out;
-  };
-  saveSoon = () => {
-    const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
-    this.syncPop();
-    const json = JSON.stringify(this.syncData()); if (json === this._lastSaved) return;
-    clearTimeout(this._saveT);
-    this._saveT = setTimeout(() => { this._lastSaved = json; A.saveData(u.uid, JSON.parse(json)).catch(e => console.error(e)); }, 800);
   };
   setLg = f => this.setState(st => ({ lg: { ...st.lg, ...f } }));
   // Felles sjekk før innlogging: run får (auth, skjemadata) og returnerer et løfte
@@ -949,7 +1130,7 @@ class Component extends DCLogic {
       .then(() => this.setLg({ busy: false, info: `Hvis det finnes en konto for ${l.email.trim()}, har vi sendt en lenke for å lage nytt passord. Sjekk også søppelpost.` }))
       .catch(e => this.setLg({ busy: false, error: A.message(e) }));
   };
-  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; if (A) A.signOut(); this.setState({ loggedIn: false, user: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
+  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; this.unwatch(); if (A) A.signOut(); this.setState({ loggedIn: false, user: null, hh: null, hhInvite: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
 
   componentDidUpdate(pp) {
     this.saveSoon();
@@ -958,6 +1139,10 @@ class Component extends DCLogic {
     const h = this.hashOf(this.state), d = this.state.stack.length;
     if (h !== location.hash) { if (d > (this._depth || 0)) history.pushState({ mg: d }, '', h); else history.replaceState({ mg: d }, '', h); }
     this._depth = d;
+    // Søndag: første gang Min beholdning åpnes, forsvinner merket og appen ber om å oppdatere beholdningen
+    const inPantry = (this.state.stack[d - 1] || {}).t === 'pantry';
+    if (inPantry && this.sundayNag()) this.setState({ pantrySeen: this.ymd(new Date()), pantryAsk: true });
+    else if (!inPantry && (this.state.pantryAsk || this.state.pc != null)) this.setState({ pantryAsk: false, pc: null });
     if (this.state.menu && !this._menuWas) setTimeout(() => { const b = document.querySelector('[data-mgmenu] button'); b && b.focus(); }, 0);
     this._menuWas = this.state.menu;
     if (pp && pp.startTab !== this.props.startTab && this.props.startTab) this.go(this.props.startTab);
@@ -969,15 +1154,20 @@ class Component extends DCLogic {
     if (this.state.shopVoice && !(top.t === 'store' && top.id === this.state.shopVoice)) { this.setState({ shopVoice: null }); if (this._srec) this._srec.stop(); }
   }
 
-  go = (tab, extra) => this.setState({ tab, stack: [], menu: false, ...extra });
+  go = (tab, extra) => this.setState(st => ({ tab, stack: [], menu: false, sdFull: false, ...(tab === 'tilbud' && st.tab !== 'tilbud' ? { tilbudSeen: (st.tilbudSeen || 0) + 1 } : {}), ...extra }));
   goCat = cat => this.go('opp', { cat, q: '' });
-  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false }));
+  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
     // Bruk nettleserens historikk når siden ble åpnet fra appen, så tilbake-knappen på telefonen følger med
     if (history.state && history.state.mg > 0) history.back();
-    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false }));
+    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
   };
+  LOGO_BOX = { BUNNPRIS:[64,53,73,95], COOP:[30,80,140,40], EXTRA:[33,52,140,99], JOKER:[0,0,200,133], KIWI:[25,66,150,68], MARKED:[30,66,140,67],
+    MEGA:[30,60,140,81], MENY:[30,71,140,59], OBS:[30,64,140,72], ODA:[30,72,140,56], PRIX:[30,60,140,81], REMA:[30,59,140,82], SPAR:[40,41,120,117] };
+  // Liten butikklogo beskåret til selve merket, så skriften blir stor og fargeflaten liten
+  logoChip = st => { const [x, y, w, h] = this.LOGO_BOX[st.code] || [0, 0, 200, 200], H = 14, k = H / h, W = Math.round(w * k), P = 4;
+    return `display:inline-block;vertical-align:-2px;margin-left:4px;width:${W}px;height:${H}px;padding:2px ${P}px;border-radius:4px;background:${st.bg} url('${st.logo}') ${P - x * k}px ${2 - y * k}px/${200 * k}px no-repeat;background-origin:border-box;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)`; };
   toast = (msg, undo) => { this.setState({ toast: msg, undo: undo || null }); clearTimeout(this._t);
     this._t = setTimeout(() => this.setState({ toast: null, undo: null }), undo ? 5000 : 1900); };
   onKey = e => {
@@ -1060,6 +1250,9 @@ class Component extends DCLogic {
     this.setState({ pantry, made: { ...made, [this.madeKey(d, id)]: true } });
     this.toast(used.length ? `Trukket fra beholdningen: ${used.join(', ')}` : `${r.name} er laget`, () => this.setState({ pantry: before, made, toast: null, undo: null }));
   };
+  // Søndag, og Min beholdning er ikke åpnet i dag
+  // shortcut: testuke til og med 29.11.2026 viser påminnelsen hver dag fra kl. 18, deretter søndager fra kl. 00:01. Kan slettes etterpå.
+  sundayNag = (t = new Date()) => ((t.getDay() === 0 && t.getHours() * 60 + t.getMinutes() >= 1) || (this.ymd(t) <= '2026-11-29' && t.getHours() >= 18)) && this.state.pantry.length > 0 && this.state.pantrySeen !== this.ymd(t);
   // items: [{ n, amt? }]. Mengden (Mye/Litt/Tomt eller antall) styres av MatgledePantry.
   addPantry = items => {
     if (!items.length) return;
@@ -1133,15 +1326,16 @@ class Component extends DCLogic {
     this.setState(s => ({ shopParsing: s.shopParsing + 1 }));
     ai.then(items => {
       const add = items.map(x => { const i = P.pick(x.n, labels), o = st.offers[i], q = Math.max(1, x.count || 1);
-        return o ? { n: labels[i], q, price: o.price, unit: o.unit || '', deal: o.deal || '', store: code } : { n: x.n[0].toUpperCase() + x.n.slice(1, 60), q }; });
+        return o ? { n: o.name, q, price: o.price, offer: code + ':' + o.name, note: `Tilbud hos ${st.name} · ${this.kr(o.price)}${o.unit ? ' ' + o.unit : ''}${o.deal ? ' · ' + o.deal : ''}` }
+          : { n: x.n[0].toUpperCase() + x.n.slice(1, 60), q }; });
       if (!add.length) return this.toast('Fikk ikke med meg noen varer. Prøv igjen.');
       this.setState(s => { const extra = [...s.extra];
-        add.forEach(a => { const k = extra.findIndex(x => !x.w && x.n.toLowerCase() === a.n.toLowerCase() && (x.store || '') === (a.store || ''));
+        add.forEach(a => { const k = extra.findIndex(x => !x.w && (a.offer ? x.offer === a.offer : !x.offer && x.n.toLowerCase() === a.n.toLowerCase()));
           if (k >= 0) extra[k] = { ...extra[k], q: (extra[k].q || 1) + a.q };
           else extra.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ...a }); });
         return { extra }; });
-      const miss = add.filter(a => !a.store).map(a => a.n);
-      this.toast('Lagt i handlelisten: ' + add.filter(a => a.store).map(a => `${a.q > 1 ? a.q + ' × ' : ''}${a.n} ${this.kr(a.price)}`).concat(miss.length ? [`${miss.join(', ')} (fant ikke i avisen, uten pris)`] : []).join(', '));
+      const miss = add.filter(a => !a.offer).map(a => a.n);
+      this.toast('Lagt i handlelisten: ' + add.filter(a => a.offer).map(a => `${a.q > 1 ? a.q + ' × ' : ''}${a.n} ${this.kr(a.price)}`).concat(miss.length ? [`${miss.join(', ')} (fant ikke i avisen, uten pris)`] : []).join(', '));
     }).finally(() => this.setState(s => ({ shopParsing: s.shopParsing - 1 })));
   };
   kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
@@ -1153,12 +1347,7 @@ class Component extends DCLogic {
     if (!window.MATGLEDE_AI_URL) return this.toast('Bildegjenkjenning er ikke slått på ennå');
     if (!this.state.user) return this.push({ t: 'login' });
     this.setState({ scanning: files.length });
-    Promise.allSettled(files.map(f => createImageBitmap(f).then(b => {
-      const k = Math.min(1, 1280 / Math.max(b.width, b.height)), c = document.createElement('canvas');
-      c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
-      c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
-      return this.askAI({ image: c.toDataURL('image/jpeg', 0.8).split(',')[1] });
-    }))).then(res => {
+    Promise.allSettled(files.map(f => this.jpeg(f, 1280, 0.8).then(url => this.askAI({ image: url.split(',')[1] })))).then(res => {
       const ok = res.filter(r => r.status === 'fulfilled'), items = ok.flatMap(r => r.value);
       res.filter(r => r.status === 'rejected').forEach(r => console.error(r.reason));
       if (items.length) this.addPantry(items);
@@ -1166,6 +1355,125 @@ class Component extends DCLogic {
       else if (ok.length < files.length) this.toast(`${files.length - ok.length} av ${files.length} bilder kunne ikke leses`);
       else if (!items.length) this.toast(files.length > 1 ? 'Fant ingen matvarer på bildene' : 'Fant ingen matvarer på bildet');
     }).finally(() => this.setState({ scanning: false }));
+  };
+  // Bildefil -> JPEG som data-URL, høyst max piksler på lengste side
+  jpeg = (f, max, q) => createImageBitmap(f).then(b => {
+    const k = Math.min(1, max / Math.max(b.width, b.height)), c = document.createElement('canvas');
+    c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
+    c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', q);
+  });
+
+  // ---------- Mine oppskrifter: skrevet inn selv eller lest fra bilde av en oppskrift (worker/, Claude) ----------
+  // Lagres i state.mine (kontoen og nettleseren) og flettes inn i D.R og D.byId, så plan, handleliste og priser virker som ellers.
+  // Ingrediensnavn -> vare med samme regler som recipe_parse.match_ingredient (data.js: matching).
+  // Reserve: navn fra Matgledes oppskrifter og varedatabasen, som helt ord eller bøyning.
+  ALIAS = (() => { const a = {};
+    this.D.R.forEach(r => r.ing.forEach(i => { if (i.slug) a[i.n.toLowerCase()] = i.slug; }));
+    Object.entries(this.D.ING).forEach(([slug, x]) => { const n = x.name.toLowerCase(), m = n.replace(/\s*\(.*\)/, ''); a[n] = a[n] || slug; a[m] = a[m] || slug; });
+    // Vanlige korte navn i oppskrifter som ikke sier hvilken variant
+    Object.entries({ mel: 'mel', olje: 'noytral_olje', ost: 'ost_revet', pasta: 'penne', fløte: 'flote' }).forEach(([k, v]) => { a[k] = a[k] || v; });
+    return a; })();
+  slugOf = (n, u) => {
+    const h = String(n || '').toLowerCase().split(',')[0].replace(/\(.*?\)/g, '').trim(), MT = this.D.M.matching, A = this.ALIAS; if (!h) return null;
+    if (A[h]) return A[h]; // navn fra Matgledes egne oppskrifter og varedatabasen først
+    const esc = t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (MT) { const ww = new Set(MT.wholeWord);
+      const has = t => ww.has(t) ? new RegExp(`(^|[^a-zæøå])${esc(t)}(er|en|ene)?([^a-zæøå]|$)`).test(h) : h.includes(t);
+      for (const [slug, needles, ex] of MT.rules) if (needles.some(has) && !ex.some(e => h.includes(e))) {
+        const sp = u === 'ts' || u === 'ss';
+        const s2 = slug === 'paprika' && sp ? 'paprikapulver' : slug === 'buljong' && ['ml','dl','l','cl'].includes(u) ? 'kraft'
+          : slug === 'koriander_frisk' && sp && !/frisk|fersk/.test(h) ? 'koriander_malt' : slug;
+        if (this.D.ING[s2]) return s2; } }
+    const word = k => new RegExp('(^|[^a-zæøå])' + esc(k) + '(er|en|ene|e)?([^a-zæøå]|$)').test(h);
+    const k = Object.keys(A).filter(word).sort((a, b) => b.length - a.length)[0] || (h.length >= 4 && Object.keys(A).find(k => k.startsWith(h) && k.length - h.length <= 3));
+    return k ? A[k] : null;
+  };
+  // «Salt og pepper» uten mengde er to varer. Gir [navn, slug]-par, ett per vare.
+  partsOf = (n, u, q) => { const p = q == null && String(n).split(/\s+og\s+/i).map(x => x.trim()).filter(Boolean), ss = p && p.length === 2 ? p.map(x => this.slugOf(x, u)) : [];
+    return ss.length && ss.every(Boolean) && ss[0] !== ss[1] ? p.map((x, k) => [x[0].toUpperCase() + x.slice(1), ss[k]]) : [[n, this.slugOf(n, u)]]; };
+  RU = { g:['g',1], kg:['g',1000], ml:['ml',1], cl:['ml',10], dl:['ml',100], l:['ml',1000], ss:['ml',15], ts:['ml',5], stk:['stk',1], pk:['pk',1] };
+  // Mengde i varens basisenhet (g, ml eller stk). Samme regler som app_export.base_amount.
+  toBase = (q, u, slug, name) => {
+    const I = this.D.ING[slug], MT = this.D.M.matching || {}; if (q == null || !u || !I) return null;
+    if (u === 'boks') u = 'pk';
+    if (slug === 'hvitlok' && (u === 'fedd' || (u === 'stk' && /fedd/i.test(name || '')))) { q *= MT.gramsPerClove || 5; u = 'g'; }
+    else if (u === 'fedd') u = 'stk';
+    else if (slug === 'kyllingfilet' && u === 'stk') { q *= MT.gramsPerChickenBreast || 150; u = 'g'; }
+    else if (I.pack && (u === 'pk' || u === 'stk')) { q *= I.pack[0]; u = I.pack[1]; }
+    const ru = this.RU[u]; if (!ru) return null;
+    const v = q * ru[1], b = ru[0], bu = I.base;
+    if (b === bu) return v;
+    if (b === 'stk' && bu === 'g' && I.gpp) return v * I.gpp;
+    if (b === 'g' && bu === 'stk' && I.gpp) return v / I.gpp;
+    return (b === 'g' && bu === 'ml') || (b === 'ml' && bu === 'g') ? v : null;
+  };
+  ownR = c => {
+    const ing = (c.ing || []).flatMap(i => this.partsOf(i.n, i.u, i.q).map(([n, slug]) => ({ n, q: i.q, u: i.u || '', slug, base: slug ? this.toBase(i.q, i.u, slug, n) : null })));
+    const cats = ['mine']; if (c.time && c.time <= 30) cats.push('rask'); if (ing.length <= 6) cats.push('fa');
+    let hue = 7; for (const ch of c.id) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
+    return { ...c, servings: c.servings || 4, diff: c.diff || 2, steps: c.steps || [], ing, cats, hue, learn: [], photo: this.blobOf(c.photo), photoData: c.photo || null, mine: true };
+  };
+  // Malen deler stil på «;», så data-URL-en (data:image/jpeg;base64,…) vises via en blob-adresse
+  blobOf = d => { if (!d) return null; const m = this._blobs || (this._blobs = new Map()); if (m.has(d)) return m.get(d);
+    const bin = atob(d.split(',')[1]), a = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) a[k] = bin.charCodeAt(k);
+    const u = URL.createObjectURL(new Blob([a], { type: 'image/jpeg' })); m.set(d, u); return u; };
+  applyMine = mine => { if (mine === this._mine) return; this._mine = mine; const D = this.D; D.R0 = D.R0 || D.R;
+    D.R = [...(mine || []).map(this.ownR), ...D.R0]; D.byId = Object.fromEntries(D.R.map(r => [r.id, r])); };
+  UNITS = ['', 'g', 'kg', 'dl', 'l', 'ml', 'ss', 'ts', 'stk', 'pk', 'boks', 'fedd', 'klype', 'neve', 'skive'];
+  numStr = q => q == null ? '' : String(Math.round(q * 100) / 100).replace('.', ',');
+  parseQ = t => { t = String(t || '').trim().replace(',', '.'); if (!t) return null;
+    const F = { '½': 0.5, '¼': 0.25, '¾': 0.75 }; if (F[t]) return F[t];
+    let m = t.match(/^(\d+)\s+(\d+)\/(\d+)$/); if (m) return +m[1] + m[2] / m[3];
+    m = t.match(/^(\d+)\/(\d+)$/); if (m) return m[1] / m[2];
+    const v = parseFloat(t); return isFinite(v) && v > 0 ? v : null; };
+  rowK = 0;
+  row = i => ({ k: ++this.rowK, n: i ? i.n : '', q: i ? this.numStr(i.q) : '', u: i && this.UNITS.includes(i.u) ? i.u : '' });
+  openEdit = (r, ai) => this.setState(s => ({ stack: [...s.stack, { t: 'edit' }], menu: false, rdPick: false, rdLearn: false, rdPig: false,
+    draft: { id: r && r.id || null, ai: !!ai, name: r ? r.name || '' : '', servings: r && r.servings || 4, time: r && r.time ? String(r.time) : '',
+      rows: r && r.ing && r.ing.length ? r.ing.map(this.row) : [this.row(), this.row(), this.row()], steps: (r && r.steps || []).join('\n'), photo: r && r.photoData || null, error: '' } }));
+  setDraft = f => this.setState(s => ({ draft: { ...s.draft, ...f } }));
+  setRow = (k, f) => this.setState(s => ({ draft: { ...s.draft, rows: s.draft.rows.map(r => r.k === k ? { ...r, ...f } : r) } }));
+  saveDraft = () => {
+    const d = this.state.draft, name = d.name.trim();
+    const ing = d.rows.filter(r => r.n.trim()).map(r => ({ n: r.n.trim().slice(0, 80), q: this.parseQ(r.q), u: r.u }));
+    if (!name) return this.setDraft({ error: 'Gi oppskriften et navn.' });
+    if (!ing.length) return this.setDraft({ error: 'Legg til minst én ingrediens.' });
+    const t = parseInt(d.time, 10), id = d.id || 'egen-' + Date.now().toString(36);
+    const rec = { id, name: name.slice(0, 80), servings: d.servings, time: t > 0 ? Math.min(t, 1440) : null, ing,
+      steps: d.steps.split(/\n+/).map(x => x.trim()).filter(Boolean), ...(d.photo ? { photo: d.photo } : {}) };
+    const isNew = !d.id;
+    this.setState(s => ({ mine: [rec, ...s.mine.filter(c => c.id !== id)], draft: null, stack: isNew ? [...s.stack.slice(0, -1), { t: 'recipe', id }] : s.stack }));
+    if (!isNew) this.back();
+    this.toast('Oppskriften er lagret');
+  };
+  deleteMine = id => {
+    const s = this.state, before = { mine: s.mine, favs: s.favs, plan: s.plan };
+    this.setState({ mine: s.mine.filter(c => c.id !== id), favs: s.favs.filter(f => f !== id), draft: null,
+      plan: Object.fromEntries(Object.entries(s.plan).map(([g, l]) => [g, l.filter(x => x !== id)])), stack: [{ t: 'mine' }] });
+    this.toast('Oppskriften er slettet', () => this.setState({ ...before, toast: null, undo: null }));
+  };
+  // Bilde av maten: lite JPEG lagret i oppskriften.
+  // shortcut: bildet ligger i kontodokumentet (Firestore, maks 1 MB, ca. 30 kB per bilde). Flytt til Firebase Storage hvis folk lagrer mange.
+  pickPhoto = e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+    this.jpeg(f, 480, 0.65).then(photo => this.setDraft({ photo })).catch(() => this.toast('Fikk ikke åpnet bildet')); };
+  // Bilde av en oppskrift (bok, lapp, skjerm) -> worker/ (Claude) -> utfylt skjema som brukeren retter før lagring
+  scanRecipe = e => {
+    const f = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!f || this.state.reading) return;
+    if (!window.MATGLEDE_AI_URL) return this.toast('Lesing av oppskrifter er ikke slått på ennå');
+    if (!this.state.user) { this.toast('Logg inn for å lese oppskrifter fra bilder'); return this.push({ t: 'login' }); }
+    this.setState({ reading: true });
+    this.jpeg(f, 1600, 0.85).then(url => window.MatgledeAuth.idToken().then(tok => fetch(window.MATGLEDE_AI_URL, { method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify({ recipe: url.split(',')[1] }) })))
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+      .then(d => { const x = d && d.recipe, str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '', num = v => typeof v === 'number' && v > 0 ? v : null;
+        const ing = (x && Array.isArray(x.ing) ? x.ing : []).map(i => ({ n: str(i && i.n, 80), q: num(i && i.q), u: str(i && i.u, 10) })).filter(i => i.n).slice(0, 60);
+        if (!x || (!str(x.name, 80) && !ing.length)) return this.toast('Fant ingen oppskrift på bildet. Prøv et skarpere bilde.');
+        this.openEdit({ name: str(x.name, 80), servings: Math.max(1, Math.min(12, Math.round(num(x.servings) || 4))), time: Math.round(num(x.time) || 0) || null, ing,
+          steps: (Array.isArray(x.steps) ? x.steps : []).map(t => str(t, 600)).filter(Boolean).slice(0, 30) }, true); })
+      .catch(err => { console.error(err); this.toast('Fikk ikke lest oppskriften. Prøv igjen, eller skriv den inn selv.'); })
+      .finally(() => this.setState({ reading: false }));
   };
 
   // ---------- mengder ----------
@@ -1256,7 +1564,7 @@ class Component extends DCLogic {
   mk(r, extra) {
     const s = this.state, fav = s.favs.includes(r.id), rc = this.recipeCost(r), ct = this.costText(rc);
     return {
-      id: r.id, name: r.name, time: r.time, timeLabel: `${r.time} min`,
+      id: r.id, name: r.name, time: r.time, timeLabel: r.time ? `${r.time} min` : 'Tid: –',
       dots: [0,1,2,3,4].map(i => i < r.diff ? this.DIFF_C[r.diff - 1] : 'var(--mg-border)'), diffLabel: this.DIFF_L[r.diff - 1], diffColor: this.DIFF_C[r.diff - 1],
       diffAria: `Vanskelighet ${r.diff} av 5, ${this.DIFF_L[r.diff - 1].toLowerCase()}`,
       isFav: fav, favLabel: fav ? `Fjern ${r.name} fra favoritter` : `Legg ${r.name} til i favoritter`,
@@ -1275,6 +1583,7 @@ class Component extends DCLogic {
 
   renderVals() {
     this._rc = new Map();
+    this.applyMine(this.state.mine);
     const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user, P = window.MatgledePantry;
     const stock = s.pantry.filter(x => P.level(x) !== 'tomt'); // tomme varer teller ikke
     const MON = ['jan.','feb.','mars','april','mai','juni','juli','aug.','sep.','okt.','nov.','des.'];
@@ -1305,7 +1614,7 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       const w = Math.floor(dl[0] / 7);
-      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [], offer: x.store && x.price ? x : null }));
+      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, price: x.price, q: x.q, store: x.offer && D.storeByCode[x.offer.split(':')[0]], from: [] }));
       m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
@@ -1320,19 +1629,19 @@ class Component extends DCLogic {
     };
     // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
     const priceEntry = (e, chain) => { const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.buy != null ? e.buy : e.base, e.pk, chain, e.deal) : null); };
-    const amountOf = e => e.own ? (e.offer && e.offer.q > 1 ? e.offer.q + ' stk' : '') : e.slug
+    const amountOf = e => e.own ? (e.q > 1 ? e.q + ' stk' : '') : e.slug
       ? [e.home || e.buy == null ? (e.base ? this.fmt(e.base, e.u) : '') : this.fmt(e.buy, e.u), e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
       const NOTE = { mye: 'Har nok hjemme, trenger ikke kjøpe', litt: 'Lite igjen hjemme, bør kjøpe mer', tomt: 'Tomt hjemme, må kjøpes' };
       const hv = e.have && e.have.h > 0 && `Har ca. ${this.fmt(e.have.h, e.have.u)} hjemme`;
-      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? (e.offer ? `Tilbud hos ${(D.storeByCode[e.offer.store] || {}).name || chainName(e.offer.store)}${e.offer.unit ? ' · ' + this.kr(e.offer.price) + ' ' + e.offer.unit : ''}${e.offer.deal ? ' · ' + e.offer.deal : ''}` : 'Egen vare') : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
+      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? (e.offer ? this.fp(e.offer.price * (e.offer.q || 1)) : '') : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
-        section: this.sectionOf(e.n), own: !!e.own, home: !!e.home,
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? (e.price ? this.fp(e.price * (e.q || 1)) : '') : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
+        section: this.sectionOf(e.n), own: !!e.own, home: !!e.home, hasStore: !!e.store, storeChip: e.store ? this.logoChip(e.store) : '', storeName: e.store ? e.store.name : '',
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.ck]: !st.checked[e.ck] } })) }; });
-    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { if (e.offer) { total += e.offer.price * (e.offer.q || 1); found++; return; } const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
+    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { if (e.own) { if (e.price) { total += e.price * (e.q || 1); found++; } return; } const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
     const sumText = sm => !M.hasPrices ? 'pris kommer' : sm.found ? `ca. ${Math.round(sm.total)} kr` : 'pris mangler';
     const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
     const shopArr = buildShop(wkDays);
@@ -1423,7 +1732,8 @@ class Component extends DCLogic {
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
-        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })) };
+        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
+        isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
     if (top.t === 'cook') {
@@ -1436,11 +1746,20 @@ class Component extends DCLogic {
         next: () => { if (last) { this.back(); if ((s.plan[this.TODAY] || []).includes(r.id) && !s.made[this.madeKey(this.TODAY, r.id)]) this.markMade(this.TODAY, r.id); else this.toast('Velbekomme!'); } else this.setState({ cookStep: i + 1 }); } };
     }
     let sd = {};
+    // Bare tilbud som er koblet til en ingrediens (offers.py tag_offers), så kjøttsuppe med poteter ikke teller som poteter
+    const listSlugs = new Set(shopArr.filter(e => !e.own && e.slug).map(e => e.slug));
+    const onList = st => (st.offers || []).filter(o => o.ing && listSlugs.has(o.ing));
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = this.kr, avis = !!st.fromFlyer;
-      const item = o => ({ name: o.name, brand: [o.brand || (avis ? '' : o.cat), o.deal].filter(Boolean).join(' · '), badge: o.pct ? `−${o.pct} %` : 'Tilbud',
-        price: kr(o.price), before: o.before ? 'før ' + kr(o.before) : o.unit || '', strike: o.before ? 'line-through' : 'none',
-        open: () => o.url && window.open(o.url, '_blank', 'noopener') });
+      const addBtn = o => { const key = st.code + ':' + o.name, have = s.extra.some(x => x.offer === key && !x.w);
+        return { added: have, addIcon: have ? 'M5 12.5l4.5 4.5L19 7' : 'M12 5v14M5 12h14', addBg: have ? 'var(--mg-primary)' : 'var(--mg-ink)',
+          addLabel: have ? `Fjern ${o.name} fra handlelisten` : `Legg ${o.name} i handlelisten`,
+          add: ev => { ev && ev.stopPropagation && ev.stopPropagation();
+            this.setState(ss => ({ extra: have ? ss.extra.filter(x => !(x.offer === key && !x.w))
+              : [...ss.extra, { id: Date.now().toString(36), n: o.name, offer: key, price: o.price, note: `Tilbud hos ${st.name} · ${kr(o.price)}${o.unit ? ' ' + o.unit : ''}${o.deal ? ' · ' + o.deal : ''}` }] }));
+            this.toast(have ? 'Fjernet fra handlelisten' : 'Lagt i handlelisten for denne uka'); } }; };
+      const item = o => ({ name: o.name, brand: [o.brand || (avis ? '' : o.cat), o.deal].filter(Boolean).join(' · '), badge: o.pct ? `−${o.pct} %` : 'Tilbud', img: o.img || '', hasImg: !!o.img, cardH: o.img ? '260px' : '170px', pctPos: o.img ? 'absolute' : 'static', price: kr(o.price), before: o.before ? 'før ' + kr(o.before) : o.unit || '', strike: o.before ? 'line-through' : 'none',
+        open: () => o.url && window.open(o.url, '_blank', 'noopener'), ...addBtn(o) });
       const groups = [];
       st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
       let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
@@ -1450,7 +1769,10 @@ class Component extends DCLogic {
         if (i > 0) pages.push({ src, pos: '0% 0', label: `Side ${2 * i}` });
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
-      sd = { name: st.name, logo: st.logo, bg: st.bg, sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
+      const mine = onList(st), listOpen = s.sdList === st.code, frame = view.type === 'pdf' || view.type === 'embed', frameFull = frame && !!s.sdFull;
+      sd = { name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
+        mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
+        toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
         countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} ${avis ? 'tilbud' : 'prisfall'}` : 'avis',
         voiceOn: s.shopVoice === st.code, voice: () => this.shopVoice(st.code),
         voiceText: s.shopVoice === st.code ? (s.shopParsing ? 'Legger til …' : 'Lytter. Si varene du vil ha, trykk for å stoppe') : 'Snakk for å legge til varer i handleliste',
@@ -1458,14 +1780,18 @@ class Component extends DCLogic {
         voiceBorder: s.shopVoice === st.code ? 'transparent' : 'var(--mg-border)', voiceShadow: s.shopVoice === st.code ? '0 4px 14px rgba(0,0,0,.18)' : 'none',
         knobTrack: s.shopVoice === st.code ? 'rgba(255,255,255,.45)' : 'var(--mg-border)', knobLeft: s.shopVoice === st.code ? '19px' : '3px',
         voiceHint: st.offers.length ? 'Varene får prisen fra avisen' : 'Varene legges til uten pris, avisen er ikke lest ennå', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
-        noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: host ? 'Åpnes hos ' + host : '',
+        noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: frame ? 'Fyller hele skjermen' : host ? 'Åpnes hos ' + host : '',
         isImages: view.type === 'images', isFrame: view.type === 'pdf' || view.type === 'embed', isLink: linkView,
         pages: pages, frameTitle: `Tilbudsavis fra ${st.name}`,
         frameUrl: view.type === 'pdf' ? view.url + '#view=FitH&toolbar=0&navpanes=0' : (view.url || ''),
         linkText: `${st.name} viser avisen i en leser som ikke kan bygges inn i andre apper, så den åpnes hos ${host || 'kjeden'}.`,
         btnLabel: linkView ? 'Åpne ukas avis' : 'Åpne avisen i full størrelse',
         btnBg: linkView ? 'var(--mg-ink)' : 'var(--mg-border)', btnFg: linkView ? 'var(--mg-on-ink)' : 'var(--mg-ink)',
-        openFlyer: () => (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
+        // Avis i ramme: «full størrelse» fyller skjermen inne i appen, samme iframe så den ikke lastes på nytt
+        full: frameFull, closeFull: () => this.setState({ sdFull: false }),
+        frameStyle: frameFull ? 'position:fixed;inset:0;z-index:1000;width:100vw;height:100dvh;border:0;background:var(--mg-surface)'
+          : 'width:calc(100% + 16px);margin:0 -8px;height:max(620px,80vh);border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)',
+        openFlyer: () => frame ? this.setState({ sdFull: true }) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
         emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka.`
           : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
         groups: [...groups].sort((a, b) => b.list.length - a.list.length).map(g => ({ name: g.name, count: `${g.list.length}`, items: g.list.map(item) })),
@@ -1478,7 +1804,7 @@ class Component extends DCLogic {
     if (top.t === 'shop') {
       const week = top.scope === 'week', arr = week ? ((top.wk || 0) === wk ? shopArr : buildShop(daysOf(top.wk || 0))) : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
       const names = (s.plan[top.day] || []).map(id => D.byId[id]).map(r => `${r.name} (${this.pers(r)} pers.)`).join(', ');
-      const unm = arr.filter(e => !e.slug && !e.offer).length;
+      const unm = arr.filter(e => !e.slug && !e.price).length;
       const hm = arr.filter(e => e.home && e.slug).length;
       const doneN = items.filter(i => i.done).length, ORDER = [...this.SECTIONS.map(x => x[0]), 'Annet'];
       const groups = ORDER.map(name => ({ name, items: items.filter(i => !i.done && !i.home && i.section === name) })).filter(g => g.items.length);
@@ -1504,10 +1830,6 @@ class Component extends DCLogic {
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
 
-    const words = shopArr.filter(e => !e.own).map(e => e.n.toLowerCase().replace(/\s*\(.*\)/, '')).filter(w => w.length > 2)
-      .map(w => new RegExp('(^|[^a-zæøå])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(er|en|ene)?([^a-zæøå]|$)', 'i'));
-    const onList = st => (st.offers || []).filter(o => words.some(re => re.test(o.name))).length;
-    const listOffers = D.STORES.map(st => ({ st, n: onList(st) })).filter(x => x.n);
     const tg = (key, label, sub) => ({ on: !!s[key], label, sub, track: s[key] ? 'var(--mg-primary)' : 'var(--mg-border-strong)', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
@@ -1538,6 +1860,22 @@ class Component extends DCLogic {
     };
     // Samme avdelinger og rekkefølge som handlelisten
     pt.groups = [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name, items: pt.items.filter(i => i.section === name) })).filter(g => g.items.length);
+    // Søndagskort: én vare om gangen, i samme rekkefølge som listen
+    pt.ask = s.pantryAsk && s.pc == null; pt.nag = this.sundayNag(); pt.rowLabel = `Min beholdning, ${s.pantry.length} varer${pt.nag ? ', på tide å oppdatere' : ''}`;
+    pt.nagText = this.TODAY === 6 ? 'Søndag' : 'Oppdater'; pt.askTitle = this.TODAY === 6 ? 'Det er søndag! Oppdater beholdningen din' : 'På tide å oppdatere beholdningen din';
+    pt.start = () => this.setState({ pc: 0 }); pt.skip = () => this.setState({ pantryAsk: false });
+    const order = pt.groups.flatMap(g => g.items), pc = Math.min(s.pc ?? 0, order.length - 1), cur = order[pc];
+    pt.cards = s.pc != null && !!cur; pt.card = { levels: [] };
+    if (pt.cards) {
+      const x = s.pantry.find(p => p.n === cur.n), cnt = P.counted(x.n), lv = P.level(x), last = pc === order.length - 1;
+      const done = () => { this.setState({ pc: null, pantryAsk: false }); this.toast('Beholdningen er oppdatert'); };
+      pt.card = { n: x.n, art: P.art(x.n), progress: `Vare ${pc + 1} av ${order.length}`, counted: cnt, level: !cnt,
+        q: P.qty(x) + " stk", down: () => stepItem(x.id, -1), up: () => stepItem(x.id, 1), downLabel: cur.downLabel, upLabel: cur.upLabel,
+        levels: ['tomt', 'litt', 'mye'].map(l => ({ label: LV[l][0], on: l === lv, ...this.chip(l === lv),
+          pick: () => this.setState(st => ({ pantry: st.pantry.map(p => p.id === x.id ? { id: p.id, n: p.n, lvl: l } : p) })) })),
+        first: pc === 0, prevOp: pc === 0 ? .4 : 1, prev: () => this.setState({ pc: Math.max(0, pc - 1) }),
+        nextLabel: last ? 'Ferdig' : 'Neste', next: last ? done : () => this.setState({ pc: pc + 1 }), close: done };
+    }
     const uh = {
       empty: !s.pantry.length, has: ranked.length > 0, none: !!s.pantry.length && !ranked.length,
       sub: s.pantry.length ? `${stock.length} varer i beholdningen` : 'Beholdningen er tom',
@@ -1559,13 +1897,41 @@ class Component extends DCLogic {
       openPantry: () => this.push({ t: 'pantry' })
     };
 
+    const openMine = () => this.push({ t: 'mine' });
+    const mn = { empty: !s.mine.length, write: () => this.openEdit(null), scan: this.scanRecipe,
+      scanLabel: s.reading ? 'Leser oppskriften …' : 'Ta bilde av oppskrift', scanBg: s.reading ? 'var(--mg-primary-soft)' : 'var(--mg-butter)',
+      list: D.R.filter(r => r.mine).map(r => this.mk(r, { ingCount: `${r.ing.length} ingredienser` })) };
+    let ed = {};
+    if (top.t === 'edit' && s.draft) {
+      const d = s.draft, filled = d.rows.filter(x => x.n.trim()), linked = filled.filter(x => this.partsOf(x.n, x.u, this.parseQ(x.q)).every(p => p[1])).length;
+      ed = { kicker: d.id ? 'Din oppskrift' : 'Ny oppskrift', title: d.id ? 'Endre oppskrift' : 'Legg til oppskrift', ai: d.ai,
+        name: d.name, setName: e => this.setDraft({ name: e.target.value, error: '' }),
+        servings: d.servings, servMinus: () => this.setDraft({ servings: Math.max(1, d.servings - 1) }), servPlus: () => this.setDraft({ servings: Math.min(12, d.servings + 1) }),
+        time: d.time, setTime: e => this.setDraft({ time: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+        photoBg: d.photo ? `url("${this.blobOf(d.photo)}") center/cover no-repeat` : 'var(--mg-surface)', hasPhoto: !!d.photo, noPhoto: !d.photo,
+        pickPhoto: this.pickPhoto, removePhoto: () => this.setDraft({ photo: null }),
+        linked: filled.length ? `${linked} av ${filled.length} koblet til vare` : '',
+        rows: d.rows.map((x, j) => { const parts = x.n.trim() ? this.partsOf(x.n, x.u, this.parseQ(x.q)) : [], slug = parts.length && parts.every(p => p[1]);
+          return { n: x.n, q: x.q, u: x.u, num: j + 1, label: x.n.trim() || `ingrediens ${j + 1}`,
+            units: this.UNITS.map(v => ({ v, l: v || 'enhet' })),
+            link: !x.n.trim() ? '' : slug ? `Koblet til ${parts.map(p => D.ING[p[1]].name).join(' og ')}` : 'Ikke koblet til vare: kommer på handlelisten, men uten pris',
+            linkColor: slug ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)',
+            setN: e => this.setRow(x.k, { n: e.target.value }), setQ: e => this.setRow(x.k, { q: e.target.value }), setU: e => this.setRow(x.k, { u: e.target.value }),
+            remove: () => this.setDraft({ rows: d.rows.filter(y => y.k !== x.k) }) }; }),
+        addRow: () => this.setDraft({ rows: [...d.rows, this.row()] }),
+        steps: d.steps, setSteps: e => this.setDraft({ steps: e.target.value }),
+        error: d.error, hasError: !!d.error, save: this.saveDraft, canDelete: !!d.id, del: () => this.deleteMine(d.id) };
+    }
+
     return {
+      ovMine: top.t === 'mine', mn, openMine, ovEdit: top.t === 'edit' && !!s.draft, ed, mineNum: s.mine.length,
       nav, showLabels: this.props.navLabels ?? true,
+      navZ: s.sdFull ? 10 : 50, // under avisen i fullskjerm
       isHome: s.tab === 'home', isFav: s.tab === 'fav', isTilbud: s.tab === 'tilbud', isPlan: s.tab === 'plan', isOpp: s.tab === 'opp', isLaere: s.tab === 'laere',
       goHome: () => this.go('home'), goFav: () => this.go('fav'), goTilbud: () => this.go('tilbud'), goPlan: () => this.go('plan'), goOpp: () => this.go('opp'), goLaere: () => this.go('laere'),
       contentRef: this.contentRef, back: this.back,
       openSearch: () => this.push({ t:'search' }),
-      openProfile,
+      openProfile, nagBadge: s.loggedIn && pt.nag,
       loggedIn: s.loggedIn, notLoggedIn: !s.loggedIn, avatarBg: s.loggedIn ? 'var(--mg-butter)' : 'var(--mg-surface)',
       menuOpen: s.menu, toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }),
       menuBtnBg: s.menu ? 'var(--mg-ink)' : 'var(--mg-surface)', menuBtnFg: s.menu ? 'var(--mg-on-ink)' : 'var(--mg-ink)',
@@ -1583,7 +1949,8 @@ class Component extends DCLogic {
       initials,
       userName: user ? (user.name || user.email.split('@')[0]) : '', userEmail: user ? user.email : '',
       avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : initials,
-      syncLabel: user ? (user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
+      syncLabel: user ? ((s.hhMembers || []).length > 1 ? 'Deler appen med ' + s.hhMembers.filter(id => id !== user.uid).map(id => (s.hhNames || {})[id] || 'Ukjent').join(', ')
+        : user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
       daysNum: Object.values(s.plan).filter(l => l.length).length,
       greeting: user && user.name ? `Hei, ${user.name.split(' ')[0]}` : 'Hva blir det til middag?',
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
@@ -1591,12 +1958,11 @@ class Component extends DCLogic {
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
-      flyerStores: D.STORES.map(st => { const n = onList(st), mine = st.code === s.chain;
-        return { name: st.name, bg: st.bg, logo: st.logo, open: () => this.push({ t:'store', id: st.code }),
-          hasBadge: !!n || mine, badge: [mine ? 'Din butikk' : '', n ? `${n} på listen` : ''].filter(Boolean).join(' · '), ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} tilbud på varer fra handlelisten` : ''}` }; }),
-      hasListOffers: listOffers.length > 0,
-      listOffersText: listOffers.length ? `Ukas tilbud på varer i handlelisten din: ${listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map(x => `${x.st.name} (${x.n})`).join(', ')}.` : '',
+      hasListHint: (s.tilbudSeen || 0) <= 3 && D.STORES.some(st => onList(st).length),
+      flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
+        return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
+          nLabel: `${n} på listen din`, hasBadge: mine, ring: mine ? '3px solid var(--mg-primary)' : 'none',
+          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} varer fra handlelisten på tilbud` : ''}` }; }),
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
@@ -1627,7 +1993,7 @@ class Component extends DCLogic {
       ownItem: s.ownItem, onOwn: e => this.setState({ ownItem: e.target.value }),
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),
       popular: pop.slice(0, 6).map((r, i) => this.mk(r, { rank: i + 1 })),
-      cats: D.CATS.map(([id, label]) => ({ label, ...this.chip(s.cat === id), pick: () => this.setState({ cat: id }) })),
+      cats: D.CATS.filter(([id]) => id !== 'mine' || s.mine.length).map(([id, label]) => ({ label, ...this.chip(s.cat === id), pick: () => this.setState({ cat: id }) })),
       catRecipes: this.byPop(D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (rc => rc.complete && rc.sum < 100)(this.recipeCost(r)) : r.cats.includes(s.cat))), r => 'rett:' + r.id).map(r => this.mk(r)),
       featured: ['a2','a3','a7','a4'].map(id => artItem(D.artById[id])),
       topics: D.TOPICS.map((t, i) => ({ ...t, rot: [-3, 2, -1.5, 3, -2.5, 1.5, -1][i], open: () => this.push({ t:'topic', id: t.id }) })),
@@ -1641,7 +2007,26 @@ class Component extends DCLogic {
       rd, td, ad,
       favNum: s.favs.length, planNum,
       credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
-      portionOpts: [2, 4, 6].map(n => ({ label: n + ' pers.', bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
+      portionOpts: [1, 2, 3, 4, 5, 6].map(n => ({ label: n + ' pers.', on: s.people === n, bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
+      share: (() => { const A = window.MatgledeAuth, inv = s.hhInvite, me = user && user.uid, nm = s.hhNames || {};
+        const others = s.hh ? (s.hhMembers || []).filter(id => id !== me).map(id => ({ name: nm[id] || 'Ukjent', state: 'Deler med deg', canRemove: false })) : [];
+        const waiting = s.hh ? (s.hhInvited || []).map(e => ({ name: e, state: 'Venter', canRemove: true, rmLabel: `Trekk tilbake invitasjonen til ${e}`,
+          remove: () => A.hh.uninvite(s.hh, e).catch(err => console.error(err)) })) : [];
+        const link = location.origin + location.pathname;
+        return { out: !s.loggedIn, in: s.loggedIn, login: () => this.push({ t: 'login' }),
+          sub: others.length ? 'Plan, handleliste, beholdning og favoritter er felles og oppdateres med en gang på alle telefonene.'
+            : 'Skriv inn e-posten til den du vil dele med. Da får dere samme plan, handleliste, beholdning og favoritter, og endringer vises med en gang hos begge.',
+          people: [...others, ...waiting], hasPeople: others.length + waiting.length > 0,
+          hasInvite: !!inv, inviteText: inv ? `${inv.from} vil dele appen med deg. ${s.hh ? 'Du slutter da å dele med de du deler med nå. ' : ''}Planen, handlelisten og beholdningen din byttes ut med den felles.` : '',
+          join: this.joinHousehold, decline: this.declineInvite, opacity: s.shareBusy ? .5 : 1,
+          unverified: !!(user && !user.verified && !user.google && !s.hh && !inv),
+          verify: () => A.sendVerify().then(() => this.toast(`Sendte en bekreftelse til ${user.email}`), e => console.error(e)),
+          recheck: () => A.reloadUser().then(u => this.toast(u.verified ? 'E-posten er bekreftet' : 'Ikke bekreftet ennå. Trykk på lenken i e-posten.')),
+          email: s.shareEmail, onEmail: e => this.setState({ shareEmail: e.target.value, shareMsg: '' }), submit: this.shareApp,
+          msg: s.shareMsg, hasMsg: !!s.shareMsg, hasSent: !!s.shareSent && (s.hhInvited || []).includes(s.shareSent), sent: s.shareSent,
+          mailto: `mailto:${s.shareSent}?subject=${encodeURIComponent('Bli med i Matglede')}&body=${encodeURIComponent(`Hei! Jeg vil dele Matglede med deg, så vi har samme ukeplan og handleliste. Logg inn på ${link} med denne e-postadressen (${s.shareSent}), og trykk «Bli med» under Innstillinger.`)}`,
+          inHh: !!s.hh && others.length + waiting.length > 0, leave: this.leaveHousehold };
+      })(),
       toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', s.remind ? `Planlegg neste uke, kl. ${s.remindAt}` : 'Planlegg neste uke')],
       themeOpts: [['auto', 'Automatisk'], ['light', 'Lys'], ['dark', 'Mørk']].map(([k, label]) => ({ label, on: s.theme === k, bg: s.theme === k ? 'var(--mg-surface)' : 'transparent', shadow: s.theme === k ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => { window.mgTheme && window.mgTheme(k); this.setState({ theme: k }); } })),
       remindOn: !!s.remind, remindH: s.remindAt.slice(0, 2), remindM: s.remindAt.slice(3),

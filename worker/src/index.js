@@ -1,4 +1,5 @@
 // AI for «Min beholdning»: tolker et bilde av kjøleskap/skap eller det brukeren sa, og svarer med en liste varer.
+// Og for «Mine oppskrifter»: leser en oppskrift fra et bilde (bok, lapp, skjerm) og svarer med navn, ingredienser og steg.
 // Nøkkelen til Claude ligger bare her (secret ANTHROPIC_API_KEY), aldri i appen.
 // Bare innloggede brukere i Firebase-prosjektet kan bruke den: appen sender Firebase ID-token som Bearer.
 import Anthropic from '@anthropic-ai/sdk';
@@ -52,6 +53,23 @@ const PROMPT = 'Bildet viser et kjøleskap, et tørrskap eller en matbod. List m
   'Bruk korte, vanlige norske navn uten merke, f.eks. «Melk», «Revet ost», «Soyasaus», «Hakkede tomater». Én linje per vare, ingen duplikater. ' +
   'Ta bare med det du faktisk ser. Er du usikker på en vare, la den være ute. ' + FIELDS;
 
+const UNITS = ['', 'g', 'kg', 'dl', 'l', 'ml', 'ss', 'ts', 'stk', 'pk', 'boks', 'fedd', 'klype', 'neve', 'skive'];
+const RECIPE_SCHEMA = {
+  type: 'object', additionalProperties: false, required: ['recipe'],
+  properties: { recipe: { type: 'object', additionalProperties: false, required: ['name', 'servings', 'time', 'ing', 'steps'], properties: {
+    name: { type: 'string' }, servings: { type: 'integer' }, time: { type: 'integer' },
+    ing: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['n', 'q', 'u'], properties: {
+      n: { type: 'string' }, q: { type: 'number' }, u: { type: 'string', enum: UNITS } } } },
+    steps: { type: 'array', items: { type: 'string' } }
+  } } }
+};
+const RECIPE_PROMPT = 'Bildet viser en matoppskrift, f.eks. fra en kokebok, en håndskrevet lapp eller en skjerm. Les av oppskriften og skriv den på norsk bokmål. ' +
+  'name = navnet på retten. servings = antall porsjoner (4 hvis det ikke står). time = omtrent hvor mange minutter det tar, 0 hvis det ikke går an å anslå. ' +
+  'ing = ingrediensene i rekkefølge: n = kort navn uten mengde (f.eks. «Kjøttdeig», «Hakkede tomater»), q = mengden som tall (0,5 for en halv, 0 hvis ingen mengde står), ' +
+  'u = enheten, en av: ' + UNITS.filter(Boolean).join(', ') + ', eller tom streng. Gjør om ord som «spiseskje» til ss, «teskje» til ts og «stykk» til stk. ' +
+  'steps = fremgangsmåten som korte steg, ett per punkt, med teksten slik den står. Ikke finn på noe som ikke står på bildet. ' +
+  'Står det ingen oppskrift på bildet, svar med tomt navn og tomme lister.';
+
 export default {
   async fetch(req, env) {
     const origin = req.headers.get('Origin') || '';
@@ -66,8 +84,14 @@ export default {
 
     let body;
     try { body = await req.json(); } catch { return reply(400, { error: 'bad json' }); }
-    let content;
-    if (typeof body.text === 'string') {
+    let content, schema = SCHEMA;
+    if (typeof body.recipe === 'string') {
+      // Oppskrift fra bilde
+      const image = body.recipe;
+      if (!image || image.length > MAX_IMAGE || !/^[A-Za-z0-9+/=]+$/.test(image)) return reply(400, { error: 'bad image' });
+      content = [{ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: image } }, { type: 'text', text: RECIPE_PROMPT }];
+      schema = RECIPE_SCHEMA;
+    } else if (typeof body.text === 'string') {
       // Tale: teksten fra talegjenkjenningen og navnene appen kjenner fra før
       const text = body.text.trim().slice(0, 2000);
       const known = (Array.isArray(body.known) ? body.known : []).filter(k => typeof k === 'string').map(k => k.slice(0, 60)).slice(0, 400);
@@ -87,11 +111,12 @@ export default {
         max_tokens: 4000,
         betas: ['server-side-fallback-2026-07-01'],
         fallbacks: 'default',
-        output_config: { effort: 'low', format: { type: 'json_schema', schema: SCHEMA } },
+        output_config: { effort: 'low', format: { type: 'json_schema', schema } },
         messages: [{ role: 'user', content }]
       });
-      if (msg.stop_reason === 'refusal') return reply(200, { items: [] });
+      if (msg.stop_reason === 'refusal') return reply(200, schema === SCHEMA ? { items: [] } : { recipe: null });
       const text = msg.content.find(b => b.type === 'text');
+      if (schema === RECIPE_SCHEMA) return reply(200, { recipe: text ? JSON.parse(text.text).recipe : null });
       const items = text ? JSON.parse(text.text).items : [];
       return reply(200, { items: items.slice(0, 80).map(x => ({ n: String(x.n).slice(0, 80), lvl: x.lvl || '', count: Number.isInteger(x.count) ? x.count : 0 })) });
     } catch (e) {

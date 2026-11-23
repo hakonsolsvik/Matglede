@@ -49,9 +49,6 @@ class KassalClient:
         data = self._get("/products", {"search": search, "store": store, "size": size, "sort": "date_desc"})
         return data.get("data") or []
 
-    def product_by_ean(self, ean: str) -> dict | None:
-        return self._get(f"/products/ean/{urllib.parse.quote(ean)}").get("data")
-
 
 def load_dotenv(path: str = ".env") -> None:
     """Les KEY=VALUE fra en .env-fil inn i os.environ (overskriver ikke eksisterende)."""
