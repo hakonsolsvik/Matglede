@@ -142,7 +142,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
 <div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div></div>
-<sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-on-primary-soft)">{{ listOffersText }}</div></sc-if>
+<sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-on-primary-soft)">Ukas tilbud på varer i handlelisten din: <sc-for list="{{ listOffersTop }}" as="x"><span style="white-space:nowrap">{{ x.name }} <span style="background:#f5b82e;color:#3a2a00;font-weight:800;padding:1px 7px;border-radius:99px">{{ x.n }}</span>{{ x.sep }}</span> </sc-for></div></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
@@ -440,6 +440,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <div style="padding:18px 20px 28px;display:flex;flex-direction:column;gap:20px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 class="s3">Ukas avis</h2><div class="s58">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
+
+<sc-if value="{{ sd.hasMine }}">
+<button onClick="{{ sd.toggleMine }}" aria-expanded="{{ sd.mineOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:#f5b82e;color:#3a2a00;border-radius:16px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-size:15px;font-weight:800"><span>{{ sd.mineLabel }}</span><span aria-hidden="true">{{ sd.mineArrow }}</span></button>
+<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
+</sc-if>
 
 <sc-if value="{{ sd.hasTop }}">
 <div class="s4">
@@ -1688,6 +1693,9 @@ class Component extends DCLogic {
         next: () => { if (last) { this.back(); if ((s.plan[this.TODAY] || []).includes(r.id) && !s.made[this.madeKey(this.TODAY, r.id)]) this.markMade(this.TODAY, r.id); else this.toast('Velbekomme!'); } else this.setState({ cookStep: i + 1 }); } };
     }
     let sd = {};
+    const words = shopArr.filter(e => !e.own).map(e => e.n.toLowerCase().replace(/\s*\(.*\)/, '')).filter(w => w.length > 2)
+      .map(w => new RegExp('(^|[^a-zæøå])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(er|en|ene)?([^a-zæøå]|$)', 'i'));
+    const onList = st => (st.offers || []).filter(o => words.some(re => re.test(o.name)));
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
       const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, price: kr(o.price), before: 'før ' + kr(o.before),
@@ -1701,7 +1709,10 @@ class Component extends DCLogic {
         if (i > 0) pages.push({ src, pos: '0% 0', label: `Side ${2 * i}` });
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
-      sd = { name: st.name, logo: st.logo, bg: st.bg, sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
+      const mine = onList(st), listOpen = s.sdList === st.code;
+      sd = { name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
+        mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
+        toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
         countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} prisfall` : 'avis', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
         noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: host ? 'Åpnes hos ' + host : '',
         isImages: view.type === 'images', isFrame: view.type === 'pdf' || view.type === 'embed', isLink: linkView,
@@ -1746,10 +1757,7 @@ class Component extends DCLogic {
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
 
-    const words = shopArr.filter(e => !e.own).map(e => e.n.toLowerCase().replace(/\s*\(.*\)/, '')).filter(w => w.length > 2)
-      .map(w => new RegExp('(^|[^a-zæøå])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(er|en|ene)?([^a-zæøå]|$)', 'i'));
-    const onList = st => (st.offers || []).filter(o => words.some(re => re.test(o.name))).length;
-    const listOffers = D.STORES.map(st => ({ st, n: onList(st) })).filter(x => x.n);
+    const listOffers = D.STORES.map(st => ({ st, n: onList(st).length })).filter(x => x.n);
     const tg = (key, label, sub) => ({ on: !!s[key], label, sub, track: s[key] ? 'var(--mg-primary)' : 'var(--mg-border-strong)', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
@@ -1882,7 +1890,7 @@ class Component extends DCLogic {
           hasBadge: mine, badge: 'Din butikk', ring: mine ? '3px solid var(--mg-primary)' : 'none',
           aria: `${st.name}${mine ? ', din butikk' : ''}` }; }),
       hasListOffers: listOffers.length > 0,
-      listOffersText: listOffers.length ? `Ukas tilbud på varer i handlelisten din: ${listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map(x => `${x.st.name} (${x.n})`).join(', ')}.` : '',
+      listOffersTop: listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map((x, i, a) => ({ name: x.st.name, n: x.n, sep: i < a.length - 1 ? ',' : '' })),
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
