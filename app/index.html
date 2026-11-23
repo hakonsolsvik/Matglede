@@ -1304,6 +1304,9 @@ class Component extends DCLogic {
     const k = Object.keys(A).filter(word).sort((a, b) => b.length - a.length)[0] || (h.length >= 4 && Object.keys(A).find(k => k.startsWith(h) && k.length - h.length <= 3));
     return k ? A[k] : null;
   };
+  // «Salt og pepper» uten mengde er to varer. Gir [navn, slug]-par, ett per vare.
+  partsOf = (n, u, q) => { const p = q == null && String(n).split(/\s+og\s+/i).map(x => x.trim()).filter(Boolean), ss = p && p.length === 2 ? p.map(x => this.slugOf(x, u)) : [];
+    return ss.length && ss.every(Boolean) && ss[0] !== ss[1] ? p.map((x, k) => [x[0].toUpperCase() + x.slice(1), ss[k]]) : [[n, this.slugOf(n, u)]]; };
   RU = { g:['g',1], kg:['g',1000], ml:['ml',1], cl:['ml',10], dl:['ml',100], l:['ml',1000], ss:['ml',15], ts:['ml',5], stk:['stk',1], pk:['pk',1] };
   // Mengde i varens basisenhet (g, ml eller stk). Samme regler som app_export.base_amount.
   toBase = (q, u, slug, name) => {
@@ -1321,7 +1324,7 @@ class Component extends DCLogic {
     return (b === 'g' && bu === 'ml') || (b === 'ml' && bu === 'g') ? v : null;
   };
   ownR = c => {
-    const ing = (c.ing || []).map(i => { const slug = this.slugOf(i.n, i.u); return { n: i.n, q: i.q, u: i.u || '', slug, base: slug ? this.toBase(i.q, i.u, slug, i.n) : null }; });
+    const ing = (c.ing || []).flatMap(i => this.partsOf(i.n, i.u, i.q).map(([n, slug]) => ({ n, q: i.q, u: i.u || '', slug, base: slug ? this.toBase(i.q, i.u, slug, n) : null })));
     const cats = ['mine']; if (c.time && c.time <= 30) cats.push('rask'); if (ing.length <= 6) cats.push('fa');
     let hue = 7; for (const ch of c.id) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
     return { ...c, servings: c.servings || 4, diff: c.diff || 2, steps: c.steps || [], ing, cats, hue, learn: [], photo: this.blobOf(c.photo), photoData: c.photo || null, mine: true };
@@ -1777,7 +1780,7 @@ class Component extends DCLogic {
       list: D.R.filter(r => r.mine).map(r => this.mk(r, { ingCount: `${r.ing.length} ingredienser` })) };
     let ed = {};
     if (top.t === 'edit' && s.draft) {
-      const d = s.draft, filled = d.rows.filter(x => x.n.trim()), linked = filled.filter(x => this.slugOf(x.n, x.u)).length;
+      const d = s.draft, filled = d.rows.filter(x => x.n.trim()), linked = filled.filter(x => this.partsOf(x.n, x.u, this.parseQ(x.q)).every(p => p[1])).length;
       ed = { kicker: d.id ? 'Din oppskrift' : 'Ny oppskrift', title: d.id ? 'Endre oppskrift' : 'Legg til oppskrift', ai: d.ai,
         name: d.name, setName: e => this.setDraft({ name: e.target.value, error: '' }),
         servings: d.servings, servMinus: () => this.setDraft({ servings: Math.max(1, d.servings - 1) }), servPlus: () => this.setDraft({ servings: Math.min(12, d.servings + 1) }),
@@ -1785,10 +1788,10 @@ class Component extends DCLogic {
         photoBg: d.photo ? `url("${this.blobOf(d.photo)}") center/cover no-repeat` : 'var(--mg-surface)', hasPhoto: !!d.photo, noPhoto: !d.photo,
         pickPhoto: this.pickPhoto, removePhoto: () => this.setDraft({ photo: null }),
         linked: filled.length ? `${linked} av ${filled.length} koblet til vare` : '',
-        rows: d.rows.map((x, j) => { const slug = x.n.trim() && this.slugOf(x.n, x.u);
+        rows: d.rows.map((x, j) => { const parts = x.n.trim() ? this.partsOf(x.n, x.u, this.parseQ(x.q)) : [], slug = parts.length && parts.every(p => p[1]);
           return { n: x.n, q: x.q, u: x.u, num: j + 1, label: x.n.trim() || `ingrediens ${j + 1}`,
             units: this.UNITS.map(v => ({ v, l: v || 'enhet' })),
-            link: !x.n.trim() ? '' : slug ? `Koblet til ${D.ING[slug].name}` : 'Ikke koblet til vare: kommer på handlelisten, men uten pris',
+            link: !x.n.trim() ? '' : slug ? `Koblet til ${parts.map(p => D.ING[p[1]].name).join(' og ')}` : 'Ikke koblet til vare: kommer på handlelisten, men uten pris',
             linkColor: slug ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)',
             setN: e => this.setRow(x.k, { n: e.target.value }), setQ: e => this.setRow(x.k, { q: e.target.value }), setU: e => this.setRow(x.k, { u: e.target.value }),
             remove: () => this.setDraft({ rows: d.rows.filter(y => y.k !== x.k) }) }; }),

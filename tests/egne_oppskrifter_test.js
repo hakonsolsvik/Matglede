@@ -18,3 +18,9 @@ for (const r of M.recipes) for (const i of r.ing) {
 for (const [name, slug] of [['Melk', 'melk'], ['Spagetti', 'spaghetti'], ['Kyllingbryst', 'kyllingfilet'], ['Torsk', 'torskefilet'], ['Purre', 'purre'], ['Sukker', 'sukker'], ['Fiskekraft', 'kraft']])
   assert.strictEqual(o.slugOf(name), slug, name);
 console.log(`egne oppskrifter ok (${n} linjer)`);
+{ const m = html.match(/\n  partsOf = ([\s\S]*?);\n  RU = /); o.partsOf = eval('(function(){ return ' + m[1].replace(/this\./g, 'o.') + '; })')();
+  assert.deepStrictEqual(o.partsOf('Salt og pepper', '', null), [['Salt', 'salt'], ['Pepper', 'pepper']]);
+  assert.deepStrictEqual(o.partsOf('Salt og pepper', 'ts', 1), [['Salt og pepper', 'salt']]);
+  assert.deepStrictEqual(o.partsOf('Sitronsaft', '', null), [['Sitronsaft', 'sitron']]);
+  assert.strictEqual(o.slugOf('Hvitløksfedd', 'stk'), 'hvitlok');
+  console.log('salt og pepper ok'); }
