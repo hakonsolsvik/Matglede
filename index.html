@@ -651,6 +651,20 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <h2 class="s3 mg-h">Innstillinger</h2>
 <div class="s72">
+<div class="s13">Del appen</div>
+<sc-if value="{{ share.out }}"><div class="s2">Logg inn for å dele planen, handlelisten og beholdningen med noen du bor med.</div><button onClick="{{ share.login }}" class="s53" style="align-self:flex-start">Logg inn</button></sc-if>
+<sc-if value="{{ share.hasInvite }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-md);padding:12px 14px;display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:700;line-height:1.4">{{ share.inviteText }}</div><div class="s33"><button onClick="{{ share.join }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Bli med</button><button onClick="{{ share.decline }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;height:44px;padding:0 14px;border-radius:var(--mg-r-pill);background:rgba(31,42,28,.1);color:#1f2a1c">Nei takk</button></div></div></sc-if>
+<sc-if value="{{ share.in }}">
+<div class="s2">{{ share.sub }}</div>
+<sc-if value="{{ share.hasPeople }}"><div style="display:flex;flex-direction:column"><sc-for list="{{ share.people }}" as="p"><div style="display:flex;align-items:center;gap:10px;min-height:40px;border-bottom:1px solid var(--mg-surface-sunken)"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:14px;font-weight:700">{{ p.name }}</span><span class="s2">{{ p.state }}</span><sc-if value="{{ p.canRemove }}"><button onClick="{{ p.remove }}" aria-label="{{ p.rmLabel }}" style="width:36px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button></sc-if></div></sc-for></div></sc-if>
+<form onSubmit="{{ share.submit }}" class="s33"><input type="email" autocomplete="email" value="{{ share.email }}" onChange="{{ share.onEmail }}" aria-label="E-posten til den du vil dele med" placeholder="E-post, f.eks. kari@gmail.com" style="flex:1;min-width:0;height:44px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none;font-family:inherit"><button type="submit" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Del</button></form>
+<sc-if value="{{ share.hasMsg }}"><div role="alert" style="font-size:14px;font-weight:700;color:var(--mg-danger)">{{ share.msg }}</div></sc-if>
+<sc-if value="{{ share.hasSent }}"><div class="s2" style="line-height:1.45">Be {{ share.sent }} logge inn i Matglede med denne e-posten og trykke «Bli med» her i Innstillinger. <a href="{{ share.mailto }}" style="color:var(--mg-primary);font-weight:700">Send en e-post med lenken</a></div></sc-if>
+<sc-if value="{{ share.unverified }}"><div class="s2" style="line-height:1.45">Har noen invitert deg? Bekreft e-postadressen din først, så dukker invitasjonen opp her.</div><div class="s33"><button onClick="{{ share.verify }}" class="s53">Send bekreftelse</button><button onClick="{{ share.recheck }}" class="s53">Jeg har bekreftet</button></div></sc-if>
+<sc-if value="{{ share.inHh }}"><button onClick="{{ share.leave }}" style="align-self:flex-start;border:0;background:none;padding:6px 0;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-danger);cursor:pointer;text-decoration:underline">Slutt å dele</button></sc-if>
+</sc-if>
+</div>
+<div class="s72">
 <div class="s13">Standard antall personer</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
 <div class="s2">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
@@ -897,7 +911,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, pName: '', pAmt: '', listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -947,21 +961,106 @@ class Component extends DCLogic {
   byPop = (list, key) => window.MatgledePantry.byPop(list, key, this.state.pop, this.POP_MIN);
   popN = key => this.state.pop[key] >= this.POP_MIN ? this.state.pop[key] : 0;
   onUser = u => {
-    const A = window.MatgledeAuth;
-    this._syncOn = false; clearTimeout(this._saveT);
-    if (!u) { this.setState({ user: null, loggedIn: false }); return; }
+    const A = window.MatgledeAuth, same = u && this.state.user && this.state.user.uid === u.uid && this._syncOn;
+    if (same) { this.setState({ user: u }); this.checkInvite(u); return; } // f.eks. etter at e-posten er bekreftet
+    this._syncOn = false; clearTimeout(this._saveT); this.unwatch(); this._srv = null;
+    if (!u) { this.setState({ user: null, loggedIn: false, hh: null, hhInvite: null }); return; }
     const wasOpen = (this.state.stack[this.state.stack.length - 1] || {}).t === 'login';
     this.setState(st => ({ user: u, loggedIn: true, lg: { ...st.lg, busy: false, error: '', pw: '' }, stack: wasOpen ? [] : st.stack }));
     this.toast(`Velkommen${u.name ? ', ' + u.name.split(' ')[0] : ''}`);
-    A.loadData(u.uid).then(d => {
-      if (d) {
-        const next = {}; this.SYNC.forEach(k => { if (d[k] !== undefined) next[k] = d[k]; });
-        this.setState(this.rollPlan(next));
-      } else { // ny konto: den har ikke telt noe ennå, selv om forrige konto på enheten hadde det
-        this.setState({ popSent: [] }); A.saveData(u.uid, { ...this.syncData(), popSent: [] }).catch(e => console.error(e)); }
-      this._lastSaved = JSON.stringify(d ? { ...this.syncData(), ...d } : this.syncData());
-      this._syncOn = true;
-    }).catch(e => { console.error(e); this._syncOn = true; });
+    A.loadData(u.uid).then(doc => {
+      if (doc && doc.household) return this.watch(doc.household, doc.app);
+      const d = doc && doc.app;
+      if (d) this.applyRemote(d);
+      else { // ny konto: den har ikke telt noe ennå, selv om forrige konto på enheten hadde det
+        this.setState({ popSent: [] }); this._srv = {}; }
+      this._syncOn = true; this.saveSoon();
+      this.checkInvite(u);
+    }).catch(e => { console.error(e); this._srv = {}; this._syncOn = true; });
+  };
+  // shortcut: to som endrer samme liste i samme sekund, f.eks. beholdningen, gjør at den siste vinner. Slå sammen per element hvis det blir et problem.
+  // Data fra skyen. _srv er det skyen har per nøkkel (som JSON). Nøkler som er endret her og ikke lagret ennå, beholdes.
+  applyRemote = app => {
+    const prev = this._srv, cur = this.syncData(), next = {}, srv = { ...(prev || {}) };
+    this.SYNC.forEach(k => { if (app[k] === undefined) return;
+      srv[k] = JSON.stringify(app[k]);
+      if (!prev || JSON.stringify(cur[k]) === prev[k]) next[k] = app[k]; });
+    this._srv = srv;
+    const rolled = this.rollPlan({ ...cur, ...next }); // ny uke: flyttet plan lagres tilbake av saveSoon
+    this.setState(Object.fromEntries(this.SYNC.map(k => [k, rolled[k]])));
+  };
+  saveSoon = () => {
+    const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
+    this.syncPop();
+    const data = this.syncData(), srv = this._srv || {}, changed = {};
+    this.SYNC.forEach(k => { const j = JSON.stringify(data[k]); if (j !== srv[k]) changed[k] = data[k]; });
+    if (!Object.keys(changed).length) return;
+    clearTimeout(this._saveT);
+    this._saveT = setTimeout(() => {
+      const data = this.syncData(), srv = this._srv || {}, changed = {};
+      this.SYNC.forEach(k => { const j = JSON.stringify(data[k]); if (j !== srv[k]) { changed[k] = data[k]; srv[k] = j; } });
+      this._srv = srv;
+      if (!Object.keys(changed).length) return;
+      (this.state.hh ? A.hh.save(this.state.hh, changed) : A.saveData(u.uid, data)).catch(e => console.error(e));
+    }, 800);
+  };
+  // ---------- del appen: flere kontoer i samme husholdning (households/ i Firestore) ----------
+  unwatch = () => { if (this._unsub) { this._unsub(); this._unsub = null; } };
+  watch = (hid, fallback) => {
+    const A = window.MatgledeAuth, uid = this.state.user.uid;
+    this.unwatch(); this._srv = null; this._syncOn = false;
+    this.setState({ hh: hid });
+    this._unsub = A.hh.watch(hid, snap => {
+      if (snap.metadata.hasPendingWrites) return; // vår egen endring på vei ut
+      const d = snap.data();
+      if (!d || !(d.members || []).includes(uid)) return this.dropHousehold(); // fjernet av den andre, eller slettet
+      this.setState({ hhNames: d.names || {}, hhMembers: d.members, hhInvited: d.invited || [] });
+      this.applyRemote(d.app || {});
+      if (!this._syncOn) { this._syncOn = true; this.saveSoon(); }
+    }, e => { console.error(e); if (fallback) this.applyRemote(fallback); this.dropHousehold(); });
+  };
+  // Ikke lenger med: fortsett med en egen kopi av det som var delt
+  dropHousehold = () => {
+    const A = window.MatgledeAuth, u = this.state.user, hid = this.state.hh;
+    this.unwatch(); this._srv = {}; this._syncOn = true;
+    this.setState({ hh: null, hhNames: {}, hhMembers: [], hhInvited: [] });
+    if (u) A.hh.leave(hid || '-', u.uid, this.syncData()).catch(e => console.error(e));
+  };
+  myName = () => { const u = this.state.user; return u.name || u.email; };
+  checkInvite = u => {
+    const A = window.MatgledeAuth;
+    if (!u.email || !u.verified) return;
+    A.hh.findInvite(u.email).then(inv => {
+      if (!inv || inv.hid === this.state.hh) return;
+      this.setState({ hhInvite: inv });
+      this.toast(`${inv.from} vil dele appen med deg. Se Innstillinger.`);
+    }).catch(e => console.error(e));
+  };
+  shareApp = e => {
+    if (e) e.preventDefault();
+    const A = window.MatgledeAuth, s = this.state, u = s.user, email = s.shareEmail.trim().toLowerCase();
+    if (!u || s.shareBusy) return;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return this.setState({ shareMsg: 'Skriv inn en gyldig e-postadresse.' });
+    if (email === u.email) return this.setState({ shareMsg: 'Det er din egen e-post. Skriv inn e-posten til den du vil dele med.' });
+    this.setState({ shareBusy: true, shareMsg: '' });
+    (s.hh ? Promise.resolve(s.hh) : A.hh.create(u.uid, this.myName(), this.syncData()).then(hid => { this.watch(hid); return hid; }))
+      .then(hid => A.hh.invite(hid, email, this.myName()))
+      .then(() => { this.setState({ shareBusy: false, shareEmail: '', shareSent: email }); this.toast(`Invitasjon til ${email} er klar`); })
+      .catch(err => { console.error(err); this.setState({ shareBusy: false, shareMsg: 'Fikk ikke delt. Sjekk nettet og prøv igjen.' }); });
+  };
+  joinHousehold = () => {
+    const A = window.MatgledeAuth, s = this.state, u = s.user, inv = s.hhInvite; if (!inv || s.shareBusy) return;
+    this.setState({ shareBusy: true });
+    const done = () => A.hh.join(inv.hid, u.uid, u.email, this.myName()).then(() => {
+      this.setState({ hhInvite: null, shareBusy: false }); this.watch(inv.hid); this.toast(`Du deler nå appen med ${inv.from}`); });
+    (s.hh ? A.hh.leave(s.hh, u.uid, this.syncData()) : Promise.resolve()).then(done)
+      .catch(err => { console.error(err); this.setState({ shareBusy: false, shareMsg: 'Fikk ikke blitt med. Invitasjonen kan være trukket tilbake.' }); });
+  };
+  declineInvite = () => { const inv = this.state.hhInvite; this.setState({ hhInvite: null });
+    window.MatgledeAuth.hh.decline(inv.hid, this.state.user.email); };
+  leaveHousehold = () => {
+    if (!confirm('Slutte å dele appen? Du beholder en kopi av planen, handlelisten og beholdningen.')) return;
+    this.dropHousehold(); this.toast('Du deler ikke appen lenger');
   };
   // Planen lagres med mandagen den gjelder fra (planFrom). Er det gått k uker, flyttes alt k uker frem:
   // neste uke blir denne uka, og uker som er over forsvinner. Avkryssinger og egne varer følger uka si.
@@ -974,13 +1073,6 @@ class Component extends DCLogic {
       if (w > 0) out.checked[w + '|' + m[2]] = v; else if (w === 0) out.checked[m[2]] = v; }); }
     if (d.extra) out.extra = d.extra.map(x => x.w ? (({ w, ...y }) => w > k ? { ...y, w: w - k } : y)(x) : x);
     return out;
-  };
-  saveSoon = () => {
-    const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
-    this.syncPop();
-    const json = JSON.stringify(this.syncData()); if (json === this._lastSaved) return;
-    clearTimeout(this._saveT);
-    this._saveT = setTimeout(() => { this._lastSaved = json; A.saveData(u.uid, JSON.parse(json)).catch(e => console.error(e)); }, 800);
   };
   setLg = f => this.setState(st => ({ lg: { ...st.lg, ...f } }));
   // Felles sjekk før innlogging: run får (auth, skjemadata) og returnerer et løfte
@@ -1009,7 +1101,7 @@ class Component extends DCLogic {
       .then(() => this.setLg({ busy: false, info: `Hvis det finnes en konto for ${l.email.trim()}, har vi sendt en lenke for å lage nytt passord. Sjekk også søppelpost.` }))
       .catch(e => this.setLg({ busy: false, error: A.message(e) }));
   };
-  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; if (A) A.signOut(); this.setState({ loggedIn: false, user: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
+  logout = () => { const A = window.MatgledeAuth; this._syncOn = false; this.unwatch(); if (A) A.signOut(); this.setState({ loggedIn: false, user: null, hh: null, hhInvite: null, stack: [], menu: false }); this.toast('Du er logget ut'); };
 
   componentDidUpdate(pp) {
     this.saveSoon();
@@ -1713,7 +1805,8 @@ class Component extends DCLogic {
       initials,
       userName: user ? (user.name || user.email.split('@')[0]) : '', userEmail: user ? user.email : '',
       avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : initials,
-      syncLabel: user ? (user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
+      syncLabel: user ? ((s.hhMembers || []).length > 1 ? 'Deler appen med ' + s.hhMembers.filter(id => id !== user.uid).map(id => (s.hhNames || {})[id] || 'Ukjent').join(', ')
+        : user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
       daysNum: Object.values(s.plan).filter(l => l.length).length,
       greeting: user && user.name ? `Hei, ${user.name.split(' ')[0]}` : 'Hva blir det til middag?',
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
@@ -1772,6 +1865,25 @@ class Component extends DCLogic {
       favNum: s.favs.length, planNum,
       credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
       portionOpts: [2, 4, 6].map(n => ({ label: n + ' pers.', bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
+      share: (() => { const A = window.MatgledeAuth, inv = s.hhInvite, me = user && user.uid, nm = s.hhNames || {};
+        const others = s.hh ? (s.hhMembers || []).filter(id => id !== me).map(id => ({ name: nm[id] || 'Ukjent', state: 'Deler med deg', canRemove: false })) : [];
+        const waiting = s.hh ? (s.hhInvited || []).map(e => ({ name: e, state: 'Venter', canRemove: true, rmLabel: `Trekk tilbake invitasjonen til ${e}`,
+          remove: () => A.hh.uninvite(s.hh, e).catch(err => console.error(err)) })) : [];
+        const link = location.origin + location.pathname;
+        return { out: !s.loggedIn, in: s.loggedIn, login: () => this.push({ t: 'login' }),
+          sub: others.length ? 'Plan, handleliste, beholdning og favoritter er felles og oppdateres med en gang på alle telefonene.'
+            : 'Skriv inn e-posten til den du vil dele med. Da får dere samme plan, handleliste, beholdning og favoritter, og endringer vises med en gang hos begge.',
+          people: [...others, ...waiting], hasPeople: others.length + waiting.length > 0,
+          hasInvite: !!inv, inviteText: inv ? `${inv.from} vil dele appen med deg. ${s.hh ? 'Du slutter da å dele med de du deler med nå. ' : ''}Planen, handlelisten og beholdningen din byttes ut med den felles.` : '',
+          join: this.joinHousehold, decline: this.declineInvite, opacity: s.shareBusy ? .5 : 1,
+          unverified: !!(user && !user.verified && !user.google && !s.hh && !inv),
+          verify: () => A.sendVerify().then(() => this.toast(`Sendte en bekreftelse til ${user.email}`), e => console.error(e)),
+          recheck: () => A.reloadUser().then(u => this.toast(u.verified ? 'E-posten er bekreftet' : 'Ikke bekreftet ennå. Trykk på lenken i e-posten.')),
+          email: s.shareEmail, onEmail: e => this.setState({ shareEmail: e.target.value, shareMsg: '' }), submit: this.shareApp,
+          msg: s.shareMsg, hasMsg: !!s.shareMsg, hasSent: !!s.shareSent && (s.hhInvited || []).includes(s.shareSent), sent: s.shareSent,
+          mailto: `mailto:${s.shareSent}?subject=${encodeURIComponent('Bli med i Matglede')}&body=${encodeURIComponent(`Hei! Jeg vil dele Matglede med deg, så vi har samme ukeplan og handleliste. Logg inn på ${link} med denne e-postadressen (${s.shareSent}), og trykk «Bli med» under Innstillinger.`)}`,
+          inHh: !!s.hh && others.length + waiting.length > 0, leave: this.leaveHousehold };
+      })(),
       toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', s.remind ? `Planlegg neste uke, kl. ${s.remindAt}` : 'Planlegg neste uke')],
       themeOpts: [['auto', 'Automatisk'], ['light', 'Lys'], ['dark', 'Mørk']].map(([k, label]) => ({ label, on: s.theme === k, bg: s.theme === k ? 'var(--mg-surface)' : 'transparent', shadow: s.theme === k ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => { window.mgTheme && window.mgTheme(k); this.setState({ theme: k }); } })),
       remindOn: !!s.remind, remindH: s.remindAt.slice(0, 2), remindM: s.remindAt.slice(3),

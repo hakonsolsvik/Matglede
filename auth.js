@@ -21,7 +21,7 @@
 
   function toUser(u) {
     if (!u) return null;
-    return { uid: u.uid, name: u.displayName || '', email: u.email || '', photo: u.photoURL || '',
+    return { uid: u.uid, name: u.displayName || '', email: (u.email || '').toLowerCase(), photo: u.photoURL || '', verified: !!u.emailVerified,
       google: (u.providerData || []).some(function (p) { return p && p.providerId === 'google.com'; }) };
   }
 
@@ -63,6 +63,11 @@
   };
   function message(e) { return MSG[(e && (e.code || e.message)) || ''] || 'Noe gikk galt. Prøv igjen.'; }
 
+  function FV() { return window.firebase.firestore.FieldValue; }
+  function setHousehold(uid, hid) {
+    return db.collection('users').doc(uid).set({ household: hid || FV().delete() }, { merge: true });
+  }
+
   window.MatgledeAuth = {
     configured: configured,
     message: message,
@@ -91,15 +96,67 @@
     // Kortvarig bevis på hvem brukeren er, for kall til bildegjenkjenningen (worker/)
     idToken: function () { return auth && auth.currentUser ? auth.currentUser.getIdToken() : Promise.reject(new Error('not-signed-in')); },
     signOut: function () { return auth ? auth.signOut() : Promise.resolve(); },
-    // Brukerdata: ett dokument per bruker i users/{uid}
+    // Brukerdata: ett dokument per bruker i users/{uid} = { app, household? }
     loadData: function (uid) {
       return start().then(function () { return db.collection('users').doc(uid).get(); })
-        .then(function (d) { return d.exists ? (d.data().app || null) : null; });
+        .then(function (d) { return d.exists ? d.data() : null; });
+    },
+    // E-postkontoer må bekrefte adressen før de kan se invitasjoner (se firestore.rules)
+    sendVerify: function () { return auth.currentUser.sendEmailVerification(); },
+    reloadUser: function () {
+      return auth.currentUser.reload().then(function () { return auth.currentUser.getIdToken(true); })
+        .then(function () { current = toUser(auth.currentUser); emit(); return current; });
     },
     saveData: function (uid, data) {
       return start().then(function () {
-        return db.collection('users').doc(uid).set({ app: data, updatedAt: window.firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        return db.collection('users').doc(uid).set({ app: data, updatedAt: window.firebase.firestore.FieldValue.serverTimestamp() }, { mergeFields: ['app', 'updatedAt'] }); // app byttes helt, så slettede nøkler forsvinner
       });
+    },
+    // Delt app: households/{id} = { members: [uid], names: {uid: navn}, invited: [e-post], app: {...} }.
+    // invites/{e-post} = { hid, from } peker den inviterte til husholdningen.
+    hh: {
+      create: function (uid, name, data) {
+        var ref = db.collection('households').doc(), o = { members: [uid], names: {}, invited: [], app: data };
+        o.names[uid] = name;
+        return ref.set(o).then(function () { return setHousehold(uid, ref.id); }).then(function () { return ref.id; });
+      },
+      watch: function (hid, cb, err) { return db.collection('households').doc(hid).onSnapshot(cb, err); },
+      // Bare feltene som er endret skrives, så to som endrer hver sin ting samtidig ikke overskriver hverandre
+      save: function (hid, changed) {
+        var o = { updatedAt: FV().serverTimestamp() };
+        Object.keys(changed).forEach(function (k) { o['app.' + k] = changed[k]; });
+        return db.collection('households').doc(hid).update(o);
+      },
+      invite: function (hid, email, from) {
+        return db.collection('households').doc(hid).update({ invited: FV().arrayUnion(email) })
+          .then(function () { return db.collection('invites').doc(email).set({ hid: hid, from: from }); });
+      },
+      uninvite: function (hid, email) {
+        return db.collection('households').doc(hid).update({ invited: FV().arrayRemove(email) })
+          .then(function () { return db.collection('invites').doc(email).delete(); });
+      },
+      findInvite: function (email) {
+        return start().then(function () { return db.collection('invites').doc(email).get(); })
+          .then(function (d) { return d.exists ? d.data() : null; });
+      },
+      decline: function (hid, email) {
+        return db.collection('invites').doc(email).delete()
+          .then(function () { return db.collection('households').doc(hid).update({ invited: FV().arrayRemove(email) }); })
+          .catch(function () {}); // husholdningen kan være borte
+      },
+      join: function (hid, uid, email, name) {
+        var o = { members: FV().arrayUnion(uid), invited: FV().arrayRemove(email) };
+        o['names.' + uid] = name;
+        return db.collection('households').doc(hid).update(o)
+          .then(function () { return setHousehold(uid, hid); })
+          .then(function () { return db.collection('invites').doc(email).delete().catch(function () {}); });
+      },
+      // Den som går ut beholder en kopi av det som var delt
+      leave: function (hid, uid, data) {
+        return db.collection('households').doc(hid).update({ members: FV().arrayRemove(uid) }).catch(function () {})
+          .then(function () { return db.collection('users').doc(uid).update({ app: data, household: FV().delete() }); });
+      },
+      forget: function (uid) { return setHousehold(uid, null); }
     },
     // Anonyme tellere i popular/{nøkkel} = { n }. Se firestore.rules.
     popular: function () {
