@@ -592,7 +592,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <div class="s70">
 <div onClick="{{ openMine }}" role="button" tabIndex="0" class="s71">Mine oppskrifter<span class="s29">{{ mineNum }} ›</span></div>
-<div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71" aria-label="{{ pt.rowLabel }}"><span style="display:flex;align-items:center;gap:8px">Min beholdning<sc-if value="{{ pt.nag }}"><span style="background:var(--mg-danger);color:#fff;font-size:12px;font-weight:800;padding:2px 8px;border-radius:var(--mg-r-pill)">Søndag</span></sc-if></span><span class="s29">{{ pt.count }} varer ›</span></div>
+<div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71" aria-label="{{ pt.rowLabel }}"><span style="display:flex;align-items:center;gap:8px">Min beholdning<sc-if value="{{ pt.nag }}"><span style="background:var(--mg-danger);color:#fff;font-size:12px;font-weight:800;padding:2px 8px;border-radius:var(--mg-r-pill)">{{ pt.nagText }}</span></sc-if></span><span class="s29">{{ pt.count }} varer ›</span></div>
 <div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
 <div onClick="{{ goFav }}" role="button" tabIndex="0" class="s71">Mine favoritter<span class="s29">›</span></div>
 <div onClick="{{ doLogout }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;color:var(--mg-danger);cursor:pointer">Logg ut</div>
@@ -607,7 +607,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan.</div></div>
 <sc-if value="{{ pt.ask }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
-<div class="s10"><span class="s1 mg-h">Det er søndag! Oppdater beholdningen din</span><span style="font-size:14px;line-height:1.45">Gå gjennom varene én og én og velg hvor mye du har. Da stemmer ukeplanen og handlelisten, også om du har brukt noe til annet enn middag, som egg til frokost.</span></div>
+<div class="s10"><span class="s1 mg-h">{{ pt.askTitle }}</span><span style="font-size:14px;line-height:1.45">Gå gjennom varene én og én og velg hvor mye du har. Da stemmer ukeplanen og handlelisten, også om du har brukt noe til annet enn middag, som egg til frokost.</span></div>
 <div class="s33"><button onClick="{{ pt.start }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill)">Oppdater nå</button><button onClick="{{ pt.skip }}" style="border:0;cursor:pointer;font-family:inherit;background:rgba(31,42,28,.1);color:#1f2a1c;font-size:14px;font-weight:700;padding:11px 18px;border-radius:var(--mg-r-pill)">Ikke nå</button></div>
 </div></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -1234,7 +1234,8 @@ class Component extends DCLogic {
     this.toast(used.length ? `Trukket fra beholdningen: ${used.join(', ')}` : `${r.name} er laget`, () => this.setState({ pantry: before, made, toast: null, undo: null }));
   };
   // Søndag, og Min beholdning er ikke åpnet i dag
-  sundayNag = () => this.TODAY === 6 && this.state.pantry.length > 0 && this.state.pantrySeen !== this.ymd(new Date());
+  // shortcut: testuke til og med 29.11.2026 viser påminnelsen hver dag fra kl. 18, deretter søndager fra kl. 00:01. Kan slettes etterpå.
+  sundayNag = (t = new Date()) => ((t.getDay() === 0 && t.getHours() * 60 + t.getMinutes() >= 1) || (this.ymd(t) <= '2026-11-29' && t.getHours() >= 18)) && this.state.pantry.length > 0 && this.state.pantrySeen !== this.ymd(t);
   // items: [{ n, amt? }]. Mengden (Mye/Litt/Tomt eller antall) styres av MatgledePantry.
   addPantry = items => {
     if (!items.length) return;
@@ -1780,7 +1781,8 @@ class Component extends DCLogic {
     // Samme avdelinger og rekkefølge som handlelisten
     pt.groups = [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name, items: pt.items.filter(i => i.section === name) })).filter(g => g.items.length);
     // Søndagskort: én vare om gangen, i samme rekkefølge som listen
-    pt.ask = s.pantryAsk && s.pc == null; pt.nag = this.sundayNag(); pt.rowLabel = `Min beholdning, ${s.pantry.length} varer${pt.nag ? ', søndag: på tide å oppdatere' : ''}`;
+    pt.ask = s.pantryAsk && s.pc == null; pt.nag = this.sundayNag(); pt.rowLabel = `Min beholdning, ${s.pantry.length} varer${pt.nag ? ', på tide å oppdatere' : ''}`;
+    pt.nagText = this.TODAY === 6 ? 'Søndag' : 'Oppdater'; pt.askTitle = this.TODAY === 6 ? 'Det er søndag! Oppdater beholdningen din' : 'På tide å oppdatere beholdningen din';
     pt.start = () => this.setState({ pc: 0 }); pt.skip = () => this.setState({ pantryAsk: false });
     const order = pt.groups.flatMap(g => g.items), pc = Math.min(s.pc ?? 0, order.length - 1), cur = order[pc];
     pt.cards = s.pc != null && !!cur; pt.card = { levels: [] };
