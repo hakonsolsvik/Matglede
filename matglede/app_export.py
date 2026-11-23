@@ -3,7 +3,7 @@
 Appen viser Matgledes egne oppskrifter i seed/app_recipes.json, med tid, vanskelighetsgrad
 og fremgangsmåte. For hver ingredienslinje tas mengden med i ingrediensens basisenhet
 (g/ml/stk), slik at appen kan skalere og summere den. Fra databasen tas produktkandidatene
-per kjede med, ferdig filtrert på samme måte som `shopping.pick_product`. Appen velger selv
+per kjede med, fra `shopping.candidates` som handlelisten også bruker. Appen velger selv
 billigste antall pakker for mengden handlelisten trenger.
 
 Uten database gjenbrukes prisene i forrige app/data.js. Finnes ingen, blir prisene tomme.
@@ -19,8 +19,7 @@ from pathlib import Path
 from .db import CHAINS
 from . import recipe_parse
 from .recipe_parse import normalise_for_ingredient
-from .matching import IngredientRule, excluded_name
-from .shopping import SCORE_BAND, _is_stale, score_floor
+from .shopping import _is_stale, candidates
 from .units import to_base
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -58,46 +57,11 @@ def _ingredients_csv(path: Path = ROOT / "seed" / "ingredients.csv") -> dict[str
 
 def _candidates(conn: sqlite3.Connection, slug: str, chain: str, base_unit: str,
                 gpp: float | None, now: datetime) -> list[dict]:
-    rows = conn.execute(
-        """SELECT p.name, p.package_amount, p.package_unit, o.store_name, o.price,
-                  o.price_date, ip.score, ip.status
-           FROM ingredient_product ip
-           JOIN ingredient i ON i.id = ip.ingredient_id
-           JOIN product p ON p.id = ip.product_id
-           JOIN offer o ON o.product_id = p.id AND o.chain_code = ?
-           WHERE i.slug = ? AND ip.status != 'rejected' AND o.price IS NOT NULL""",
-        (chain, slug),
-    ).fetchall()
-    ing = conn.execute("SELECT * FROM ingredient WHERE slug=?", (slug,)).fetchone()
-    if ing is not None:
-        rule = IngredientRule.from_row(ing)
-        rows = [r for r in rows if not excluded_name(rule, r["store_name"] or r["name"])]
-        floor = score_floor(conn, ing["id"])
-        rows = [r for r in rows if r["status"] == "verified" or r["score"] >= floor]
-    if not rows:
+    ing = conn.execute("SELECT id FROM ingredient WHERE slug=?", (slug,)).fetchone()
+    if ing is None:
         return []
-
-    def size(r) -> float | None:
-        amt, unit = r["package_amount"], r["package_unit"]
-        if not amt:
-            return None
-        if unit == base_unit:
-            return amt
-        if gpp and unit == "g" and base_unit == "stk":
-            return amt / gpp
-        if gpp and unit == "stk" and base_unit == "g":
-            return amt * gpp
-        if {unit, base_unit} == {"g", "ml"}:
-            return amt
-        return None
-
-    pool = [r for r in rows if r["status"] == "verified"] or rows
-    top = max(r["score"] for r in pool)
-    pool = [r for r in pool if r["score"] >= top - SCORE_BAND]
-    pool = [r for r in pool if not _is_stale(r["price_date"], now)] or pool
-    sized = [(r, size(r)) for r in pool]
-    sized = [x for x in sized if x[1]] or sized
-    sized.sort(key=lambda x: (x[0]["price"] / (x[1] or 1), -x[0]["score"]))
+    sized = sorted(candidates(conn, ing["id"], chain, base_unit, gpp, now),
+                   key=lambda x: (x[0]["price"] / (x[1] or 1), -x[0]["score"]))
     return [{
         "name": r["store_name"] or r["name"],
         "size": round(sz, 3) if sz else None,

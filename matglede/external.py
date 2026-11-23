@@ -9,7 +9,6 @@ seed/external_recipes.json, som `load()` legger inn i databasen.
 """
 from __future__ import annotations
 
-import csv
 import json
 import re
 import sqlite3
@@ -56,11 +55,6 @@ def slugify(text: str) -> str:
     t = text.lower().replace("æ", "ae").replace("ø", "o").replace("å", "a")
     t = unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", "-", t).strip("-")
-
-
-def _base_units(path: Path = ROOT / "seed" / "ingredients.csv") -> dict[str, str]:
-    with open(path, encoding="utf-8", newline="") as f:
-        return {r["slug"]: r["base_unit"] for r in csv.DictReader(f)}
 
 
 def build_recipe(source: str, raw: dict) -> dict:

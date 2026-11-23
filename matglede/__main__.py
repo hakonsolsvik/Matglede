@@ -3,11 +3,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from dataclasses import asdict
 from datetime import date, timedelta
-
-import os
 
 from . import app_export, db, external
 from .kassal import KassalClient, load_dotenv
@@ -32,8 +31,7 @@ def cmd_external(conn, args):
 
 
 def cmd_export_app(conn, args):
-    has_db = os.path.exists(args.db)
-    data = app_export.build(conn if has_db else None, previous=app_export.previous_products())
+    data = app_export.build(conn, previous=app_export.previous_products())
     out = app_export.write(data)
     st = data["stats"]
     print(f"Skrev {out.relative_to(app_export.ROOT)}: {st['recipes']} oppskrifter")
@@ -52,8 +50,7 @@ def cmd_import(conn, args):
 def cmd_fetch_offers(conn, args):
     from . import offers
     load_dotenv()
-    from .app_export import _ingredients_csv
-    data = offers.tag_offers(offers.build_offers(KassalClient(per_minute=55)), _ingredients_csv())
+    data = offers.tag_offers(offers.build_offers(KassalClient(per_minute=55)), app_export._ingredients_csv())
     offers.write_offers_js(data, args.out)
     n = sum(len(s["offers"]) for s in data["stores"])
     print(f"Skrev {args.out}: {n} tilbud i uke {data['week']}")
@@ -164,14 +161,9 @@ def main(argv=None):
         p.set_defaults(fn=cmd_mark, status=status)
 
     args = ap.parse_args(argv)
-    if args.cmd == "fetch-offers":
-        args.fn(None, args)  # trenger ikke databasen
-        return
-    if args.cmd == "export-app" and not os.path.exists(args.db):
-        args.fn(None, args)  # uten database: ingen priser, ikke lag en tom fil
-        return
-    conn = db.connect(args.db)
-    args.fn(conn, args)
+    # fetch-offers trenger ikke databasen. export-app uten database: ingen priser, ikke lag en tom fil.
+    no_db = args.cmd == "fetch-offers" or (args.cmd == "export-app" and not os.path.exists(args.db))
+    args.fn(None if no_db else db.connect(args.db), args)
 
 
 if __name__ == "__main__":
