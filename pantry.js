@@ -141,5 +141,15 @@
     return list.map(function (x, i) { return [x, c(x), i]; }).sort(function (a, b) { return b[1] - a[1] || a[2] - b[2]; }).map(function (a) { return a[0]; });
   }
 
-  root.MatgledePantry = { key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  // Tegneseriebilde (emoji) av en vare til søndagskortene. Mer spesifikke treff først («kokosmelk» før «melk»).
+  var ART = [[/kokosmelk/, '🥥'], [/hvitløk/, '🧄'], [/løk|purre/, '🧅'], [/mais/, '🌽'], [/paprikapulver|krydder|kanel|salt|pepper/, '🧂'],
+    [/hakkede tomater|tomatpur|bønne|kikert|linser|tunfisk|buljong|ketchup/, '🥫'], [/potet/, '🥔'], [/gulr/, '🥕'], [/paprika/, '🫑'],
+    [/tomat/, '🍅'], [/agurk|squash/, '🥒'], [/brokkoli|grønnsak/, '🥦'], [/sitron|lime/, '🍋'], [/ingefær/, '🫚'], [/eple/, '🍎'],
+    [/banan/, '🍌'], [/avokado/, '🥑'], [/appelsin/, '🍊'], [/tortilla|lefse/, '🫓'], [/melk|fløte|rømme|yoghurt/, '🥛'], [/^egg|\begg\b/, '🥚'],
+    [/smør/, '🧈'], [/ost\b/, '🧀'], [/erter/, '🫛'], [/ris\b/, '🍚'], [/nudler/, '🍜'], [/pasta|spaghetti|lasagne|makaroni|penne/, '🍝'],
+    [/mel\b|havre|gryn|quinoa|couscous|bulgur|gjær|bakepulver/, '🌾'], [/sukker/, '🍬'], [/olje/, '🫒'], [/honning/, '🍯'], [/saus|sennep/, '🍶'],
+    [/kylling/, '🍗'], [/reke/, '🦐'], [/laks|fisk|torsk|sei/, '🐟'], [/kjøtt|deig|bacon|pølse|biff/, '🥩'], [/brød/, '🍞']];
+  function art(n) { n = String(n || '').toLowerCase(); for (var i = 0; i < ART.length; i++) if (ART[i][0].test(n)) return ART[i][1]; return '🛒'; }
+
+  root.MatgledePantry = { art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
