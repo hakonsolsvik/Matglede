@@ -145,7 +145,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
-<img src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
+<img sc-camel-src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
 <sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.nLabel }}</span></sc-if>
 <sc-if value="{{ st.hasBadge }}"><span aria-hidden="true" title="Din butikk" style="position:absolute;left:8px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></span></sc-if>
 </div>
@@ -308,7 +308,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 
 <sc-if value="{{ ovRecipe }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:var(--mg-bg);z-index:52;overflow-y:auto;filter:{{ rd.blur }};transition:filter .25s;display:flex;flex-direction:column">
+<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:52;overflow-y:auto;filter:{{ rd.blur }};transition:filter .25s;display:flex;flex-direction:column">
 <div style="height:310px;flex:none;background:{{ rd.img }};position:relative;display:flex;align-items:flex-end;padding:0 20px 40px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45)">{{ rd.imgLabel }}
 <button onClick="{{ back }}" aria-label="Tilbake" style="position:absolute;top:calc(var(--top) + 10px);left:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <button onClick="{{ rd.toggleFav }}" aria-label="{{ rd.favLabel }}" aria-pressed="{{ rd.isFav }}" style="position:absolute;top:calc(var(--top) + 10px);right:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" fill="{{ rd.starFill }}" stroke="{{ rd.starStroke }}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></button>
@@ -322,7 +322,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px">
 <div class="s28"><span class="s19">Tid</span><span class="s20 mg-h">{{ rd.timeLabel }}</span></div>
 <div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
-<div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
+<div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">i forbruk</span></div>
 </div>
 <sc-if value="{{ rd.isMine }}"><button onClick="{{ rd.edit }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Endre oppskrift</button></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
@@ -335,18 +335,18 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:flex;align-items:center;gap:10px"><div class="s20 mg-h">Ingredienser</div><sc-if value="{{ rd.pig.show }}"><button onClick="{{ rd.pig.open }}" aria-label="{{ rd.pig.aria }}" aria-haspopup="dialog" style="flex:none;width:44px;height:44px;border-radius:50%;border:{{ rd.pig.ring }};box-sizing:border-box;background:none;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="#f5c42c" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></button></sc-if></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px">
 <div style="font-size:12px;color:var(--mg-ink-muted);padding:10px 0 2px">Trykk på det du har, så krysses det av.</div><sc-for list="{{ rd.ing }}" as="i"><div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.have }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);font-size:14px;cursor:pointer;opacity:{{ i.op }}"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-weight:600;text-decoration:{{ i.deco }}">{{ i.n }}</span><sc-if value="{{ i.hasNote }}"><span style="font-size:12px;color:{{ i.noteColor }};font-weight:600">{{ i.note }}</span></sc-if></span><span style="color:var(--mg-ink-muted)">{{ i.m }}</span><span style="width:56px;flex:none;text-align:right;font-weight:700;color:{{ i.priceColor }}">{{ i.price }}</span></div></sc-for>
-<div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
+<div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Forbruk totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 4px">{{ rd.coverage }}</div>
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 12px">{{ rd.servingsNote }}</div>
 </div>
 </div>
 <div class="s4">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s20 mg-h">Slik gjør du</div><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></div>
-<sc-for list="{{ rd.steps }}" as="s"><div onClick="{{ s.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ s.done }}" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:{{ s.op }}"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ s.mark }}</span><span style="font-size:14px;line-height:1.5;padding-top:3px;text-decoration:{{ s.deco }}">{{ s.text }}</span></div></sc-for>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s20 mg-h">Slik gjør du</div><sc-if value="{{ rd.hasSteps }}"><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></sc-if></div>
+<sc-if value="{{ rd.noSteps }}"><div class="s2">Ingen fremgangsmåte er lagt inn ennå.</div></sc-if><sc-for list="{{ rd.steps }}" as="s"><div onClick="{{ s.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ s.done }}" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:{{ s.op }}"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ s.mark }}</span><span style="font-size:14px;line-height:1.5;padding-top:3px;text-decoration:{{ s.deco }}">{{ s.text }}</span></div></sc-for>
 </div>
 </div>
 <div style="position:sticky;bottom:0;z-index:2;background:linear-gradient(rgba(243,242,234,0),var(--mg-bg) 28%);padding:22px 20px max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px">
-<sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span></button></sc-for></div></sc-if>
+<sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div></sc-if>
 <button onClick="{{ rd.togglePick }}" aria-expanded="{{ rd.pickOpen }}" style="box-shadow:0 6px 18px rgba(30,50,25,.25);border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
 
 </div>
@@ -354,7 +354,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </sc-if>
 
 <sc-if value="{{ rd.pigOpen }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ rd.pig.close }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:53;background:rgba(27,42,28,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:12px;box-sizing:border-box;cursor:pointer">
+<div onClick="{{ rd.pig.close }}" style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);z-index:53;background:rgba(27,42,28,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:12px;box-sizing:border-box;cursor:pointer">
 <div role="dialog" aria-label="Billigere versjon" onClick="{{ rd.pig.stop }}" style="background:var(--mg-bg);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25);cursor:default;max-height:80vh;overflow-y:auto">
 <div style="display:flex;align-items:center;gap:12px;padding:2px 2px 4px">
 <span aria-hidden="true" style="width:42px;height:42px;flex:none;border-radius:50%;background:#f5c42c;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="#ffe27a" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></span>
@@ -368,13 +368,13 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px"><sc-for list="{{ rd.pig.swaps }}" as="w"><div style="padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken);display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ w.text }}</span><span class="s2">{{ w.why }}</span></div></sc-for><div class="s2" style="padding:10px 0">{{ rd.pig.extra }}</div></div>
 <button onClick="{{ rd.pig.toggle }}" aria-pressed="{{ rd.pig.on }}" style="border:2px solid #e9b81a;background:{{ rd.pig.btnBg }};color:{{ rd.pig.btnFg }};font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer">{{ rd.pig.btn }}</button>
 <div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Legg billig versjon i ukeplanen</div>
-<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.pig.days }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span></button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.pig.days }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div>
 </div>
 </div>
 </sc-if>
 
 <sc-if value="{{ rd.learnOpen }}" hint-placeholder-val="{{ false }}">
-<div onClick="{{ rd.closeLearn }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:53;background:rgba(27,42,28,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:12px;box-sizing:border-box;cursor:pointer">
+<div onClick="{{ rd.closeLearn }}" style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);z-index:53;background:rgba(27,42,28,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:12px;box-sizing:border-box;cursor:pointer">
 <div style="background:var(--mg-bg);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25)">
 <div style="display:flex;align-items:center;gap:12px;padding:2px 2px 4px">
 <span style="width:42px;height:42px;flex:none;border-radius:50%;background:var(--mg-info);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg></span>
@@ -407,6 +407,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span class="s8">{{ sl.meta }}</span><span style="font-size:14px;font-weight:700;white-space:nowrap">{{ sl.chain }}: {{ sl.total }}</span></div>
 <div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:8px;border-radius:var(--mg-r-pill);background:color-mix(in srgb,currentColor 25%,transparent);overflow:hidden"><div style="height:100%;width:{{ sl.pct }};background:currentColor;border-radius:var(--mg-r-pill);transition:width .3s"></div></div>
 <button onClick="{{ sl.share }}" style="align-self:flex-start;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:7px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg>Del listen</button>
+<sc-if value="{{ sl.hasShareText }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;display:flex;flex-direction:column;gap:8px"><div class="s2">Kunne ikke dele direkte. Merk teksten og kopier den.</div><textarea readonly aria-label="Handlelisten som tekst" value="{{ sl.shareText }}" onFocus="{{ sl.selectAll }}" style="width:100%;box-sizing:border-box;height:160px;border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-bg);color:var(--mg-ink);font:14px/1.4 var(--mg-font-sans);padding:10px"></textarea><button onClick="{{ sl.closeText }}" style="align-self:flex-start;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer">Lukk</button></div></sc-if>
 </div>
 </sc-if>
 <form onSubmit="{{ sl.addOwn }}" class="s33"><input value="{{ ownItem }}" onChange="{{ onOwn }}" aria-label="Legg til egen vare" placeholder="Legg til egen vare, f.eks. dopapir" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
@@ -436,14 +437,14 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div style="background:{{ sd.bg }};padding:calc(var(--top) + 10px) 20px 22px;display:flex;flex-direction:column;gap:14px">
 <button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div style="display:flex;justify-content:center"><img src="{{ sd.logo }}" alt="{{ sd.name }}" style="height:120px;width:auto;display:block"></div>
+<div style="display:flex;justify-content:center"><img sc-camel-src="{{ sd.logo }}" alt="{{ sd.name }}" style="height:120px;width:auto;display:block"></div>
 </div>
 <div style="padding:18px 20px 28px;display:flex;flex-direction:column;gap:20px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 class="s3">Ukas avis</h2><div class="s58">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
 
 <sc-if value="{{ sd.hasMine }}">
 <button onClick="{{ sd.toggleMine }}" aria-expanded="{{ sd.mineOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:#f5b82e;color:#3a2a00;border-radius:16px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-size:15px;font-weight:800"><span>{{ sd.mineLabel }}</span><span aria-hidden="true">{{ sd.mineArrow }}</span></button>
-<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
+<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><sc-if value="{{ o.hasImg }}"><img sc-camel-on-error="{{ o.hideImg }}" sc-camel-src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
 </sc-if>
 
 <sc-if value="{{ sd.hasTop }}">
@@ -452,7 +453,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:{{ o.cardH }};scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
-<div style="position:relative"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:96px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:6px"></sc-if><span style="position:{{ o.pctPos }};left:0;top:0;display:inline-block;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span></div>
+<div style="position:relative"><sc-if value="{{ o.hasImg }}"><img sc-camel-on-error="{{ o.hideImg }}" sc-camel-src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:96px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:6px"></sc-if><span style="position:{{ o.pctPos }};left:0;top:0;display:inline-block;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span></div>
 <div style="font-size:14px;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ o.name }}</div>
 <div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--mg-danger)">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through">{{ o.before }}</div></div>
 </div>
@@ -471,7 +472,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 <sc-if value="{{ sd.isFrame }}">
-<iframe src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="{{ sd.frameStyle }}"></iframe>
+<sc-if value="{{ sd.loading }}"><div aria-live="polite" style="height:0;position:relative;z-index:1"><div style="padding:48px 0;text-align:center;font-size:14px;font-weight:700;color:var(--mg-ink-muted)">Laster avisen …</div></div></sc-if>
+<iframe key="{{ sd.code }}" sc-camel-on-load="{{ sd.onLoad }}" sc-camel-src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="{{ sd.frameStyle }}"></iframe>
 <sc-if value="{{ sd.full }}"><button onClick="{{ sd.closeFull }}" aria-label="Lukk fullskjerm" style="position:fixed;top:calc(env(safe-area-inset-top) + 12px);right:12px;z-index:1001;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)">✕</button></sc-if>
 </sc-if>
 <sc-if value="{{ sd.isLink }}">
@@ -489,11 +491,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
 <sc-for list="{{ g.items }}" as="o">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" class="s60">
-<sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if>
+<sc-if value="{{ o.hasImg }}"><img sc-camel-on-error="{{ o.hideImg }}" sc-camel-src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if>
 <span style="flex:none;width:46px;text-align:center;background:color-mix(in srgb,var(--mg-danger) 16%,var(--mg-surface));color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
 <div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
 <div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
-<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ o.addIcon }}"></path></svg></button>
+<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path sc-camel-d="{{ o.addIcon }}"></path></svg></button>
 </div>
 </sc-for>
 </div>
@@ -555,6 +557,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div style="padding:calc(var(--top) + 8px) 16px 24px;display:flex;flex-direction:column;gap:12px">
 <div style="display:flex;gap:12px;align-items:center"><button onClick="{{ back }}" aria-label="Tilbake" class="s65"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button><div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em">Velg middag</div><div class="s2">{{ dayTitle }}</div></div></div>
+<input value="{{ pq }}" onChange="{{ onPq }}" placeholder="Søk etter rett eller ingrediens" aria-label="Søk etter rett eller ingrediens" type="search" style="height:48px;border-radius:var(--mg-r-pill);border:0;box-shadow:var(--mg-shadow-1);background:var(--mg-surface);color:var(--mg-ink);padding:0 18px;font-size:16px;font-family:inherit;outline:none">
+<sc-if value="{{ noPick }}"><div class="s18" style="padding:12px 4px">Fant ingen retter.</div></sc-if>
 <sc-for list="{{ pickList }}" as="r">
 <div onClick="{{ r.add }}" role="button" tabIndex="0" class="s25">
 <div style="width:56px;height:56px;flex:none;border-radius:var(--mg-r-md);background:{{ r.img }}"></div>
@@ -613,7 +617,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan.</div></div>
+<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan. «Mye» regnes som en vanlig pakke og «Litt» som en halv, til appen vet mer fra rettene du har laget.</div></div>
 <sc-if value="{{ pt.ask }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
 <div class="s10"><span class="s1 mg-h">{{ pt.askTitle }}</span><span style="font-size:14px;line-height:1.45">Gå gjennom varene én og én og velg hvor mye du har. Da stemmer ukeplanen og handlelisten, også om du har brukt noe til annet enn middag, som egg til frokost.</span></div>
 <div class="s33"><button onClick="{{ pt.start }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill)">Oppdater nå</button><button onClick="{{ pt.skip }}" style="border:0;cursor:pointer;font-family:inherit;background:rgba(31,42,28,.1);color:#1f2a1c;font-size:14px;font-weight:700;padding:11px 18px;border-radius:var(--mg-r-pill)">Ikke nå</button></div>
@@ -638,7 +642,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 
-<sc-if value="{{ pt.cards }}" hint-placeholder-val="{{ false }}"><div role="dialog" aria-label="Oppdater beholdningen" style="position:absolute;inset:0;z-index:54;background:var(--mg-bg);display:flex;flex-direction:column;padding:calc(var(--top) + 10px) 22px max(22px,env(safe-area-inset-bottom));box-sizing:border-box;gap:18px">
+<sc-if value="{{ pt.cards }}" hint-placeholder-val="{{ false }}"><div role="dialog" aria-label="Oppdater beholdningen" style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);z-index:54;background:var(--mg-bg);display:flex;flex-direction:column;padding:calc(var(--top) + 10px) 22px max(22px,env(safe-area-inset-bottom));box-sizing:border-box;gap:18px">
 <div style="display:flex;align-items:center;gap:12px"><button onClick="{{ pt.card.close }}" aria-label="Lukk" class="s21"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div class="s11"><div class="s19">{{ pt.card.progress }}</div><div class="s8">Oppdater beholdningen</div></div></div>
 <div style="flex:1;display:flex;align-items:center;justify-content:center"><div style="width:100%;max-width:340px;background:var(--mg-surface);border-radius:28px;box-shadow:var(--mg-shadow-2);padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:18px">
 <div aria-hidden="true" style="font-size:120px;line-height:1">{{ pt.card.art }}</div>
@@ -694,18 +698,18 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <div class="s72">
 <div class="s13">Standard antall personer</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:{{ p.fg }};box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
 <div class="s2">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
 </div>
 <div class="s72">
 <div class="s13">Utseende</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ themeOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ themeOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:{{ p.fg }};box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
 <div class="s2">Automatisk følger innstillingen på telefonen.</div>
 </div>
 <div class="s72">
 <div class="s13">Velg din butikk</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
-<div class="s2">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
+<div class="s2">Coop gjelder Extra, Mega, Prix, Obs og Marked. Bunnpris har ikke priser i Kassalapp. Rema 1000 og Coop har priser fra mai 2024, så de mangler mange varer.</div>
 </div>
 <div class="s70">
 <sc-for list="{{ toggles }}" as="t"><div onClick="{{ t.toggle }}" role="switch" tabIndex="0" aria-checked="{{ t.on }}" aria-label="{{ t.label }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--mg-surface-sunken);cursor:pointer"><div style="flex:1"><div class="s13">{{ t.label }}</div><div class="s2">{{ t.sub }}</div></div><div style="width:48px;height:28px;border-radius:var(--mg-r-pill);background:{{ t.track }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.justify }};transition:background .2s"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div></div></sc-for>
@@ -789,7 +793,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;z-index:45;background:rgba(20,25,18,.12)"></div>
 <div role="menu" aria-label="Meny" data-mgmenu="1" style="position:absolute;top:calc(var(--top) + 56px);right:14px;z-index:46;width:214px;background:var(--mg-surface);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-2);padding:6px;display:flex;flex-direction:column">
-<button role="menuitem" onClick="{{ menuProfile }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg><span style="flex:1">Profil</span><sc-if value="{{ nagBadge }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-danger)"></span></sc-if></button>
+<button role="menuitem" onClick="{{ openPantry }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M5 9h14M10 13h4"></path></svg><span style="flex:1">Min beholdning</span><sc-if value="{{ nagBadge }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-danger)"></span></sc-if></button>
 <button role="menuitem" onClick="{{ openMine }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h10a2 2 0 012 2v15l-3-2-3 2-3-2-3 2v-15a2 2 0 012-2z"></path><path d="M9 8h6M9 12h4"></path></svg>Mine oppskrifter</button>
 <button role="menuitem" onClick="{{ menuSettings }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
 <div style="height:1px;background:var(--mg-surface-sunken);margin:4px 8px"></div>
@@ -962,7 +966,7 @@ class Component extends DCLogic {
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
       if (this.state.wake && !p.stack.some(x => x.t === 'cook')) this.keepAwake(false);
-      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false }); });
+      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, shareText: null }); });
     window.addEventListener('keydown', this.onKey);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && this.state.wake) this.keepAwake(true); });
     const A = window.MatgledeAuth; if (!A) return;
@@ -1152,7 +1156,7 @@ class Component extends DCLogic {
 
   go = (tab, extra) => this.setState(st => ({ tab, stack: [], menu: false, sdFull: false, ...(tab === 'tilbud' && st.tab !== 'tilbud' ? { tilbudSeen: (st.tilbudSeen || 0) + 1 } : {}), ...extra }));
   goCat = cat => this.go('opp', { cat, q: '' });
-  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
+  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, shareText: null }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
     // Bruk nettleserens historikk når siden ble åpnet fra appen, så tilbake-knappen på telefonen følger med
@@ -1185,6 +1189,11 @@ class Component extends DCLogic {
     this.setState(s => ({ favs: on ? s.favs.filter(f => f !== id) : [id, ...s.favs] }));
     this.toast(on ? 'Fjernet fra favoritter' : 'Lagt til i favoritter');
   };
+  // Én skrivefeil (manglende, ekstra eller feil bokstav): lev1('brokoli', 'brokkoli')
+  lev1 = (a, b) => { if (Math.abs(a.length - b.length) > 1) return false; let i = 0; while (i < a.length && a[i] === b[i]) i++;
+    return a.slice(i + (a.length >= b.length)) === b.slice(i + (b.length >= a.length)); };
+  near = (q, text) => text.includes(q) || (q.length >= 4 && text.split(/[^a-zæøå]+/).some(w => [w, w.slice(0, q.length), w.slice(0, q.length + 1)].some(x => this.lev1(q, x))));
+  findR = q => this.D.R.filter(r => this.near(q, r.name.toLowerCase()) || r.ing.some(i => this.near(q, i.n.toLowerCase())) || this.D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q)));
   remember = q => this.setState(st => ({ recent: [q.toLowerCase(), ...st.recent.filter(x => x !== q.toLowerCase())].slice(0, 5) }));
   // Butikkavdeling ut fra varenavnet, i den rekkefølgen man går i butikken
   SECTIONS = [
@@ -1394,6 +1403,10 @@ class Component extends DCLogic {
     const ing = d.rows.filter(r => r.n.trim()).map(r => ({ n: r.n.trim().slice(0, 80), q: this.parseQ(r.q), u: r.u }));
     if (!name) return this.setDraft({ error: 'Gi oppskriften et navn.' });
     if (!ing.length) return this.setDraft({ error: 'Legg til minst én ingrediens.' });
+    // Mengde uten enhet: stk når varen kan telles (egg, løk), ellers må enheten velges, så prisen ikke blir en tilfeldig pakke
+    for (const i of ing) { if (i.q == null || i.u) continue; const parts = this.partsOf(i.n, 'stk', i.q), I = parts.length === 1 && this.D.ING[parts[0][1]];
+      if (I && I.base !== 'stk' && !I.gpp) return this.setDraft({ error: `Velg enhet for ${i.n.toLowerCase()} (for eksempel g eller dl).` });
+      if (I) i.u = 'stk'; }
     const t = parseInt(d.time, 10), id = d.id || 'egen-' + Date.now().toString(36);
     const rec = { id, name: name.slice(0, 80), servings: d.servings, time: t > 0 ? Math.min(t, 1440) : null, ing,
       steps: d.steps.split(/\n+/).map(x => x.trim()).filter(Boolean), ...(d.photo ? { photo: d.photo } : {}) };
@@ -1459,7 +1472,9 @@ class Component extends DCLogic {
   // ---------- priser ----------
   // Vanlig pris regnes med vanlige merker. Lavprismerkene og ukas tilbud brukes i sparemodus (deal).
   BUDGET = /first price|laveste pris|\bxtra\b/i;
-  prods = (slug, chain, deal) => { chain = chain || this.state.chain; const c = ((this.D.ING[slug] || {}).products || {})[chain] || [];
+  // Varianter oppskriften ikke mener (glutenfri pasta, sylteagurk) tas aldri, også når butikken ikke har noe annet
+  ODD = /glutenfri|laktosefri|marinert|agurker hele|agurk (dill|med chil)|cocktail/i;
+  prods = (slug, chain, deal) => { chain = chain || this.state.chain; const c = (((this.D.ING[slug] || {}).products || {})[chain] || []).filter(p => !this.ODD.test(p.name));
     if (deal) return c.concat(this.D.OFF[chain + ':' + slug] || []);
     const n = c.filter(p => !this.BUDGET.test(p.name)); return n.length ? n : c; };
   // Hele pakker for handlelisten: billigste antall pakker x pris blant kandidatene
@@ -1472,7 +1487,7 @@ class Component extends DCLogic {
   };
   // Forbrukt mengde i en oppskrift (andel av pakken), brukt for pris per rett: { v: kroner, p: varen }
   lineBest = (i, f, deal) => {
-    if (!i.slug || i.q == null) return null;
+    if (!i.slug || i.q == null || (i.base == null && !i.u)) return null; // mengde uten enhet gir ingen pris
     const c = this.prods(i.slug, null, deal); if (!c.length) return null;
     const sized = i.base != null ? c.filter(p => p.size) : [];
     if (sized.length) return sized.map(p => ({ v: i.base * f / p.size * p.price, p })).reduce((a, b) => b.v < a.v ? b : a);
@@ -1513,7 +1528,8 @@ class Component extends DCLogic {
     if (!rc.priced) return { label: 'pris mangler', short: '– kr' };
     const k = Math.round(rc.sum);
     if (!rc.complete && rc.priced / rc.need < 0.6) return { label: 'delvis priset', short: '– kr' };
-    return rc.complete ? { label: `ca. ${k} kr`, short: `${k} kr` } : { label: `minst ${k} kr`, short: `${k}+ kr` };
+    const miss = rc.need - rc.priced;
+    return rc.complete ? { label: `ca. ${k} kr`, short: `${k} kr` } : { label: `${k} kr, ${miss} uten pris`, short: `${k}+ kr` };
   };
 
   mk(r, extra) {
@@ -1526,7 +1542,7 @@ class Component extends DCLogic {
       ingCount: r.ing.length + ' ingredienser',
       costLabel: ct.label, costShort: ct.short,
       img: this.bg(r),
-      imgLabel: r.photo ? '' : 'foto: ' + r.name.toLowerCase(),
+      imgLabel: '',
       starFill: fav ? '#f5b82e' : 'none', starStroke: fav ? '#e0a51c' : '#646958',
       open: () => { const q = this.state.q.trim(), top = this.state.stack[this.state.stack.length - 1];
         if (q && ((top && top.t === 'search') || (!top && this.state.tab === 'opp'))) this.remember(q);
@@ -1569,7 +1585,12 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       const w = Math.floor(dl[0] / 7);
-      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, store: x.offer && D.storeByCode[x.offer.split(':')[0]], from: [] }));
+      // Tilbud lagt til fra Tilbud-siden: erstatter samme vare fra oppskriftene, ellers egen linje. Tilbudsprisen teller i summen.
+      const offers = [];
+      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => {
+        const st = x.offer && D.storeByCode[x.offer.split(':')[0]], o = st && st.offers.find(o => st.code + ':' + o.name === x.offer);
+        if (o && o.ing && m.has('s:' + o.ing)) return offers.push([m.get('s:' + o.ing), x, st, o]);
+        m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, store: st, price: o ? o.price : null, from: [] }); });
       m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
@@ -1580,24 +1601,31 @@ class Component extends DCLogic {
         const h = left.has(p.id) ? left.get(p.id) : P.have(p, this.packOf(e.slug), 1); if (h == null || need == null) return;
         const net = Math.max(0, need - h);
         e.have = { h, u: cnt ? 'stk' : e.u }; e.home = net <= 1e-9 && !e.pk && !e.extra.length; e.buy = cnt ? e.base * net / need : net; });
+      offers.forEach(([e, x, st, o]) => { e.home = false; e.store = st; e.offerId = x.id; e.note = x.note; e.price = o.price; e.offerName = o.name; });
       return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, 'nb'));
     };
     // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
-    const priceEntry = (e, chain) => { const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.buy != null ? e.buy : e.base, e.pk, chain, e.deal) : null); };
+    const priceEntry = (e, chain) => { if (e.price != null) return { packs: 1, total: e.price, p: { name: e.offerName || e.n } };
+      const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.buy != null ? e.buy : e.base, e.pk, chain, e.deal) : null); };
     const amountOf = e => e.own ? '' : e.slug
-      ? [e.home || e.buy == null ? (e.base ? this.fmt(e.base, e.u) : '') : this.fmt(e.buy, e.u), e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
+      ? [e.stk && e.base && !e.nonStk && e.u !== 'stk' ? this.fmt((e.home || e.buy == null ? e.base : e.buy) / e.base * e.stk, 'stk') : e.home || e.buy == null ? (e.base ? this.fmt(e.base, e.u) : '') : this.fmt(e.buy, e.u), e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
       const NOTE = { mye: 'Har nok hjemme, trenger ikke kjøpe', litt: 'Lite igjen hjemme, bør kjøpe mer', tomt: 'Tomt hjemme, må kjøpes' };
       const hv = e.have && e.have.h > 0 && `Har ca. ${this.fmt(e.have.h, e.have.u)} hjemme`;
-      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
+      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : e.offerName ? `${e.offerName} · ${e.note}` : pp ? `${pp.packs} × ${pp.p.name}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own && e.price == null ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
         section: this.sectionOf(e.n), own: !!e.own, home: !!e.home, hasStore: !!e.store, storeChip: e.store ? this.logoChip(e.store) : '', storeName: e.store ? e.store.name : '',
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.ck]: !st.checked[e.ck] } })) }; });
-    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
-    const sumText = sm => !M.hasPrices ? 'pris kommer' : sm.found ? `ca. ${Math.round(sm.total)} kr` : 'pris mangler';
+    // need: varer som kan ha pris (koblet til vare eller tilbud, og ikke hjemme)
+    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0, need = 0; arr.forEach(e => { if (e.home || (!e.slug && e.price == null)) return; need++; const pp = priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, need, n: arr.length }; };
+    // Mangler en butikk mange priser, vises ingen sum, så den ikke ser billigst ut (Rema og Coop har gamle data i Kassalapp)
+    const sumOf = sm => { const k = Math.round(sm.total), miss = sm.need - sm.found;
+      return !M.hasPrices ? { text: 'pris kommer', chip: '' } : !sm.found || sm.found < 0.8 * sm.need ? { text: 'mangler priser', chip: 'mangler priser' }
+        : miss ? { text: `ca. ${k} kr, ${miss} uten pris`, chip: `${k}+ kr` } : { text: `ca. ${k} kr`, chip: `${k} kr` }; };
+    const sumText = sm => sm.need ? sumOf(sm).text : M.hasPrices ? '0 kr' : 'pris kommer';
     const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
     const shopArr = buildShop(wkDays);
     const shopLeft = shopArr.filter(e => !s.checked[e.ck]).length;
@@ -1605,7 +1633,7 @@ class Component extends DCLogic {
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
 
     const q = s.q.trim().toLowerCase();
-    const results = q ? D.R.filter(r => r.name.toLowerCase().includes(q) || r.ing.some(i => i.n.toLowerCase().includes(q)) || D.CATS.some(([id, l]) => r.cats.includes(id) && l.toLowerCase().includes(q))).map(r => this.mk(r)) : [];
+    const results = q ? this.findR(q).map(r => this.mk(r)) : [];
 
     const costOf = r => { const rc = this.recipeCost(r); return rc.priced ? rc.sum : Infinity; };
     let favR = s.favs.map(id => D.byId[id]).filter(Boolean);
@@ -1615,13 +1643,14 @@ class Component extends DCLogic {
 
     const tonightR = (s.plan[this.TODAY] || [])[0];
     const dayMealsArr = (s.plan[s.day] || []);
-    const satPlanned = (s.plan[5] || [])[0];
+    const empty = [0,1,2,3,4,5,6].filter(d => d >= this.TODAY && !(s.plan[d] || []).length); // tomme dager resten av uka
 
     const weekend = this.TODAY >= 5;
     const taskDefs = [
       ...(weekend ? [{ id:'beh' + this.WEEKNO, title:'Oppdater Min beholdning', sub: s.pantry.length ? 'Se over hva du har før du planlegger uka' : 'Legg inn det du har hjemme, så foreslår appen middager', act:() => this.push({ t:'pantry' }) }] : []),
-      { id:'shop', title:'Handle inn til ukeplanen', sub:`${shopLeft} varer igjen på handlelisten`, act:() => this.go('plan') },
-      { id:'sat', title:'Planlegg middag lørdag', sub: satPlanned ? `Planlagt: ${D.byId[satPlanned].name}` : `${this.dayLong(5)} er tom`, act:() => this.go('plan', { day:5 }) },
+      ...(shopArr.length ? [{ id:'shop', title:'Handle inn til ukeplanen', sub:`${shopLeft} varer igjen på handlelisten`, act:() => this.go('plan') }] : []),
+      { id:'plan' + this.WEEKNO, title: empty.length > 1 ? `Planlegg ${empty.length} tomme dager` : empty.length ? `Planlegg middag ${this.DAYS_FULL[empty[0]].toLowerCase()}` : 'Uka er planlagt',
+        sub: empty.length ? `${empty.map(d => this.DAYS[d].toLowerCase()).join(', ')} er tom${empty.length > 1 ? 'me' : ''}` : 'Alle dagene har middag', act:() => this.go('plan', { day: empty.length ? empty[0] : this.TODAY }) },
       { id:'salat', title:'Prøv en salat fra Aichas Mat', sub:'Ukens utfordring', act:() => this.goCat('salat') },
       { id:'omega', title:'Les: Omega-3 og hjernen', sub:'5 min lesing', act:() => this.push({ t:'article', id:'a3' }) }
     ];
@@ -1647,7 +1676,7 @@ class Component extends DCLogic {
     if (top.t === 'recipe') {
       const r = D.byId[top.id], f = this.factor(r), rc = this.recipeCost(r), noAmt = r.ing.filter(i => i.q == null).length;
       const cheap = this.isCheap(r), save = Math.round(this.saving(r)), ings = this.ingOf(r), changes = this.cheapIng(r).filter(i => i.from || i.drop);
-      const unl = r.ing.filter(i => !i.slug).length;
+      const unl = r.ing.filter(i => !i.slug).length, busy = i => (s.plan[i] || []).length > 0;
       // Beholdningen etter rettene før i planen (eller etter hele planen, når retten ikke er planlagt)
       const run = this.homeRun(r.id).meals, homeSt = run.find(x => x.id === r.id).st;
       rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
@@ -1656,11 +1685,12 @@ class Component extends DCLogic {
         steps: (r.steps || []).map((t, i) => { const k = r.id + ':' + i, done = !!s.stepsDone[k];
           return { n: i + 1, text: t, done, mark: done ? '✓' : String(i + 1), bg: done ? 'var(--mg-primary-soft)' : 'var(--mg-butter)', op: done ? .55 : 1, deco: done ? 'line-through' : 'none',
             toggle: () => this.setState(st => ({ stepsDone: { ...st.stepsDone, [k]: !st.stepsDone[k] } })) }; }),
+        hasSteps: !!(r.steps || []).length, noSteps: !(r.steps || []).length, timeLabel: r.time ? `${r.time} min` : 'Ikke oppgitt',
         cook: () => { this.setState({ cookStep: 0 }); this.push({ t: 'cook', id: r.id }); this.keepAwake(true); },
         learnAria: `Lær mer om retten, ${(r.learn || []).length} artikler`,
         servingsNote: `Oppskriften er skrevet for ${r.servings} porsjoner. Mengdene her er regnet om til ${this.pers(r)}.`,
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
-          : `Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
+          : `Prisen er det oppskriften bruker. Handlelisten regner hele pakker. Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
         // Sparegrisen vises bare når en billigere versjon finnes (minst 5 kr), eller når den er slått på
         pig: { show: cheap || save >= 5, on: cheap, ring: cheap ? '3px solid var(--mg-ink)' : '0',
           aria: cheap ? 'Sparemodus er på. Vis billigere versjon' : `Billigere versjon, spar ca. ${save} kr`,
@@ -1673,7 +1703,7 @@ class Component extends DCLogic {
           extra: 'Ellers velges billigste vare og ukas tilbud. Ingredienslisten viser hva du skal kjøpe.',
           toggle: () => { this.toggleCheap(r.id); this.setState({ rdPig: false }); this.toast(cheap ? 'Vanlig versjon' : 'Billig versjon er valgt'); },
           btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c', btnFg: cheap ? 'var(--mg-ink)' : '#1f2a1c',
-          days: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}`,
+          days: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
             bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
             add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); } })) },
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
@@ -1687,7 +1717,7 @@ class Component extends DCLogic {
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
-        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
+        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
         isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
@@ -1703,7 +1733,8 @@ class Component extends DCLogic {
     let sd = {};
     // Bare tilbud som er koblet til en ingrediens (offers.py tag_offers), så kjøttsuppe med poteter ikke teller som poteter
     const listSlugs = new Set(shopArr.filter(e => !e.own && e.slug).map(e => e.slug));
-    const onList = st => (st.offers || []).filter(o => o.ing && listSlugs.has(o.ing));
+    const onList = st => { const best = new Map(); (st.offers || []).forEach(o => { if (o.ing && listSlugs.has(o.ing) && (best.get(o.ing) || { pct: -1 }).pct < o.pct) best.set(o.ing, o); });
+      return [...best.values()]; };
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
       const addBtn = o => { const key = st.code + ':' + o.name, have = s.extra.some(x => x.offer === key && !x.w);
@@ -1713,11 +1744,13 @@ class Component extends DCLogic {
             this.setState(ss => ({ extra: have ? ss.extra.filter(x => !(x.offer === key && !x.w))
               : [...ss.extra, { id: Date.now().toString(36), n: o.name, offer: key, note: `Tilbud hos ${st.name} · ${kr(o.price)}` }] }));
             this.toast(have ? 'Fjernet fra handlelisten' : 'Lagt i handlelisten for denne uka'); } }; };
-      const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, img: o.img || '', hasImg: !!o.img, cardH: o.img ? '260px' : '170px', pctPos: o.img ? 'absolute' : 'static', price: kr(o.price), before: 'før ' + kr(o.before),
+      const item = o => ({ name: o.name, brand: o.brand || '', hideImg: e => { e.target.style.visibility = 'hidden'; }, pct: o.pct, img: o.img || '', hasImg: !!o.img, cardH: o.img ? '260px' : '170px', pctPos: o.img ? 'absolute' : 'static', price: kr(o.price), before: 'før ' + kr(o.before),
         open: () => o.url && window.open(o.url, '_blank', 'noopener'), ...addBtn(o) });
       const groups = [];
       st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
       let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
+      // generated er norsk tid fra offers.py («2026-11-23 16:41») -> «23. nov. kl. 16.41»
+      const gm = /^(\S+) (\d\d):(\d\d)$/.exec(D.O.generated || ''), genTime = gm ? `${dmy(gm[1])} kl. ${gm[2]}.${gm[3]}` : D.O.generated;
       const view = st.view || {}, linkView = !view.type || view.type === 'link', pages = [];
       (view.type === 'images' ? view.pages : []).forEach((src, i, all) => {
         if (!view.spreads) { pages.push({ src, pos: '0 0', label: `Side ${pages.length + 1}` }); return; }
@@ -1725,7 +1758,7 @@ class Component extends DCLogic {
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
       const mine = onList(st), listOpen = s.sdList === st.code, frame = view.type === 'pdf' || view.type === 'embed', frameFull = frame && !!s.sdFull;
-      sd = { name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
+      sd = { code: st.code, name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
         mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
         toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
         countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} prisfall` : 'avis', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
@@ -1737,18 +1770,20 @@ class Component extends DCLogic {
         btnLabel: linkView ? 'Åpne ukas avis' : 'Åpne avisen i full størrelse',
         btnBg: linkView ? 'var(--mg-ink)' : 'var(--mg-border)', btnFg: linkView ? 'var(--mg-on-ink)' : 'var(--mg-ink)',
         // Avis i ramme: «full størrelse» fyller skjermen inne i appen, samme iframe så den ikke lastes på nytt
-        full: frameFull, closeFull: () => this.setState({ sdFull: false }),
-        frameStyle: frameFull ? 'position:fixed;inset:0;z-index:1000;width:100vw;height:100dvh;border:0;background:var(--mg-surface)'
-          : 'width:calc(100% + 16px);margin:0 -8px;height:max(620px,80vh);border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)',
-        openFlyer: () => frame ? this.setState({ sdFull: true }) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
+        full: frameFull, closeFull: () => history.state && history.state.full ? history.back() : this.setState({ sdFull: false }),
+        loading: frame && s.sdLoaded !== st.code, onLoad: () => this.setState({ sdLoaded: st.code }),
+        frameStyle: (frame && s.sdLoaded !== st.code ? 'opacity:0;' : '') + (frameFull ? 'position:fixed;inset:0;z-index:1000;width:100vw;height:100dvh;border:0;background:var(--mg-surface)'
+          : 'width:calc(100% + 16px);margin:0 -8px;height:max(620px,80vh);border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)'),
+        openFlyer: () => frame ? (history.pushState({ mg: this._depth, full: 1 }, '', location.hash), this.setState({ sdFull: true })) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
         emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka.`
           : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
         groups: [...groups].sort((a, b) => b.list.length - a.list.length).map(g => ({ name: g.name, count: `${g.list.length}`, items: g.list.map(item) })),
-        note: `Avisen hentes rett fra ${host || 'kjeden'} og byttes hver mandag kl. 12${D.O.generated ? ` (sist ${D.O.generated})` : ''}. Prisfallene er varer som er minst 10 % billigere enn vanlig hos ${st.name}, funnet i prishistorikken til Kassalapp.` };
+        note: `Avisen hentes rett fra ${host || 'kjeden'} og byttes hver mandag kl. 12${D.O.generated ? ` (sist ${genTime})` : ''}.${st.offers.length ? ` Prisfallene er varer som er minst 10 % billigere enn vanlig hos ${st.name}, funnet i prishistorikken til Kassalapp.` : ''}` };
     }
     let sl = {};
+    const lc = top.t === 'shop' && top.chain || s.chain; // butikken handlelisten viser
     if (top.t === 'shop') {
-      const week = top.scope === 'week', arr = week ? ((top.wk || 0) === wk ? shopArr : buildShop(daysOf(top.wk || 0))) : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
+      const week = top.scope === 'week', arr = week ? ((top.wk || 0) === wk ? shopArr : buildShop(daysOf(top.wk || 0))) : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, lc), sm = shopSum(arr, lc);
       const names = (s.plan[top.day] || []).map(id => D.byId[id]).map(r => `${r.name} (${this.pers(r)} pers.)`).join(', ');
       const unm = arr.filter(e => !e.slug).length;
       const hm = arr.filter(e => e.home && e.slug).length;
@@ -1761,17 +1796,19 @@ class Component extends DCLogic {
       sl = { sub: week ? `Uke ${this.weekNo(top.wk || 0)} · ${this.weekRange(top.wk || 0)}` : `${this.dayLong(top.day)}${names ? ' · ' + names : ''}`,
         items, groups, has: items.length > 0, empty: !items.length, meta: doneN ? `${doneN} av ${items.length} i kurven` : `${items.length} varer`,
         count: items.length, doneCount: doneN, pct: items.length ? Math.round(doneN / items.length * 100) + '%' : '0%',
-        chain: chainName(s.chain), total: sumText(sm), bg: (this.BRAND[s.chain] || [])[0] || 'var(--mg-surface)', fg: (this.BRAND[s.chain] || [])[1] || 'var(--mg-ink)',
+        chain: chainName(lc), total: sumText(sm), bg: (this.BRAND[lc] || [])[0] || 'var(--mg-surface)', fg: (this.BRAND[lc] || [])[1] || 'var(--mg-ink)',
         share: () => { const text = 'Handleliste\n\n' + listText();
-          if (navigator.share) navigator.share({ title: 'Handleliste', text }).catch(() => {});
-          else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => this.toast('Listen er kopiert'), () => this.toast('Fikk ikke kopiert listen'));
-          else this.toast('Deling støttes ikke i denne nettleseren'); },
+          const show = () => this.setState({ shareText: text });
+          if (navigator.share) navigator.share({ title: 'Handleliste', text }).catch(e => e && e.name !== 'AbortError' && show());
+          else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => this.toast('Listen er kopiert'), show);
+          else show(); },
+        shareText: s.shareText || '', hasShareText: !!s.shareText, closeText: () => this.setState({ shareText: null }), selectAll: e => e.target.select(),
         addOwn: e => { e.preventDefault(); const n = s.ownItem.trim(); if (!n) return;
           const w = week ? top.wk || 0 : Math.floor(top.day / 7);
           this.setState(st => ({ extra: [...st.extra, { id: Date.now().toString(36), n: n[0].toUpperCase() + n.slice(1), ...(w ? { w } : {}) }], ownItem: '' }));
           if (!week) this.toast('Egne varer legges på listen for hele uka'); },
         note: !M.hasPrices ? `Prisene kommer når vareimporten fra Kassalapp er kjørt. ${arr.length - unm} av ${arr.length} varer er koblet til produkter.`
-          : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${hm ? ` ${hm} har du hjemme.` : ''}${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - hm - sm.found > 0 ? ` ${sm.n - unm - hm - sm.found} finnes ikke i ${chainName(s.chain)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
+          : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${hm ? ` ${hm} har du hjemme.` : ''}${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - hm - sm.found > 0 ? ` ${sm.n - unm - hm - sm.found} finnes ikke i ${chainName(lc)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
     }
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
@@ -1908,11 +1945,13 @@ class Component extends DCLogic {
       flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
         return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
           nLabel: `${n} på listen din`, hasBadge: mine, ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} varer fra handlelisten på tilbud` : ''}` }; }),
+          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} ${n === 1 ? 'vare' : 'varer'} fra handlelisten på tilbud` : ''}` }; }),
       ovStore: top.t === 'store', sd,
-      shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
+      shopChips: D.CHAINS.map(ch => { const on = lc === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
-        return { label: M.hasPrices && sm.found ? `${ch.name} · ${Math.round(sm.total)} kr` : ch.name, ...c, ...(b && { bg: b[0], border: b[0], fg: b[1] }), pick: () => this.setState({ chain: ch.code }) }; }),
+        const t = sm.need ? sumOf(sm).chip : '';
+        return { label: t ? `${ch.name} · ${t}` : ch.name, ...c, ...(b && { bg: b[0], border: b[0], fg: b[1] }), pick: () => { this.setState(st => ({ stack: [...st.stack.slice(0, -1), { ...top, chain: ch.code }] }));
+          if (ch.code !== lc) this.toast(ch.code === s.chain ? `Viser ${ch.name}, din butikk` : `Viser priser fra ${ch.name}. Din butikk er fortsatt ${chainName(s.chain)}.`); } }; }),
       chainChips: D.CHAINS.map(ch => ({ label: ch.name, ...this.chip(s.chain === ch.code), pick: () => this.setState({ chain: ch.code }) })),
       days, dayTitle: `${this.dayLong(s.day)}${s.day === this.TODAY ? ' · i dag' : ''}`,
       dayMeals: dayMealsArr.map((id, idx) => { const done = !!s.made[this.madeKey(s.day, id)], st = (planRun.find(x => x.d === s.day && x.id === id) || { st: [] }).st.filter(Boolean);
@@ -1926,8 +1965,9 @@ class Component extends DCLogic {
         this.toast(`${D.byId[id].name} er fjernet`, () => this.setState({ plan: before, toast: null, undo: null }));
       } }); }),
       addLabel: dayMealsArr.length ? 'Legg til en rett til' : 'Legg til middag',
-      openPicker: () => this.push({ t:'picker' }),
-      pickList: D.R.map(r => this.mk(r, { add: () => { this.addToPlan(s.day, r.id); this.back(); } })),
+      openPicker: () => { this.setState({ pq: '' }); this.push({ t:'picker' }); },
+      pq: s.pq || '', onPq: e => this.setState({ pq: e.target.value }), noPick: !!(s.pq || '').trim() && !this.findR(s.pq.trim().toLowerCase()).length,
+      pickList: ((s.pq || '').trim() ? this.findR(s.pq.trim().toLowerCase()) : D.R).map(r => this.mk(r, { add: () => { this.addToPlan(s.day, r.id); this.back(); } })),
       weekShopSub: shopArr.length ? `${wkDays.reduce((a, d) => a + (s.plan[d] || []).length, 0)} retter · ${shopArr.length} varer · ${sumText(weekSum)}` : 'Ingen retter planlagt',
       dayShopTitle: `Handleliste for ${this.DAYS_FULL[s.day % 7].toLowerCase()}`,
       dayShopSub: dayArr.length ? `${dayArr.length} varer · ${sumText(daySum)}` : 'Ingen retter planlagt denne dagen',
@@ -1953,7 +1993,7 @@ class Component extends DCLogic {
       rd, td, ad,
       favNum: s.favs.length, planNum,
       credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
-      portionOpts: [1, 2, 3, 4, 5, 6].map(n => ({ label: n + ' pers.', on: s.people === n, bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
+      portionOpts: [1, 2, 3, 4, 5, 6].map(n => ({ label: n + ' pers.', on: s.people === n, bg: s.people === n ? 'var(--mg-ink)' : 'transparent', fg: s.people === n ? 'var(--mg-on-ink)' : 'var(--mg-ink)', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
       share: (() => { const A = window.MatgledeAuth, inv = s.hhInvite, me = user && user.uid, nm = s.hhNames || {};
         const others = s.hh ? (s.hhMembers || []).filter(id => id !== me).map(id => ({ name: nm[id] || 'Ukjent', state: 'Deler med deg', canRemove: false })) : [];
         const waiting = s.hh ? (s.hhInvited || []).map(e => ({ name: e, state: 'Venter', canRemove: true, rmLabel: `Trekk tilbake invitasjonen til ${e}`,
@@ -1974,7 +2014,7 @@ class Component extends DCLogic {
           inHh: !!s.hh && others.length + waiting.length > 0, leave: this.leaveHousehold };
       })(),
       toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', s.remind ? `Planlegg neste uke, kl. ${s.remindAt}` : 'Planlegg neste uke')],
-      themeOpts: [['auto', 'Automatisk'], ['light', 'Lys'], ['dark', 'Mørk']].map(([k, label]) => ({ label, on: s.theme === k, bg: s.theme === k ? 'var(--mg-surface)' : 'transparent', shadow: s.theme === k ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => { window.mgTheme && window.mgTheme(k); this.setState({ theme: k }); } })),
+      themeOpts: [['auto', 'Automatisk'], ['light', 'Lys'], ['dark', 'Mørk']].map(([k, label]) => ({ label, on: s.theme === k, bg: s.theme === k ? 'var(--mg-ink)' : 'transparent', fg: s.theme === k ? 'var(--mg-on-ink)' : 'var(--mg-ink)', shadow: s.theme === k ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => { window.mgTheme && window.mgTheme(k); this.setState({ theme: k }); } })),
       remindOn: !!s.remind, remindH: s.remindAt.slice(0, 2), remindM: s.remindAt.slice(3),
       hours: [...Array(24)].map((_, i) => String(i).padStart(2, '0')), minutes: [...Array(12)].map((_, i) => String(i * 5).padStart(2, '0')),
       onRemindH: e => this.setState({ remindAt: e.target.value + s.remindAt.slice(2) }), onRemindM: e => this.setState({ remindAt: s.remindAt.slice(0, 3) + e.target.value }),
