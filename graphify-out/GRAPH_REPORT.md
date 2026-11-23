@@ -1,17 +1,17 @@
 # Graph Report - matglede  (2026-11-23)
 
 ## Corpus Check
-- 32 files · ~55,275 words
+- 32 files · ~55,612 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 6 file(s) not represented in the graph (top: (none) 2, .example 1, .webmanifest 1)
 
 ## Summary
-- 458 nodes · 905 edges · 25 communities (19 shown, 6 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 57 edges (avg confidence: 0.86)
+- 459 nodes · 905 edges · 25 communities (18 shown, 7 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 56 edges (avg confidence: 0.86)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e649d21b`
+- Built from commit: `cf82767c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,7 +25,6 @@
 - steps
 - score_product
 - varer.yml
-- importer.py
 - pantry.js
 - getReact
 - createExternalModules
@@ -48,33 +47,33 @@
 6. `main()` - 13 edges
 7. `KassalClient` - 12 edges
 8. `parse_package()` - 12 edges
-9. `shopping_list()` - 11 edges
-10. `to_base()` - 11 edges
+9. `ShoppingListTest` - 11 edges
+10. `shopping_list()` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Appen (app/)` --references--> `pick_product()`  [INFERRED]
   README.md → matglede/shopping.py
 - `MatchingTest` --uses--> `IngredientRule`  [INFERRED]
   tests/test_core.py → matglede/matching.py
-- `import_ingredient()` --uses--> `IngredientRule`  [INFERRED]
-  matglede/importer.py → matglede/matching.py
-- `build_offers()` --uses--> `KassalClient`  [INFERRED]
-  matglede/offers.py → matglede/kassal.py
 - `candidates()` --uses--> `IngredientRule`  [INFERRED]
   matglede/shopping.py → matglede/matching.py
+- `import_all()` --uses--> `KassalClient`  [INFERRED]
+  matglede/importer.py → matglede/kassal.py
+- `import_ingredient()` --uses--> `KassalClient`  [INFERRED]
+  matglede/importer.py → matglede/kassal.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (25 total, 6 thin omitted)
+## Communities (25 total, 7 thin omitted)
 
 ### Community 0 - "__main__.py"
-Cohesion: 0.09
-Nodes (28): base_amount(), build(), _candidates(), _ingredients_csv(), previous_products(), write(), load_dotenv(), cmd_compare() (+20 more)
+Cohesion: 0.12
+Nodes (17): base_amount(), build(), _candidates(), _ingredients_csv(), previous_products(), write(), cmd_export_app(), aggregate_needs() (+9 more)
 
 ### Community 1 - "offers.py"
-Cohesion: 0.10
-Nodes (13): coop(), coop_pages(), flyer_for(), _get(), norgesgruppen(), build_offers(), offer_from_product(), top_category() (+5 more)
+Cohesion: 0.07
+Nodes (26): coop(), coop_pages(), flyer_for(), _get(), norgesgruppen(), KassalClient, load_dotenv(), cmd_compare() (+18 more)
 
 ### Community 2 - "index.js"
 Cohesion: 0.07
@@ -97,16 +96,12 @@ Cohesion: 0.07
 Nodes (27): concurrency, cancel-in-progress, group, env, APP_BRANCH, KASSAL_API_KEY, jobs, tilbud (+19 more)
 
 ### Community 7 - "score_product"
-Cohesion: 0.14
-Nodes (10): _contains_word(), _excluded(), excluded_name(), IngredientRule, normalize(), score_product(), split_terms(), tag_offers() (+2 more)
+Cohesion: 0.09
+Nodes (20): _categories(), import_all(), import_ingredient(), link(), _now(), _price_date(), upsert_offer(), upsert_product() (+12 more)
 
 ### Community 8 - "varer.yml"
 Cohesion: 0.07
 Nodes (26): concurrency, cancel-in-progress, group, env, APP_BRANCH, KASSAL_API_KEY, jobs, varer (+18 more)
-
-### Community 9 - "importer.py"
-Cohesion: 0.15
-Nodes (12): _categories(), import_all(), import_ingredient(), link(), _now(), _price_date(), upsert_offer(), upsert_product() (+4 more)
 
 ### Community 10 - "pantry.js"
 Cohesion: 0.18
@@ -145,7 +140,7 @@ Cohesion: 1.00
 Nodes (3): createRegistry(), bump(), get()
 
 ## Knowledge Gaps
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -155,12 +150,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **Are the 7 inferred relationships involving `createRuntime()` (e.g. with `adoptParsed()` and `dcUpdate()`) actually correct?**
   _`createRuntime()` has 7 INFERRED edges - model-reasoned connections that need verification._
 - **Should `__main__.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.0889894419306184 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12233285917496443 - nodes in this community are weakly interconnected._
 - **Why does `Appen (app/)` connect `Mat-appen (Matglede): varedatabase for oppskrifter og handleliste` to `__main__.py`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `import_ingredient()` (e.g. with `KassalClient` and `.search_products()`) actually correct?**
   _`import_ingredient()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Should `offers.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.0960960960960961 - nodes in this community are weakly interconnected._
-- **Why does `score_product()` connect `score_product` to `importer.py`, `test_core.py`, `offers.py`?**
+  _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
+- **Why does `score_product()` connect `score_product` to `__main__.py`, `offers.py`, `test_core.py`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._

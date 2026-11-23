@@ -66,8 +66,11 @@ def score_product(rule: IngredientRule, name: str, categories: list[str], price_
     if excluded_name(rule, name):
         return None
     n = normalize(name)
-    # "fros/fryst" betyr at ett av alternativene må finnes.
-    if any(not any(a in n for a in m.split("/")) for m in rule.must_include):
+    cats = [normalize(c) for c in categories if c]
+    # "fros/fryst" betyr at ett av alternativene må finnes, i navnet eller i en kategori
+    # (frossen "Kyllingfilet 1,4kg First Price" sier ikke fryst i navnet).
+    where = " ".join([n, *cats])
+    if any(not any(a in where for a in m.split("/")) for m in rule.must_include):
         return None
 
     score = 0.0
@@ -91,7 +94,6 @@ def score_product(rule: IngredientRule, name: str, categories: list[str], price_
     if any(re.search(rf"(^|\s)(med|m|i)\s+(\S+\s+)?{re.escape(t)}", n) for t in rule.search_terms):
         score -= 3.0
 
-    cats = [normalize(c) for c in categories if c]
     if rule.category_hints and cats:
         if any(h in c for h in rule.category_hints for c in cats):
             score += 2.0
