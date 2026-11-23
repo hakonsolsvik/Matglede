@@ -601,7 +601,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan.</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
 <button onClick="{{ pt.voice }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ pt.voiceBg }};color:{{ pt.voiceFg }};border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg>{{ pt.voiceLabel }}</button>
-<label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+<label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" multiple onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
 </div>
 <form onSubmit="{{ pt.add }}" class="s33"><input value="{{ pt.name }}" onChange="{{ pt.onName }}" aria-label="Legg til vare" placeholder="Legg til vare, f.eks. ris" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
 
@@ -1101,22 +1101,27 @@ class Component extends DCLogic {
         .catch(err => { console.error(err); local(); }).finally(() => this.setState({ parsing: false })); };
     r.start(); this.setState({ listening: true });
   };
-  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer
+  // Bilder av kjøleskap eller skap -> worker/ (Claude) -> varer. Flere bilder sendes samtidig, ett kall per bilde.
   scanPhoto = e => {
-    const f = e.target.files && e.target.files[0];
+    const files = [...(e.target.files || [])].slice(0, 10); // tak på kostnad: ca. 10 øre per bilde
     e.target.value = '';
-    if (!f || this.state.scanning) return;
+    if (!files.length || this.state.scanning) return;
     if (!window.MATGLEDE_AI_URL) return this.toast('Bildegjenkjenning er ikke slått på ennå');
     if (!this.state.user) return this.push({ t: 'login' });
-    this.setState({ scanning: true });
-    createImageBitmap(f).then(b => {
+    this.setState({ scanning: files.length });
+    Promise.allSettled(files.map(f => createImageBitmap(f).then(b => {
       const k = Math.min(1, 1280 / Math.max(b.width, b.height)), c = document.createElement('canvas');
       c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
       c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
       return this.askAI({ image: c.toDataURL('image/jpeg', 0.8).split(',')[1] });
-    }).then(items => { if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
-      .catch(err => { console.error(err); this.toast('Fikk ikke lest bildet. Prøv igjen.'); })
-      .finally(() => this.setState({ scanning: false }));
+    }))).then(res => {
+      const ok = res.filter(r => r.status === 'fulfilled'), items = ok.flatMap(r => r.value);
+      res.filter(r => r.status === 'rejected').forEach(r => console.error(r.reason));
+      if (items.length) this.addPantry(items);
+      if (!ok.length) this.toast(files.length > 1 ? 'Fikk ikke lest bildene. Prøv igjen.' : 'Fikk ikke lest bildet. Prøv igjen.');
+      else if (ok.length < files.length) this.toast(`${files.length - ok.length} av ${files.length} bilder kunne ikke leses`);
+      else if (!items.length) this.toast(files.length > 1 ? 'Fant ingen matvarer på bildene' : 'Fant ingen matvarer på bildet');
+    }).finally(() => this.setState({ scanning: false }));
   };
 
   // ---------- mengder ----------
@@ -1467,7 +1472,7 @@ class Component extends DCLogic {
         items: this.byPop(this.QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])), q => 'vare:' + P.key(q)).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
       voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : s.parsing ? 'Tolker det du sa …' : 'Si hva du har',
       voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)', voiceFg: s.listening ? '#fff' : 'var(--mg-on-ink)',
-      scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
+      scan: this.scanPhoto, scanLabel: s.scanning > 1 ? `Ser på ${s.scanning} bilder …` : s.scanning ? 'Ser på bildet …' : 'Ta bilder av skapet',
       items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const lv = P.level(x), cnt = P.counted(x.n), q = P.qty(x);
         const label = cnt ? (q ? q + ' stk' : 'Tomt') : LV[lv][0];
         return { n: x.n, section: this.sectionOf(x.n), label, approx: x.amt && x.u ? 'ca. ' + this.fmt(x.amt, x.u) + ' igjen' : '', dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
