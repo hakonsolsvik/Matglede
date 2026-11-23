@@ -206,7 +206,7 @@ RULES: list[tuple[str, tuple[str, ...], tuple[str, ...]]] = [
     ("reker", ('reke',), ()),
     ("fiskeboller", ('fiskeboll',), ()),
     ("svinekotelett", ('kotelett',), ('lam',)),
-    ("kjottboller", ('kjøttboll', 'kjøttkake'), ()),
+    ("kjottboller", ('kjøttboll',), ()),
     ("kokesjokolade", ('kokesjokolade', 'mørk sjokolade', 'sjokolade'), ('melke', 'hvit', 'saus')),
     ("brod", ('grovbrød', 'brød', 'loff'), ('rundstykk', 'knekke', 'pita', 'naan', 'smule', 'krutong', 'hvitløks')),
     ("seifilet", ('seifilet', 'sei'), ()),
