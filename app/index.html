@@ -207,7 +207,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="height:130px;background:{{ r.img }};display:flex;align-items:flex-end;padding:10px 14px;box-sizing:border-box;font:500 12px/1.2 var(--mg-font-sans);color:rgba(0,0,0,.45);cursor:pointer">{{ r.imgLabel }}</div>
 <div style="padding:14px 16px;display:flex;align-items:center;gap:10px">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:6px"><div class="s45 mg-h">{{ r.name }}</div><div class="s46"><span>{{ r.timeLabel }}</span><span role="img" aria-label="{{ r.diffAria }}" class="s7"><sc-for list="{{ r.dots }}" as="x"><span class="s9" style="background:{{ x }}"></span></sc-for></span><span>{{ r.costLabel }}</span></div><sc-if value="{{ r.hasHome }}"><div style="font-size:12px;font-weight:700;line-height:1.35"><div style="color:var(--mg-primary)">{{ r.homeOk }}</div><div style="color:var(--mg-clay-text)">{{ r.homeMore }}</div></div></sc-if></div>
-<sc-if value="{{ r.notMade }}"><button onClick="{{ r.make }}" aria-label="{{ r.makeLabel }}" style="border:0;background:var(--mg-primary-soft);color:var(--mg-on-primary-soft);font-family:inherit;font-weight:700;font-size:12px;padding:8px 12px;border-radius:var(--mg-r-pill);cursor:pointer">Laget</button></sc-if>
+<sc-if value="{{ r.notMade }}"><button onClick="{{ r.edit }}" aria-label="{{ r.editLabel }}" style="border:0;background:var(--mg-primary-soft);color:var(--mg-on-primary-soft);font-family:inherit;font-weight:700;font-size:12px;padding:8px 12px;border-radius:var(--mg-r-pill);cursor:pointer">Endre</button></sc-if>
 <sc-if value="{{ r.made }}"><span style="font-size:12px;font-weight:700;color:var(--mg-primary);white-space:nowrap">Laget ✓</span></sc-if>
 <button onClick="{{ r.remove }}" style="border:0;background:var(--mg-surface-sunken);color:var(--mg-ink-muted);font-family:inherit;font-weight:700;font-size:12px;padding:8px 12px;border-radius:var(--mg-r-pill);cursor:pointer">Fjern</button>
 </div>
@@ -359,6 +359,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">i forbruk</span></div>
 </div>
 <sc-if value="{{ rd.isMine }}"><button onClick="{{ rd.edit }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Endre oppskrift</button></sc-if>
+<sc-if value="{{ rd.inPlan }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
+<div class="s11"><div class="s8">{{ rd.planTitle }}</div><div class="s2">Ta bort det dere ikke vil kjøpe under Ingredienser. Trykk Laget når retten er laget, så trekkes det fra beholdningen.</div></div>
+<sc-if value="{{ rd.notMade }}"><button onClick="{{ rd.make }}" style="border:0;background:var(--mg-primary-soft);color:var(--mg-on-primary-soft);font-family:inherit;font-weight:700;font-size:14px;min-height:40px;padding:0 16px;border-radius:var(--mg-r-pill);cursor:pointer;flex:none">Laget</button></sc-if>
+<sc-if value="{{ rd.made }}"><span style="font-size:14px;font-weight:700;color:var(--mg-primary);white-space:nowrap">Laget ✓</span></sc-if>
+</div></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
 <div class="s11"><div class="s8">Antall personer</div><div class="s2">{{ rd.peopleSub }}</div></div>
 <button onClick="{{ rd.peopleMinus }}" aria-label="Færre personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
@@ -368,7 +373,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s57">
 <div style="display:flex;align-items:center;gap:10px"><div class="s20 mg-h">Ingredienser</div><sc-if value="{{ rd.pig.show }}"><button onClick="{{ rd.pig.open }}" aria-label="{{ rd.pig.aria }}" aria-haspopup="dialog" style="flex:none;width:44px;height:44px;border-radius:50%;border:{{ rd.pig.ring }};box-sizing:border-box;background:none;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="#f5c42c" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></button></sc-if></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px">
-<div style="font-size:12px;color:var(--mg-ink-muted);padding:10px 0 2px">Trykk på det du har, så krysses det av.</div><sc-for list="{{ rd.ing }}" as="i"><div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.have }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);font-size:14px;cursor:pointer;opacity:{{ i.op }}"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-weight:600;text-decoration:{{ i.deco }}">{{ i.n }}</span><sc-if value="{{ i.hasNote }}"><span style="font-size:12px;color:{{ i.noteColor }};font-weight:600">{{ i.note }}</span></sc-if></span><span style="color:var(--mg-ink-muted)">{{ i.m }}</span><span style="width:56px;flex:none;text-align:right;font-weight:700;color:{{ i.priceColor }}">{{ i.price }}</span></div></sc-for>
+<div style="font-size:12px;color:var(--mg-ink-muted);padding:10px 0 2px">{{ rd.ingHint }}</div><sc-for list="{{ rd.ing }}" as="i"><div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.have }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);font-size:14px;cursor:pointer;opacity:{{ i.op }}"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-weight:600;text-decoration:{{ i.deco }}">{{ i.n }}</span><sc-if value="{{ i.hasNote }}"><span style="font-size:12px;color:{{ i.noteColor }};font-weight:600">{{ i.note }}</span></sc-if></span><span style="color:var(--mg-ink-muted)">{{ i.m }}</span><span style="width:56px;flex:none;text-align:right;font-weight:700;color:{{ i.priceColor }}">{{ i.price }}</span></div></sc-for>
 <div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Forbruk totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 4px">{{ rd.coverage }}</div>
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 12px">{{ rd.servingsNote }}</div>
@@ -1022,7 +1027,7 @@ class Component extends DCLogic {
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
-    undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
+    undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
     pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
   };
 
@@ -1034,7 +1039,7 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFAB33', '#1f2a1c'], KIWI: ['#50B848', '#1f2a1c'], MENY: ['#D3062A', '#fff'], REMA: ['#023EA5', '#fff'], COOP: ['#0A4D8F', '#fff'], SPAR: ['#007A33', '#fff'], JOKER: ['#FFDE3C', '#1f2a1c'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom', 'mine'];
+  SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'pantrySeen', 'tilbudSeen'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -1326,6 +1331,8 @@ class Component extends DCLogic {
     left.set(p.id, Math.max(0, h - need)); return { p, ok: h >= need - 1e-9, h, need };
   };
   madeKey = (d, id) => this.weekNo(Math.floor(d / 7)) + ':' + (d % 7) + ':' + id;
+  // Ingrediens som ikke skal kjøpes til denne retten denne dagen (valgt med «Endre» i planen)
+  skipped = (d, id, i) => !!this.state.skip[this.madeKey(d, id) + '|' + i.n];
   // Rettene i planen som ikke er laget ennå, dag for dag og uke for uke. Beholdningen fordeles i denne rekkefølgen,
   // så en endring i en uke straks gir mer eller mindre igjen i alle ukene etter.
   planned = () => Object.keys(this.state.plan).map(Number).filter(d => d >= 0).sort((a, b) => a - b).flatMap(d => (this.state.plan[d] || []).filter(id => this.D.byId[id] && !this.state.made[this.madeKey(d, id)]).map(id => ({ d, id })));
@@ -1333,7 +1340,7 @@ class Component extends DCLogic {
   // Gir status per ingrediens for hver rett, med rett utenfor planen (extra) til slutt. stop: dagen fordelingen stopper før.
   homeRun = (extra, stop) => {
     const left = new Map(), meals = [...this.planned().filter(m => stop == null || m.d < stop), ...(extra ? [{ d: -1, id: extra }] : [])];
-    return { left, meals: meals.map(m => { const r = this.D.byId[m.id], f = this.factor(r); return { ...m, st: this.ingOf(r).map(i => this.takeHome(left, i, f)) }; }) };
+    return { left, meals: meals.map(m => { const r = this.D.byId[m.id], f = this.factor(r); return { ...m, st: this.ingOf(r).map(i => this.skipped(m.d, m.id, i) ? null : this.takeHome(left, i, f)) }; }) };
   };
   homeNote = (st, i) => { if (!st) return null; const u = this.homeUnit(st.p, i);
     return st.ok ? 'Har nok hjemme' : st.h > 0 ? `Har ca. ${this.fmt(st.h, u)} hjemme, trenger ${this.fmt(st.need - st.h, u)} til`
@@ -1342,7 +1349,7 @@ class Component extends DCLogic {
   markMade = (d, id) => {
     const P = window.MatgledePantry, r = this.D.byId[id], f = this.factor(r), before = this.state.pantry, made = this.state.made, used = [];
     let pantry = before;
-    this.ingOf(r).forEach(i => { const p = P.find(this.stockOf(pantry), this.ingNames(i)), need = p && this.needOf(p, i, f); if (need == null) return;
+    this.ingOf(r).forEach(i => { if (this.skipped(d, id, i)) return; const p = P.find(this.stockOf(pantry), this.ingNames(i)), need = p && this.needOf(p, i, f); if (need == null) return;
       const nx = P.use(p, need, this.packOf(i.slug), 1); if (nx === p) return;
       if (nx.amt != null) nx.u = this.D.ING[i.slug].base; // så Min beholdning kan vise «ca. 4 dl»
       pantry = pantry.map(x => x.id === p.id ? nx : x); if (!used.includes(p.n.toLowerCase())) used.push(p.n.toLowerCase()); });
@@ -1703,6 +1710,7 @@ class Component extends DCLogic {
     const buildShop = dl => {
       const m = new Map();
       dl.forEach(d => (s.plan[d] || []).filter(id => !s.made[this.madeKey(d, id)]).forEach(id => { const r = D.byId[id], f = this.factor(r), deal = this.isCheap(r); this.ingOf(r).forEach(i => {
+        if (this.skipped(d, id, i)) return;
         let k, e;
         if (i.slug) {
           k = 's:' + i.slug;
@@ -1814,8 +1822,13 @@ class Component extends DCLogic {
       const cheap = this.isCheap(r), save = Math.round(this.saving(r)), ings = this.ingOf(r), changes = this.cheapIng(r).filter(i => i.from || i.drop);
       const unl = r.ing.filter(i => !i.slug).length, busy = i => (s.plan[i] || []).length > 0;
       // Beholdningen etter rettene før i planen (eller etter hele planen, når retten ikke er planlagt)
-      const run = this.homeRun(r.id).meals, homeSt = run.find(x => x.id === r.id).st;
-      rd = { ...this.mk(r), catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
+      // Åpnet med «Endre» i planen: slot er dagen, og trykk på en ingrediens tar den av handlelisten for den dagen
+      const slot = top.d != null && (s.plan[top.d] || []).includes(r.id) ? top.d : null, made = slot != null && !!s.made[this.madeKey(slot, r.id)];
+      const run = this.homeRun(r.id).meals, homeSt = (run.find(x => x.id === r.id && (slot == null || x.d === slot)) || run.find(x => x.id === r.id)).st;
+      rd = { ...this.mk(r), inPlan: slot != null, made, notMade: slot != null && !made, make: () => this.markMade(slot, r.id),
+        planTitle: slot != null ? `Planlagt ${this.dayLong(slot).toLowerCase()}` : '',
+        ingHint: slot != null ? 'Trykk på det du ikke vil kjøpe, så tas det av handlelisten.' : 'Trykk på det du har, så krysses det av.',
+        catLabels: r.cats.map(c => (D.CATS.find(x => x[0] === c) || [0, null])[1]).filter(Boolean),
         portions: `${this.pers(r)} pers.`, people: this.pers(r), peopleSub: 'Mengder og pris regnes om, også i handlelisten',
         peopleMinus: () => this.setPers(r.id, this.pers(r) - 1), peoplePlus: () => this.setPers(r.id, this.pers(r) + 1),
         steps: (r.steps || []).map((t, i) => { const k = r.id + ':' + i, done = !!s.stepsDone[k];
@@ -1845,6 +1858,10 @@ class Component extends DCLogic {
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
           const note = hn ? hn : !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå'
             : cheap && b ? [i.from && `I stedet for ${i.from.toLowerCase()}`, (b.p.offer ? 'Tilbud: ' : 'Kjøp: ') + b.p.name].filter(Boolean).join(' · ') : '');
+          if (slot != null) { const sk = this.madeKey(slot, r.id) + '|' + i.n, off = !!s.skip[sk];
+            return { have: !off, op: off ? .5 : 1, deco: off ? 'line-through' : 'none', toggle: () => this.setState(st => ({ skip: { ...st.skip, [sk]: !st.skip[sk] } })),
+              noteColor: off ? 'var(--mg-ink-subtle)' : hs ? (hs.ok ? 'var(--mg-primary)' : 'var(--mg-clay-text)') : 'var(--mg-ink-subtle)',
+              n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note: off ? 'Kjøpes ikke' : note, hasNote: off || !!note }; }
           const hk = r.id + ':' + i.n, have = !!s.have[hk];
           return { have, op: have ? .5 : 1, deco: have ? 'line-through' : 'none', toggle: () => this.setState(st => ({ have: { ...st.have, [hk]: !st.have[hk] } })),
             noteColor: hs ? (hs.ok ? 'var(--mg-primary)' : 'var(--mg-clay-text)') : 'var(--mg-ink-subtle)',
@@ -2114,7 +2131,7 @@ class Component extends DCLogic {
       dayMeals: dayMealsArr.map((id, idx) => { const done = !!s.made[this.madeKey(s.day, id)], st = (planRun.find(x => x.d === s.day && x.id === id) || { st: [] }).st.filter(Boolean);
         const more = st.filter(x => !x.ok).map(x => x.p.n.toLowerCase()), enough = st.filter(x => x.ok).map(x => x.p.n.toLowerCase());
         return this.mk(D.byId[id], {
-        made: done, notMade: !done, make: () => this.markMade(s.day, id), makeLabel: `${D.byId[id].name} er laget, trekk fra beholdningen`,
+        made: done, notMade: !done, edit: () => this.push({ t: 'recipe', id, d: s.day }), editLabel: `Endre ${D.byId[id].name}: velg hva som skal på handlelisten`,
         hasHome: !done && st.length > 0, homeOk: enough.length ? 'Har nok hjemme: ' + enough.join(', ') : '', homeMore: more.length ? 'Trenger mer: ' + more.join(', ') : '',
         remove: () => {
         const before = s.plan, day = s.day;
