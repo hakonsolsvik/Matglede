@@ -43,6 +43,11 @@ const TALK = (text, known) => 'Brukeren har sagt hvilke matvarer de har hjemme. 
   'fyllord og omtaler av mengde. Finn varene som ble ment. Bruk navnet fra listen over kjente varer når varen finnes der (også når det ble sagt i entall/flertall ' +
   'eller med et annet ord for det samme), ellers et kort, vanlig norsk navn uten merke. Ikke ta med ting som ikke er mat. ' + FIELDS +
   '\n\nKjente varer: ' + known.join(', ') + '\n\nDet som ble sagt: «' + text + '»';
+// Tilbudsavisen: brukeren leser avisen og sier hva de vil kjøpe. n må være et navn fra lista over tilbud.
+const SHOP = (text, offers) => 'Brukeren leser ukas tilbudsavis og sier hvilke varer de vil legge i handlelisten. Teksten kommer fra talegjenkjenning ' +
+  'på norsk og kan ha feilhørte ord og fyllord. For hver vare som ble ment: n = navnet nøyaktig slik det står i lista over tilbud når varen finnes der ' +
+  '(også når det ble sagt kortere, i entall/flertall eller med merket), ellers et kort, vanlig norsk navn. count = antall hvis et antall er sagt, ellers 0. lvl = tom streng.' +
+  '\n\nTilbud i avisen:\n' + offers.join('\n') + '\n\nDet som ble sagt: «' + text + '»';
 const PROMPT = 'Bildet viser et kjøleskap, et tørrskap eller en matbod. List matvarene du ser som kan brukes til middag: ' +
   'grønnsaker, kjøtt, fisk, meieri (melk, ost, smør, rømme), egg, tørrvarer (ris, pasta, mel, havregryn), hermetikk, sauser og krydder som soyasaus. ' +
   'Bruk korte, vanlige norske navn uten merke, f.eks. «Melk», «Revet ost», «Soyasaus», «Hakkede tomater». Én linje per vare, ingen duplikater. ' +
@@ -91,7 +96,8 @@ export default {
       const text = body.text.trim().slice(0, 2000);
       const known = (Array.isArray(body.known) ? body.known : []).filter(k => typeof k === 'string').map(k => k.slice(0, 60)).slice(0, 400);
       if (!text) return reply(400, { error: 'empty text' });
-      content = [{ type: 'text', text: TALK(text, known) }];
+      const offers = Array.isArray(body.offers) ? body.offers.filter(k => typeof k === 'string').map(k => k.slice(0, 80)).slice(0, 400) : null;
+      content = [{ type: 'text', text: offers ? SHOP(text, offers) : TALK(text, known) }];
     } else {
       const image = body.image;
       if (typeof image !== 'string' || !image || image.length > MAX_IMAGE || !/^[A-Za-z0-9+/=]+$/.test(image)) return reply(400, { error: 'bad image' });
@@ -112,7 +118,7 @@ export default {
       const text = msg.content.find(b => b.type === 'text');
       if (schema === RECIPE_SCHEMA) return reply(200, { recipe: text ? JSON.parse(text.text).recipe : null });
       const items = text ? JSON.parse(text.text).items : [];
-      return reply(200, { items: items.slice(0, 80).map(x => ({ n: String(x.n).slice(0, 60), lvl: x.lvl || '', count: Number.isInteger(x.count) ? x.count : 0 })) });
+      return reply(200, { items: items.slice(0, 80).map(x => ({ n: String(x.n).slice(0, 80), lvl: x.lvl || '', count: Number.isInteger(x.count) ? x.count : 0 })) });
     } catch (e) {
       console.error(e);
       return reply(502, { error: 'ai failed' });

@@ -1,9 +1,9 @@
-# AI for «Min beholdning» og «Mine oppskrifter»
+# AI for «Min beholdning», «Mine oppskrifter» og tilbudsavisene
 
 Liten Cloudflare Worker som spør Claude hvilke matvarer brukeren har, enten fra et bilde av kjøleskapet eller skapet,
 eller fra det brukeren sa inn med «Si hva du har». Svaret er en liste varer koblet til navnene appen kjenner, med nivå
 (Mye/Litt/Tomt) eller antall når det ble sagt. Den leser også oppskrifter fra bilder (bok, lapp eller skjerm) til «Mine oppskrifter»: navn, porsjoner, tid, ingredienser og steg,
-som brukeren ser over og retter før lagring. Uten workeren tolker appen talen selv, enklere. Nøkkelen til Claude ligger bare her, aldri i appen. Bare brukere som er logget inn i appen
+som brukeren ser over og retter før lagring. I tilbudsavisen kobler den det brukeren sier til avisens tilbud. Uten workeren tolker appen talen selv, enklere. Etter endringer i `src/index.js`: kjør `npx wrangler deploy` på nytt. Nøkkelen til Claude ligger bare her, aldri i appen. Bare brukere som er logget inn i appen
 (Firebase-prosjektet `matglede-4dbc5`) kan bruke den.
 
 ## Slik slår du den på (ca. 10 min)

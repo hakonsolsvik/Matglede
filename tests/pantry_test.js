@@ -85,3 +85,12 @@ console.log('popularitet ok');
 assert.deepStrictEqual(['Egg', 'Melk', 'Kokosmelk', 'Hvitløk', 'Rødløk', 'Revet ost', 'Mel', 'Hakkede tomater', 'Tomater', 'Ris', 'Paprikapulver', 'Noe rart'].map(P.art),
   ['🥚', '🥛', '🥥', '🧄', '🧅', '🧀', '🌾', '🥫', '🍅', '🍚', '🧂', '🛒']);
 console.log('art ok');
+
+// Tale i tilbudsavisen: det man sa -> tilbudet i avisen
+const L = ['Grandiosa pizza Original, 575 g', 'Laksefilet 4 stk', 'Laks røkt 200 g', 'Lettmelk 1 l'];
+assert.strictEqual(P.pick('laks', L), 2);
+assert.strictEqual(P.pick('Laksefilet 4 stk', L), 1);
+assert.strictEqual(P.pick('grandiosa', L), 0);
+assert.strictEqual(P.pick('melk', L), 3);
+assert.strictEqual(P.pick('brokkoli', L), -1);
+console.log('pick ok');

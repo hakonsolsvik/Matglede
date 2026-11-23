@@ -92,9 +92,16 @@ python -m matglede fetch-offers    # skriver app/offers.js (ca. 6 min med gratis
   bilder. Kiwi og Spar: PDF-en fra kiwi.no og spar.no. Meny og Obs: kjedens iPaper-leser.
   Joker (Flipsnack), Rema 1000 og Bunnpris (Tjek) blokkerer innebygging, så der får man
   en knapp som åpner avisen hos kjeden.
+- Med `ANTHROPIC_API_KEY` leser AI (Claude, `matglede/flyer_ai.py`) selve avisene der vi har
+  dem som bilder eller PDF (Coop Extra, Mega, Prix, Marked, Kiwi og Spar) og lister alle varene
+  med prisen slik den står i avisen. Da brukes disse i stedet for prisfallene fra Kassalapp.
+  Koster omtrent 1–3 kr per avis, ca. 10–20 kr i uka.
+- Inne på en butikk kan man slå på «Snakk for å legge til varer i handleliste». Det man sier
+  kobles til avisens tilbud (av AI-workeren når man er logget inn, ellers enklere i appen)
+  og legges i handlelisten med tilbudsprisen.
 - `.github/workflows/tilbud.yml` kjører hver mandag kl. 12 norsk tid, lagrer `app/offers.js`
-  på appgrenen og publiserer appen på gh-pages. Den trenger repo-hemmeligheten
-  `KASSAL_API_KEY`, og må ligge på standardgrenen (main) for at GitHub skal kjøre den
+  på appgrenen og publiserer appen på gh-pages. Den trenger repo-hemmelighetene
+  `KASSAL_API_KEY` og `ANTHROPIC_API_KEY`, og må ligge på standardgrenen (main) for at GitHub skal kjøre den
   etter tidsplan.
 
 ## Neste steg

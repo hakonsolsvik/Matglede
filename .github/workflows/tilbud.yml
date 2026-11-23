@@ -1,7 +1,8 @@
 # Henter ukas tilbud per butikk og publiserer appen på nytt.
 # Kjører hver mandag kl. 12 norsk tid. GitHub bruker UTC, så jobben starter både
 # 10:00 og 11:00 UTC og fortsetter bare når klokka er 12 i Oslo (vinter- og sommertid).
-# Krever repo-hemmeligheten KASSAL_API_KEY. Kan også startes for hånd under Actions.
+# Krever repo-hemmeligheten KASSAL_API_KEY. Med ANTHROPIC_API_KEY leser AI (Claude) også selve
+# avisene og bruker prisene slik de står der. Kan også startes for hånd under Actions.
 name: Ukas tilbud
 
 on:
@@ -47,10 +48,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Hent ukas tilbud fra Kassalapp
+      - name: Installer Claude-biblioteket
+        if: steps.time.outputs.run == 'true'
+        run: pip install anthropic
+
+      - name: Hent ukas tilbud fra Kassalapp og les avisene med AI
         if: steps.time.outputs.run == 'true'
         env:
           KASSAL_API_KEY: ${{ secrets.KASSAL_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python -m matglede fetch-offers
 
       - name: Lagre tilbudene på appgrenen
