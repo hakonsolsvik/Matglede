@@ -1877,10 +1877,10 @@ class Component extends DCLogic {
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
-      flyerStores: D.STORES.map(st => { const n = onList(st), mine = st.code === s.chain;
+      flyerStores: D.STORES.map(st => { const mine = st.code === s.chain;
         return { name: st.name, bg: st.bg, logo: st.logo, open: () => this.push({ t:'store', id: st.code }),
-          hasBadge: !!n || mine, badge: [mine ? 'Din butikk' : '', n ? `${n} på listen` : ''].filter(Boolean).join(' · '), ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} tilbud på varer fra handlelisten` : ''}` }; }),
+          hasBadge: mine, badge: 'Din butikk', ring: mine ? '3px solid var(--mg-primary)' : 'none',
+          aria: `${st.name}${mine ? ', din butikk' : ''}` }; }),
       hasListOffers: listOffers.length > 0,
       listOffersText: listOffers.length ? `Ukas tilbud på varer i handlelisten din: ${listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map(x => `${x.st.name} (${x.n})`).join(', ')}.` : '',
       ovStore: top.t === 'store', sd,
