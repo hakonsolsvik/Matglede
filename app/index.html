@@ -155,7 +155,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:20px">
-<div class="s10"><h1 class="s3 mg-h">Plan</h1><div class="s18">{{ weekLabel }}</div></div>
+<div class="s10"><h1 class="s3 mg-h">Plan</h1><div class="s18" style="display:flex;align-items:center;gap:4px;margin-left:-8px"><button onClick="{{ weekPrev }}" aria-label="{{ prevAria }}" style="visibility:{{ prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer">‹</button><span>{{ weekLabel }}</span><button onClick="{{ weekNext }}" aria-label="{{ nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer">›</button></div></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-xl);padding:14px 10px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;box-shadow:var(--mg-shadow-1)">
 <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
 <button onClick="{{ d.pick }}" aria-pressed="{{ d.sel }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--mg-ink)">
@@ -803,12 +803,16 @@ class Component extends DCLogic {
   // Datoene i inneværende uke, mandag til søndag
   WEEK = (() => { const n = new Date(), m = new Date(n.getFullYear(), n.getMonth(), n.getDate() - this.TODAY);
     return [0,1,2,3,4,5,6].map(i => new Date(m.getFullYear(), m.getMonth(), m.getDate() + i)); })();
+  // Dag g regnet fra mandag denne uka. Planen bruker samme tall: 0–6 er denne uka, 7–13 neste uke osv.
+  dateOf = g => { const m = this.WEEK[0]; return new Date(m.getFullYear(), m.getMonth(), m.getDate() + g); };
+  ymd = t => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
   // ISO-uke: uka som torsdagen ligger i
-  WEEKNO = (() => { const t = this.WEEK[3], d = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate());
-    return Math.ceil(((d - Date.UTC(t.getFullYear(), 0, 1)) / 864e5 + 1) / 7); })();
-  dayDate = i => this.WEEK[i].getDate();
-  dayLong = i => `${this.DAYS_FULL[i]} ${this.WEEK[i].getDate()}. ${this.MONTHS[this.WEEK[i].getMonth()]}`;
-  weekRange = () => { const a = this.WEEK[0], b = this.WEEK[6];
+  weekNo = w => { const t = this.dateOf(7 * w + 3), d = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate());
+    return Math.ceil(((d - Date.UTC(t.getFullYear(), 0, 1)) / 864e5 + 1) / 7); };
+  WEEKNO = this.weekNo(0);
+  dayDate = g => this.dateOf(g).getDate();
+  dayLong = g => { const t = this.dateOf(g); return `${this.DAYS_FULL[g % 7]} ${t.getDate()}. ${this.MONTHS[t.getMonth()]}`; };
+  weekRange = (w = 0) => { const a = this.dateOf(7 * w), b = this.dateOf(7 * w + 6);
     return a.getMonth() === b.getMonth() ? `${a.getDate()}.–${b.getDate()}. ${this.MONTHS[b.getMonth()]}` : `${a.getDate()}. ${this.MONTHS[a.getMonth()]}–${b.getDate()}. ${this.MONTHS[b.getMonth()]}`; };
   contentRef = React.createRef();
 
@@ -820,16 +824,16 @@ class Component extends DCLogic {
     const ok = { recipe: D.byId, cook: D.byId, article: D.artById, topic: D.topicById, store: D.storeByCode };
     let top = null;
     if (ok[t]) { if (ok[t][id]) top = { t, id }; }
-    else if (t === 'shop') top = id === 'week' || !id ? { t, scope: 'week' } : { t, scope: 'day', day: Math.max(0, Math.min(6, +id.replace('day-', '') || 0)) };
+    else if (t === 'shop') top = !id || id.startsWith('week') ? { t, scope: 'week', wk: Math.max(0, +id.slice(5) || 0) } : { t, scope: 'day', day: Math.max(0, Math.min(370, +id.replace('day-', '') || 0)) };
     else if (['search','picker','login','profile','settings','pantry','usehome'].includes(t)) top = { t };
     return { tab: this.TABS.includes(tab) ? tab : null, stack: top ? [top] : [] };
   };
   hashOf = st => { const top = st.stack[st.stack.length - 1];
-    return '#' + st.tab + (top ? '/' + top.t + (top.id ? '/' + top.id : top.t === 'shop' ? '/' + (top.scope === 'week' ? 'week' : 'day-' + top.day) : '') : ''); };
+    return '#' + st.tab + (top ? '/' + top.t + (top.id ? '/' + top.id : top.t === 'shop' ? '/' + (top.scope === 'week' ? 'week' + (top.wk ? '-' + top.wk : '') : 'day-' + top.day) : '') : ''); };
   saved = (() => { try { return JSON.parse(localStorage.getItem(this.LS)) || {}; } catch (e) { return {}; } })();
   state = {
     tab: this.props.startTab || 'home', stack: [], menu: false,
-    favs: [], favSort: 'recent', plan: {},
+    favs: [], favSort: 'recent', plan: {}, planFrom: this.ymd(this.WEEK[0]),
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
@@ -845,13 +849,13 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFAB33', '#1f2a1c'], KIWI: ['#50B848', '#1f2a1c'], MENY: ['#D3062A', '#fff'], REMA: ['#023EA5', '#fff'], COOP: ['#0A4D8F', '#fff'], SPAR: ['#007A33', '#fff'], JOKER: ['#FFDE3C', '#1f2a1c'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent'];
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
     const h = this.fromHash();
-    this.setState({ ...restore, ...(h.tab ? { tab: h.tab, stack: h.stack } : {}) });
+    this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}) });
     this._depth = h.stack.length;
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
@@ -892,12 +896,24 @@ class Component extends DCLogic {
     A.loadData(u.uid).then(d => {
       if (d) {
         const next = {}; this.SYNC.forEach(k => { if (d[k] !== undefined) next[k] = d[k]; });
-        this.setState(next);
+        this.setState(this.rollPlan(next));
       } else { // ny konto: den har ikke telt noe ennå, selv om forrige konto på enheten hadde det
         this.setState({ popSent: [] }); A.saveData(u.uid, { ...this.syncData(), popSent: [] }).catch(e => console.error(e)); }
       this._lastSaved = JSON.stringify(d ? { ...this.syncData(), ...d } : this.syncData());
       this._syncOn = true;
     }).catch(e => { console.error(e); this._syncOn = true; });
+  };
+  // Planen lagres med mandagen den gjelder fra (planFrom). Er det gått k uker, flyttes alt k uker frem:
+  // neste uke blir denne uka, og uker som er over forsvinner. Avkryssinger og egne varer følger uka si.
+  rollPlan = d => {
+    const now = this.ymd(this.WEEK[0]), k = d.planFrom ? Math.round((Date.parse(now) - Date.parse(d.planFrom)) / 6048e5) : 0;
+    if (k <= 0) return d.plan ? { ...d, planFrom: d.planFrom || now } : d;
+    const out = { ...d, planFrom: now };
+    if (d.plan) { out.plan = {}; Object.entries(d.plan).forEach(([g, l]) => { if (+g >= 7 * k) out.plan[+g - 7 * k] = l; }); }
+    if (d.checked) { out.checked = {}; Object.entries(d.checked).forEach(([c, v]) => { const m = /^(\d+)\|(.*)$/.exec(c), w = m && +m[1] - k;
+      if (w > 0) out.checked[w + '|' + m[2]] = v; else if (w === 0) out.checked[m[2]] = v; }); }
+    if (d.extra) out.extra = d.extra.map(x => x.w ? (({ w, ...y }) => w > k ? { ...y, w: w - k } : y)(x) : x);
+    return out;
   };
   saveSoon = () => {
     const u = this.state.user, A = window.MatgledeAuth; if (!u || !A || !this._syncOn) return;
@@ -1000,7 +1016,7 @@ class Component extends DCLogic {
     return this.SEC_TEST.find(k => re[k].test(n)) || 'Annet'; };
   addToPlan = (d, id) => {
     this.setState(s => ({ plan: { ...s.plan, [d]: [...(s.plan[d] || []), id] }, rdPick: false }));
-    this.toast(`${this.D.byId[id].name} er lagt til ${this.DAYS_FULL[d].toLowerCase()}`);
+    this.toast(`${this.D.byId[id].name} er lagt til ${this.DAYS_FULL[d % 7].toLowerCase()}${d > 6 ? ' i uke ' + this.weekNo(Math.floor(d / 7)) : ''}`);
   };
 
   // ---------- Min beholdning (app/pantry.js) ----------
@@ -1020,9 +1036,10 @@ class Component extends DCLogic {
     const h = left.get(p.id), need = this.needOf(p, i, f); if (h == null || need == null) return { p, ok: true };
     left.set(p.id, Math.max(0, h - need)); return { p, ok: h >= need - 1e-9, h, need };
   };
-  madeKey = (d, id) => this.WEEKNO + ':' + d + ':' + id;
-  // Rettene i planen som ikke er laget ennå, dag for dag
-  planned = () => [0,1,2,3,4,5,6].flatMap(d => (this.state.plan[d] || []).filter(id => this.D.byId[id] && !this.state.made[this.madeKey(d, id)]).map(id => ({ d, id })));
+  madeKey = (d, id) => this.weekNo(Math.floor(d / 7)) + ':' + (d % 7) + ':' + id;
+  // Rettene i planen som ikke er laget ennå, dag for dag og uke for uke. Beholdningen fordeles i denne rekkefølgen,
+  // så en endring i en uke straks gir mer eller mindre igjen i alle ukene etter.
+  planned = () => Object.keys(this.state.plan).map(Number).filter(d => d >= 0).sort((a, b) => a - b).flatMap(d => (this.state.plan[d] || []).filter(id => this.D.byId[id] && !this.state.made[this.madeKey(d, id)]).map(id => ({ d, id })));
   // Beholdningen fordelt på planen i rekkefølge, så retter lenger ut i uka ser hva som er igjen.
   // Gir status per ingrediens for hver rett, med rett utenfor planen (extra) til slutt. stop: dagen fordelingen stopper før.
   homeRun = (extra, stop) => {
@@ -1119,7 +1136,7 @@ class Component extends DCLogic {
         return o ? { n: labels[i], q, price: o.price, unit: o.unit || '', deal: o.deal || '', store: code } : { n: x.n[0].toUpperCase() + x.n.slice(1, 60), q }; });
       if (!add.length) return this.toast('Fikk ikke med meg noen varer. Prøv igjen.');
       this.setState(s => { const extra = [...s.extra];
-        add.forEach(a => { const k = extra.findIndex(x => x.n.toLowerCase() === a.n.toLowerCase() && (x.store || '') === (a.store || ''));
+        add.forEach(a => { const k = extra.findIndex(x => !x.w && x.n.toLowerCase() === a.n.toLowerCase() && (x.store || '') === (a.store || ''));
           if (k >= 0) extra[k] = { ...extra[k], q: (extra[k].q || 1) + a.q };
           else extra.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ...a }); });
         return { extra }; });
@@ -1282,7 +1299,9 @@ class Component extends DCLogic {
         }
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
-      if (dl.length === 7) s.extra.forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [], offer: x.store && x.price ? x : null }));
+      const w = Math.floor(dl[0] / 7);
+      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [], offer: x.store && x.price ? x : null }));
+      m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
       const left = this.homeRun(null, Math.min(...dl)).left;
@@ -1304,14 +1323,15 @@ class Component extends DCLogic {
       const hv = e.have && e.have.h > 0 && `Har ca. ${this.fmt(e.have.h, e.have.u)} hjemme`;
       const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? (e.offer ? `Tilbud hos ${(D.storeByCode[e.offer.store] || {}).name || chainName(e.offer.store)}${e.offer.unit ? ' · ' + this.kr(e.offer.price) + ' ' + e.offer.unit : ''}${e.offer.deal ? ' · ' + e.offer.deal : ''}` : 'Egen vare') : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? (e.offer ? this.fp(e.offer.price * (e.offer.q || 1)) : '') : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.k]),
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? (e.offer ? this.fp(e.offer.price * (e.offer.q || 1)) : '') : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
         section: this.sectionOf(e.n), own: !!e.own, home: !!e.home,
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
-        toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.k]: !st.checked[e.k] } })) }; });
+        toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.ck]: !st.checked[e.ck] } })) }; });
     const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { if (e.offer) { total += e.offer.price * (e.offer.q || 1); found++; return; } const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
     const sumText = sm => !M.hasPrices ? 'pris kommer' : sm.found ? `ca. ${Math.round(sm.total)} kr` : 'pris mangler';
-    const shopArr = buildShop([0,1,2,3,4,5,6]);
-    const shopLeft = shopArr.filter(e => !s.checked[e.k]).length;
+    const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
+    const shopArr = buildShop(wkDays);
+    const shopLeft = shopArr.filter(e => !s.checked[e.ck]).length;
     const dayArr = buildShop([s.day]);
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
 
@@ -1348,7 +1368,7 @@ class Component extends DCLogic {
     news.push({ tag:'RASK HVERDAG', tagColor:'var(--mg-info)', title:'Middager på 30 minutter eller mindre', sub:`${D.R.filter(r => r.cats.includes('rask')).length} oppskrifter`, img: ph(60), imgLabel:'rask middag', open:() => this.goCat('rask') });
     news.push({ tag:'LÆRE', tagColor:'oklch(0.45 0.13 305)', title:'Ultraprosessert – hva betyr det egentlig?', sub:'Ny artikkel · 6 min', img: ph(305), imgLabel:'illustrasjon', open:() => this.push({ t:'article', id:'a2' }) });
 
-    const days = this.DAYS.map((l, i) => { const sel = s.day === i, has = (s.plan[i] || []).length > 0; return {
+    const days = this.DAYS.map((l, d) => { const i = 7 * wk + d, sel = s.day === i, has = (s.plan[i] || []).length > 0; return {
       label: i === this.TODAY ? 'I dag' : l, date: this.dayDate(i), sel, aria: `${this.dayLong(i)}${i === this.TODAY ? ', i dag' : ''}${has ? ', har middag' : ''}`, bg: sel ? 'var(--mg-butter)' : 'transparent', lblColor: sel ? 'var(--mg-butter-ink)' : (i === this.TODAY ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)'),
       dot: has ? (sel ? 'var(--mg-ink)' : 'var(--mg-clay)') : 'transparent', pick: () => this.setState({ day: i }) }; });
 
@@ -1384,7 +1404,7 @@ class Component extends DCLogic {
           extra: 'Ellers velges billigste vare og ukas tilbud. Ingredienslisten viser hva du skal kjøpe.',
           toggle: () => { this.toggleCheap(r.id); this.setState({ rdPig: false }); this.toast(cheap ? 'Vanlig versjon' : 'Billig versjon er valgt'); },
           btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c', btnFg: cheap ? 'var(--mg-ink)' : '#1f2a1c',
-          days: this.DAYS.map((l, i) => ({ label: l, date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}`,
+          days: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}`,
             bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
             add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); } })) },
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
@@ -1398,7 +1418,7 @@ class Component extends DCLogic {
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
-        dayChips: this.DAYS.map((l, i) => ({ label: l, date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })) };
+        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })) };
     }
     let ck = {};
     if (top.t === 'cook') {
@@ -1451,7 +1471,7 @@ class Component extends DCLogic {
     }
     let sl = {};
     if (top.t === 'shop') {
-      const week = top.scope === 'week', arr = week ? shopArr : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
+      const week = top.scope === 'week', arr = week ? ((top.wk || 0) === wk ? shopArr : buildShop(daysOf(top.wk || 0))) : top.day === s.day ? dayArr : buildShop([top.day]), items = shopItems(arr, s.chain), sm = shopSum(arr, s.chain);
       const names = (s.plan[top.day] || []).map(id => D.byId[id]).map(r => `${r.name} (${this.pers(r)} pers.)`).join(', ');
       const unm = arr.filter(e => !e.slug && !e.offer).length;
       const hm = arr.filter(e => e.home && e.slug).length;
@@ -1461,7 +1481,7 @@ class Component extends DCLogic {
       if (doneN) groups.push({ name: 'I kurven', items: items.filter(i => i.done) });
       groups.forEach(g => { g.count = String(g.items.length); });
       const listText = () => groups.filter(g => g.name !== 'I kurven' && g.name !== 'Har hjemme').map(g => g.name + '\n' + g.items.map(i => `- ${i.name}${i.amount ? ' (' + i.amount + ')' : ''}`).join('\n')).join('\n\n');
-      sl = { sub: week ? `Hele uka · ${this.weekRange()}` : `${this.dayLong(top.day)}${names ? ' · ' + names : ''}`,
+      sl = { sub: week ? `Uke ${this.weekNo(top.wk || 0)} · ${this.weekRange(top.wk || 0)}` : `${this.dayLong(top.day)}${names ? ' · ' + names : ''}`,
         items, groups, has: items.length > 0, empty: !items.length, meta: doneN ? `${doneN} av ${items.length} i kurven` : `${items.length} varer`,
         count: items.length, doneCount: doneN, pct: items.length ? Math.round(doneN / items.length * 100) + '%' : '0%',
         chain: chainName(s.chain), total: sumText(sm), bg: (this.BRAND[s.chain] || [])[0] || 'var(--mg-surface)', fg: (this.BRAND[s.chain] || [])[1] || 'var(--mg-ink)',
@@ -1470,7 +1490,8 @@ class Component extends DCLogic {
           else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => this.toast('Listen er kopiert'), () => this.toast('Fikk ikke kopiert listen'));
           else this.toast('Deling støttes ikke i denne nettleseren'); },
         addOwn: e => { e.preventDefault(); const n = s.ownItem.trim(); if (!n) return;
-          this.setState(st => ({ extra: [...st.extra, { id: Date.now().toString(36), n: n[0].toUpperCase() + n.slice(1) }], ownItem: '' }));
+          const w = week ? top.wk || 0 : Math.floor(top.day / 7);
+          this.setState(st => ({ extra: [...st.extra, { id: Date.now().toString(36), n: n[0].toUpperCase() + n.slice(1), ...(w ? { w } : {}) }], ownItem: '' }));
           if (!week) this.toast('Egne varer legges på listen for hele uka'); },
         note: !M.hasPrices ? `Prisene kommer når vareimporten fra Kassalapp er kjørt. ${arr.length - unm} av ${arr.length} varer er koblet til produkter.`
           : `Pris for ${sm.found} av ${arr.length} varer, hele pakker.${hm ? ` ${hm} har du hjemme.` : ''}${unm ? ` ${unm} er ikke koblet til produkter ennå.` : ''}${sm.n - unm - hm - sm.found > 0 ? ` ${sm.n - unm - hm - sm.found} finnes ikke i ${chainName(s.chain)}.` : ''}${sm.stale ? ` ${sm.stale} priser er eldre enn 30 dager.` : ''}` };
@@ -1515,13 +1536,13 @@ class Component extends DCLogic {
     const uh = {
       empty: !s.pantry.length, has: ranked.length > 0, none: !!s.pantry.length && !ranked.length,
       sub: s.pantry.length ? `${stock.length} varer i beholdningen` : 'Beholdningen er tom',
-      dayLabel: this.DAYS_FULL[s.day].toLowerCase(),
+      dayLabel: this.DAYS_FULL[s.day % 7].toLowerCase(),
       list: ranked.slice(0, 12).map(x => this.mk(x.r, {
         haveText: `Du har ${x.have.length} av ${x.have.length + x.miss.length}: ${x.have.map(h => h.i.n.toLowerCase()).join(', ')}`,
         missText: x.miss.length ? `Mangler: ${x.miss.map(i => i.n.toLowerCase()).join(', ')}` : 'Du har alt',
-        add: () => this.addToPlan(s.day, x.r.id), addLabel: `Legg ${x.r.name} til ${this.DAYS_FULL[s.day].toLowerCase()}` })),
+        add: () => this.addToPlan(s.day, x.r.id), addLabel: `Legg ${x.r.name} til ${this.DAYS_FULL[s.day % 7].toLowerCase()}` })),
       week: () => {
-        const free = [0,1,2,3,4,5,6].filter(d => !(s.plan[d] || []).length);
+        const free = wkDays.filter(d => !(s.plan[d] || []).length);
         if (!free.length) return this.toast('Alle dagene i uka har middag');
         const picks = P.week(ranked, free.length, Object.values(s.plan).flat());
         if (!picks.length) return this.toast('Fant ingen retter som bruker det du har');
@@ -1590,10 +1611,10 @@ class Component extends DCLogic {
       addLabel: dayMealsArr.length ? 'Legg til en rett til' : 'Legg til middag',
       openPicker: () => this.push({ t:'picker' }),
       pickList: D.R.map(r => this.mk(r, { add: () => { this.addToPlan(s.day, r.id); this.back(); } })),
-      weekShopSub: shopArr.length ? `${planNum} retter · ${shopArr.length} varer · ${sumText(weekSum)}` : 'Ingen retter planlagt',
-      dayShopTitle: `Handleliste for ${this.DAYS_FULL[s.day].toLowerCase()}`,
+      weekShopSub: shopArr.length ? `${wkDays.reduce((a, d) => a + (s.plan[d] || []).length, 0)} retter · ${shopArr.length} varer · ${sumText(weekSum)}` : 'Ingen retter planlagt',
+      dayShopTitle: `Handleliste for ${this.DAYS_FULL[s.day % 7].toLowerCase()}`,
       dayShopSub: dayArr.length ? `${dayArr.length} varer · ${sumText(daySum)}` : 'Ingen retter planlagt denne dagen',
-      openWeekShop: () => this.push({ t:'shop', scope:'week' }), openDayShop: () => this.push({ t:'shop', scope:'day', day: s.day }),
+      openWeekShop: () => this.push({ t:'shop', scope:'week', wk }), openDayShop: () => this.push({ t:'shop', scope:'day', day: s.day }),
       ovShop: top.t === 'shop', sl, people: s.people,
       q: s.q, onQ: e => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }),
       searching: !!q, notSearching: !q, results, resultsLabel: `${results.length} treff i alle oppskrifter`, noHits: !!q && !results.length,
@@ -1624,7 +1645,9 @@ class Component extends DCLogic {
       hasToast: !!s.toast, toast: s.toast, hasUndo: !!s.undo, undo: () => s.undo && s.undo(),
       notHome: s.tab !== 'home', profileLabel: s.loggedIn ? 'Profil' : 'Logg inn',
       todayLabel: this.dayLong(this.TODAY), todayName: this.DAYS_FULL[this.TODAY].toUpperCase(),
-      weekLabel: `Uke ${this.WEEKNO} · ${this.weekRange()} ${this.WEEK[6].getFullYear()}`
+      weekLabel: `Uke ${this.weekNo(wk)} · ${this.weekRange(wk)} ${this.dateOf(7 * wk + 6).getFullYear()}`,
+      weekPrev: () => wk && this.setState({ day: s.day - 7 }), weekNext: () => this.setState({ day: s.day + 7 }),
+      prevVis: wk ? 'visible' : 'hidden', prevAria: wk ? `Uke ${this.weekNo(wk - 1)}` : '', nextAria: `Planlegg uke ${this.weekNo(wk + 1)}`
     };
   }
 }
