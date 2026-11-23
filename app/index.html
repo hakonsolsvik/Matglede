@@ -146,8 +146,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
 <img src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
-<sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;right:8px;top:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.nLabel }}</span></sc-if>
-<sc-if value="{{ st.hasBadge }}"><span style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.badge }}</span></sc-if>
+<sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.nLabel }}</span></sc-if>
+<sc-if value="{{ st.hasBadge }}"><span aria-hidden="true" title="Din butikk" style="position:absolute;left:8px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></span></sc-if>
 </div>
 </sc-for>
 </div>
@@ -1887,7 +1887,7 @@ class Component extends DCLogic {
       hasListHint: D.STORES.some(st => onList(st).length),
       flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
         return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
-          nLabel: `${n} ${n === 1 ? 'vare' : 'varer'} på tilbud`, hasBadge: mine, badge: 'Din butikk', ring: mine ? '3px solid var(--mg-primary)' : 'none',
+          nLabel: `${n} ${n === 1 ? 'vare' : 'varer'} på tilbud`, hasBadge: mine, ring: mine ? '3px solid var(--mg-primary)' : 'none',
           aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} varer fra handlelisten på tilbud` : ''}` }; }),
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
