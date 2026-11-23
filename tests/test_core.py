@@ -52,6 +52,7 @@ class MatchingTest(unittest.TestCase):
         self.assertIsNotNone(score_product(rule, "Kyllingfilet Fryst 1kg", [], FRESH, True, NOW))
         self.assertIsNotNone(score_product(rule, "Kyllingfilet frossen 1kg", [], FRESH, True, NOW))
         self.assertIsNone(score_product(rule, "Kyllingfilet 400g", [], FRESH, True, NOW))
+        self.assertIsNotNone(score_product(rule, "Kyllingfilet 1,4kg First Price", ["Frossen kylling"], FRESH, True, NOW))
 
     def test_long_exclusion_matches_inside_word(self):
         self.assertIsNone(score_product(self.rule, "Hvitløkspulver 56g", [], FRESH, True, NOW))
