@@ -375,7 +375,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </div>
 <div style="position:sticky;bottom:0;z-index:2;background:linear-gradient(rgba(243,242,234,0),var(--mg-bg) 28%);padding:22px 20px max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px">
-<sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div></sc-if>
+<sc-if value="{{ rd.pickOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 8px 8px;box-shadow:0 6px 18px rgba(30,50,25,.12)"><div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--mg-ink-muted);padding:0 0 4px 6px"><span>Velg dag</span><div style="display:flex;align-items:center"><button onClick="{{ rd.pw.prev }}" aria-label="{{ rd.pw.prevAria }}" style="visibility:{{ rd.pw.prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">‹</button><span>{{ rd.pw.label }}</span><button onClick="{{ rd.pw.next }}" aria-label="{{ rd.pw.nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">›</button></div></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div></div></sc-if>
 <button onClick="{{ rd.togglePick }}" aria-expanded="{{ rd.pickOpen }}" style="box-shadow:0 6px 18px rgba(30,50,25,.25);border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
 
 </div>
@@ -396,7 +396,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px"><sc-for list="{{ rd.pig.swaps }}" as="w"><div style="padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken);display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ w.text }}</span><span class="s2">{{ w.why }}</span></div></sc-for><div class="s2" style="padding:10px 0">{{ rd.pig.extra }}</div></div>
 <button onClick="{{ rd.pig.toggle }}" aria-pressed="{{ rd.pig.on }}" style="border:2px solid #e9b81a;background:{{ rd.pig.btnBg }};color:{{ rd.pig.btnFg }};font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer">{{ rd.pig.btn }}</button>
-<div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Legg billig versjon i ukeplanen</div>
+<div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--mg-ink-muted);padding:0 0 0 6px"><span>Legg billig versjon i ukeplanen</span><div style="display:flex;align-items:center"><button onClick="{{ rd.pw.prev }}" aria-label="{{ rd.pw.prevAria }}" style="visibility:{{ rd.pw.prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">‹</button><span>{{ rd.pw.label }}</span><button onClick="{{ rd.pw.next }}" aria-label="{{ rd.pw.nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">›</button></div></div>
 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.pig.days }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div>
 </div>
 </div>
@@ -1758,6 +1758,7 @@ class Component extends DCLogic {
     const sumText = sm => sm.need ? sumOf(sm).text : M.hasPrices ? '0 kr' : 'pris kommer';
     const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
     const shopArr = buildShop(wkDays);
+    const pw = s.rdWk == null ? wk : s.rdWk, pwDays = daysOf(pw);
     const shopLeft = shopArr.filter(e => !s.checked[e.ck]).length;
     const dayArr = buildShop([s.day]);
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
@@ -1825,7 +1826,7 @@ class Component extends DCLogic {
         // Sparegrisen vises bare når en billigere versjon finnes (minst 5 kr), eller når den er slått på
         pig: { show: cheap || save >= 5, on: cheap, ring: cheap ? '3px solid var(--mg-ink)' : '0',
           aria: cheap ? 'Sparemodus er på. Vis billigere versjon' : `Billigere versjon, spar ca. ${save} kr`,
-          open: () => this.setState({ rdPig: true, rdPick: false, rdLearn: false }), close: () => this.setState({ rdPig: false }),
+          open: () => this.setState({ rdPig: true, rdPick: false, rdLearn: false, rdWk: null }), close: () => this.setState({ rdPig: false }),
           stop: e => e && e.stopPropagation && e.stopPropagation(),
           store: `${chainName(s.chain)}, ${this.pers(r)} pers.`,
           normal: this.costText(this.recipeCost(r, false)).short, low: this.costText(this.recipeCost(r, true)).short,
@@ -1834,7 +1835,7 @@ class Component extends DCLogic {
           extra: 'Ellers velges billigste vare og ukas tilbud. Ingredienslisten viser hva du skal kjøpe.',
           toggle: () => { this.toggleCheap(r.id); this.setState({ rdPig: false }); this.toast(cheap ? 'Vanlig versjon' : 'Billig versjon er valgt'); },
           btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c', btnFg: cheap ? 'var(--mg-ink)' : '#1f2a1c',
-          days: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
+          days: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
             bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
             add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); } })) },
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
@@ -1845,10 +1846,12 @@ class Component extends DCLogic {
             noteColor: hs ? (hs.ok ? 'var(--mg-primary)' : 'var(--mg-clay-text)') : 'var(--mg-ink-subtle)',
             n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note, hasNote: !!note }; }),
         pickOpen: s.rdPick,
+        pw: { label: pw ? `Uke ${this.weekNo(pw)} · ${this.weekRange(pw)}` : `Denne uka · ${this.weekRange(0)}`, prevVis: pw ? 'visible' : 'hidden',
+          prev: () => pw && this.setState({ rdWk: pw - 1 }), next: () => this.setState({ rdWk: pw + 1 }), prevAria: pw ? `Uke ${this.weekNo(pw - 1)}` : '', nextAria: `Uke ${this.weekNo(pw + 1)}` },
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
-        openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
-        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
+        openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick, rdWk: null })),
+        dayChips: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
         isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
