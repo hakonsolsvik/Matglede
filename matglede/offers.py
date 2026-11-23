@@ -76,6 +76,7 @@ def offer_from_product(p: dict, now: dt.datetime) -> dict | None:
         "before": round(before, 2),
         "pct": round((before - cur) / before * 100),
         "url": p.get("url") or "",
+        "img": p.get("image") or "",  # vises fra Kassalapps bildeserver, kopieres ikke
     }
 
 
