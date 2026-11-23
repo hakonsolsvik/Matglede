@@ -1,8 +1,9 @@
-# AI for «Min beholdning»
+# AI for «Min beholdning» og «Mine oppskrifter»
 
 Liten Cloudflare Worker som spør Claude hvilke matvarer brukeren har, enten fra et bilde av kjøleskapet eller skapet,
 eller fra det brukeren sa inn med «Si hva du har». Svaret er en liste varer koblet til navnene appen kjenner, med nivå
-(Mye/Litt/Tomt) eller antall når det ble sagt. Uten workeren tolker appen talen selv, enklere. Nøkkelen til Claude ligger bare her, aldri i appen. Bare brukere som er logget inn i appen
+(Mye/Litt/Tomt) eller antall når det ble sagt. Den leser også oppskrifter fra bilder (bok, lapp eller skjerm) til «Mine oppskrifter»: navn, porsjoner, tid, ingredienser og steg,
+som brukeren ser over og retter før lagring. Uten workeren tolker appen talen selv, enklere. Nøkkelen til Claude ligger bare her, aldri i appen. Bare brukere som er logget inn i appen
 (Firebase-prosjektet `matglede-4dbc5`) kan bruke den.
 
 ## Slik slår du den på (ca. 10 min)
@@ -20,4 +21,4 @@ eller fra det brukeren sa inn med «Si hva du har». Svaret er en liste varer ko
 
 Test av tokensjekken: `npm test`.
 
-Pris: ett bilde koster rundt 10 øre og én taleinnlegging rundt 3–5 øre med Claude Opus 5.5 (`model` i `src/index.js`).
+Pris: ett bilde koster rundt 10 øre én taleinnlegging rundt 3–5 øre og én oppskrift fra bilde rundt 15–25 øre med Claude Opus 5.5 (`model` i `src/index.js`).
