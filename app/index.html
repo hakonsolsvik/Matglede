@@ -207,6 +207,10 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Søk i alle oppskrifter" aria-label="Søk i alle oppskrifter" type="search" style="flex:1;min-width:0;border:0;outline:none;background:none;font-size:16px;color:var(--mg-ink)">
 <sc-if value="{{ searching }}"><button onClick="{{ clearQ }}" aria-label="Tøm søket" style="width:36px;height:36px;border:0;border-radius:50%;background:var(--mg-surface-sunken);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
+<button onClick="{{ openMine }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:12px 14px;display:flex;align-items:center;gap:12px">
+<span style="width:40px;height:40px;flex:none;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+<span class="s47"><span class="s13">Legg til egen oppskrift</span><span class="s12">Skriv den inn, eller ta bilde av en oppskrift</span></span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+</button>
 </div>
 <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
@@ -319,6 +323,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
 <div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
 </div>
+<sc-if value="{{ rd.isMine }}"><button onClick="{{ rd.edit }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Endre oppskrift</button></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
 <div class="s11"><div class="s8">Antall personer</div><div class="s2">{{ rd.peopleSub }}</div></div>
 <button onClick="{{ rd.peopleMinus }}" aria-label="Færre personer" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"></path></svg></button>
@@ -585,6 +590,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s32"><span class="s16 mg-h">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
 </div>
 <div class="s70">
+<div onClick="{{ openMine }}" role="button" tabIndex="0" class="s71">Mine oppskrifter<span class="s29">{{ mineNum }} ›</span></div>
 <div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71">Min beholdning<span class="s29">{{ pt.count }} varer ›</span></div>
 <div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
 <div onClick="{{ goFav }}" role="button" tabIndex="0" class="s71">Mine favoritter<span class="s29">›</span></div>
@@ -601,7 +607,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan.</div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
 <button onClick="{{ pt.voice }}" style="border:0;cursor:pointer;font-family:inherit;background:{{ pt.voiceBg }};color:{{ pt.voiceFg }};border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg>{{ pt.voiceLabel }}</button>
-<label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+<label style="position:relative;cursor:pointer;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ pt.scanLabel }}<input type="file" accept="image/*" multiple onChange="{{ pt.scan }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
 </div>
 <form onSubmit="{{ pt.add }}" class="s33"><input value="{{ pt.name }}" onChange="{{ pt.onName }}" aria-label="Legg til vare" placeholder="Legg til vare, f.eks. ris" style="flex:1;min-width:0;height:48px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none"><button type="submit" aria-label="Legg til vare" style="width:48px;height:48px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button></form>
 
@@ -686,6 +692,59 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 
+<sc-if value="{{ ovMine }}" hint-placeholder-val="{{ false }}">
+<div class="s6">
+<div class="s69">
+<button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<div class="s10"><h2 class="s3 mg-h">Mine oppskrifter</h2><div class="s18">Skriv inn dine egne oppskrifter med bilde av maten. Eller ta bilde av en oppskrift fra en bok eller en lapp, så fyller appen ut resten for deg.</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ mn.write }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Skriv inn selv</button>
+<label style="position:relative;cursor:pointer;background:{{ mn.scanBg }};color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ mn.scanLabel }}<input type="file" accept="image/*" onChange="{{ mn.scan }}" aria-label="Ta bilde av en oppskrift" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+</div>
+<sc-if value="{{ mn.empty }}"><div class="s51">Du har ingen egne oppskrifter ennå. De du lagrer kommer her, i søket og under Oppskrifter, og kan legges i ukeplanen som alle andre.</div></sc-if>
+<sc-for list="{{ mn.list }}" as="r">
+<div onClick="{{ r.open }}" role="button" tabIndex="0" class="s25">
+<div class="s54" style="background:{{ r.img }}"></div>
+<div class="s55"><div class="s26">{{ r.name }}</div><div class="s27"><span>{{ r.timeLabel }}</span><span>{{ r.ingCount }}</span><span>{{ r.costLabel }}</span></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ ovEdit }}" hint-placeholder-val="{{ false }}">
+<div class="s6" style="z-index:53;bottom:0">
+<div class="s69" style="gap:16px;padding-bottom:40px">
+<div style="display:flex;align-items:center;gap:12px"><button onClick="{{ back }}" aria-label="Lukk uten å lagre" class="s21" style="flex:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div class="s12" style="flex:1">{{ ed.kicker }}</div><button onClick="{{ ed.save }}" style="border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:700;height:44px;padding:0 20px;border-radius:var(--mg-r-pill);cursor:pointer">Lagre</button></div>
+<h2 class="s3 mg-h">{{ ed.title }}</h2>
+<sc-if value="{{ ed.ai }}"><div role="status" style="background:var(--mg-primary-soft);color:var(--mg-on-primary-soft);border-radius:var(--mg-r-md);padding:12px 14px;font-size:14px;line-height:1.45;font-weight:600">Appen har lest oppskriften fra bildet. Se over navn, mengder og steg, og rett det som ble feil før du lagrer.</div></sc-if>
+<label style="position:relative;cursor:pointer;height:170px;border-radius:var(--mg-r-lg);background:{{ ed.photoBg }};border:1.5px dashed var(--mg-border-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--mg-ink-muted);font-size:14px;font-weight:700;overflow:hidden">
+<sc-if value="{{ ed.noPhoto }}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg><span>Legg til bilde av maten</span><span style="font-size:12px;font-weight:600">Valgfritt</span></sc-if>
+<sc-if value="{{ ed.hasPhoto }}"><span style="position:absolute;right:10px;bottom:10px;background:var(--mg-glass);color:var(--mg-ink);font-size:12px;font-weight:800;padding:6px 10px;border-radius:var(--mg-r-pill)">Bytt bilde</span></sc-if>
+<input type="file" accept="image/*" onChange="{{ ed.pickPhoto }}" aria-label="Bilde av maten" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+<sc-if value="{{ ed.hasPhoto }}"><button onClick="{{ ed.removePhoto }}" style="align-self:flex-start;border:0;background:none;color:var(--mg-ink-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:underline;padding:4px 0;margin-top:-8px">Fjern bildet</button></sc-if>
+<label class="s30">Navn<input value="{{ ed.name }}" onChange="{{ ed.setName }}" placeholder="F.eks. Mormors fiskesuppe" class="s31"></label>
+<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:8px">
+<div class="s28"><span class="s19">Porsjoner</span><span style="display:flex;align-items:center;gap:8px"><button onClick="{{ ed.servMinus }}" aria-label="Færre porsjoner" style="width:36px;height:36px;flex:none;border-radius:50%;border:1.5px solid var(--mg-border);background:none;color:var(--mg-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer">−</button><span aria-live="polite" style="min-width:24px;text-align:center;font-size:20px;font-weight:800">{{ ed.servings }}</span><button onClick="{{ ed.servPlus }}" aria-label="Flere porsjoner" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer">+</button></span></div>
+<label class="s28"><span class="s19">Tid (minutter)</span><input value="{{ ed.time }}" onChange="{{ ed.setTime }}" inputMode="numeric" placeholder="30" style="border:0;border-bottom:1.5px solid var(--mg-border);background:none;font-size:20px;font-weight:800;color:var(--mg-ink);outline:none;padding:4px 0;width:100%;min-width:0"></label>
+</div>
+<div class="s38"><div class="s20 mg-h">Ingredienser</div><div class="s12">{{ ed.linked }}</div></div>
+<sc-for list="{{ ed.rows }}" as="i">
+<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:10px;display:flex;flex-direction:column;gap:8px">
+<div class="s33"><input value="{{ i.n }}" onChange="{{ i.setN }}" placeholder="Ingrediens, f.eks. kjøttdeig" aria-label="Ingrediens {{ i.num }}" class="s31" style="flex:1;min-width:0;height:44px"><button onClick="{{ i.remove }}" aria-label="Fjern {{ i.label }}" style="width:44px;height:44px;flex:none;border:0;border-radius:50%;background:var(--mg-surface-sunken);color:var(--mg-danger);font-size:18px;font-weight:800;cursor:pointer">×</button></div>
+<div class="s33"><input value="{{ i.q }}" onChange="{{ i.setQ }}" inputMode="decimal" placeholder="Mengde" aria-label="Mengde for {{ i.label }}" class="s31" style="width:96px;min-width:0;height:44px"><select value="{{ i.u }}" onChange="{{ i.setU }}" aria-label="Enhet for {{ i.label }}" class="s31" style="height:44px;padding:0 8px"><sc-for list="{{ i.units }}" as="v"><option value="{{ v.v }}">{{ v.l }}</option></sc-for></select></div>
+<sc-if value="{{ i.link }}"><div style="font-size:12px;font-weight:600;color:{{ i.linkColor }};line-height:1.35">{{ i.link }}</div></sc-if>
+</div>
+</sc-for>
+<button onClick="{{ ed.addRow }}" style="border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);padding:14px;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-ink-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Legg til ingrediens</button>
+<label class="s30">Slik gjør du (ett steg per linje)<textarea value="{{ ed.steps }}" onChange="{{ ed.setSteps }}" rows="7" placeholder="Brun kjøttdeigen.&#10;Tilsett krydder og vann." style="border-radius:var(--mg-r-md);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:12px 14px;font-size:16px;line-height:1.45;outline:none;font-family:inherit;color:var(--mg-ink);resize:vertical"></textarea></label>
+<sc-if value="{{ ed.hasError }}"><div role="alert" style="background:#fbe3df;color:#8a2a1c;border-radius:var(--mg-r-md);padding:10px 14px;font-size:14px;font-weight:700">{{ ed.error }}</div></sc-if>
+<button onClick="{{ ed.save }}" style="border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:54px;border-radius:var(--mg-r-pill);cursor:pointer">Lagre oppskriften</button>
+<sc-if value="{{ ed.canDelete }}"><button onClick="{{ ed.del }}" style="border:0;background:none;color:var(--mg-danger);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;padding:8px">Slett oppskriften</button></sc-if>
+</div>
+</div>
+</sc-if>
+
 <sc-if value="{{ ovCook }}" hint-placeholder-val="{{ false }}">
 <div role="dialog" aria-label="Lagemodus" style="--mg-ink:#1f2a1c;--mg-butter:#f4d77c;position:absolute;inset:0;z-index:54;background:#1f2a1c;color:#fff;display:flex;flex-direction:column;padding:calc(var(--top) + 10px) 22px max(22px,env(safe-area-inset-bottom));box-sizing:border-box;gap:18px">
 <div style="display:flex;align-items:center;gap:12px"><button onClick="{{ back }}" aria-label="Lukk lagemodus" style="width:44px;height:44px;flex:none;border-radius:50%;border:0;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button><div class="s11"><div style="font-size:12px;font-weight:700;color:var(--mg-butter)">{{ ck.progress }}</div><div style="font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ck.name }}</div></div></div>
@@ -703,6 +762,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;z-index:45;background:rgba(20,25,18,.12)"></div>
 <div role="menu" aria-label="Meny" data-mgmenu="1" style="position:absolute;top:calc(var(--top) + 56px);right:14px;z-index:46;width:214px;background:var(--mg-surface);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-2);padding:6px;display:flex;flex-direction:column">
 <button role="menuitem" onClick="{{ menuProfile }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg>Profil</button>
+<button role="menuitem" onClick="{{ openMine }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h10a2 2 0 012 2v15l-3-2-3 2-3-2-3 2v-15a2 2 0 012-2z"></path><path d="M9 8h6M9 12h4"></path></svg>Mine oppskrifter</button>
 <button role="menuitem" onClick="{{ menuSettings }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
 <div style="height:1px;background:var(--mg-surface-sunken);margin:4px 8px"></div>
 <button role="menuitem" onClick="{{ menuAuth }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:{{ authColor }};text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10"></path></svg>{{ authLabel }}</button>
@@ -758,7 +818,7 @@ class Component extends DCLogic {
       return { ...r, hue: hue(r.id), cats, photo: photo(r.img), credit: r.img ? 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(r.img.replace(/ /g, '_')) : null };
     });
     const byId = Object.fromEntries(R.map(r => [r.id, r]));
-    const CATS = [['alle','Alle'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['helg','Helg'],['familie','Barnevennlig'],['kjott','Kjøtt'],['kylling','Kylling'],['fisk','Fisk'],['pasta','Pasta'],['gryte','Gryter'],['vegetar','Uten kjøtt'],['tradisjon','Norsk tradisjon'],['rask','Rask'],['fa','Få ingredienser']]
+    const CATS = [['alle','Alle'],['mine','Mine oppskrifter'],['under100','Under 100-lappen'],['hverdag','Hverdagsmiddag'],['sondag','Søndagsmiddag'],['helg','Helg'],['familie','Barnevennlig'],['kjott','Kjøtt'],['kylling','Kylling'],['fisk','Fisk'],['pasta','Pasta'],['gryte','Gryter'],['vegetar','Uten kjøtt'],['tradisjon','Norsk tradisjon'],['rask','Rask'],['fa','Få ingredienser']]
       .filter(([id]) => id !== 'under100' || M.hasPrices);
     // Lære-koblinger ut fra ingrediensene: [mønster, artikkel, hvorfor]
     const LEARN = [
@@ -838,7 +898,7 @@ class Component extends DCLogic {
     let top = null;
     if (ok[t]) { if (ok[t][id]) top = { t, id }; }
     else if (t === 'shop') top = !id || id.startsWith('week') ? { t, scope: 'week', wk: Math.max(0, +id.slice(5) || 0) } : { t, scope: 'day', day: Math.max(0, Math.min(370, +id.replace('day-', '') || 0)) };
-    else if (['search','picker','login','profile','settings','pantry','usehome'].includes(t)) top = { t };
+    else if (['search','picker','login','profile','settings','pantry','usehome','mine'].includes(t)) top = { t };
     return { tab: this.TABS.includes(tab) ? tab : null, stack: top ? [top] : [] };
   };
   hashOf = st => { const top = st.stack[st.stack.length - 1];
@@ -851,7 +911,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', listening: false, scanning: false, parsing: false
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false
   };
 
   ph = h => { h = 70 + (h * 7) % 90; return `repeating-linear-gradient(135deg, oklch(0.87 0.055 ${h}) 0 9px, oklch(0.83 0.07 ${h}) 9px 18px)`; };
@@ -862,11 +922,12 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFAB33', '#1f2a1c'], KIWI: ['#50B848', '#1f2a1c'], MENY: ['#D3062A', '#fff'], REMA: ['#023EA5', '#fff'], COOP: ['#0A4D8F', '#fff'], SPAR: ['#007A33', '#fff'], JOKER: ['#FFDE3C', '#1f2a1c'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom'];
+  SYNC = ['favs', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'popSent', 'planFrom', 'mine'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
+    this.applyMine(restore.mine);
     const h = this.fromHash();
     this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}) });
     this._depth = h.stack.length;
@@ -886,7 +947,7 @@ class Component extends DCLogic {
   POP_KEY = /^(vare|rett):[a-zæøå0-9 -]{1,60}$/;
   // Det denne kontoen bidrar med: varene i beholdningen og rettene som er favoritt, i planen eller laget
   popKeys = () => { const s = this.state, P = window.MatgledePantry;
-    const dishes = [...s.favs, ...Object.values(s.plan).flat(), ...Object.keys(s.made).map(k => k.split(':')[2])];
+    const dishes = [...s.favs, ...Object.values(s.plan).flat(), ...Object.keys(s.made).map(k => k.split(':')[2])].filter(id => !/^egen-/.test(id)); // egne oppskrifter telles ikke
     return [...new Set([...s.pantry.map(x => 'vare:' + P.key(x.n)), ...dishes.map(id => 'rett:' + id)])].filter(k => this.POP_KEY.test(k)).sort(); };
   // Teller opp det som er nytt og ned det som er borte siden sist. popSent lagres på kontoen, så hver konto teller én gang.
   syncPop = () => {
@@ -1193,22 +1254,121 @@ class Component extends DCLogic {
         .catch(err => { console.error(err); local(); }).finally(() => this.setState({ parsing: false })); };
     r.start(); this.setState({ listening: true });
   };
-  // Bilde av kjøleskap eller skap -> worker/ (Claude) -> varer
+  // Bilder av kjøleskap eller skap -> worker/ (Claude) -> varer. Flere bilder sendes samtidig, ett kall per bilde.
   scanPhoto = e => {
-    const f = e.target.files && e.target.files[0];
+    const files = [...(e.target.files || [])].slice(0, 10); // tak på kostnad: ca. 10 øre per bilde
     e.target.value = '';
-    if (!f || this.state.scanning) return;
+    if (!files.length || this.state.scanning) return;
     if (!window.MATGLEDE_AI_URL) return this.toast('Bildegjenkjenning er ikke slått på ennå');
     if (!this.state.user) return this.push({ t: 'login' });
-    this.setState({ scanning: true });
-    createImageBitmap(f).then(b => {
-      const k = Math.min(1, 1280 / Math.max(b.width, b.height)), c = document.createElement('canvas');
-      c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
-      c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
-      return this.askAI({ image: c.toDataURL('image/jpeg', 0.8).split(',')[1] });
-    }).then(items => { if (items.length) this.addPantry(items); else this.toast('Fant ingen matvarer på bildet'); })
-      .catch(err => { console.error(err); this.toast('Fikk ikke lest bildet. Prøv igjen.'); })
-      .finally(() => this.setState({ scanning: false }));
+    this.setState({ scanning: files.length });
+    Promise.allSettled(files.map(f => this.jpeg(f, 1280, 0.8).then(url => this.askAI({ image: url.split(',')[1] })))).then(res => {
+      const ok = res.filter(r => r.status === 'fulfilled'), items = ok.flatMap(r => r.value);
+      res.filter(r => r.status === 'rejected').forEach(r => console.error(r.reason));
+      if (items.length) this.addPantry(items);
+      if (!ok.length) this.toast(files.length > 1 ? 'Fikk ikke lest bildene. Prøv igjen.' : 'Fikk ikke lest bildet. Prøv igjen.');
+      else if (ok.length < files.length) this.toast(`${files.length - ok.length} av ${files.length} bilder kunne ikke leses`);
+      else if (!items.length) this.toast(files.length > 1 ? 'Fant ingen matvarer på bildene' : 'Fant ingen matvarer på bildet');
+    }).finally(() => this.setState({ scanning: false }));
+  };
+  // Bildefil -> JPEG som data-URL, høyst max piksler på lengste side
+  jpeg = (f, max, q) => createImageBitmap(f).then(b => {
+    const k = Math.min(1, max / Math.max(b.width, b.height)), c = document.createElement('canvas');
+    c.width = Math.round(b.width * k); c.height = Math.round(b.height * k);
+    c.getContext('2d').drawImage(b, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', q);
+  });
+
+  // ---------- Mine oppskrifter: skrevet inn selv eller lest fra bilde av en oppskrift (worker/, Claude) ----------
+  // Lagres i state.mine (kontoen og nettleseren) og flettes inn i D.R og D.byId, så plan, handleliste og priser virker som ellers.
+  // Ingrediensnavn -> vare: navnene i Matgledes oppskrifter og varedatabasen. per: basismengde per enhet, f.eks. tomat|stk = 90 g.
+  ALIAS = (() => { const a = {}, per = {};
+    this.D.R.forEach(r => r.ing.forEach(i => { if (!i.slug) return; a[i.n.toLowerCase()] = i.slug;
+      if (i.q && i.base != null && i.u) per[i.slug + '|' + i.u] = i.base / i.q; }));
+    Object.entries(this.D.ING).forEach(([slug, x]) => { const n = x.name.toLowerCase(); a[n] = a[n] || slug; a[n.replace(/\s*\(.*\)/, '')] = a[n.replace(/\s*\(.*\)/, '')] || slug; });
+    return { a, per }; })();
+  // shortcut: enkel navnematching (helt navn, eget ord eller bøyning), ikke reglene i recipe_parse.py. Bytt hvis mange ikke kobles.
+  slugOf = n => {
+    const h = String(n || '').toLowerCase().split(',')[0].replace(/\(.*?\)/g, '').trim(), A = this.ALIAS.a; if (!h) return null;
+    if (A[h]) return A[h];
+    const word = k => new RegExp('(^|[^a-zæøå])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(er|en|ene|e)?([^a-zæøå]|$)').test(h);
+    const k = Object.keys(A).filter(word).sort((a, b) => b.length - a.length)[0] || (h.length >= 4 && Object.keys(A).find(k => k.startsWith(h) && k.length - h.length <= 3));
+    return k ? A[k] : null;
+  };
+  RU = { g:['g',1], kg:['g',1000], ml:['ml',1], cl:['ml',10], dl:['ml',100], l:['ml',1000], ss:['ml',15], ts:['ml',5] };
+  // Mengde i varens basisenhet (g, ml eller stk). Gram og milliliter regnes som like (omtrent riktig for mat).
+  toBase = (q, u, slug) => {
+    const I = this.D.ING[slug]; if (q == null || !I) return null;
+    const per = this.ALIAS.per[slug + '|' + u]; if (per != null) return q * per;
+    const ru = this.RU[u]; if (!ru) return u === I.base ? q : null;
+    return I.base === 'stk' ? null : q * ru[1];
+  };
+  ownR = c => {
+    const ing = (c.ing || []).map(i => { const slug = this.slugOf(i.n); return { n: i.n, q: i.q, u: i.u || '', slug, base: slug ? this.toBase(i.q, i.u, slug) : null }; });
+    const cats = ['mine']; if (c.time && c.time <= 30) cats.push('rask'); if (ing.length <= 6) cats.push('fa');
+    let hue = 7; for (const ch of c.id) hue = (hue * 31 + ch.charCodeAt(0)) % 360;
+    return { ...c, servings: c.servings || 4, diff: c.diff || 2, steps: c.steps || [], ing, cats, hue, learn: [], photo: this.blobOf(c.photo), photoData: c.photo || null, mine: true };
+  };
+  // Malen deler stil på «;», så data-URL-en (data:image/jpeg;base64,…) vises via en blob-adresse
+  blobOf = d => { if (!d) return null; const m = this._blobs || (this._blobs = new Map()); if (m.has(d)) return m.get(d);
+    const bin = atob(d.split(',')[1]), a = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) a[k] = bin.charCodeAt(k);
+    const u = URL.createObjectURL(new Blob([a], { type: 'image/jpeg' })); m.set(d, u); return u; };
+  applyMine = mine => { if (mine === this._mine) return; this._mine = mine; const D = this.D; D.R0 = D.R0 || D.R;
+    D.R = [...(mine || []).map(this.ownR), ...D.R0]; D.byId = Object.fromEntries(D.R.map(r => [r.id, r])); };
+  UNITS = ['', 'g', 'kg', 'dl', 'l', 'ml', 'ss', 'ts', 'stk', 'pk', 'boks', 'fedd', 'klype', 'neve', 'skive'];
+  numStr = q => q == null ? '' : String(Math.round(q * 100) / 100).replace('.', ',');
+  parseQ = t => { t = String(t || '').trim().replace(',', '.'); if (!t) return null;
+    const F = { '½': 0.5, '¼': 0.25, '¾': 0.75 }; if (F[t]) return F[t];
+    let m = t.match(/^(\d+)\s+(\d+)\/(\d+)$/); if (m) return +m[1] + m[2] / m[3];
+    m = t.match(/^(\d+)\/(\d+)$/); if (m) return m[1] / m[2];
+    const v = parseFloat(t); return isFinite(v) && v > 0 ? v : null; };
+  rowK = 0;
+  row = i => ({ k: ++this.rowK, n: i ? i.n : '', q: i ? this.numStr(i.q) : '', u: i && this.UNITS.includes(i.u) ? i.u : '' });
+  openEdit = (r, ai) => this.setState(s => ({ stack: [...s.stack, { t: 'edit' }], menu: false, rdPick: false, rdLearn: false, rdPig: false,
+    draft: { id: r && r.id || null, ai: !!ai, name: r ? r.name || '' : '', servings: r && r.servings || 4, time: r && r.time ? String(r.time) : '',
+      rows: r && r.ing && r.ing.length ? r.ing.map(this.row) : [this.row(), this.row(), this.row()], steps: (r && r.steps || []).join('\n'), photo: r && r.photoData || null, error: '' } }));
+  setDraft = f => this.setState(s => ({ draft: { ...s.draft, ...f } }));
+  setRow = (k, f) => this.setState(s => ({ draft: { ...s.draft, rows: s.draft.rows.map(r => r.k === k ? { ...r, ...f } : r) } }));
+  saveDraft = () => {
+    const d = this.state.draft, name = d.name.trim();
+    const ing = d.rows.filter(r => r.n.trim()).map(r => ({ n: r.n.trim().slice(0, 80), q: this.parseQ(r.q), u: r.u }));
+    if (!name) return this.setDraft({ error: 'Gi oppskriften et navn.' });
+    if (!ing.length) return this.setDraft({ error: 'Legg til minst én ingrediens.' });
+    const t = parseInt(d.time, 10), id = d.id || 'egen-' + Date.now().toString(36);
+    const rec = { id, name: name.slice(0, 80), servings: d.servings, time: t > 0 ? Math.min(t, 1440) : null, ing,
+      steps: d.steps.split(/\n+/).map(x => x.trim()).filter(Boolean), ...(d.photo ? { photo: d.photo } : {}) };
+    const isNew = !d.id;
+    this.setState(s => ({ mine: [rec, ...s.mine.filter(c => c.id !== id)], draft: null, stack: isNew ? [...s.stack.slice(0, -1), { t: 'recipe', id }] : s.stack }));
+    if (!isNew) this.back();
+    this.toast('Oppskriften er lagret');
+  };
+  deleteMine = id => {
+    const s = this.state, before = { mine: s.mine, favs: s.favs, plan: s.plan };
+    this.setState({ mine: s.mine.filter(c => c.id !== id), favs: s.favs.filter(f => f !== id), draft: null,
+      plan: Object.fromEntries(Object.entries(s.plan).map(([g, l]) => [g, l.filter(x => x !== id)])), stack: [{ t: 'mine' }] });
+    this.toast('Oppskriften er slettet', () => this.setState({ ...before, toast: null, undo: null }));
+  };
+  // Bilde av maten: lite JPEG lagret i oppskriften.
+  // shortcut: bildet ligger i kontodokumentet (Firestore, maks 1 MB, ca. 30 kB per bilde). Flytt til Firebase Storage hvis folk lagrer mange.
+  pickPhoto = e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+    this.jpeg(f, 480, 0.65).then(photo => this.setDraft({ photo })).catch(() => this.toast('Fikk ikke åpnet bildet')); };
+  // Bilde av en oppskrift (bok, lapp, skjerm) -> worker/ (Claude) -> utfylt skjema som brukeren retter før lagring
+  scanRecipe = e => {
+    const f = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!f || this.state.reading) return;
+    if (!window.MATGLEDE_AI_URL) return this.toast('Lesing av oppskrifter er ikke slått på ennå');
+    if (!this.state.user) { this.toast('Logg inn for å lese oppskrifter fra bilder'); return this.push({ t: 'login' }); }
+    this.setState({ reading: true });
+    this.jpeg(f, 1600, 0.85).then(url => window.MatgledeAuth.idToken().then(tok => fetch(window.MATGLEDE_AI_URL, { method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify({ recipe: url.split(',')[1] }) })))
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+      .then(d => { const x = d && d.recipe, str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '', num = v => typeof v === 'number' && v > 0 ? v : null;
+        const ing = (x && Array.isArray(x.ing) ? x.ing : []).map(i => ({ n: str(i && i.n, 80), q: num(i && i.q), u: str(i && i.u, 10) })).filter(i => i.n).slice(0, 60);
+        if (!x || (!str(x.name, 80) && !ing.length)) return this.toast('Fant ingen oppskrift på bildet. Prøv et skarpere bilde.');
+        this.openEdit({ name: str(x.name, 80), servings: Math.max(1, Math.min(12, Math.round(num(x.servings) || 4))), time: Math.round(num(x.time) || 0) || null, ing,
+          steps: (Array.isArray(x.steps) ? x.steps : []).map(t => str(t, 600)).filter(Boolean).slice(0, 30) }, true); })
+      .catch(err => { console.error(err); this.toast('Fikk ikke lest oppskriften. Prøv igjen, eller skriv den inn selv.'); })
+      .finally(() => this.setState({ reading: false }));
   };
 
   // ---------- mengder ----------
@@ -1299,7 +1459,7 @@ class Component extends DCLogic {
   mk(r, extra) {
     const s = this.state, fav = s.favs.includes(r.id), rc = this.recipeCost(r), ct = this.costText(rc);
     return {
-      id: r.id, name: r.name, time: r.time, timeLabel: `${r.time} min`,
+      id: r.id, name: r.name, time: r.time, timeLabel: r.time ? `${r.time} min` : 'Tid: –',
       dots: [0,1,2,3,4].map(i => i < r.diff ? this.DIFF_C[r.diff - 1] : 'var(--mg-border)'), diffLabel: this.DIFF_L[r.diff - 1], diffColor: this.DIFF_C[r.diff - 1],
       diffAria: `Vanskelighet ${r.diff} av 5, ${this.DIFF_L[r.diff - 1].toLowerCase()}`,
       isFav: fav, favLabel: fav ? `Fjern ${r.name} fra favoritter` : `Legg ${r.name} til i favoritter`,
@@ -1318,6 +1478,7 @@ class Component extends DCLogic {
 
   renderVals() {
     this._rc = new Map();
+    this.applyMine(this.state.mine);
     const s = this.state, D = this.D, M = D.M, top = s.stack[s.stack.length - 1] || {}, user = s.user, P = window.MatgledePantry;
     const stock = s.pantry.filter(x => P.level(x) !== 'tomt'); // tomme varer teller ikke
     const MON = ['jan.','feb.','mars','april','mai','juni','juli','aug.','sep.','okt.','nov.','des.'];
@@ -1466,7 +1627,8 @@ class Component extends DCLogic {
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
-        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })) };
+        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}`, bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
+        isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
     if (top.t === 'cook') {
@@ -1559,7 +1721,7 @@ class Component extends DCLogic {
         items: this.byPop(this.QUICK.filter(q => this.sectionOf(q) === name && !P.find(s.pantry, [q])), q => 'vare:' + P.key(q)).map(q => ({ label: q, add: () => this.addPantry([{ n: q }]) })) })).filter(g => g.items.length),
       voice: this.listen, voiceLabel: s.listening ? 'Lytter … trykk for å stoppe' : s.parsing ? 'Tolker det du sa …' : 'Si hva du har',
       voiceBg: s.listening ? 'var(--mg-danger)' : 'var(--mg-ink)', voiceFg: s.listening ? '#fff' : 'var(--mg-on-ink)',
-      scan: this.scanPhoto, scanLabel: s.scanning ? 'Ser på bildet …' : 'Ta bilde av skapet',
+      scan: this.scanPhoto, scanLabel: s.scanning > 1 ? `Ser på ${s.scanning} bilder …` : s.scanning ? 'Ser på bildet …' : 'Ta bilder av skapet',
       items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const lv = P.level(x), cnt = P.counted(x.n), q = P.qty(x);
         const label = cnt ? (q ? q + ' stk' : 'Tomt') : LV[lv][0];
         return { n: x.n, section: this.sectionOf(x.n), label, approx: x.amt && x.u ? 'ca. ' + this.fmt(x.amt, x.u) + ' igjen' : '', dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
@@ -1592,7 +1754,34 @@ class Component extends DCLogic {
       openPantry: () => this.push({ t: 'pantry' })
     };
 
+    const openMine = () => this.push({ t: 'mine' });
+    const mn = { empty: !s.mine.length, write: () => this.openEdit(null), scan: this.scanRecipe,
+      scanLabel: s.reading ? 'Leser oppskriften …' : 'Ta bilde av oppskrift', scanBg: s.reading ? 'var(--mg-primary-soft)' : 'var(--mg-butter)',
+      list: D.R.filter(r => r.mine).map(r => this.mk(r, { ingCount: `${r.ing.length} ingredienser` })) };
+    let ed = {};
+    if (top.t === 'edit' && s.draft) {
+      const d = s.draft, filled = d.rows.filter(x => x.n.trim()), linked = filled.filter(x => this.slugOf(x.n)).length;
+      ed = { kicker: d.id ? 'Din oppskrift' : 'Ny oppskrift', title: d.id ? 'Endre oppskrift' : 'Legg til oppskrift', ai: d.ai,
+        name: d.name, setName: e => this.setDraft({ name: e.target.value, error: '' }),
+        servings: d.servings, servMinus: () => this.setDraft({ servings: Math.max(1, d.servings - 1) }), servPlus: () => this.setDraft({ servings: Math.min(12, d.servings + 1) }),
+        time: d.time, setTime: e => this.setDraft({ time: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+        photoBg: d.photo ? `url("${this.blobOf(d.photo)}") center/cover no-repeat` : 'var(--mg-surface)', hasPhoto: !!d.photo, noPhoto: !d.photo,
+        pickPhoto: this.pickPhoto, removePhoto: () => this.setDraft({ photo: null }),
+        linked: filled.length ? `${linked} av ${filled.length} koblet til vare` : '',
+        rows: d.rows.map((x, j) => { const slug = x.n.trim() && this.slugOf(x.n);
+          return { n: x.n, q: x.q, u: x.u, num: j + 1, label: x.n.trim() || `ingrediens ${j + 1}`,
+            units: this.UNITS.map(v => ({ v, l: v || 'enhet' })),
+            link: !x.n.trim() ? '' : slug ? `Koblet til ${D.ING[slug].name}` : 'Ikke koblet til vare: kommer på handlelisten, men uten pris',
+            linkColor: slug ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)',
+            setN: e => this.setRow(x.k, { n: e.target.value }), setQ: e => this.setRow(x.k, { q: e.target.value }), setU: e => this.setRow(x.k, { u: e.target.value }),
+            remove: () => this.setDraft({ rows: d.rows.filter(y => y.k !== x.k) }) }; }),
+        addRow: () => this.setDraft({ rows: [...d.rows, this.row()] }),
+        steps: d.steps, setSteps: e => this.setDraft({ steps: e.target.value }),
+        error: d.error, hasError: !!d.error, save: this.saveDraft, canDelete: !!d.id, del: () => this.deleteMine(d.id) };
+    }
+
     return {
+      ovMine: top.t === 'mine', mn, openMine, ovEdit: top.t === 'edit' && !!s.draft, ed, mineNum: s.mine.length,
       nav, showLabels: this.props.navLabels ?? true,
       isHome: s.tab === 'home', isFav: s.tab === 'fav', isTilbud: s.tab === 'tilbud', isPlan: s.tab === 'plan', isOpp: s.tab === 'opp', isLaere: s.tab === 'laere',
       goHome: () => this.go('home'), goFav: () => this.go('fav'), goTilbud: () => this.go('tilbud'), goPlan: () => this.go('plan'), goOpp: () => this.go('opp'), goLaere: () => this.go('laere'),
@@ -1661,7 +1850,7 @@ class Component extends DCLogic {
       ownItem: s.ownItem, onOwn: e => this.setState({ ownItem: e.target.value }),
       suggestions: ['taco','pasta','kylling','laks','salat','curry'].map(l => ({ label: l, pick: () => this.setState({ q: l }) })),
       popular: pop.slice(0, 6).map((r, i) => this.mk(r, { rank: i + 1 })),
-      cats: D.CATS.map(([id, label]) => ({ label, ...this.chip(s.cat === id), pick: () => this.setState({ cat: id }) })),
+      cats: D.CATS.filter(([id]) => id !== 'mine' || s.mine.length).map(([id, label]) => ({ label, ...this.chip(s.cat === id), pick: () => this.setState({ cat: id }) })),
       catRecipes: this.byPop(D.R.filter(r => s.cat === 'alle' || (s.cat === 'under100' ? (rc => rc.complete && rc.sum < 100)(this.recipeCost(r)) : r.cats.includes(s.cat))), r => 'rett:' + r.id).map(r => this.mk(r)),
       featured: ['a2','a3','a7','a4'].map(id => artItem(D.artById[id])),
       topics: D.TOPICS.map((t, i) => ({ ...t, rot: [-3, 2, -1.5, 3, -2.5, 1.5, -1][i], open: () => this.push({ t:'topic', id: t.id }) })),
