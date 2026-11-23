@@ -177,6 +177,12 @@ E-post-innlogging har «Glemt passord?» som sender en lenke for nytt passord. S
 5. Firestore Database → Opprett database (produksjonsmodus, region `eur3`).
 6. Firestore → Regler: lim inn innholdet i `firestore.rules` og publiser.
 
+**Del appen.** Under Innstillinger kan en innlogget bruker skrive inn e-posten til en annen.
+Da flyttes dataene til `households/{id}`, og alle medlemmene leser og skriver samme dokument
+i sanntid (`onSnapshot`). Bare feltene som er endret skrives. Invitasjonen ligger i
+`invites/{e-post}` og vises når den inviterte logger inn med den e-posten. E-postkontoer må
+bekrefte adressen først (Google-kontoer er bekreftet fra før). Reglene står i `firestore.rules`.
+
 Oppskriftene fra Rema 1000, Aichas Mat og Marit Kolby (`seed/external_recipes.json`) ligger
 fortsatt i repoet for databasen, men brukes ikke i appen.
 
