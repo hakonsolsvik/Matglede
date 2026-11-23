@@ -142,11 +142,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ isTilbud }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
 <div class="s10"><h1 class="s3 mg-h">Tilbud</h1><div class="s18">{{ offersSub }}</div></div>
-<sc-if value="{{ hasListOffers }}"><div style="background:var(--mg-primary-soft);border-radius:var(--mg-r-lg);padding:12px 14px;font-size:14px;line-height:1.4;font-weight:600;color:var(--mg-on-primary-soft)">Ukas tilbud på varer i handlelisten din: <sc-for list="{{ listOffersTop }}" as="x"><span style="white-space:nowrap">{{ x.name }} <span style="background:#f5b82e;color:#3a2a00;font-weight:800;padding:1px 7px;border-radius:99px">{{ x.n }}</span>{{ x.sep }}</span> </sc-for></div></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
 <img src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
+<sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;right:8px;top:8px;background:#f5b82e;color:#3a2a00;font-size:13px;font-weight:800;min-width:24px;text-align:center;padding:3px 8px;border-radius:var(--mg-r-pill);box-shadow:0 1px 3px rgba(0,0,0,.2)">{{ st.n }}</span></sc-if>
 <sc-if value="{{ st.hasBadge }}"><span style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.badge }}</span></sc-if>
 </div>
 </sc-for>
@@ -1757,7 +1757,6 @@ class Component extends DCLogic {
     if (top.t === 'topic') { const t = D.topicById[top.id]; td = { ...t, arts: D.ARTS.filter(a => a.topic === t.id).map(artItem) }; }
     if (top.t === 'article') { const a = D.artById[top.id]; ad = { ...artItem(a), img: ph(D.topicById[a.topic].h) }; }
 
-    const listOffers = D.STORES.map(st => ({ st, n: onList(st).length })).filter(x => x.n);
     const tg = (key, label, sub) => ({ on: !!s[key], label, sub, track: s[key] ? 'var(--mg-primary)' : 'var(--mg-border-strong)', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
     const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
@@ -1885,12 +1884,10 @@ class Component extends DCLogic {
       favList: favR.map(r => this.mk(r)), noFavs: favR.length === 0, favCountLabel: `${favR.length} lagrede oppskrifter`,
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
-      flyerStores: D.STORES.map(st => { const mine = st.code === s.chain;
-        return { name: st.name, bg: st.bg, logo: st.logo, open: () => this.push({ t:'store', id: st.code }),
+      flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
+        return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
           hasBadge: mine, badge: 'Din butikk', ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}` }; }),
-      hasListOffers: listOffers.length > 0,
-      listOffersTop: listOffers.sort((a, b) => b.n - a.n).slice(0, 3).map((x, i, a) => ({ name: x.st.name, n: x.n, sep: i < a.length - 1 ? ',' : '' })),
+          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} varer fra handlelisten på tilbud` : ''}` }; }),
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
