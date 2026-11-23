@@ -94,3 +94,15 @@ assert.strictEqual(P.pick('grandiosa', L), 0);
 assert.strictEqual(P.pick('melk', L), 3);
 assert.strictEqual(P.pick('brokkoli', L), -1);
 console.log('pick ok');
+
+// Før-priser fra avisen blir vanlig pris for kjeden, og gamle priser byttes ut
+const ings = { laks: { products: { KIWI: [{ name: 'Gammel laks', size: 400, price: 99, stale: true }, { name: 'Fersk laks', size: 400, price: 120, stale: false }] } }, egg: {} };
+const stores = [
+  { code: 'KIWI', fromFlyer: true, offers: [{ name: 'Laks 400 g', ing: 'laks', size: 400, price: 79, before: 109 }, { name: 'Uten før', ing: 'laks', size: 400, price: 50, before: 0 }] },
+  { code: 'MEGA', fromFlyer: true, offers: [{ name: 'Egg 12 stk', ing: 'egg', size: 12, price: 30, before: 45 }] },
+  { code: 'ODA', offers: [{ name: 'Oda laks', ing: 'laks', size: 400, price: 70, before: 100 }] }];
+assert.strictEqual(P.flyerPrices(ings, ['KIWI', 'COOP', 'ODA'], stores), 2);
+assert.deepStrictEqual(ings.laks.products.KIWI.map(p => [p.name, p.price]), [['Fersk laks', 120], ['Laks 400 g', 109]]);
+assert.deepStrictEqual(ings.egg.products.COOP.map(p => p.price), [45]);
+assert(!ings.laks.products.ODA);
+console.log('før-priser ok');

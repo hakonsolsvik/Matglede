@@ -973,6 +973,7 @@ class Component extends DCLogic {
       ['EXTRA','Coop Extra','#D23732'],['MEGA','Coop Mega','#315428'],['PRIX','Coop Prix','#FEC63A'],['OBS','Coop Obs','#0A4D8F'],
       ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','var(--mg-surface)'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','var(--mg-surface)']]
       .map(([code, name, bg]) => ({ code, name, bg, logo: `./logos/${code}.svg`, ...(oBy[code] || { offers: [], hasData: false, flyer: '' }) }));
+    window.MatgledePantry.flyerPrices(M.ingredients || {}, CHAINS.map(c => c.code), O.stores);
     // Tilbud koblet til en ingrediens (offers.py tag_offers), brukt som varer i sparemodus
     const OFF = {};
     (O.stores || []).forEach(x => x.offers.forEach(o => { if (o.ing) (OFF[x.code + ':' + o.ing] = OFF[x.code + ':' + o.ing] || []).push({ name: o.name, size: o.size, price: o.price, offer: true }); }));

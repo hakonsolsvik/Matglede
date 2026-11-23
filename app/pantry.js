@@ -161,5 +161,25 @@
     [/kylling/, '🍗'], [/reke/, '🦐'], [/laks|fisk|torsk|sei/, '🐟'], [/kjøtt|deig|bacon|pølse|biff/, '🥩'], [/brød/, '🍞']];
   function art(n) { n = String(n || '').toLowerCase(); for (var i = 0; i < ART.length; i++) if (ART[i][0].test(n)) return ART[i][1]; return '🛒'; }
 
-  root.MatgledePantry = { art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  // Før-prisen i tilbudsavisen (lest av AI) er butikkens vanlige pris akkurat nå. Den legges til varene for kjeden
+  // i data.js, og erstatter gamle (stale) priser der, så vanlig pris på oppskrifter og handleliste blir fersk.
+  var COOP = { EXTRA: 1, MEGA: 1, PRIX: 1, OBS: 1, MARKED: 1 };
+  function flyerPrices(ings, chains, stores) {
+    var n = 0;
+    (stores || []).forEach(function (x) {
+      var ch = COOP[x.code] ? 'COOP' : x.code;
+      if (!x.fromFlyer || chains.indexOf(ch) < 0) return;
+      x.offers.forEach(function (o) {
+        var ing = ings[o.ing];
+        if (!ing || !o.size || !(o.before > o.price)) return;
+        var prods = ing.products = ing.products || {};
+        prods[ch] = (prods[ch] || []).filter(function (p) { return !p.stale && p.name !== o.name; });
+        prods[ch].push({ name: o.name, size: o.size, price: o.before, stale: false, avis: true });
+        n++;
+      });
+    });
+    return n;
+  }
+
+  root.MatgledePantry = { flyerPrices: flyerPrices, art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
