@@ -46,6 +46,13 @@ class MatchingTest(unittest.TestCase):
         s = score_product(self.rule, "Hvitløk 100g", ["Frukt & grønt", "Grønnsaker", "Løk"], FRESH, True, NOW)
         self.assertGreater(s, 5)
 
+    def test_must_include_alternatives(self):
+        rule = IngredientRule(search_terms=["kyllingfilet"], must_include=["fros/fryst"],
+                              exclude_terms=[], category_hints=[])
+        self.assertIsNotNone(score_product(rule, "Kyllingfilet Fryst 1kg", [], FRESH, True, NOW))
+        self.assertIsNotNone(score_product(rule, "Kyllingfilet frossen 1kg", [], FRESH, True, NOW))
+        self.assertIsNone(score_product(rule, "Kyllingfilet 400g", [], FRESH, True, NOW))
+
     def test_long_exclusion_matches_inside_word(self):
         self.assertIsNone(score_product(self.rule, "Hvitløkspulver 56g", [], FRESH, True, NOW))
 

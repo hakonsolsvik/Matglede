@@ -70,7 +70,8 @@ def score_product(rule: IngredientRule, name: str, categories: list[str], price_
     n = normalize(name)
     if any(_excluded(n, ex) for ex in rule.exclude_terms):
         return None
-    if any(not _contains_anywhere(n, m) for m in rule.must_include):
+    # "fros/fryst" betyr at ett av alternativene må finnes.
+    if any(not any(_contains_anywhere(n, a) for a in m.split("/")) for m in rule.must_include):
         return None
 
     score = 0.0
