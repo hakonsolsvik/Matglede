@@ -693,7 +693,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <div class="s72">
 <div class="s13">Standard antall personer</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:var(--mg-ink);box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
 <div class="s2">Brukes på retter du ikke har justert selv. Du endrer antallet på hver rett.</div>
 </div>
 <div class="s72">
@@ -702,7 +702,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s2">Automatisk følger innstillingen på telefonen.</div>
 </div>
 <div class="s72">
-<div class="s13">Butikk for priser</div>
+<div class="s13">Velg din butikk</div>
 <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ chainChips }}" as="c"><button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
 <div class="s2">Rema 1000 og Coop har priser fra mai 2024 i Kassalapp. Oda, Kiwi og Meny oppdateres daglig.</div>
 </div>
@@ -1940,7 +1940,7 @@ class Component extends DCLogic {
       rd, td, ad,
       favNum: s.favs.length, planNum,
       credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
-      portionOpts: [2, 4, 6].map(n => ({ label: n + ' pers.', bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
+      portionOpts: [1, 2, 3, 4, 5, 6].map(n => ({ label: n + ' pers.', on: s.people === n, bg: s.people === n ? 'var(--mg-surface)' : 'transparent', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
       share: (() => { const A = window.MatgledeAuth, inv = s.hhInvite, me = user && user.uid, nm = s.hhNames || {};
         const others = s.hh ? (s.hhMembers || []).filter(id => id !== me).map(id => ({ name: nm[id] || 'Ukjent', state: 'Deler med deg', canRemove: false })) : [];
         const waiting = s.hh ? (s.hhInvited || []).map(e => ({ name: e, state: 'Venter', canRemove: true, rmLabel: `Trekk tilbake invitasjonen til ${e}`,
