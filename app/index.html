@@ -493,6 +493,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <span style="flex:none;width:46px;text-align:center;background:color-mix(in srgb,var(--mg-danger) 16%,var(--mg-surface));color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
 <div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
 <div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
+<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ o.addIcon }}"></path></svg></button>
 </div>
 </sc-for>
 </div>
@@ -1563,7 +1564,7 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       const w = Math.floor(dl[0] / 7);
-      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [] }));
+      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, from: [] }));
       m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
@@ -1584,7 +1585,7 @@ class Component extends DCLogic {
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
       const NOTE = { mye: 'Har nok hjemme, trenger ikke kjøpe', litt: 'Lite igjen hjemme, bør kjøpe mer', tomt: 'Tomt hjemme, må kjøpes' };
       const hv = e.have && e.have.h > 0 && `Har ca. ${this.fmt(e.have.h, e.have.u)} hjemme`;
-      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
+      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
         name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
         section: this.sectionOf(e.n), own: !!e.own, home: !!e.home,
@@ -1700,8 +1701,15 @@ class Component extends DCLogic {
     const onList = st => (st.offers || []).filter(o => o.ing && listSlugs.has(o.ing));
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
+      const addBtn = o => { const key = st.code + ':' + o.name, have = s.extra.some(x => x.offer === key && !x.w);
+        return { added: have, addIcon: have ? 'M5 12.5l4.5 4.5L19 7' : 'M12 5v14M5 12h14', addBg: have ? 'var(--mg-primary)' : 'var(--mg-ink)',
+          addLabel: have ? `Fjern ${o.name} fra handlelisten` : `Legg ${o.name} i handlelisten`,
+          add: ev => { ev && ev.stopPropagation && ev.stopPropagation();
+            this.setState(ss => ({ extra: have ? ss.extra.filter(x => !(x.offer === key && !x.w))
+              : [...ss.extra, { id: Date.now().toString(36), n: o.name, offer: key, note: `Tilbud hos ${st.name} · ${kr(o.price)}` }] }));
+            this.toast(have ? 'Fjernet fra handlelisten' : 'Lagt i handlelisten for denne uka'); } }; };
       const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, img: o.img || '', hasImg: !!o.img, cardH: o.img ? '260px' : '170px', pctPos: o.img ? 'absolute' : 'static', price: kr(o.price), before: 'før ' + kr(o.before),
-        open: () => o.url && window.open(o.url, '_blank', 'noopener') });
+        open: () => o.url && window.open(o.url, '_blank', 'noopener'), ...addBtn(o) });
       const groups = [];
       st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
       let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
