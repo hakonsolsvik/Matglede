@@ -133,42 +133,37 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </button>
 </div>
 <div class="s4">
-<div class="s1 mg-h">Mine oppskrifter</div>
-<div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
-<sc-for list="{{ ms.mine }}" as="r" hint-placeholder-count="2"><div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:148px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:6px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
-<div style="height:96px;border-radius:var(--mg-r-md);background:{{ r.img }}"></div>
-<div style="padding:8px 4px 2px;font-size:14px;font-weight:700;line-height:1.2;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ r.name }}</div>
-<div style="padding:2px 4px 4px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ r.timeLabel }}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Mine oppskrifter</div><button onClick="{{ openMine }}" aria-label="Se alle mine oppskrifter" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Se alle<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
+<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<sc-for list="{{ ms.mine }}" as="r" hint-placeholder-count="2"><div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:116px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:5px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
+<div style="height:70px;border-radius:var(--mg-r-sm);background:{{ r.img }}"></div>
+<div style="padding:6px 3px 1px;font-size:13px;font-weight:700;line-height:1.2;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ r.name }}</div>
+<div style="padding:1px 3px 3px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ r.timeLabel }}</div>
 </div></sc-for>
-<button onClick="{{ ms.newMine }}" style="flex:none;width:148px;min-height:150px;scroll-snap-align:start;border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);cursor:pointer;font-family:inherit;color:var(--mg-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:700"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ny oppskrift</button>
+<button onClick="{{ ms.newMine }}" style="flex:none;width:116px;min-height:124px;scroll-snap-align:start;border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);cursor:pointer;font-family:inherit;color:var(--mg-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:700"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ny oppskrift</button>
 </div>
 </div>
 <div class="s4">
-<button onClick="{{ openFavs }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--mg-shadow-1);width:100%">
-<span style="width:42px;height:42px;flex:none;border-radius:50%;background:var(--mg-primary-soft);color:var(--mg-primary);display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></span>
-<span class="s47"><span class="s13" style="display:flex;align-items:center;gap:8px">Favoritter</span><span class="s12">{{ ms.favNum }} lagrede oppskrifter</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg>
-</button>
-<sc-if value="{{ ms.noFavs }}"><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45;padding:0 4px">Trykk på stjernen på en oppskrift, så havner den her.</div></sc-if>
-<div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
-<sc-for list="{{ ms.favs }}" as="r" hint-placeholder-count="2"><div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:148px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:6px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
-<div style="height:96px;border-radius:var(--mg-r-md);background:{{ r.img }}"></div>
-<div style="padding:8px 4px 2px;font-size:14px;font-weight:700;line-height:1.2;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ r.name }}</div>
-<div style="padding:2px 4px 4px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ r.timeLabel }}</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Favoritter</div><button onClick="{{ openFavs }}" aria-label="Se alle favoritter" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Se alle<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
+<sc-if value="{{ ms.noFavs }}"><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Trykk på stjernen på en oppskrift, så havner den her.</div></sc-if>
+<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<sc-for list="{{ ms.favs }}" as="r" hint-placeholder-count="2"><div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:116px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:5px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
+<div style="height:70px;border-radius:var(--mg-r-sm);background:{{ r.img }}"></div>
+<div style="padding:6px 3px 1px;font-size:13px;font-weight:700;line-height:1.2;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ r.name }}</div>
+<div style="padding:1px 3px 3px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ r.timeLabel }}</div>
 </div></sc-for>
 </div>
 </div>
 <div class="s4">
-<button onClick="{{ openArkiv }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--mg-shadow-1);width:100%">
-<span style="width:42px;height:42px;flex:none;border-radius:50%;background:var(--mg-primary-soft);color:var(--mg-primary);display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"></path></svg></span>
-<span class="s47"><span class="s13" style="display:flex;align-items:center;gap:8px">Lagret kunnskap</span><span class="s12">{{ ms.artNum }} i arkivet</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg>
-</button>
-<sc-if value="{{ ms.noArts }}"><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45;padding:0 4px">Trykk på bokmerket i en artikkel under Lære, så havner den her.</div></sc-if>
-<sc-for list="{{ ms.arts }}" as="a">
-<div onClick="{{ a.open }}" role="button" tabIndex="0" style="display:flex;gap:12px;align-items:center;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px;cursor:pointer">
-<div style="width:46px;height:46px;flex:none;border-radius:var(--mg-r-md);background:{{ a.bg }};color:{{ a.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ a.sym }}</div>
-<div class="s11"><div class="s56">{{ a.title }}</div><div style="font-size:12px;color:var(--mg-ink-muted);margin-top:2px">{{ a.topicName }} · {{ a.mins }} min</div></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Lagret kunnskap</div><button onClick="{{ openArkiv }}" aria-label="Åpne arkivet med lagret kunnskap" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Arkiv<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
+<sc-if value="{{ ms.noArts }}"><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Trykk på bokmerket i en artikkel under Lære, så havner den her.</div></sc-if>
+<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<sc-for list="{{ ms.arts }}" as="a"><div onClick="{{ a.open }}" role="button" tabIndex="0" style="flex:none;width:150px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:10px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column;gap:8px">
+<div style="width:38px;height:38px;border-radius:var(--mg-r-sm);background:{{ a.bg }};color:{{ a.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">{{ a.sym }}</div>
+<div style="font-size:13px;font-weight:700;line-height:1.25;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ a.title }}</div>
+<div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ a.topicName }} · {{ a.mins }} min</div>
+</div></sc-for>
 </div>
-</sc-for>
 </div>
 </div>
 </sc-if>
@@ -385,7 +380,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </div>
 <div style="position:sticky;bottom:0;z-index:2;background:linear-gradient(rgba(243,242,234,0),var(--mg-bg) 28%);padding:22px 20px max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px">
-<sc-if value="{{ rd.pickOpen }}"><div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Velg dag</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div></sc-if>
+<sc-if value="{{ rd.pickOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 8px 8px;box-shadow:0 6px 18px rgba(30,50,25,.12)"><div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--mg-ink-muted);padding:0 0 4px 6px"><span>Velg dag</span><div style="display:flex;align-items:center"><button onClick="{{ rd.pw.prev }}" aria-label="{{ rd.pw.prevAria }}" style="visibility:{{ rd.pw.prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">‹</button><span>{{ rd.pw.label }}</span><button onClick="{{ rd.pw.next }}" aria-label="{{ rd.pw.nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">›</button></div></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px"><sc-for list="{{ rd.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div></div></sc-if>
 <button onClick="{{ rd.togglePick }}" aria-expanded="{{ rd.pickOpen }}" style="box-shadow:0 6px 18px rgba(30,50,25,.25);border:0;background:var(--mg-primary);color:#fff;font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Legg til i ukeplanen</button>
 
 </div>
@@ -406,7 +401,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px"><sc-for list="{{ rd.pig.swaps }}" as="w"><div style="padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken);display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ w.text }}</span><span class="s2">{{ w.why }}</span></div></sc-for><div class="s2" style="padding:10px 0">{{ rd.pig.extra }}</div></div>
 <button onClick="{{ rd.pig.toggle }}" aria-pressed="{{ rd.pig.on }}" style="border:2px solid #e9b81a;background:{{ rd.pig.btnBg }};color:{{ rd.pig.btnFg }};font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer">{{ rd.pig.btn }}</button>
-<div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted);padding:0 6px">Legg billig versjon i ukeplanen</div>
+<div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--mg-ink-muted);padding:0 0 0 6px"><span>Legg billig versjon i ukeplanen</span><div style="display:flex;align-items:center"><button onClick="{{ rd.pw.prev }}" aria-label="{{ rd.pw.prevAria }}" style="visibility:{{ rd.pw.prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">‹</button><span>{{ rd.pw.label }}</span><button onClick="{{ rd.pw.next }}" aria-label="{{ rd.pw.nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">›</button></div></div>
 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:8px"><sc-for list="{{ rd.pig.days }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div>
 </div>
 </div>
@@ -1344,7 +1339,7 @@ class Component extends DCLogic {
   };
   homeNote = (st, i) => { if (!st) return null; const u = this.homeUnit(st.p, i);
     return st.ok ? 'Har nok hjemme' : st.h > 0 ? `Har ca. ${this.fmt(st.h, u)} hjemme, trenger ${this.fmt(st.need - st.h, u)} til`
-      : `Det du har hjemme går til retter før i planen, trenger ${this.fmt(st.need, u)}`; };
+      : `Trenger ${this.fmt(st.need, u)}`; };
   // Retten er laget: trekk det den brukte fra beholdningen
   markMade = (d, id) => {
     const P = window.MatgledePantry, r = this.D.byId[id], f = this.factor(r), before = this.state.pantry, made = this.state.made, used = [];
@@ -1773,6 +1768,7 @@ class Component extends DCLogic {
     const sumText = sm => sm.need ? sumOf(sm).text : M.hasPrices ? '0 kr' : 'pris kommer';
     const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
     const shopArr = buildShop(wkDays);
+    const pw = s.rdWk == null ? wk : s.rdWk, pwDays = daysOf(pw);
     const shopLeft = shopArr.filter(e => !s.checked[e.ck]).length;
     const dayArr = buildShop([s.day]);
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
@@ -1845,7 +1841,7 @@ class Component extends DCLogic {
         // Sparegrisen vises bare når en billigere versjon finnes (minst 5 kr), eller når den er slått på
         pig: { show: cheap || save >= 5, on: cheap, ring: cheap ? '3px solid var(--mg-ink)' : '0',
           aria: cheap ? 'Sparemodus er på. Vis billigere versjon' : `Billigere versjon, spar ca. ${save} kr`,
-          open: () => this.setState({ rdPig: true, rdPick: false, rdLearn: false }), close: () => this.setState({ rdPig: false }),
+          open: () => this.setState({ rdPig: true, rdPick: false, rdLearn: false, rdWk: null }), close: () => this.setState({ rdPig: false }),
           stop: e => e && e.stopPropagation && e.stopPropagation(),
           store: `${chainName(s.chain)}, ${this.pers(r)} pers.`,
           normal: this.costText(this.recipeCost(r, false)).short, low: this.costText(this.recipeCost(r, true)).short,
@@ -1854,7 +1850,7 @@ class Component extends DCLogic {
           extra: 'Ellers velges billigste vare og ukas tilbud. Ingredienslisten viser hva du skal kjøpe.',
           toggle: () => { this.toggleCheap(r.id); this.setState({ rdPig: false }); this.toast(cheap ? 'Vanlig versjon' : 'Billig versjon er valgt'); },
           btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c', btnFg: cheap ? 'var(--mg-ink)' : '#1f2a1c',
-          days: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
+          days: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
             bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
             add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); } })) },
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
@@ -1869,10 +1865,12 @@ class Component extends DCLogic {
             noteColor: hs ? (hs.ok ? 'var(--mg-primary)' : 'var(--mg-clay-text)') : 'var(--mg-ink-subtle)',
             n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note, hasNote: !!note }; }),
         pickOpen: s.rdPick,
+        pw: { label: pw ? `Uke ${this.weekNo(pw)} · ${this.weekRange(pw)}` : `Denne uka · ${this.weekRange(0)}`, prevVis: pw ? 'visible' : 'hidden',
+          prev: () => pw && this.setState({ rdWk: pw - 1 }), next: () => this.setState({ rdWk: pw + 1 }), prevAria: pw ? `Uke ${this.weekNo(pw - 1)}` : '', nextAria: `Uke ${this.weekNo(pw + 1)}` },
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
-        openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick })),
-        dayChips: wkDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
+        openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick, rdWk: null })),
+        dayChips: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
         isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
@@ -2114,7 +2112,7 @@ class Component extends DCLogic {
         return { pantrySub: s.pantry.length ? `${s.pantry.length} ${s.pantry.length === 1 ? 'vare' : 'varer'} hjemme` : 'Tom ennå', mineSub: s.mine.length === 1 ? '1 egen oppskrift' : `${s.mine.length} egne oppskrifter`, nag: pt.nag, nagText: pt.nagText,
           mine: D.R.filter(r => r.mine).map(card), mineNum: s.mine.length, newMine: () => this.openEdit(null),
           favs: favAll.slice(0, 12).map(card), favNum: favAll.length, noFavs: !favAll.length,
-          arts: arts.slice(0, 3), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere') }; })(),
+          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere') }; })(),
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
       hasListHint: (s.tilbudSeen || 0) <= 3 && D.STORES.some(st => onList(st).length),
