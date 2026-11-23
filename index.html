@@ -418,7 +418,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-for list="{{ g.items }}" as="i">
 <div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.done }}" class="s60">
 <div style="width:24px;height:24px;flex:none;border-radius:var(--mg-r-sm);border:2px solid {{ i.boxBorder }};background:{{ i.boxBg }};display:flex;align-items:center;justify-content:center;color:var(--mg-ink);box-sizing:border-box"><sc-if value="{{ i.done }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></div>
-<div class="s11"><div class="s43" style="text-decoration:{{ i.deco }};color:{{ i.color }}">{{ i.name }}</div><div class="s61">{{ i.sub }}</div></div>
+<div class="s11"><div class="s43" style="text-decoration:{{ i.deco }};color:{{ i.color }}">{{ i.name }}<sc-if value="{{ i.hasStore }}"> <span role="img" aria-label="{{ i.storeName }}" style="{{ i.storeChip }}"></span></sc-if></div><div class="s61">{{ i.sub }}</div></div>
 <div class="s62"><div class="s63" style="color:{{ i.color }};white-space:nowrap">{{ i.amount }}</div><div style="font-size:12px;font-weight:700;color:{{ i.priceColor }};white-space:nowrap">{{ i.price }}</div></div>
 <sc-if value="{{ i.own }}"><button onClick="{{ i.remove }}" aria-label="Fjern {{ i.name }}" style="width:36px;height:36px;flex:none;border:0;border-radius:50%;background:var(--mg-surface-sunken);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
@@ -493,6 +493,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <span style="flex:none;width:46px;text-align:center;background:color-mix(in srgb,var(--mg-danger) 16%,var(--mg-surface));color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
 <div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
 <div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
+<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ o.addIcon }}"></path></svg></button>
 </div>
 </sc-for>
 </div>
@@ -1158,6 +1159,11 @@ class Component extends DCLogic {
     if (history.state && history.state.mg > 0) history.back();
     else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
   };
+  LOGO_BOX = { BUNNPRIS:[64,53,73,95], COOP:[30,80,140,40], EXTRA:[33,52,140,99], JOKER:[0,0,200,133], KIWI:[25,66,150,68], MARKED:[30,66,140,67],
+    MEGA:[30,60,140,81], MENY:[30,71,140,59], OBS:[30,64,140,72], ODA:[30,72,140,56], PRIX:[30,60,140,81], REMA:[30,59,140,82], SPAR:[40,41,120,117] };
+  // Liten butikklogo beskåret til selve merket, så skriften blir stor og fargeflaten liten
+  logoChip = st => { const [x, y, w, h] = this.LOGO_BOX[st.code] || [0, 0, 200, 200], H = 14, k = H / h, W = Math.round(w * k), P = 4;
+    return `display:inline-block;vertical-align:-2px;margin-left:4px;width:${W}px;height:${H}px;padding:2px ${P}px;border-radius:4px;background:${st.bg} url('${st.logo}') ${P - x * k}px ${2 - y * k}px/${200 * k}px no-repeat;background-origin:border-box;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)`; };
   toast = (msg, undo) => { this.setState({ toast: msg, undo: undo || null }); clearTimeout(this._t);
     this._t = setTimeout(() => this.setState({ toast: null, undo: null }), undo ? 5000 : 1900); };
   onKey = e => {
@@ -1563,7 +1569,7 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       const w = Math.floor(dl[0] / 7);
-      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, from: [] }));
+      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, store: x.offer && D.storeByCode[x.offer.split(':')[0]], from: [] }));
       m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
@@ -1584,10 +1590,10 @@ class Component extends DCLogic {
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
       const NOTE = { mye: 'Har nok hjemme, trenger ikke kjøpe', litt: 'Lite igjen hjemme, bør kjøpe mer', tomt: 'Tomt hjemme, må kjøpes' };
       const hv = e.have && e.have.h > 0 && `Har ca. ${this.fmt(e.have.h, e.have.u)} hjemme`;
-      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
+      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
         name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
-        section: this.sectionOf(e.n), own: !!e.own, home: !!e.home,
+        section: this.sectionOf(e.n), own: !!e.own, home: !!e.home, hasStore: !!e.store, storeChip: e.store ? this.logoChip(e.store) : '', storeName: e.store ? e.store.name : '',
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.ck]: !st.checked[e.ck] } })) }; });
     const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
@@ -1700,8 +1706,15 @@ class Component extends DCLogic {
     const onList = st => (st.offers || []).filter(o => o.ing && listSlugs.has(o.ing));
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
+      const addBtn = o => { const key = st.code + ':' + o.name, have = s.extra.some(x => x.offer === key && !x.w);
+        return { added: have, addIcon: have ? 'M5 12.5l4.5 4.5L19 7' : 'M12 5v14M5 12h14', addBg: have ? 'var(--mg-primary)' : 'var(--mg-ink)',
+          addLabel: have ? `Fjern ${o.name} fra handlelisten` : `Legg ${o.name} i handlelisten`,
+          add: ev => { ev && ev.stopPropagation && ev.stopPropagation();
+            this.setState(ss => ({ extra: have ? ss.extra.filter(x => !(x.offer === key && !x.w))
+              : [...ss.extra, { id: Date.now().toString(36), n: o.name, offer: key, note: `Tilbud hos ${st.name} · ${kr(o.price)}` }] }));
+            this.toast(have ? 'Fjernet fra handlelisten' : 'Lagt i handlelisten for denne uka'); } }; };
       const item = o => ({ name: o.name, brand: o.brand || o.cat, pct: o.pct, img: o.img || '', hasImg: !!o.img, cardH: o.img ? '260px' : '170px', pctPos: o.img ? 'absolute' : 'static', price: kr(o.price), before: 'før ' + kr(o.before),
-        open: () => o.url && window.open(o.url, '_blank', 'noopener') });
+        open: () => o.url && window.open(o.url, '_blank', 'noopener'), ...addBtn(o) });
       const groups = [];
       st.offers.forEach(o => { let g = groups.find(x => x.name === o.cat); if (!g) groups.push(g = { name: o.cat, list: [] }); g.list.push(o); });
       let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
