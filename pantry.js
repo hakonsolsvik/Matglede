@@ -55,6 +55,16 @@
     for (var i = 0; i < pantry.length; i++) for (var j = 0; j < names.length; j++) if (same(pantry[i].n, names[j])) return pantry[i];
     return null;
   }
+  // Tilbudet i avisen som passer det brukeren sa: samme navn, ellers det korteste navnet som inneholder alle ordene. -1 = ingen.
+  function pick(n, labels) {
+    var key = words(n).join(' '), best = -1;
+    if (!key) return -1;
+    for (var i = 0; i < labels.length; i++) {
+      if (words(labels[i]).join(' ') === key) return i;
+      if (same(n, labels[i]) && (best < 0 || labels[i].length < labels[best].length)) best = i;
+    }
+    return best;
+  }
   // Salt og pepper har alle, så de teller ikke
   var STAPLE = /^(salt|pepper|vann)$/i;
 
@@ -151,5 +161,5 @@
     [/kylling/, '🍗'], [/reke/, '🦐'], [/laks|fisk|torsk|sei/, '🐟'], [/kjøtt|deig|bacon|pølse|biff/, '🥩'], [/brød/, '🍞']];
   function art(n) { n = String(n || '').toLowerCase(); for (var i = 0; i < ART.length; i++) if (ART[i][0].test(n)) return ART[i][1]; return '🛒'; }
 
-  root.MatgledePantry = { art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  root.MatgledePantry = { art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
