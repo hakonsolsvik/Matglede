@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 import statistics
 import urllib.error
 from zoneinfo import ZoneInfo
@@ -131,6 +132,9 @@ def tag_offers(data: dict, ingredients: dict[str, dict]) -> dict:
         for o in store["offers"]:
             o.pop("ing", None), o.pop("size", None)
             amt, unit = parse_package(o["name"])
+            if not amt:  # løsvekt: «Isbergsalat stykk» er 1 stk, «Tomat Klasetomat Kg» er 1 kg
+                m = re.search(r"\b(stk|stykk|kg)\b", o["name"], re.I)
+                amt, unit = (1.0, "kg" if m.group(1).lower() == "kg" else "stk") if m else (None, None)
             if not amt:
                 continue
             hits = [(sc, slug) for slug, rule in rules.items()
