@@ -44,6 +44,14 @@ class TagOffersTest(unittest.TestCase):
         self.assertNotIn("ing", out[0])
         self.assertEqual(out[1].get("ing"), "laksefilet")
 
+    def test_loose_weight_offers(self):
+        from matglede.app_export import _ingredients_csv
+        from matglede.offers import tag_offers
+        data = {"stores": [{"offers": [{"name": "Isbergsalat stykk"}, {"name": "Tomat Klasetomat Kg"}]}]}
+        out = tag_offers(data, _ingredients_csv())["stores"][0]["offers"]
+        self.assertEqual((out[0]["ing"], out[0]["size"]), ("isbergsalat", 450))
+        self.assertEqual((out[1]["ing"], out[1]["size"]), ("tomat", 1000))
+
 
 class CoopPagesTest(unittest.TestCase):
     def test_parses_spreads(self):

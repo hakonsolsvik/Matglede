@@ -145,7 +145,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <sc-for list="{{ flyerStores }}" as="st" hint-placeholder-count="12">
 <div onClick="{{ st.open }}" role="button" tabIndex="0" aria-label="{{ st.aria }}" style="position:relative;height:92px;border-radius:var(--mg-r-lg);background:{{ st.bg }};overflow:hidden;outline:{{ st.ring }};outline-offset:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
-<img src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
+<img sc-camel-src="{{ st.logo }}" alt="" style="height:100%;width:auto;display:block">
 <sc-if value="{{ st.n }}"><span aria-hidden="true" style="position:absolute;left:8px;bottom:8px;background:var(--mg-ink);color:var(--mg-on-ink);font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:var(--mg-r-pill);white-space:nowrap">{{ st.nLabel }}</span></sc-if>
 <sc-if value="{{ st.hasBadge }}"><span aria-hidden="true" title="Din butikk" style="position:absolute;left:8px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"></circle><path d="M4.5 20c1.3-3.6 4.2-5.5 7.5-5.5s6.2 1.9 7.5 5.5"></path></svg></span></sc-if>
 </div>
@@ -322,7 +322,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px">
 <div class="s28"><span class="s19">Tid</span><span class="s20 mg-h">{{ rd.timeLabel }}</span></div>
 <div class="s28"><span class="s19">Vanskelighet</span><span role="img" aria-label="{{ rd.diffAria }}" style="display:flex;gap:4px;padding:3px 0"><sc-for list="{{ rd.dots }}" as="x"><span style="width:10px;height:10px;border-radius:50%;background:{{ x }}"></span></sc-for></span><span style="font-size:12px;font-weight:800;color:var(--mg-butter-ink)">{{ rd.diffLabel }}</span></div>
-<div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">{{ rd.portions }}</span></div>
+<div class="s28"><span class="s19">Pris</span><span class="s20 mg-h">{{ rd.costShort }}</span><span class="s2">i forbruk</span></div>
 </div>
 <sc-if value="{{ rd.isMine }}"><button onClick="{{ rd.edit }}" style="border:1.5px solid var(--mg-border);background:var(--mg-surface);color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:700;height:52px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Endre oppskrift</button></sc-if>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px">
@@ -335,14 +335,14 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:flex;align-items:center;gap:10px"><div class="s20 mg-h">Ingredienser</div><sc-if value="{{ rd.pig.show }}"><button onClick="{{ rd.pig.open }}" aria-label="{{ rd.pig.aria }}" aria-haspopup="dialog" style="flex:none;width:44px;height:44px;border-radius:50%;border:{{ rd.pig.ring }};box-sizing:border-box;background:none;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="#f5c42c" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"></path><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"></path><path d="M10 7.9h3.4" fill="none"></path><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"></path><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"></circle></svg></button></sc-if></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 16px">
 <div style="font-size:12px;color:var(--mg-ink-muted);padding:10px 0 2px">Trykk på det du har, så krysses det av.</div><sc-for list="{{ rd.ing }}" as="i"><div onClick="{{ i.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ i.have }}" style="display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--mg-surface-sunken);font-size:14px;cursor:pointer;opacity:{{ i.op }}"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-weight:600;text-decoration:{{ i.deco }}">{{ i.n }}</span><sc-if value="{{ i.hasNote }}"><span style="font-size:12px;color:{{ i.noteColor }};font-weight:600">{{ i.note }}</span></sc-if></span><span style="color:var(--mg-ink-muted)">{{ i.m }}</span><span style="width:56px;flex:none;text-align:right;font-weight:700;color:{{ i.priceColor }}">{{ i.price }}</span></div></sc-for>
-<div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
+<div style="display:flex;justify-content:space-between;padding:12px 0 4px;font-weight:800;font-size:14px"><span>Forbruk totalt ({{ rd.portions }})</span><span>{{ rd.costShort }}</span></div>
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 4px">{{ rd.coverage }}</div>
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.4;padding:0 0 12px">{{ rd.servingsNote }}</div>
 </div>
 </div>
 <div class="s4">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s20 mg-h">Slik gjør du</div><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></div>
-<sc-for list="{{ rd.steps }}" as="s"><div onClick="{{ s.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ s.done }}" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:{{ s.op }}"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ s.mark }}</span><span style="font-size:14px;line-height:1.5;padding-top:3px;text-decoration:{{ s.deco }}">{{ s.text }}</span></div></sc-for>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="s20 mg-h">Slik gjør du</div><sc-if value="{{ rd.hasSteps }}"><button onClick="{{ rd.cook }}" style="border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:14px;font-weight:700;min-height:40px;padding:0 14px;border-radius:var(--mg-r-pill);cursor:pointer;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"></path></svg>Lagemodus</button></sc-if></div>
+<sc-if value="{{ rd.noSteps }}"><div class="s2">Ingen fremgangsmåte er lagt inn ennå.</div></sc-if><sc-for list="{{ rd.steps }}" as="s"><div onClick="{{ s.toggle }}" role="checkbox" tabIndex="0" aria-checked="{{ s.done }}" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;opacity:{{ s.op }}"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">{{ s.mark }}</span><span style="font-size:14px;line-height:1.5;padding-top:3px;text-decoration:{{ s.deco }}">{{ s.text }}</span></div></sc-for>
 </div>
 </div>
 <div style="position:sticky;bottom:0;z-index:2;background:linear-gradient(rgba(243,242,234,0),var(--mg-bg) 28%);padding:22px 20px max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px">
@@ -436,14 +436,14 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div style="background:{{ sd.bg }};padding:calc(var(--top) + 10px) 20px 22px;display:flex;flex-direction:column;gap:14px">
 <button onClick="{{ back }}" aria-label="Tilbake" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div style="display:flex;justify-content:center"><img src="{{ sd.logo }}" alt="{{ sd.name }}" style="height:120px;width:auto;display:block"></div>
+<div style="display:flex;justify-content:center"><img sc-camel-src="{{ sd.logo }}" alt="{{ sd.name }}" style="height:120px;width:auto;display:block"></div>
 </div>
 <div style="padding:18px 20px 28px;display:flex;flex-direction:column;gap:20px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><h2 class="s3">Ukas avis</h2><div class="s58">{{ sd.sub }}</div></div><span style="flex:none;background:var(--mg-ink);color:var(--mg-on-ink);font-size:12px;font-weight:800;padding:5px 10px;border-radius:var(--mg-r-pill)">{{ sd.countLabel }}</span></div>
 
 <sc-if value="{{ sd.hasMine }}">
 <button onClick="{{ sd.toggleMine }}" aria-expanded="{{ sd.mineOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:#f5b82e;color:#3a2a00;border-radius:16px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;font-size:15px;font-weight:800"><span>{{ sd.mineLabel }}</span><span aria-hidden="true">{{ sd.mineArrow }}</span></button>
-<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
+<sc-if value="{{ sd.mineOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px;margin-top:-10px"><sc-for list="{{ sd.mine }}" as="o"><div onClick="{{ o.open }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--mg-border);cursor:pointer"><sc-if value="{{ o.hasImg }}"><img sc-camel-src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if><span style="flex:none;width:46px;text-align:center;background:#f5b82e;color:#3a2a00;font-size:12px;font-weight:800;padding:4px 0;border-radius:99px">−{{ o.pct }} %</span><div style="flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25">{{ o.name }}</div><div style="text-align:right;flex:none"><div style="font-size:15px;font-weight:800;white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;opacity:.7;text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div></div></sc-for></div></sc-if>
 </sc-if>
 
 <sc-if value="{{ sd.hasTop }}">
@@ -452,7 +452,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ sd.top }}" as="o" hint-placeholder-count="4">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" style="flex:none;width:150px;height:{{ o.cardH }};scroll-snap-align:start;border-radius:var(--mg-r-lg);background:var(--mg-surface);padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.06)">
-<div style="position:relative"><sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:96px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:6px"></sc-if><span style="position:{{ o.pctPos }};left:0;top:0;display:inline-block;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span></div>
+<div style="position:relative"><sc-if value="{{ o.hasImg }}"><img sc-camel-src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:96px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:6px"></sc-if><span style="position:{{ o.pctPos }};left:0;top:0;display:inline-block;background:var(--mg-danger);color:#fff;font-size:14px;font-weight:800;padding:4px 9px;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span></div>
 <div style="font-size:14px;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ o.name }}</div>
 <div><div style="font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--mg-danger)">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through">{{ o.before }}</div></div>
 </div>
@@ -471,7 +471,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 <sc-if value="{{ sd.isFrame }}">
-<iframe src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="{{ sd.frameStyle }}"></iframe>
+<iframe key="{{ sd.code }}" sc-camel-src="{{ sd.frameUrl }}" title="{{ sd.frameTitle }}" loading="lazy" referrerpolicy="no-referrer" style="{{ sd.frameStyle }}"></iframe>
 <sc-if value="{{ sd.full }}"><button onClick="{{ sd.closeFull }}" aria-label="Lukk fullskjerm" style="position:fixed;top:calc(env(safe-area-inset-top) + 12px);right:12px;z-index:1001;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)">✕</button></sc-if>
 </sc-if>
 <sc-if value="{{ sd.isLink }}">
@@ -489,11 +489,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
 <sc-for list="{{ g.items }}" as="o">
 <div onClick="{{ o.open }}" role="button" tabIndex="0" class="s60">
-<sc-if value="{{ o.hasImg }}"><img src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if>
+<sc-if value="{{ o.hasImg }}"><img sc-camel-src="{{ o.img }}" alt="" loading="lazy" referrerpolicy="no-referrer" style="flex:none;width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px"></sc-if>
 <span style="flex:none;width:46px;text-align:center;background:color-mix(in srgb,var(--mg-danger) 16%,var(--mg-surface));color:var(--mg-danger);font-size:12px;font-weight:800;padding:4px 0;border-radius:var(--mg-r-pill)">−{{ o.pct }} %</span>
 <div class="s11"><div class="s56">{{ o.name }}</div><div class="s61">{{ o.brand }}</div></div>
 <div class="s62"><div style="font-size:16px;font-weight:800;color:var(--mg-danger);white-space:nowrap">{{ o.price }}</div><div style="font-size:12px;color:var(--mg-ink-subtle);text-decoration:line-through;white-space:nowrap">{{ o.before }}</div></div>
-<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ o.addIcon }}"></path></svg></button>
+<button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:34px;height:34px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path sc-camel-d="{{ o.addIcon }}"></path></svg></button>
 </div>
 </sc-for>
 </div>
@@ -1394,6 +1394,10 @@ class Component extends DCLogic {
     const ing = d.rows.filter(r => r.n.trim()).map(r => ({ n: r.n.trim().slice(0, 80), q: this.parseQ(r.q), u: r.u }));
     if (!name) return this.setDraft({ error: 'Gi oppskriften et navn.' });
     if (!ing.length) return this.setDraft({ error: 'Legg til minst én ingrediens.' });
+    // Mengde uten enhet: stk når varen kan telles (egg, løk), ellers må enheten velges, så prisen ikke blir en tilfeldig pakke
+    for (const i of ing) { if (i.q == null || i.u) continue; const parts = this.partsOf(i.n, 'stk', i.q), I = parts.length === 1 && this.D.ING[parts[0][1]];
+      if (I && I.base !== 'stk' && !I.gpp) return this.setDraft({ error: `Velg enhet for ${i.n.toLowerCase()} (for eksempel g eller dl).` });
+      if (I) i.u = 'stk'; }
     const t = parseInt(d.time, 10), id = d.id || 'egen-' + Date.now().toString(36);
     const rec = { id, name: name.slice(0, 80), servings: d.servings, time: t > 0 ? Math.min(t, 1440) : null, ing,
       steps: d.steps.split(/\n+/).map(x => x.trim()).filter(Boolean), ...(d.photo ? { photo: d.photo } : {}) };
@@ -1459,7 +1463,9 @@ class Component extends DCLogic {
   // ---------- priser ----------
   // Vanlig pris regnes med vanlige merker. Lavprismerkene og ukas tilbud brukes i sparemodus (deal).
   BUDGET = /first price|laveste pris|\bxtra\b/i;
-  prods = (slug, chain, deal) => { chain = chain || this.state.chain; const c = ((this.D.ING[slug] || {}).products || {})[chain] || [];
+  // Varianter oppskriften ikke mener (glutenfri pasta, sylteagurk) tas aldri, også når butikken ikke har noe annet
+  ODD = /glutenfri|laktosefri|marinert|agurker hele|agurk (dill|med chil)|cocktail/i;
+  prods = (slug, chain, deal) => { chain = chain || this.state.chain; const c = (((this.D.ING[slug] || {}).products || {})[chain] || []).filter(p => !this.ODD.test(p.name));
     if (deal) return c.concat(this.D.OFF[chain + ':' + slug] || []);
     const n = c.filter(p => !this.BUDGET.test(p.name)); return n.length ? n : c; };
   // Hele pakker for handlelisten: billigste antall pakker x pris blant kandidatene
@@ -1472,7 +1478,7 @@ class Component extends DCLogic {
   };
   // Forbrukt mengde i en oppskrift (andel av pakken), brukt for pris per rett: { v: kroner, p: varen }
   lineBest = (i, f, deal) => {
-    if (!i.slug || i.q == null) return null;
+    if (!i.slug || i.q == null || (i.base == null && !i.u)) return null; // mengde uten enhet gir ingen pris
     const c = this.prods(i.slug, null, deal); if (!c.length) return null;
     const sized = i.base != null ? c.filter(p => p.size) : [];
     if (sized.length) return sized.map(p => ({ v: i.base * f / p.size * p.price, p })).reduce((a, b) => b.v < a.v ? b : a);
@@ -1513,7 +1519,8 @@ class Component extends DCLogic {
     if (!rc.priced) return { label: 'pris mangler', short: '– kr' };
     const k = Math.round(rc.sum);
     if (!rc.complete && rc.priced / rc.need < 0.6) return { label: 'delvis priset', short: '– kr' };
-    return rc.complete ? { label: `ca. ${k} kr`, short: `${k} kr` } : { label: `minst ${k} kr`, short: `${k}+ kr` };
+    const miss = rc.need - rc.priced;
+    return rc.complete ? { label: `ca. ${k} kr`, short: `${k} kr` } : { label: `${k} kr, ${miss} uten pris`, short: `${k}+ kr` };
   };
 
   mk(r, extra) {
@@ -1526,7 +1533,7 @@ class Component extends DCLogic {
       ingCount: r.ing.length + ' ingredienser',
       costLabel: ct.label, costShort: ct.short,
       img: this.bg(r),
-      imgLabel: r.photo ? '' : 'foto: ' + r.name.toLowerCase(),
+      imgLabel: '',
       starFill: fav ? '#f5b82e' : 'none', starStroke: fav ? '#e0a51c' : '#646958',
       open: () => { const q = this.state.q.trim(), top = this.state.stack[this.state.stack.length - 1];
         if (q && ((top && top.t === 'search') || (!top && this.state.tab === 'opp'))) this.remember(q);
@@ -1569,7 +1576,12 @@ class Component extends DCLogic {
         if (!e.from.includes(r.name)) e.from.push(r.name);
       }); }));
       const w = Math.floor(dl[0] / 7);
-      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, store: x.offer && D.storeByCode[x.offer.split(':')[0]], from: [] }));
+      // Tilbud lagt til fra Tilbud-siden: erstatter samme vare fra oppskriftene, ellers egen linje. Tilbudsprisen teller i summen.
+      const offers = [];
+      if (dl.length === 7) s.extra.filter(x => (x.w || 0) === w).forEach(x => {
+        const st = x.offer && D.storeByCode[x.offer.split(':')[0]], o = st && st.offers.find(o => st.code + ':' + o.name === x.offer);
+        if (o && o.ing && m.has('s:' + o.ing)) return offers.push([m.get('s:' + o.ing), x, st, o]);
+        m.set('u:' + x.id, { k: 'u:' + x.id, n: x.n, own: x.id, note: x.note, store: st, price: o ? o.price : null, from: [] }); });
       m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
@@ -1580,24 +1592,31 @@ class Component extends DCLogic {
         const h = left.has(p.id) ? left.get(p.id) : P.have(p, this.packOf(e.slug), 1); if (h == null || need == null) return;
         const net = Math.max(0, need - h);
         e.have = { h, u: cnt ? 'stk' : e.u }; e.home = net <= 1e-9 && !e.pk && !e.extra.length; e.buy = cnt ? e.base * net / need : net; });
+      offers.forEach(([e, x, st, o]) => { e.home = false; e.store = st; e.offerId = x.id; e.note = x.note; e.price = o.price; e.offerName = o.name; });
       return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, 'nb'));
     };
     // Pakkevalget lagres på varelinjen per butikk, så listen og summene ikke regner det ut på nytt
-    const priceEntry = (e, chain) => { const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.buy != null ? e.buy : e.base, e.pk, chain, e.deal) : null); };
+    const priceEntry = (e, chain) => { if (e.price != null) return { packs: 1, total: e.price, p: { name: e.offerName || e.n } };
+      const c = e.pp || (e.pp = {}); return chain in c ? c[chain] : (c[chain] = e.slug ? this.pickPack(e.slug, e.buy != null ? e.buy : e.base, e.pk, chain, e.deal) : null); };
     const amountOf = e => e.own ? '' : e.slug
       ? [e.home || e.buy == null ? (e.base ? this.fmt(e.base, e.u) : '') : this.fmt(e.buy, e.u), e.pk ? this.fmt(e.pk, 'pk') : '', ...e.extra].filter(Boolean).join(' + ')
       : this.fmt(e.q, e.u);
     const shopItems = (arr, chain) => arr.map(e => { const pp = priceEntry(e, chain);
       const NOTE = { mye: 'Har nok hjemme, trenger ikke kjøpe', litt: 'Lite igjen hjemme, bør kjøpe mer', tomt: 'Tomt hjemme, må kjøpes' };
       const hv = e.have && e.have.h > 0 && `Har ca. ${this.fmt(e.have.h, e.have.u)} hjemme`;
-      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : pp ? `${pp.packs} × ${pp.p.name}${pp.p.stale ? ' (gammel pris)' : ''}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
+      const sub = e.home ? (hv ? hv + ', nok til uka' : NOTE.mye) : (hv ? hv + ', kjøp resten · ' : e.stock && !e.have ? NOTE[e.stock] + ' · ' : '') + (e.own ? e.note || 'Egen vare' : e.offerName ? `${e.offerName} · ${e.note}` : pp ? `${pp.packs} × ${pp.p.name}` : (e.slug ? (M.hasPrices ? `Ikke funnet i ${chainName(chain)}` : 'Pris kommer') : 'Ikke koblet til vare ennå'));
       return {
-        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
+        name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own && e.price == null ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
         section: this.sectionOf(e.n), own: !!e.own, home: !!e.home, hasStore: !!e.store, storeChip: e.store ? this.logoChip(e.store) : '', storeName: e.store ? e.store.name : '',
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
         toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.ck]: !st.checked[e.ck] } })) }; });
-    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0; arr.forEach(e => { const pp = !e.home && priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, n: arr.length }; };
-    const sumText = sm => !M.hasPrices ? 'pris kommer' : sm.found ? `ca. ${Math.round(sm.total)} kr` : 'pris mangler';
+    // need: varer som kan ha pris (koblet til vare eller tilbud, og ikke hjemme)
+    const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0, need = 0; arr.forEach(e => { if (e.home || (!e.slug && e.price == null)) return; need++; const pp = priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, need, n: arr.length }; };
+    // Mangler en butikk mange priser, vises ingen sum, så den ikke ser billigst ut (Rema og Coop har gamle data i Kassalapp)
+    const sumOf = sm => { const k = Math.round(sm.total), miss = sm.need - sm.found;
+      return !M.hasPrices ? { text: 'pris kommer', chip: '' } : !sm.found || sm.found < 0.8 * sm.need ? { text: 'mangler priser', chip: 'mangler priser' }
+        : miss ? { text: `ca. ${k} kr, ${miss} uten pris`, chip: `${k}+ kr` } : { text: `ca. ${k} kr`, chip: `${k} kr` }; };
+    const sumText = sm => sm.need ? sumOf(sm).text : M.hasPrices ? '0 kr' : 'pris kommer';
     const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
     const shopArr = buildShop(wkDays);
     const shopLeft = shopArr.filter(e => !s.checked[e.ck]).length;
@@ -1656,11 +1675,12 @@ class Component extends DCLogic {
         steps: (r.steps || []).map((t, i) => { const k = r.id + ':' + i, done = !!s.stepsDone[k];
           return { n: i + 1, text: t, done, mark: done ? '✓' : String(i + 1), bg: done ? 'var(--mg-primary-soft)' : 'var(--mg-butter)', op: done ? .55 : 1, deco: done ? 'line-through' : 'none',
             toggle: () => this.setState(st => ({ stepsDone: { ...st.stepsDone, [k]: !st.stepsDone[k] } })) }; }),
+        hasSteps: !!(r.steps || []).length, noSteps: !(r.steps || []).length, timeLabel: r.time ? `${r.time} min` : 'Ikke oppgitt',
         cook: () => { this.setState({ cookStep: 0 }); this.push({ t: 'cook', id: r.id }); this.keepAwake(true); },
         learnAria: `Lær mer om retten, ${(r.learn || []).length} artikler`,
         servingsNote: `Oppskriften er skrevet for ${r.servings} porsjoner. Mengdene her er regnet om til ${this.pers(r)}.`,
         coverage: !M.hasPrices ? `Prisene kommer når vareimporten er kjørt. ${r.ing.length - unl} av ${r.ing.length} ingredienser er koblet til en vare.`
-          : `Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
+          : `Prisen er det oppskriften bruker. Handlelisten regner hele pakker. Pris for ${rc.priced} av ${rc.need} ingredienser${rc.need - rc.priced ? '. Resten har ingen pris ennå' : ''}${noAmt ? `. ${noAmt} uten mengde (etter smak) er ikke med` : ''}.`,
         // Sparegrisen vises bare når en billigere versjon finnes (minst 5 kr), eller når den er slått på
         pig: { show: cheap || save >= 5, on: cheap, ring: cheap ? '3px solid var(--mg-ink)' : '0',
           aria: cheap ? 'Sparemodus er på. Vis billigere versjon' : `Billigere versjon, spar ca. ${save} kr`,
@@ -1703,7 +1723,8 @@ class Component extends DCLogic {
     let sd = {};
     // Bare tilbud som er koblet til en ingrediens (offers.py tag_offers), så kjøttsuppe med poteter ikke teller som poteter
     const listSlugs = new Set(shopArr.filter(e => !e.own && e.slug).map(e => e.slug));
-    const onList = st => (st.offers || []).filter(o => o.ing && listSlugs.has(o.ing));
+    const onList = st => { const best = new Map(); (st.offers || []).forEach(o => { if (o.ing && listSlugs.has(o.ing) && (best.get(o.ing) || { pct: -1 }).pct < o.pct) best.set(o.ing, o); });
+      return [...best.values()]; };
     if (top.t === 'store') {
       const st = D.storeByCode[top.id] || { offers: [], name: '' }, kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
       const addBtn = o => { const key = st.code + ':' + o.name, have = s.extra.some(x => x.offer === key && !x.w);
@@ -1725,7 +1746,7 @@ class Component extends DCLogic {
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
       const mine = onList(st), listOpen = s.sdList === st.code, frame = view.type === 'pdf' || view.type === 'embed', frameFull = frame && !!s.sdFull;
-      sd = { name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
+      sd = { code: st.code, name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
         mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
         toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
         countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} prisfall` : 'avis', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
@@ -1737,10 +1758,10 @@ class Component extends DCLogic {
         btnLabel: linkView ? 'Åpne ukas avis' : 'Åpne avisen i full størrelse',
         btnBg: linkView ? 'var(--mg-ink)' : 'var(--mg-border)', btnFg: linkView ? 'var(--mg-on-ink)' : 'var(--mg-ink)',
         // Avis i ramme: «full størrelse» fyller skjermen inne i appen, samme iframe så den ikke lastes på nytt
-        full: frameFull, closeFull: () => this.setState({ sdFull: false }),
+        full: frameFull, closeFull: () => history.state && history.state.full ? history.back() : this.setState({ sdFull: false }),
         frameStyle: frameFull ? 'position:fixed;inset:0;z-index:1000;width:100vw;height:100dvh;border:0;background:var(--mg-surface)'
           : 'width:calc(100% + 16px);margin:0 -8px;height:max(620px,80vh);border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)',
-        openFlyer: () => frame ? this.setState({ sdFull: true }) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
+        openFlyer: () => frame ? (history.pushState({ mg: this._depth, full: 1 }, '', location.hash), this.setState({ sdFull: true })) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
         emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka.`
           : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
         groups: [...groups].sort((a, b) => b.list.length - a.list.length).map(g => ({ name: g.name, count: `${g.list.length}`, items: g.list.map(item) })),
@@ -1912,7 +1933,8 @@ class Component extends DCLogic {
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = s.chain === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
-        return { label: M.hasPrices && sm.found ? `${ch.name} · ${Math.round(sm.total)} kr` : ch.name, ...c, ...(b && { bg: b[0], border: b[0], fg: b[1] }), pick: () => this.setState({ chain: ch.code }) }; }),
+        const t = sm.need ? sumOf(sm).chip : '';
+        return { label: t ? `${ch.name} · ${t}` : ch.name, ...c, ...(b && { bg: b[0], border: b[0], fg: b[1] }), pick: () => this.setState({ chain: ch.code }) }; }),
       chainChips: D.CHAINS.map(ch => ({ label: ch.name, ...this.chip(s.chain === ch.code), pick: () => this.setState({ chain: ch.code }) })),
       days, dayTitle: `${this.dayLong(s.day)}${s.day === this.TODAY ? ' · i dag' : ''}`,
       dayMeals: dayMealsArr.map((id, idx) => { const done = !!s.made[this.madeKey(s.day, id)], st = (planRun.find(x => x.d === s.day && x.id === id) || { st: [] }).st.filter(Boolean);
