@@ -1,12 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Hver bruker kan bare lese og skrive sitt eget dokument users/{uid}.
     match /users/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
-    // Delt app: medlemmene av en husholdning leser og skriver alt i den.
-    // Den som er invitert (bekreftet e-post i invited) kan lese den og legge seg selv til, eller si nei.
     function myEmail() { return request.auth.token.email.lower(); }
     function invitedMe(d) {
       return request.auth.token.email_verified == true && request.auth.token.email != null && myEmail() in d.invited;
@@ -21,7 +18,6 @@ service cloud.firestore {
           || request.resource.data.members == resource.data.members.concat([request.auth.uid]))
         && request.resource.data.names.diff(resource.data.names).affectedKeys().hasOnly([request.auth.uid])));
     }
-    // invites/{e-post} = { hid, from }: bare medlemmer av husholdningen kan invitere, og bare den inviterte og medlemmene kan se den
     function memberOf(hid) {
       return request.auth != null && request.auth.uid in get(/databases/$(database)/documents/households/$(hid)).data.members;
     }
@@ -30,9 +26,6 @@ service cloud.firestore {
       allow create, update: if memberOf(request.resource.data.hid) && request.resource.data.keys().hasOnly(['hid', 'from'])
         && email.matches('[^@ ]+@[^@ ]+[.][^@ ]+');
     }
-    // Anonyme tellere: hvor mange brukere som har en vare i beholdningen (vare:potet)
-    // eller en rett som favoritt, i planen eller laget (rett:tacofredag). Bare tallet n lagres, aldri hvem.
-    // Alle kan lese. Innloggede kan bare legge til eller trekke fra 1, og aldri under 0.
     match /popular/{key} {
       allow read: if true;
       allow create: if request.auth != null
