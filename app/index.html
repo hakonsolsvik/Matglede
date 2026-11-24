@@ -508,11 +508,11 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <img sc-camel-src="{{ pg.src }}" alt="{{ pg.label }}" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:100%;border-radius:var(--mg-r-sm)">
 <sc-for list="{{ pg.hot }}" as="h">
 <div style="position:absolute;left:{{ h.l }};top:{{ h.t }};width:{{ h.w }};height:{{ h.h }};z-index:{{ h.z }}">
-<button onClick="{{ h.tap }}" aria-label="{{ h.aria }}" aria-pressed="{{ h.sel }}" style="position:absolute;inset:0;width:100%;height:100%;padding:0;cursor:pointer;border:{{ h.border }};background:{{ h.bg }};border-radius:10px;box-sizing:border-box;-webkit-tap-highlight-color:transparent"></button>
+<button onClick="{{ h.tap }}" aria-label="{{ h.aria }}" aria-pressed="{{ h.sel }}" style="position:absolute;inset:0;width:100%;height:100%;padding:0;cursor:pointer;border:{{ h.border }};box-shadow:{{ h.ring }};background:{{ h.bg }};border-radius:10px;box-sizing:border-box;-webkit-tap-highlight-color:transparent"></button>
 <sc-if value="{{ h.have }}"><span aria-hidden="true" style="position:absolute;right:4px;top:4px;width:22px;height:22px;border-radius:50%;background:var(--mg-primary);color:#fff;display:flex;align-items:center;justify-content:center;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.3)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></span></sc-if>
 <sc-if value="{{ h.sel }}">
 <button onClick="{{ h.plus }}" aria-label="{{ h.plusAria }}" style="position:absolute;right:-12px;top:-12px;width:44px;height:44px;border-radius:50%;border:3px solid var(--mg-surface);background:{{ h.plusBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path sc-camel-d="{{ h.plusIcon }}"></path></svg></button>
-<div style="position:absolute;left:0;top:calc(100% + 6px);max-width:240px;width:max-content;background:var(--mg-ink);color:var(--mg-on-ink);font-size:13px;font-weight:700;padding:6px 10px;border-radius:var(--mg-r-pill);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.chip }}</div>
+<div style="position:absolute;{{ h.chipSide }};top:calc(100% + 8px);max-width:240px;width:max-content;background:var(--mg-ink);color:var(--mg-on-ink);font-size:13px;font-weight:700;padding:6px 10px;border-radius:var(--mg-r-pill);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.chip }}</div>
 </sc-if>
 </div>
 </sc-for>
@@ -1962,7 +1962,8 @@ class Component extends DCLogic {
         const o = { name: h.n + (h.d && !h.v ? ' ' + h.d.split(',')[0] : ''), price: h.p };
         const one = addBtn(o), pct = h.b ? Math.round((1 - h.p / h.b) * 100) : 0;
         pg.hot.push({ sel, have: have && !sel, l: h.r[0] * 100 + '%', t: h.r[1] * 100 + '%', w: h.r[2] * 100 + '%', h: h.r[3] * 100 + '%',
-          z: sel ? 3 : 1, border: sel ? '3px solid var(--mg-primary)' : '0', bg: sel ? 'color-mix(in srgb,var(--mg-primary) 12%,transparent)' : 'transparent',
+          z: sel ? 3 : 1, border: sel ? '3px solid #fff' : '0', ring: sel ? '0 0 0 3px var(--mg-ink),0 4px 14px rgba(0,0,0,.35)' : 'none', bg: 'transparent',
+          chipSide: h.r[0] + h.r[2] / 2 > 0.5 ? 'right:0' : 'left:0', // chippen vokser innover, så den ikke havner utenfor siden
           aria: `${h.n}, ${kr(h.p)}. Trykk for å velge`, chip: `${h.n} · ${kr(h.p)}${pct > 0 ? ` (−${pct} %)` : ''}`,
           tap: () => this.setState({ avisSel: sel ? null : id }),
           plusIcon: h.v ? 'M12 5v14M5 12h14' : one.addIcon, plusBg: h.v ? 'var(--mg-ink)' : one.addBg,
