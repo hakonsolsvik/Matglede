@@ -15,6 +15,7 @@
 <script src="./vendor/react-dom.production.min.js"></script>
 <script src="./data.js"></script>
 <script src="./offers.js"></script>
+<script src="./forpriser.js"></script>
 <script src="./auth-config.js"></script>
 <script src="./auth.js"></script>
 <script src="./pantry.js"></script>
@@ -973,6 +974,8 @@ class Component extends DCLogic {
       ['EXTRA','Coop Extra','#D23732'],['MEGA','Coop Mega','#315428'],['PRIX','Coop Prix','#FEC63A'],['OBS','Coop Obs','#0A4D8F'],
       ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','var(--mg-surface)'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','var(--mg-surface)']]
       .map(([code, name, bg]) => ({ code, name, bg, logo: `./logos/${code}.svg`, ...(oBy[code] || { offers: [], hasData: false, flyer: '' }) }));
+    // Før-priser fra tidligere aviser først, så ukas avis, så nyeste pris vinner
+    window.MatgledePantry.flyerPrices(M.ingredients || {}, CHAINS.map(c => c.code), (window.MATGLEDE_FORPRISER || {}).stores);
     window.MatgledePantry.flyerPrices(M.ingredients || {}, CHAINS.map(c => c.code), O.stores);
     // Tilbud koblet til en ingrediens (offers.py tag_offers), brukt som varer i sparemodus
     const OFF = {};
