@@ -6,6 +6,17 @@ import Anthropic from '@anthropic-ai/sdk';
 
 const JWKS_URL = 'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com';
 const MAX_IMAGE = 4_000_000; // base64-tegn, appen sender ca. 200–400 kB
+const DAILY_LIMIT = 60; // AI-kall per bruker per døgn, så én bruker eller bot ikke kan kjøre opp regningen
+
+// Teller kall per bruker per dag (norsk dato) i KV. Gir false når dagens kvote er brukt opp.
+// shortcut: KV er ikke atomisk, så samtidige kall kan slippe et par over grensen; bytt til Durable Object hvis det blir et problem.
+export async function underLimit(kv, uid, limit = DAILY_LIMIT, now = new Date()) {
+  const key = uid + ':' + now.toLocaleDateString('sv-SE', { timeZone: 'Europe/Oslo' });
+  const n = +(await kv.get(key)) || 0;
+  if (n >= limit) return false;
+  await kv.put(key, String(n + 1), { expirationTtl: 2 * 86400 });
+  return true;
+}
 
 let jwks = null, jwksAt = 0;
 async function googleKeys() {
@@ -79,8 +90,10 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (req.method !== 'POST' || !allowed) return reply(405, { error: 'not allowed' });
 
-    try { await verifyToken((req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, ''), env.FIREBASE_PROJECT_ID); }
+    let uid;
+    try { uid = await verifyToken((req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, ''), env.FIREBASE_PROJECT_ID); }
     catch { return reply(401, { error: 'login required' }); }
+    if (!await underLimit(env.LIMITS, uid, +env.DAILY_LIMIT || DAILY_LIMIT)) return reply(429, { error: 'daily limit' });
 
     let body;
     try { body = await req.json(); } catch { return reply(400, { error: 'bad json' }); }
