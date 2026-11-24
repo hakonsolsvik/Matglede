@@ -2,6 +2,8 @@
 <html lang="nb">
 <head>
 <meta charset="utf-8">
+<!-- Sikkerhet: begrenser hvor skript, data og innhold kan hentes fra. unsafe-inline/eval trengs av malmotoren i support.js. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.gstatic.com https://unpkg.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; worker-src 'self' blob:; connect-src 'self' data: blob: https://*.googleapis.com https://*.firebaseapp.com https://apis.google.com https://matglede-bilde.matglede-bilde.workers.dev; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f4128">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -504,7 +506,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="font-size:13px;font-weight:600;color:var(--mg-ink-muted);margin-top:-6px">{{ sd.tapHint }}</div>
 <div style="display:flex;flex-direction:column;gap:8px;margin:0 -8px">
 <sc-for list="{{ sd.tapPages }}" as="pg" hint-placeholder-count="3">
-<div style="position:relative;width:100%;aspect-ratio:{{ pg.ratio }};border-radius:var(--mg-r-sm);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)">
+<div style="overflow-x:{{ pg.ox }};border-radius:var(--mg-r-sm)">
+<div onClick="{{ pg.click }}" style="position:relative;width:{{ pg.w }};margin:0 auto;aspect-ratio:{{ pg.ratio }};border-radius:var(--mg-r-sm);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12);touch-action:manipulation">
 <img sc-camel-src="{{ pg.src }}" alt="{{ pg.label }}" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:100%;border-radius:var(--mg-r-sm)">
 <sc-for list="{{ pg.hot }}" as="h">
 <div style="position:absolute;left:{{ h.l }};top:{{ h.t }};width:{{ h.w }};height:{{ h.h }};z-index:{{ h.z }}">
@@ -516,6 +519,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </sc-if>
 </div>
 </sc-for>
+</div>
 </div>
 </sc-for>
 </div>
@@ -1062,7 +1066,7 @@ class Component extends DCLogic {
     favs: [], favSort: 'recent', favCat: 'alle', savedArts: [], plan: {}, planFrom: this.ymd(this.WEEK[0]),
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
-    people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
+    people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, avisZoom: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
     pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
   };
@@ -1482,6 +1486,19 @@ class Component extends DCLogic {
       const miss = add.filter(a => !a.offer).map(a => a.n);
       this.toast('Lagt i handlelisten: ' + add.filter(a => a.offer).map(a => `${a.q > 1 ? a.q + ' × ' : ''}${a.n} ${this.kr(a.price)}`).concat(miss.length ? [`${miss.join(', ')} (fant ikke i avisen, uten pris)`] : []).join(', '));
     }).finally(() => this.setState(s => ({ shopParsing: s.shopParsing - 1 })));
+  };
+  // To trykk på samme avisside innen 350 ms: zoom inn der man trykket, eller ut igjen. Et trykk på en vare velger den, så to trykk opphever hverandre.
+  avisDoubleTap = (e, id, zoomed) => {
+    const now = Date.now(), last = this._avTap; this._avTap = { id, t: now };
+    if (!last || last.id !== id || now - last.t > 350) return;
+    this._avTap = null;
+    const page = e.currentTarget, r = page.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height, y = e.clientY;
+    this.setState({ avisZoom: zoomed ? null : id }, () => {
+      const box = page.parentElement, nr = page.getBoundingClientRect();
+      box.scrollLeft = fx * box.scrollWidth - box.clientWidth / 2;
+      let sc = page.parentElement; while (sc && !(sc.scrollHeight > sc.clientHeight && /auto|scroll/.test(getComputedStyle(sc).overflowY))) sc = sc.parentElement;
+      (sc || document.scrollingElement).scrollBy(0, nr.top + fy * nr.height - y);
+    });
   };
   kr = v => (Math.round(v * 10) / 10).toFixed(Number.isInteger(v) ? 0 : 2).replace('.', ',') + ' kr';
   // Bilder av kjøleskap eller skap -> worker/ (Claude) -> varer. Flere bilder sendes samtidig, ett kall per bilde.
@@ -1959,7 +1976,11 @@ class Component extends DCLogic {
         if (i > 0) pages.push({ src, pos: '0% 0', label: `Side ${2 * i}` });
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
-      const tapPages = (tap ? tap.pages : []).map((src, i) => ({ src, label: `Side ${i + 1}`, ratio: `1 / ${tap.ratio}`, hot: [] }));
+      // Samme sidehøyde for alle kjedene (som en side 1:1,3 i full bredde), så høye aviser som Kiwi ikke blir større enn de andre.
+      // Dobbelttrykk zoomer siden til dobbel bredde (sveip sidelengs), dobbelttrykk igjen for å zoome ut.
+      const tapPages = (tap ? tap.pages : []).map((src, i) => { const zoom = s.avisZoom === st.code + ':' + i;
+        return { src, label: `Side ${i + 1}`, ratio: `1 / ${tap.ratio}`, hot: [], ox: zoom ? 'auto' : 'visible',
+          w: zoom ? '200%' : Math.min(100, 130 / tap.ratio).toFixed(1) + '%', click: e => this.avisDoubleTap(e, st.code + ':' + i, zoom) }; });
       const onListKey = n => s.extra.some(x => x.offer === st.code + ':' + n && !x.w);
       (tap ? tap.hot : []).forEach((h, i) => { const pg = tapPages[h.pg]; if (!pg) return;
         const id = st.code + ':' + i, sel = s.avisSel === id, names = h.v || [h.n], have = names.some(onListKey);
@@ -1979,7 +2000,7 @@ class Component extends DCLogic {
       sd = { code: st.code, name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
         mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
         toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
-        isTap: !!tap, tapPages, tapHint: 'Trykk på en vare i avisen for å legge den i handlelisten',
+        isTap: !!tap, tapPages, tapHint: 'Trykk på en vare for å legge den i handlelisten. Dobbelttrykk på siden for å zoome.',
         pickOpen: !!pk, pickTitle: pk ? pk.n : '', pickSub: pk ? `${kr(pk.p)} hos ${st.name}${pk.d ? ' · ' + pk.d : ''}` : '',
         pickClose: () => this.setState({ avisPick: null }), pickStop: e => e.stopPropagation(),
         pickItems: pk ? pk.v.map(n => ({ name: n, ...addBtn({ name: n, price: pk.p }) })) : [],
