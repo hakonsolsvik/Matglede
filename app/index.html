@@ -692,7 +692,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan. «Mye» regnes som en vanlig pakke og «Litt» som en halv, til appen vet mer fra rettene du har laget.</div></div>
+<div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan. «Mye» regnes som en vanlig pakke og «Litt» som en halv, til appen vet mer fra rettene du har laget. Det ukeplanen skal bruke står under varen, og trekkes fra når du trykker Laget.</div></div>
 <sc-if value="{{ pt.ask }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
 <div class="s10"><span class="s1 mg-h">{{ pt.askTitle }}</span><span style="font-size:14px;line-height:1.45">Gå gjennom varene én og én og velg hvor mye du har. Da stemmer ukeplanen og handlelisten, også om du har brukt noe til annet enn middag, som egg til frokost.</span></div>
 <div class="s33"><button onClick="{{ pt.start }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill)">Oppdater nå</button><button onClick="{{ pt.skip }}" style="border:0;cursor:pointer;font-family:inherit;background:rgba(31,42,28,.1);color:#1f2a1c;font-size:14px;font-weight:700;padding:11px 18px;border-radius:var(--mg-r-pill)">Ikke nå</button></div>
@@ -706,7 +706,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ pt.empty }}"><div class="s51">Ingen varer ennå. Skriv inn, si hva du har, eller trykk på vanlige varer under.</div></sc-if>
 <sc-for list="{{ pt.groups }}" as="g"><div class="s59"><div class="s19">{{ g.name }}</div><div class="s70"><sc-for list="{{ g.items }}" as="i"><div role="group" aria-label="{{ i.aria }}" style="display:flex;align-items:center;gap:10px;padding:5px 10px 5px 16px;border-bottom:1px solid var(--mg-surface-sunken)">
 <span aria-hidden="true" style="width:12px;height:12px;flex:none;border-radius:50%;background:{{ i.dot }}"></span>
-<span style="flex:1;min-width:0;display:flex;flex-direction:column;opacity:{{ i.op }}"><span class="s13" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.n }}</span><span style="font-size:12px;font-weight:600;color:var(--mg-ink-subtle)">{{ i.approx }}</span></span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;opacity:{{ i.op }}"><span class="s13" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.n }}</span><span style="font-size:12px;font-weight:600;color:{{ i.noteColor }}">{{ i.approx }}</span></span>
 <button onClick="{{ i.down }}" aria-label="{{ i.downLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.downOp }}">−</button>
 <span aria-live="polite" style="width:50px;text-align:center;font-size:14px;font-weight:800">{{ i.label }}</span>
 <button onClick="{{ i.up }}" aria-label="{{ i.upLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:var(--mg-surface-sunken);color:var(--mg-ink);font-family:inherit;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:{{ i.upOp }}">+</button>
@@ -740,13 +740,14 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ uh.has }}"><button onClick="{{ uh.week }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-primary);color:#fff;border-radius:var(--mg-r-xl);padding:18px 20px;display:flex;flex-direction:column;gap:4px"><span class="s1 mg-h">Lag ukeplan fra beholdningen</span><span class="s48">Fyller tomme dager med retter som bruker opp mest mulig av det du har</span></button></sc-if>
 <sc-if value="{{ uh.empty }}"><div class="s51"><span>Legg inn det du har hjemme, så foreslår appen middager som bruker det opp.</span><button onClick="{{ uh.openPantry }}" class="s53">Åpne Min beholdning</button></div></sc-if>
 <sc-if value="{{ uh.none }}"><div class="s51">Ingen av oppskriftene bruker det du har ennå. Legg inn flere varer.</div></sc-if>
-<sc-if value="{{ uh.has }}"><div class="s19">Eller legg én og én rett til {{ uh.dayLabel }}</div></sc-if>
+<sc-if value="{{ uh.has }}"><div class="s19">Eller legg til én og én rett</div></sc-if>
 <sc-for list="{{ uh.list }}" as="r">
 <div class="s25" style="align-items:flex-start">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" class="s54" style="background:{{ r.img }};cursor:pointer"></div>
 <div onClick="{{ r.open }}" role="button" tabIndex="0" class="s55" style="cursor:pointer"><div class="s26">{{ r.name }}</div><div class="s42" style="color:var(--mg-primary);font-weight:700">{{ r.haveText }}</div><div class="s42">{{ r.missText }}</div></div>
-<button onClick="{{ r.add }}" aria-label="{{ r.addLabel }}" style="width:36px;height:36px;border-radius:50%;border:0;background:var(--mg-butter);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+<button onClick="{{ r.add }}" aria-label="{{ r.addLabel }}" aria-expanded="{{ r.pickOpen }}" style="width:36px;height:36px;border-radius:50%;border:0;background:var(--mg-butter);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
 </div>
+<sc-if value="{{ r.pickOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 8px 8px;box-shadow:0 6px 18px rgba(30,50,25,.12)"><div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--mg-ink-muted);padding:0 0 4px 6px"><span>Velg dag</span><div style="display:flex;align-items:center"><button onClick="{{ uh.pw.prev }}" aria-label="{{ uh.pw.prevAria }}" style="visibility:{{ uh.pw.prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">‹</button><span>{{ uh.pw.label }}</span><button onClick="{{ uh.pw.next }}" aria-label="{{ uh.pw.nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 10px;cursor:pointer">›</button></div></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px"><sc-for list="{{ r.dayChips }}" as="d"><button onClick="{{ d.add }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mg-ink)"><span class="s19">{{ d.label }}</span><span class="s8">{{ d.date }}</span><span class="s23" style="background:{{ d.dot }}"></span></button></sc-for></div><div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--mg-ink-subtle);padding:6px 0 0 6px"><span class="s23" style="background:var(--mg-clay)"></span>Har middag allerede</div></div></sc-if>
 </sc-for>
 </div>
 </div>
@@ -1282,12 +1283,12 @@ class Component extends DCLogic {
 
   go = (tab, extra) => this.setState(st => ({ tab, stack: [], menu: false, sdFull: false, avisPick: null, ...(tab === 'tilbud' && st.tab !== 'tilbud' ? { tilbudSeen: (st.tilbudSeen || 0) + 1 } : {}), ...extra }));
   goCat = cat => this.go('opp', { cat, q: '' });
-  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, avisPick: null, shareText: null }));
+  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, uhPick: null, rdLearn: false, rdPig: false, sdFull: false, avisPick: null, shareText: null }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
     // Bruk nettleserens historikk når siden ble åpnet fra appen, så tilbake-knappen på telefonen følger med
     if (history.state && history.state.mg > 0) history.back();
-    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false, sdFull: false, avisPick: null }));
+    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, uhPick: null, rdLearn: false, rdPig: false, sdFull: false, avisPick: null }));
   };
   LOGO_BOX = { BUNNPRIS:[64,53,73,95], COOP:[30,80,140,40], EXTRA:[33,52,140,99], JOKER:[0,0,200,133], KIWI:[25,66,150,68], MARKED:[30,66,140,67],
     MEGA:[30,60,140,81], MENY:[30,71,140,59], OBS:[30,64,140,72], ODA:[30,72,140,56], PRIX:[30,60,140,81], REMA:[30,59,140,82], SPAR:[40,41,120,117] };
@@ -1377,8 +1378,11 @@ class Component extends DCLogic {
   // Beholdningen fordelt på planen i rekkefølge, så retter lenger ut i uka ser hva som er igjen.
   // Gir status per ingrediens for hver rett, med rett utenfor planen (extra) til slutt. stop: dagen fordelingen stopper før.
   homeRun = (extra, stop) => {
-    const left = new Map(), meals = [...this.planned().filter(m => stop == null || m.d < stop), ...(extra ? [{ d: -1, id: extra }] : [])];
-    return { left, meals: meals.map(m => { const r = this.D.byId[m.id], f = this.factor(r); return { ...m, st: this.ingOf(r).map(i => this.skipped(m.d, m.id, i) ? null : this.takeHome(left, i, f)) }; }) };
+    const left = new Map(), use = new Map(), meals = [...this.planned().filter(m => stop == null || m.d < stop), ...(extra ? [{ d: -1, id: extra }] : [])];
+    // use: vare-id -> { start, unit, days } for det planen setter av (start mangler når mengden er ukjent)
+    const log = (st, i, d) => { if (!st || d < 0) return st; const u = use.get(st.p.id) || { start: st.h, unit: this.homeUnit(st.p, i), days: [] };
+      if (!u.days.includes(d)) u.days.push(d); use.set(st.p.id, u); return st; };
+    return { left, use, meals: meals.map(m => { const r = this.D.byId[m.id], f = this.factor(r); return { ...m, st: this.ingOf(r).map(i => this.skipped(m.d, m.id, i) ? null : log(this.takeHome(left, i, f), i, m.d)) }; }) };
   };
   homeNote = (st, i) => { if (!st) return null; const u = this.homeUnit(st.p, i);
     return st.ok ? 'Har nok hjemme' : st.h > 0 ? `Har ca. ${this.fmt(st.h, u)} hjemme, trenger ${this.fmt(st.need - st.h, u)} til`
@@ -2050,8 +2054,16 @@ class Component extends DCLogic {
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
     const openProfile = () => this.push({ t: s.loggedIn ? 'profile' : 'login' });
     // Matlageret og forslag ut fra det
-    const ranked = P.rank(D.R, stock, this.ingNames);
-    const planRun = this.homeRun().meals;
+    // Det ukeplanen setter av er ikke ledig: varer planen bruker opp er ute av forslagene
+    const run = this.homeRun(), planRun = run.meals, freeStock = stock.filter(p => run.left.get(p.id) !== 0);
+    const ranked = P.rank(D.R, freeStock, this.ingNames);
+    const dayShort = d => this.DAYS[d % 7].toLowerCase() + (Math.floor(d / 7) !== wk ? ' uke ' + this.weekNo(Math.floor(d / 7)) : '');
+    const planNote = x => { const u = run.use.get(x.id); if (!u) return '';
+      const when = ` (${u.days.map(dayShort).join(', ')})`, rest = run.left.get(x.id);
+      if (u.start == null || rest == null) return 'Brukes i ukeplanen' + when;
+      if (rest <= 1e-9) return 'Ukeplanen bruker alt' + when;
+      const f = v => u.unit === 'stk' ? Math.round(v) + ' stk' : 'ca. ' + this.fmt(v, u.unit);
+      return `Ukeplanen bruker ${f(u.start - rest)}${when} · ${f(rest)} igjen`; };
     const stepItem = (id, d) => this.setState(st => ({ pantry: st.pantry.map(p => p.id === id ? P.step(p, d) : p) }));
     const LV = { mye: ['Mye', 'var(--mg-primary)'], litt: ['Litt', 'var(--mg-butter)'], tomt: ['Tomt', 'var(--mg-border-strong)'] };
     const pt = {
@@ -2066,7 +2078,8 @@ class Component extends DCLogic {
       scan: this.scanPhoto, scanLabel: s.scanning > 1 ? `Ser på ${s.scanning} bilder …` : s.scanning ? 'Ser på bildet …' : 'Ta bilder av skapet',
       items: [...s.pantry].sort((a, b) => a.n.localeCompare(b.n, 'nb')).map(x => { const lv = P.level(x), cnt = P.counted(x.n), q = P.qty(x);
         const label = cnt ? (q ? q + ' stk' : 'Tomt') : LV[lv][0];
-        return { n: x.n, section: this.sectionOf(x.n), label, approx: x.amt && x.u ? 'ca. ' + this.fmt(x.amt, x.u) + ' igjen' : '', dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
+        const pn = planNote(x);
+        return { n: x.n, section: this.sectionOf(x.n), label, approx: pn || (x.amt && x.u ? 'ca. ' + this.fmt(x.amt, x.u) + ' igjen' : ''), noteColor: pn ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', dot: LV[lv][1], op: lv === 'tomt' ? .5 : 1,
           aria: `${x.n}: ${cnt ? q + ' igjen' : label}`, upLabel: `Mer ${x.n.toLowerCase()}`, downLabel: `Mindre ${x.n.toLowerCase()}`, rmLabel: `Fjern ${x.n.toLowerCase()}`,
           upOp: cnt || lv !== 'mye' ? 1 : .35, downOp: lv !== 'tomt' ? 1 : .35,
           up: () => stepItem(x.id, 1), down: () => stepItem(x.id, -1),
@@ -2093,12 +2106,16 @@ class Component extends DCLogic {
     }
     const uh = {
       empty: !s.pantry.length, has: ranked.length > 0, none: !!s.pantry.length && !ranked.length,
-      sub: s.pantry.length ? `${stock.length} varer i beholdningen` : 'Beholdningen er tom',
-      dayLabel: this.DAYS_FULL[s.day % 7].toLowerCase(),
+      sub: s.pantry.length ? `${stock.length} varer i beholdningen${run.use.size ? `, ${run.use.size} brukes i ukeplanen` : ''}` : 'Beholdningen er tom',
+      pw: { label: pw ? `Uke ${this.weekNo(pw)} · ${this.weekRange(pw)}` : `Denne uka · ${this.weekRange(0)}`, prevVis: pw ? 'visible' : 'hidden',
+        prev: () => pw && this.setState({ rdWk: pw - 1 }), next: () => this.setState({ rdWk: pw + 1 }), prevAria: pw ? `Uke ${this.weekNo(pw - 1)}` : '', nextAria: `Uke ${this.weekNo(pw + 1)}` },
       list: ranked.slice(0, 12).map(x => this.mk(x.r, {
         haveText: `Du har ${x.have.length} av ${x.have.length + x.miss.length}: ${x.have.map(h => h.i.n.toLowerCase()).join(', ')}`,
         missText: x.miss.length ? `Mangler: ${x.miss.map(i => i.n.toLowerCase()).join(', ')}` : 'Du har alt',
-        add: () => this.addToPlan(s.day, x.r.id), addLabel: `Legg ${x.r.name} til ${this.DAYS_FULL[s.day % 7].toLowerCase()}` })),
+        pickOpen: s.uhPick === x.r.id, add: () => this.setState(st => ({ uhPick: st.uhPick === x.r.id ? null : x.r.id, rdWk: null })), addLabel: `Velg dag for ${x.r.name}`,
+        dayChips: pwDays.map(i => { const busy = (s.plan[i] || []).filter(id => D.byId[id]).map(id => D.byId[id].name);
+          return { label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy.length ? ', har ' + busy.join(' og ') : ''}`, dot: busy.length ? 'var(--mg-clay)' : 'transparent',
+            bg: (s.plan[i] || []).includes(x.r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => { this.addToPlan(i, x.r.id); this.setState({ uhPick: null }); } }; }) })),
       week: () => {
         const free = wkDays.filter(d => !(s.plan[d] || []).length);
         if (!free.length) return this.toast('Alle dagene i uka har middag');
