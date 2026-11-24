@@ -16,6 +16,7 @@
 <script src="./data.js"></script>
 <script src="./offers.js"></script>
 <script src="./forpriser.js"></script>
+<script src="./aviser.js" onerror="void 0"></script>
 <script src="./auth-config.js"></script>
 <script src="./auth.js"></script>
 <script src="./pantry.js"></script>
@@ -499,6 +500,26 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <div class="s4">
 <div class="s8 mg-h">Tilbudsavisen</div>
+<sc-if value="{{ sd.isTap }}">
+<div style="font-size:13px;font-weight:600;color:var(--mg-ink-muted);margin-top:-6px">{{ sd.tapHint }}</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin:0 -8px">
+<sc-for list="{{ sd.tapPages }}" as="pg" hint-placeholder-count="3">
+<div style="position:relative;width:100%;aspect-ratio:{{ pg.ratio }};border-radius:var(--mg-r-sm);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)">
+<img sc-camel-src="{{ pg.src }}" alt="{{ pg.label }}" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:100%;border-radius:var(--mg-r-sm)">
+<sc-for list="{{ pg.hot }}" as="h">
+<div style="position:absolute;left:{{ h.l }};top:{{ h.t }};width:{{ h.w }};height:{{ h.h }};z-index:{{ h.z }}">
+<button onClick="{{ h.tap }}" aria-label="{{ h.aria }}" aria-pressed="{{ h.sel }}" style="position:absolute;inset:0;width:100%;height:100%;padding:0;cursor:pointer;border:{{ h.border }};background:{{ h.bg }};border-radius:10px;box-sizing:border-box;-webkit-tap-highlight-color:transparent"></button>
+<sc-if value="{{ h.have }}"><span aria-hidden="true" style="position:absolute;right:4px;top:4px;width:22px;height:22px;border-radius:50%;background:var(--mg-primary);color:#fff;display:flex;align-items:center;justify-content:center;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.3)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></span></sc-if>
+<sc-if value="{{ h.sel }}">
+<button onClick="{{ h.plus }}" aria-label="{{ h.plusAria }}" style="position:absolute;right:-12px;top:-12px;width:44px;height:44px;border-radius:50%;border:3px solid var(--mg-surface);background:{{ h.plusBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path sc-camel-d="{{ h.plusIcon }}"></path></svg></button>
+<div style="position:absolute;left:0;top:calc(100% + 6px);max-width:240px;width:max-content;background:var(--mg-ink);color:var(--mg-on-ink);font-size:13px;font-weight:700;padding:6px 10px;border-radius:var(--mg-r-pill);pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.chip }}</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
 <sc-if value="{{ sd.isImages }}">
 <div style="display:flex;flex-direction:column;gap:8px;margin:0 -8px">
 <sc-for list="{{ sd.pages }}" as="pg" hint-placeholder-count="4">
@@ -540,6 +561,20 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="font-size:12px;color:var(--mg-ink-subtle);line-height:1.5">{{ sd.note }}</div>
 </div>
 </div>
+<sc-if value="{{ sd.pickOpen }}">
+<div onClick="{{ sd.pickClose }}" style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);z-index:53;background:rgba(27,42,28,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;box-sizing:border-box;cursor:pointer">
+<div role="dialog" aria-label="{{ sd.pickTitle }}" onClick="{{ sd.pickStop }}" style="background:var(--mg-bg);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.25);cursor:default;max-height:75vh;overflow-y:auto">
+<div style="display:flex;align-items:center;gap:12px;padding:2px 2px 4px">
+<div style="flex:1;min-width:0"><div class="s45 mg-h">{{ sd.pickTitle }}</div><div class="s12">{{ sd.pickSub }}</div></div>
+<button onClick="{{ sd.pickClose }}" aria-label="Lukk" style="flex:none;border:0;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--mg-surface-sunken);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div style="font-size:13px;font-weight:600;color:var(--mg-ink-muted);padding:0 2px">Tilbudet gjelder flere varer. Trykk + på dem du vil ha.</div>
+<div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:4px 14px">
+<sc-for list="{{ sd.pickItems }}" as="o"><div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--mg-surface-sunken)"><div style="flex:1;min-width:0;font-size:15px;font-weight:700;line-height:1.25">{{ o.name }}</div><button onClick="{{ o.add }}" aria-label="{{ o.addLabel }}" style="flex:none;width:40px;height:40px;border-radius:50%;border:0;background:{{ o.addBg }};color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path sc-camel-d="{{ o.addIcon }}"></path></svg></button></div></sc-for>
+</div>
+</div>
+</div>
+</sc-if>
 <div class="mg-vin" style="position:absolute;inset:0;z-index:30;pointer-events:none"><button onClick="{{ sd.voice }}" aria-pressed="{{ sd.voiceOn }}" aria-label="{{ sd.voiceAria }}" class="{{ sd.voiceCls }}" style="position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 14px);pointer-events:auto;max-width:calc(100% - 32px);border:0;cursor:pointer;font-family:inherit;background:{{ sd.voiceBg }};color:{{ sd.voiceFg }};border-radius:var(--mg-r-pill);padding:6px 6px 6px 16px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,.25);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)"><span class="{{ sd.textCls }}" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;max-width:240px">{{ sd.voiceText }}</span><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;background:{{ sd.micBg }};color:{{ sd.micFg }};display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg></span></button></div>
 </sc-if>
 
@@ -1025,7 +1060,7 @@ class Component extends DCLogic {
     favs: [], favSort: 'recent', favCat: 'alle', savedArts: [], plan: {}, planFrom: this.ymd(this.WEEK[0]),
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
-    people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
+    people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', toast: null,
     undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], ownItem: '', wake: false,
     pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
   };
@@ -1050,7 +1085,7 @@ class Component extends DCLogic {
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
       if (this.state.wake && !p.stack.some(x => x.t === 'cook')) this.keepAwake(false);
-      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, shareText: null }); });
+      this.setState({ tab: p.tab || 'home', stack: p.stack, menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, avisPick: null, shareText: null }); });
     window.addEventListener('keydown', this.onKey);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && this.state.wake) this.keepAwake(true); });
     const A = window.MatgledeAuth; if (!A) return;
@@ -1241,14 +1276,14 @@ class Component extends DCLogic {
     if (this.state.shopVoice && !(top.t === 'store' && top.id === this.state.shopVoice)) { this.setState({ shopVoice: null }); if (this._srec) this._srec.stop(); }
   }
 
-  go = (tab, extra) => this.setState(st => ({ tab, stack: [], menu: false, sdFull: false, ...(tab === 'tilbud' && st.tab !== 'tilbud' ? { tilbudSeen: (st.tilbudSeen || 0) + 1 } : {}), ...extra }));
+  go = (tab, extra) => this.setState(st => ({ tab, stack: [], menu: false, sdFull: false, avisPick: null, ...(tab === 'tilbud' && st.tab !== 'tilbud' ? { tilbudSeen: (st.tilbudSeen || 0) + 1 } : {}), ...extra }));
   goCat = cat => this.go('opp', { cat, q: '' });
-  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, shareText: null }));
+  push = o => this.setState(s => ({ stack: [...s.stack, o], menu: false, rdPick: false, rdLearn: false, rdPig: false, sdFull: false, avisPick: null, shareText: null }));
   back = () => {
     if ((this.state.stack[this.state.stack.length - 1] || {}).t === 'cook') this.keepAwake(false);
     // Bruk nettleserens historikk når siden ble åpnet fra appen, så tilbake-knappen på telefonen følger med
     if (history.state && history.state.mg > 0) history.back();
-    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false, sdFull: false }));
+    else this.setState(s => ({ stack: s.stack.slice(0, -1), rdPick: false, rdLearn: false, rdPig: false, sdFull: false, avisPick: null }));
   };
   LOGO_BOX = { BUNNPRIS:[64,53,73,95], COOP:[30,80,140,40], EXTRA:[33,52,140,99], JOKER:[0,0,200,133], KIWI:[25,66,150,68], MARKED:[30,66,140,67],
     MEGA:[30,60,140,81], MENY:[30,71,140,59], OBS:[30,64,140,72], ODA:[30,72,140,56], PRIX:[30,60,140,81], REMA:[30,59,140,82], SPAR:[40,41,120,117] };
@@ -1913,24 +1948,44 @@ class Component extends DCLogic {
       let host = ''; try { host = new URL(st.flyer).host.replace(/^www\./, ''); } catch (e) {}
       // generated er norsk tid fra offers.py («2026-11-23 16:41») -> «23. nov. kl. 16.41»
       const gm = /^(\S+) (\d\d):(\d\d)$/.exec(D.O.generated || ''), genTime = gm ? `${dmy(gm[1])} kl. ${gm[2]}.${gm[3]}` : D.O.generated;
-      const view = st.view || {}, linkView = !view.type || view.type === 'link', pages = [];
+      // Trykkbar avis (aviser.py): sidene fra Tjek med en firkant rundt hver vare. Finnes den, brukes den i stedet for PDF/ramme/lenke.
+      const tap = ((window.MATGLEDE_AVISER || {}).stores || {})[st.code], view = tap ? {} : st.view || {}, linkView = !tap && (!view.type || view.type === 'link'), pages = [];
       (view.type === 'images' ? view.pages : []).forEach((src, i, all) => {
         if (!view.spreads) { pages.push({ src, pos: '0 0', label: `Side ${pages.length + 1}` }); return; }
         if (i > 0) pages.push({ src, pos: '0% 0', label: `Side ${2 * i}` });
         if (i < all.length - 1 || i === 0) pages.push({ src, pos: '100% 0', label: `Side ${2 * i + 1}` });
       });
-      const mine = onList(st), listOpen = s.sdList === st.code, frame = view.type === 'pdf' || view.type === 'embed', frameFull = frame && !!s.sdFull;
+      const tapPages = (tap ? tap.pages : []).map((src, i) => ({ src, label: `Side ${i + 1}`, ratio: `1 / ${tap.ratio}`, hot: [] }));
+      const onListKey = n => s.extra.some(x => x.offer === st.code + ':' + n && !x.w);
+      (tap ? tap.hot : []).forEach((h, i) => { const pg = tapPages[h.pg]; if (!pg) return;
+        const id = st.code + ':' + i, sel = s.avisSel === id, names = h.v || [h.n], have = names.some(onListKey);
+        const o = { name: h.n + (h.d && !h.v ? ' ' + h.d.split(',')[0] : ''), price: h.p };
+        const one = addBtn(o), pct = h.b ? Math.round((1 - h.p / h.b) * 100) : 0;
+        pg.hot.push({ sel, have: have && !sel, l: h.r[0] * 100 + '%', t: h.r[1] * 100 + '%', w: h.r[2] * 100 + '%', h: h.r[3] * 100 + '%',
+          z: sel ? 3 : 1, border: sel ? '3px solid var(--mg-primary)' : '0', bg: sel ? 'color-mix(in srgb,var(--mg-primary) 12%,transparent)' : 'transparent',
+          aria: `${h.n}, ${kr(h.p)}. Trykk for å velge`, chip: `${h.n} · ${kr(h.p)}${pct > 0 ? ` (−${pct} %)` : ''}`,
+          tap: () => this.setState({ avisSel: sel ? null : id }),
+          plusIcon: h.v ? 'M12 5v14M5 12h14' : one.addIcon, plusBg: h.v ? 'var(--mg-ink)' : one.addBg,
+          plusAria: h.v ? `Velg blant ${h.v.length} varer i tilbudet ${h.n}` : one.addLabel,
+          plus: ev => { ev && ev.stopPropagation && ev.stopPropagation(); h.v ? this.setState({ avisPick: id }) : one.add(); } });
+      });
+      const pk = s.avisPick && s.avisPick.split(':')[0] === st.code && tap && tap.hot[+s.avisPick.split(':')[1]];
+      const mine = onList(st), listOpen = s.sdList === st.code, frame = !tap && (view.type === 'pdf' || view.type === 'embed'), frameFull = frame && !!s.sdFull;
       sd = { code: st.code, name: st.name, logo: st.logo, bg: st.bg, hasMine: mine.length > 0, mine: mine.map(item), mineOpen: listOpen,
         mineLabel: `${mine.length} ${mine.length === 1 ? 'vare' : 'varer'} fra handlelisten din er på tilbud`, mineArrow: listOpen ? '▲' : '▼',
         toggleMine: () => this.setState({ sdList: listOpen ? null : st.code }), sub: D.O.week ? `Uke ${D.O.week} · ${dmy(D.O.from)}–${dmy(D.O.to)}` : 'Denne uka',
-        countLabel: view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} ${avis ? 'tilbud' : 'prisfall'}` : 'avis',
+        isTap: !!tap, tapPages, tapHint: 'Trykk på en vare i avisen for å legge den i handlelisten',
+        pickOpen: !!pk, pickTitle: pk ? pk.n : '', pickSub: pk ? `${kr(pk.p)} hos ${st.name}${pk.d ? ' · ' + pk.d : ''}` : '',
+        pickClose: () => this.setState({ avisPick: null }), pickStop: e => e.stopPropagation(),
+        pickItems: pk ? pk.v.map(n => ({ name: n, ...addBtn({ name: n, price: pk.p }) })) : [],
+        countLabel: tap ? `${tap.pages.length} sider` : view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} ${avis ? 'tilbud' : 'prisfall'}` : 'avis',
         voiceOn: s.shopVoice === st.code, voice: () => this.shopVoice(st.code), voiceCls: s.shopVoice === st.code ? 'mg-pulse' : 'mg-vb', textCls: s.shopVoice === st.code ? '' : 'mg-vt',
         voiceText: s.shopVoice === st.code ? (s.shopParsing ? 'Legger til …' : 'Lytter … trykk for å stoppe') : 'Legg til handlelisten',
         voiceAria: s.shopVoice === st.code ? 'Stopp opptaket' : `Snakk for å legge varer fra ${st.name}-avisen i handlelisten`,
         voiceBg: s.shopVoice === st.code ? 'color-mix(in srgb,var(--mg-danger) 80%,transparent)' : 'color-mix(in srgb,var(--mg-ink) 80%,transparent)', voiceFg: s.shopVoice === st.code ? '#fff' : 'var(--mg-on-ink)',
         micBg: s.shopVoice === st.code ? 'rgba(255,255,255,.22)' : 'var(--mg-butter)', micFg: s.shopVoice === st.code ? '#fff' : 'var(--mg-butter-ink)', hasTop: st.offers.length > 0, top: st.offers.slice(0, 10).map(item),
-        noOffers: !st.offers.length && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: frame ? 'Fyller hele skjermen' : host ? 'Åpnes hos ' + host : '',
-        isImages: view.type === 'images', isFrame: view.type === 'pdf' || view.type === 'embed', isLink: linkView,
+        noOffers: !st.offers.length && !tap && !(st.view && st.view.type !== 'link'), hasOffers: st.offers.length > 0, flyerHost: frame ? 'Fyller hele skjermen' : tap && st.view && st.view.url ? 'Åpnes hos ' + (host || 'kjeden') : host ? 'Åpnes hos ' + host : '',
+        isImages: view.type === 'images', isFrame: frame, isLink: linkView,
         pages: pages, frameTitle: `Tilbudsavis fra ${st.name}`,
         frameUrl: view.type === 'pdf' ? view.url + '#view=FitH&toolbar=0&navpanes=0' : (view.url || ''),
         linkText: `${st.name} viser avisen i en leser som ikke kan bygges inn i andre apper, så den åpnes hos ${host || 'kjeden'}.`,
@@ -1941,12 +1996,12 @@ class Component extends DCLogic {
         loading: frame && s.sdLoaded !== st.code, onLoad: () => this.setState({ sdLoaded: st.code }),
         frameStyle: (frame && s.sdLoaded !== st.code ? 'opacity:0;' : '') + (frameFull ? 'position:fixed;inset:0;z-index:1000;width:100vw;height:100dvh;border:0;background:var(--mg-surface)'
           : 'width:calc(100% + 16px);margin:0 -8px;height:max(620px,80vh);border:0;border-radius:var(--mg-r-md);background:var(--mg-surface);box-shadow:0 1px 4px rgba(0,0,0,.12)'),
-        openFlyer: () => frame ? (history.pushState({ mg: this._depth, full: 1 }, '', location.hash), this.setState({ sdFull: true })) : (view.url || st.flyer) && window.open(view.url || st.flyer, '_blank', 'noopener'),
+        openFlyer: () => frame ? (history.pushState({ mg: this._depth, full: 1 }, '', location.hash), this.setState({ sdFull: true })) : (view.url || (st.view || {}).url || st.flyer) && window.open(view.url || (st.view || {}).url || st.flyer, '_blank', 'noopener'),
         emptyText: st.hasData ? `Fant ingen prisfall hos ${st.name} denne uka.`
           : `Kassalapp har ikke ferske priser fra ${st.name}, så tilbudene kan ikke listes her ennå. Åpne avisen for å se ukas tilbud.`,
         groups: [...groups].sort((a, b) => b.list.length - a.list.length).map(g => ({ name: g.name, count: `${g.list.length}`, items: g.list.map(item) })),
         offersTitle: avis ? 'Alle tilbud i avisen' : 'Prisfall denne uka',
-        note: `Avisen hentes rett fra ${host || 'kjeden'} og byttes hver mandag kl. 12${D.O.generated ? ` (sist ${genTime})` : ''}.${avis ? ' Varene og prisene er lest fra avisen av AI, så sjekk prisen i avisen hvis noe ser rart ut.' : ''}${!avis && st.offers.length ? ` Prisfallene er varer som er minst 10 % billigere enn vanlig hos ${st.name}, funnet i prishistorikken til Kassalapp.` : ''}` };
+        note: `Avisen hentes rett fra ${tap ? 'mattilbud.no (Tjek)' : host || 'kjeden'} og byttes hver mandag kl. 12${D.O.generated ? ` (sist ${genTime})` : ''}.${avis ? ' Varene og prisene er lest fra avisen av AI, så sjekk prisen i avisen hvis noe ser rart ut.' : ''}${!avis && st.offers.length ? ` Prisfallene er varer som er minst 10 % billigere enn vanlig hos ${st.name}, funnet i prishistorikken til Kassalapp.` : ''}` };
     }
     let sl = {};
     const lc = top.t === 'shop' && top.chain || s.chain; // butikken handlelisten viser
