@@ -74,7 +74,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/offers.js app/forpriser.js app/aviser.js
+          git add app/offers.js app/forpriser.js $(ls app/aviser.js 2>/dev/null)  # aviser.js finnes først når trykkbar avis er på appgrenen
           if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
           git commit -m "Ukas tilbud, uke $(TZ=Europe/Oslo date +%V)"
           for i in 1 2 3; do
