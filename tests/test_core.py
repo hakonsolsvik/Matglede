@@ -1,7 +1,9 @@
+import json
 import unittest
 from datetime import datetime, timezone
 
-from matglede import db
+from matglede import db, external
+from matglede.recipe_parse import match_ingredient, normalise_for_ingredient, parse_line
 from matglede.matching import IngredientRule, score_product
 from matglede.shopping import compare_chains, shopping_list
 from matglede.units import parse_package, to_base
@@ -43,6 +45,14 @@ class MatchingTest(unittest.TestCase):
     def test_plain_product_scores(self):
         s = score_product(self.rule, "Hvitløk 100g", ["Frukt & grønt", "Grønnsaker", "Løk"], FRESH, True, NOW)
         self.assertGreater(s, 5)
+
+    def test_must_include_alternatives(self):
+        rule = IngredientRule(search_terms=["kyllingfilet"], must_include=["fros/fryst"],
+                              exclude_terms=[], category_hints=[])
+        self.assertIsNotNone(score_product(rule, "Kyllingfilet Fryst 1kg", [], FRESH, True, NOW))
+        self.assertIsNotNone(score_product(rule, "Kyllingfilet frossen 1kg", [], FRESH, True, NOW))
+        self.assertIsNone(score_product(rule, "Kyllingfilet 400g", [], FRESH, True, NOW))
+        self.assertIsNotNone(score_product(rule, "Kyllingfilet 1,4kg First Price", ["Frossen kylling"], FRESH, True, NOW))
 
     def test_long_exclusion_matches_inside_word(self):
         self.assertIsNone(score_product(self.rule, "Hvitløkspulver 56g", [], FRESH, True, NOW))
@@ -146,6 +156,12 @@ class ShoppingListTest(unittest.TestCase):
         c.execute("INSERT INTO ingredient_product(ingredient_id, product_id, score) VALUES (4,5,5)")
         self.assertEqual(self.lines("KIWI")["Egg"].packages, 2)  # 8 egg, 6 per pakke
 
+    def test_offer_name_in_chain_is_checked(self):
+        c = self.conn
+        c.execute("UPDATE ingredient SET exclude_terms='pålegg' WHERE id=1")
+        c.execute("UPDATE offer SET store_name='Kjøttdeig pålegg' WHERE product_id=2 AND chain_code='KIWI'")
+        self.assertEqual(self.lines("KIWI")["Kjøttdeig"].product, "p1")
+
     def test_compare(self):
         rows = {r["code"]: r for r in compare_chains(self.conn, self.plan, NOW)}
         self.assertEqual(rows["KIWI"]["found"], 3)
@@ -161,6 +177,153 @@ class SeedTest(unittest.TestCase):
         self.assertGreater(db.load_ingredients(conn), 30)
         self.assertGreater(db.load_recipes(conn), 4)
 
+    def test_external_recipes_load(self):
+        conn = db.connect(":memory:")
+        db.init_db(conn)
+        db.load_ingredients(conn)
+        n, _ = external.load(conn)
+        self.assertGreater(n, 40)
+        row = conn.execute("SELECT source_url FROM recipe WHERE slug='rema-kremet-pasta'").fetchone()
+        self.assertTrue(row["source_url"].startswith("https://www.rema.no/"))
+
+    def test_external_file_has_no_instructions(self):
+        data = json.loads(external.OUT.read_text(encoding="utf-8"))
+        for r in data["recipes"]:
+            self.assertFalse({"instructions", "recipeInstructions", "image"} & set(r))
+
+
+class RecipeParseTest(unittest.TestCase):
+    def p(self, raw):
+        x = parse_line(raw)
+        return x.amount, x.unit, x.name
+
+    def test_schema_org_words(self):
+        self.assertEqual(self.p("2 spiseskje Salt"), (2, "ss", "Salt"))
+        self.assertEqual(self.p("0,5 desiliter Rømme"), (0.5, "dl", "Rømme"))
+        self.assertEqual(self.p("3 kilogram Ribbe"), (3, "kg", "Ribbe"))
+
+    def test_blog_fractions_and_ranges(self):
+        self.assertEqual(self.p("1 1/2 ts havsalt"), (1.5, "ts", "havsalt"))
+        self.assertEqual(self.p("½ ts chiliflak"), (0.5, "ts", "chiliflak"))
+        self.assertEqual(self.p("400 - 500 g poteter"), (450, "g", "poteter"))
+        self.assertEqual(self.p("1 boks (300g) med kokte kikerter")[:2], (300, "g"))
+        self.assertEqual(self.p("500 poteter , gjerne nypoteter")[:2], (500, "g"))
+
+    def test_package_weight_in_name(self):
+        self.assertEqual(self.p("1 pakke Kjøttdeig 600 g Nordfjord")[:2], (600, "g"))
+        self.assertEqual(self.p("1 stykk Kvernet deig av storfe 14%, , 400 g Nordfjord")[:2], (400, "g"))
+        self.assertEqual(match_ingredient("Karbonadedeig"), "kjottdeig")
+        self.assertIsNone(match_ingredient("Kjøttkaker med grønnsaker"))
+
+    def test_uncountable(self):
+        self.assertEqual(self.p("1 klype Salt og pepper"), (None, "klype", "Salt og pepper"))
+        self.assertEqual(self.p("Pepper"), (None, None, "Pepper"))
+
+    def test_matching(self):
+        self.assertEqual(match_ingredient("Hvitløk, finhakket"), "hvitlok")
+        self.assertEqual(match_ingredient("hvitløksfedd"), "hvitlok")
+        self.assertIsNone(match_ingredient("Hvitløkspulver"))
+        self.assertEqual(match_ingredient("Rød paprika"), "paprika")
+        self.assertEqual(match_ingredient("paprika", "ts"), "paprikapulver")
+        self.assertEqual(match_ingredient("Paprikapulver"), "paprikapulver")
+        self.assertEqual(match_ingredient("koriander", "ts"), "koriander_malt")
+        self.assertEqual(match_ingredient("frisk koriander, hakket", "neve"), "koriander_frisk")
+        self.assertEqual(match_ingredient("kyllingbuljong", "dl"), "kraft")
+        self.assertEqual(match_ingredient("buljongterning", "stk"), "buljong")
+        self.assertEqual(match_ingredient("eggnudler"), "eggnudler")
+        self.assertEqual(match_ingredient("chilipulver"), "chilipulver")
+        self.assertEqual(match_ingredient("rød chili, hakket"), "chili")
+        self.assertEqual(match_ingredient("olje til steking"), "noytral_olje")
+        self.assertEqual(match_ingredient("olivenolje"), "olivenolje")
+        self.assertEqual(match_ingredient("sukkererter, hakket"), "sukkererter")
+        self.assertEqual(match_ingredient("Rødløk"), "rodlok")
+        self.assertEqual(match_ingredient("løk, finhakket"), "lok")
+        self.assertEqual(match_ingredient("Vårløk"), "varlok")
+        self.assertEqual(match_ingredient("eggnudler"), "eggnudler")
+        self.assertEqual(match_ingredient("risnudler"), "risnudler")
+        self.assertEqual(match_ingredient("peanøttsmør"), "peanottsmor")
+        self.assertEqual(match_ingredient("Meierismør"), "smor")
+        self.assertEqual(match_ingredient("Cherrytomater"), "cherrytomater")
+
+    def test_normalise(self):
+        self.assertEqual(normalise_for_ingredient("hvitlok", 3, "stk", "hvitløksfedd"), (15, "g"))
+        self.assertEqual(normalise_for_ingredient("hakkede_tomater", 1, "pk"), (400, "g"))
+        self.assertEqual(normalise_for_ingredient("kyllingfilet", 2, "stk"), (300, "g"))
+
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AppExportTest(unittest.TestCase):
+    def setUp(self):
+        from matglede import app_export
+        self.app_export = app_export
+        self.conn = db.connect(":memory:")
+        db.init_db(self.conn)
+        db.load_ingredients(self.conn)
+        c = self.conn
+        kd = c.execute("SELECT id FROM ingredient WHERE slug='kjottdeig'").fetchone()["id"]
+        for pid, name, amt in [(1, "Kjøttdeig 400g", 400), (2, "Kjøttdeig 1 kg", 1000), (3, "Kjøttdeig feil", 400)]:
+            c.execute("""INSERT INTO product(id, source_key, name, package_amount, package_unit, updated_at)
+                         VALUES (?,?,?,?, 'g','x')""", (pid, f"ean:{pid}", name, amt))
+        for pid, chain, price, d in [(1, "KIWI", 60.0, FRESH), (2, "KIWI", 129.0, FRESH),
+                                     (3, "KIWI", 10.0, FRESH), (1, "REMA", 55.0, OLD)]:
+            c.execute("""INSERT INTO offer(product_id, chain_code, store_name, price, price_date, fetched_at)
+                         VALUES (?,?,?,?,?,'x')""", (pid, chain, f"p{pid}", price, d))
+        for pid, score, status in [(1, 5, "auto"), (2, 4.6, "auto"), (3, 5, "rejected")]:
+            c.execute("INSERT INTO ingredient_product VALUES (?,?,?,?)", (kd, pid, score, status))
+
+    def test_own_recipes_only(self):
+        data = self.app_export.build(None, NOW)
+        ids = {r["id"] for r in data["recipes"]}
+        self.assertGreaterEqual(len(ids), 12)
+        self.assertFalse(any(i.split("-")[0] in {"rema", "aicha", "kolby"} for i in ids))
+        for r in data["recipes"]:
+            self.assertIn(r["diff"], range(1, 6), r["id"])
+            self.assertGreater(r["time"], 0, r["id"])
+            self.assertTrue(r["steps"], r["id"])
+            self.assertNotIn("url", r)
+        self.assertFalse(data["hasPrices"])
+        self.assertEqual(data["stats"]["lines"], sum(len(r["ing"]) for r in data["recipes"]))
+        self.assertTrue({"hverdag", "sondag"} <= {c for r in data["recipes"] for c in r["cats"]})
+
+    def test_base_amounts(self):
+        data = self.app_export.build(None, NOW)
+        rec = {r["id"]: {i["n"]: i["base"] for i in r["ing"]} for r in data["recipes"]}
+        self.assertEqual(rec["tacofredag"]["Kjøttdeig"], 400)
+        self.assertEqual(rec["tacofredag"]["Mais"], 340)  # 1 boks
+        self.assertEqual(rec["spaghetti-bolognese"]["Hakkede tomater"], 800)  # 2 bokser
+        self.assertEqual(rec["spaghetti-bolognese"]["Hvitløk"], 10)  # 2 fedd
+        self.assertEqual(rec["kjottkaker-brun-saus"]["Lettmelk"], 100)  # 1 dl
+        self.assertEqual(rec["kjottkaker-brun-saus"]["Kjøttbuljong"], 1)  # 1 terning
+        self.assertEqual(rec["chili-con-carne"]["Kidneybønner"], 410)  # 1 boks
+
+    def test_swaps(self):
+        data = self.app_export.build(None, NOW)
+        sw = data["swaps"]
+        self.assertEqual(sw["parmesan"]["to"], "ost_revet")
+        self.assertIsNone(sw["tomatpure"]["to"])  # kan sløyfes
+        self.assertNotIn("basilikum", sw)  # ingen oppskrift bruker den
+        self.assertIn("brokkoli_frossen", data["ingredients"])  # byttet tas med, så det kan få pris
+
+    def test_previous_prices_reused(self):
+        data = self.app_export.build(None, NOW, previous={"kjottdeig": {"KIWI": [{"name": "x", "price": 1}]}})
+        self.assertTrue(data["hasPrices"])
+        self.assertEqual(data["ingredients"]["kjottdeig"]["products"]["KIWI"][0]["name"], "x")
+
+    def test_candidates_per_chain(self):
+        data = self.app_export.build(self.conn, NOW)
+        self.assertTrue(data["hasPrices"])
+        prods = data["ingredients"]["kjottdeig"]["products"]
+        self.assertEqual([p["name"] for p in prods["KIWI"]], ["p2", "p1"])  # avvist kobling er ute, billigst per gram først
+        self.assertEqual(prods["KIWI"][1]["size"], 400)
+        self.assertTrue(prods["REMA"][0]["stale"])
+        self.assertNotIn("ODA", prods)
+
+    def test_write_js(self):
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as d:
+            out = self.app_export.write({"a": "æ"}, Path(d) / "data.js")
+            self.assertIn('window.MATGLEDE_DATA = {"a":"æ"};', out.read_text(encoding="utf-8"))

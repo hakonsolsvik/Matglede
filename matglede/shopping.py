@@ -6,10 +6,22 @@ import sqlite3
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
+from .matching import IngredientRule, excluded_name
 from .units import to_base
 
 STALE_DAYS = 30
 SCORE_BAND = 1.0  # velg billigste blant produkter som er nesten like gode treff
+# Et treff som er mye svakere enn det beste for ingrediensen i noen kjede er trolig feil
+# ("Pepsi Max Lime" når "Lime pr stk" finnes). Da er det bedre å vise "ikke funnet".
+GLOBAL_GAP = 3.0
+
+
+def score_floor(conn: sqlite3.Connection, ingredient_id: int) -> float:
+    row = conn.execute(
+        "SELECT MAX(score) AS best FROM ingredient_product WHERE ingredient_id=? AND status != 'rejected'",
+        (ingredient_id,),
+    ).fetchone()
+    return (row["best"] or 0) - GLOBAL_GAP
 
 
 @dataclass
@@ -71,56 +83,52 @@ def _is_stale(price_date: str | None, now: datetime) -> bool:
     return (now - dt).days > STALE_DAYS
 
 
-def pick_product(conn: sqlite3.Connection, need: Need, chain_code: str, now: datetime) -> Line:
-    need_txt = f"{need.amount:g} {need.base_unit}" if need.amount else ""
-    if need.unconverted:
-        need_txt = ", ".join(filter(None, [need_txt, *need.unconverted]))
-    line = Line(ingredient=need.name, need=need_txt, recipes=sorted(need.recipes))
+def candidates(conn: sqlite3.Connection, ingredient_id: int, chain_code: str, base_unit: str,
+               grams_per_piece: float | None, now: datetime) -> list[tuple[sqlite3.Row, float | None]]:
+    """Gode nok treff for ingrediensen i kjeden, med pakningsstørrelse i basisenhet (None hvis ukjent).
 
-    cands = conn.execute(
+    Brukes av både handlelisten og app-eksporten, så de velger blant de samme produktene.
+    """
+    rows = conn.execute(
         """SELECT p.name, p.package_amount, p.package_unit, o.store_name, o.price, o.url, o.price_date,
                   ip.score, ip.status
            FROM ingredient_product ip
            JOIN product p ON p.id = ip.product_id
            JOIN offer o ON o.product_id = p.id AND o.chain_code = ?
            WHERE ip.ingredient_id = ? AND ip.status != 'rejected' AND o.price IS NOT NULL""",
-        (chain_code, need.ingredient_id),
+        (chain_code, ingredient_id),
     ).fetchall()
-    if not cands:
+    rule = IngredientRule.from_row(conn.execute("SELECT * FROM ingredient WHERE id=?", (ingredient_id,)).fetchone())
+    rows = [r for r in rows if not excluded_name(rule, r["store_name"] or r["name"])]
+    floor = score_floor(conn, ingredient_id)
+    rows = [r for r in rows if r["status"] == "verified" or r["score"] >= floor]
+    if not rows:
+        return []
+    pool = [r for r in rows if r["status"] == "verified"] or rows
+    top = max(r["score"] for r in pool)
+    pool = [r for r in pool if r["score"] >= top - SCORE_BAND]
+    pool = [r for r in pool if not _is_stale(r["price_date"], now)] or pool  # ferske priser foran gamle
+    sized = [(r, to_base(r["package_amount"], r["package_unit"], base_unit, grams_per_piece)
+              if r["package_amount"] else None) for r in pool]
+    return [x for x in sized if x[1]] or sized  # kjent pakningsstørrelse går foran
+
+
+def pick_product(conn: sqlite3.Connection, need: Need, chain_code: str, now: datetime) -> Line:
+    need_txt = f"{need.amount:g} {need.base_unit}" if need.amount else ""
+    if need.unconverted:
+        need_txt = ", ".join(filter(None, [need_txt, *need.unconverted]))
+    line = Line(ingredient=need.name, need=need_txt, recipes=sorted(need.recipes))
+    pool = candidates(conn, need.ingredient_id, chain_code, need.base_unit, need.grams_per_piece, now)
+    if not pool:
         return line
 
-    verified = [c for c in cands if c["status"] == "verified"]
-    pool = verified or cands
-    def pack_size(c) -> float | None:
-        """Pakningsstørrelse i ingrediensens basisenhet, eller None hvis ukjent."""
-        if not c["package_amount"]:
-            return None
-        if c["package_unit"] == need.base_unit:
-            return c["package_amount"]
-        gpp = need.grams_per_piece
-        if gpp and c["package_unit"] == "g" and need.base_unit == "stk":
-            return c["package_amount"] / gpp
-        if gpp and c["package_unit"] == "stk" and need.base_unit == "g":
-            return c["package_amount"] * gpp
-        if {c["package_unit"], need.base_unit} == {"g", "ml"}:
-            return c["package_amount"]  # tilnærming: tetthet 1
-        return None
-
-    top = max(c["score"] for c in pool)
-    pool = [c for c in pool if c["score"] >= top - SCORE_BAND]
-    fresh = [c for c in pool if not _is_stale(c["price_date"], now)]
-    pool = fresh or pool  # blant gode treff går ferske priser foran gamle
-    known = [c for c in pool if pack_size(c)]
-    pool = known or pool  # kjent pakningsstørrelse går foran
-
-    def packs(c) -> int:
-        size = pack_size(c)
+    def packs(size: float | None) -> int:
         if need.amount and size:
             return max(1, math.ceil(need.amount / size - 1e-9))
         return 1
 
-    best = min(pool, key=lambda c: (packs(c) * c["price"], -c["score"]))
-    n = packs(best)
+    best, size = min(pool, key=lambda x: (packs(x[1]) * x[0]["price"], -x[0]["score"]))
+    n = packs(size)
     line.product = best["store_name"]
     line.packages = n
     line.price_each = best["price"]

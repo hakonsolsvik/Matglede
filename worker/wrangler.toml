@@ -1,0 +1,15 @@
+name = "matglede-bilde"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+FIREBASE_PROJECT_ID = "matglede-4dbc5"
+ALLOWED_ORIGINS = "https://hakonsolsvik.github.io,http://localhost:8765"
+DAILY_LIMIT = "60"  # AI-kall per bruker per døgn
+
+# Teller for dagsgrensen. Lag den én gang med: npx wrangler kv namespace create LIMITS, og lim inn id-en her.
+[[kv_namespaces]]
+binding = "LIMITS"
+id = "478cb7daa868422d91b1f33b2a4d2d1d"
+# Hemmelig nøkkel legges inn med: npx wrangler secret put ANTHROPIC_API_KEY

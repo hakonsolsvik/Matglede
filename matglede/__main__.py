@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from dataclasses import asdict
 from datetime import date, timedelta
 
-from . import db
+from . import app_export, db, external
 from .kassal import KassalClient, load_dotenv
 from .importer import import_all
 from .shopping import compare_chains, shopping_list
@@ -16,11 +17,66 @@ from .shopping import compare_chains, shopping_list
 def cmd_init(conn, args):
     db.init_db(conn)
     print(f"Ingredienser: {db.load_ingredients(conn)}, oppskrifter: {db.load_recipes(conn)}")
+    n, skipped = external.load(conn)
+    print(f"Eksterne oppskrifter: {n} ({skipped} ingredienslinjer uten kobling hoppet over)")
+
+
+def cmd_external(conn, args):
+    data = external.build()
+    c = external.coverage(data)
+    print(f"Skrev {len(data['recipes'])} oppskrifter til {external.OUT.relative_to(external.ROOT)}")
+    print(f"Koblet {c['mapped']} av {c['lines']} ingredienslinjer. Vanligste som mangler i tabellen:")
+    for name, count in c["top_missing"]:
+        print(f"  {count:>3}  {name}")
+
+
+def cmd_export_app(conn, args):
+    data = app_export.build(conn, previous=app_export.previous_products())
+    out = app_export.write(data)
+    st = data["stats"]
+    print(f"Skrev {out.relative_to(app_export.ROOT)}: {st['recipes']} oppskrifter")
+    print(f"Koblet til ingrediens: {st['mapped']} av {st['lines']} ingredienslinjer")
+    if data["hasPrices"]:
+        print(f"Priser funnet for {st['pricedIngredients']} av {st['ingredients']} ingredienser")
+    else:
+        print("Ingen priser: kjør `init` og `import` først (krever KASSAL_API_KEY)")
 
 
 def cmd_import(conn, args):
     load_dotenv()
     import_all(conn, KassalClient(), only=args.only, chains=args.chains)
+
+
+def cmd_fetch_offers(conn, args):
+    from . import offers
+    load_dotenv()
+    data = offers.build_offers(KassalClient(per_minute=55))
+    if os.environ.get("ANTHROPIC_API_KEY"):  # AI leser avisene og gir prisene slik de står der
+        from .flyer_ai import read_flyers
+        read_flyers(data)
+    data = offers.tag_offers(data, app_export._ingredients_csv())
+    offers.write_offers_js(data, args.out)
+    n = sum(len(s["offers"]) for s in data["stores"])
+    print(f"Skrev {args.out}: {n} tilbud i uke {data['week']}")
+
+
+def cmd_fetch_forpriser(conn, args):
+    from . import forpriser as F
+    data, new = F.merge(F.load(), F.fetch())
+    data = F.keep_tagged(data, app_export._ingredients_csv())
+    F.write(data)
+    n = sum(len(s["offers"]) for s in data["stores"])
+    print(f"Skrev {F.OUT}: {n} før-priser ({len(new)} fra ukas aviser)")
+
+
+def cmd_fetch_aviser(conn, args):
+    from . import aviser as A
+    data = A.fetch()
+    if os.environ.get("ANTHROPIC_API_KEY"):  # Claude lister varene i tilbud som «alt av taco»
+        A.see_products(data)
+    A.write(data)
+    n = sum(len(s["hot"]) for s in data["stores"].values())
+    print(f"Skrev {A.OUT}: {len(data['stores'])} aviser, {n} trykkbare varer")
 
 
 def cmd_demo_plan(conn, args):
@@ -87,10 +143,26 @@ def main(argv=None):
 
     sub.add_parser("init", help="Opprett database og last inn startdata").set_defaults(fn=cmd_init)
 
+    sub.add_parser("build-external", help="Tolk seed/sources/*.json til seed/external_recipes.json"
+                   ).set_defaults(fn=cmd_external)
+
+    sub.add_parser("export-app", help="Skriv app/data.js med oppskrifter og priser til appen"
+                   ).set_defaults(fn=cmd_export_app)
+
     p = sub.add_parser("import", help="Hent produkter fra Kassalapp")
     p.add_argument("--only", nargs="*", help="Bare disse ingrediens-slugene")
     p.add_argument("--chains", nargs="*", help="Bare disse kjedene (ODA KIWI MENY REMA COOP SPAR JOKER)")
     p.set_defaults(fn=cmd_import)
+
+    p = sub.add_parser("fetch-offers", help="Hent ukas tilbud per butikk til app/offers.js")
+    p.add_argument("--out", default="app/offers.js")
+    p.set_defaults(fn=cmd_fetch_offers)
+
+    p = sub.add_parser("fetch-forpriser", help="Samle før-priser fra kjedenes aviser i app/forpriser.js")
+    p.set_defaults(fn=cmd_fetch_forpriser)
+
+    p = sub.add_parser("fetch-aviser", help="Hent avissidene og hvor varene står (trykkbar avis) til app/aviser.js")
+    p.set_defaults(fn=cmd_fetch_aviser)
 
     p = sub.add_parser("demo-plan", help="Lag en ukeplan med fem middager")
     p.add_argument("--servings", type=int, default=4)
@@ -118,8 +190,9 @@ def main(argv=None):
         p.set_defaults(fn=cmd_mark, status=status)
 
     args = ap.parse_args(argv)
-    conn = db.connect(args.db)
-    args.fn(conn, args)
+    # fetch-offers trenger ikke databasen. export-app uten database: ingen priser, ikke lag en tom fil.
+    no_db = args.cmd in ("fetch-offers", "fetch-forpriser", "fetch-aviser") or (args.cmd == "export-app" and not os.path.exists(args.db))
+    args.fn(None if no_db else db.connect(args.db), args)
 
 
 if __name__ == "__main__":

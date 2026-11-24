@@ -1,0 +1,11 @@
+{
+  "name": "Mat-appen",
+  "short_name": "Mat-appen",
+  "lang": "nb",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f2ea",
+  "theme_color": "#2f4128",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
