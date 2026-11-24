@@ -1553,9 +1553,9 @@ class Component extends DCLogic {
     const t = parseInt(d.time, 10), id = d.id || 'egen-' + Date.now().toString(36);
     const rec = { id, name: name.slice(0, 80), servings: d.servings, time: t > 0 ? Math.min(t, 1440) : null, ing,
       steps: d.steps.split(/\n+/).map(x => x.trim()).filter(Boolean), ...(d.photo ? { photo: d.photo } : {}) };
-    const isNew = !d.id;
-    this.setState(s => ({ mine: [rec, ...s.mine.filter(c => c.id !== id)], draft: null, stack: isNew ? [...s.stack.slice(0, -1), { t: 'recipe', id }] : s.stack }));
-    if (!isNew) this.back();
+    // Ferdig: tilbake dit man var før man begynte å skrive
+    this.setState(s => ({ mine: [rec, ...s.mine.filter(c => c.id !== id)], draft: null }));
+    this.back();
     this.toast('Oppskriften er lagret');
   };
   deleteMine = id => {
@@ -1856,7 +1856,7 @@ class Component extends DCLogic {
           btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c', btnFg: cheap ? 'var(--mg-ink)' : '#1f2a1c',
           days: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
             bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
-            add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); } })) },
+            add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); this.back(); } })) },
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
           const note = hn ? hn : !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå'
             : cheap && b ? [i.from && `I stedet for ${i.from.toLowerCase()}`, (b.p.offer ? 'Tilbud: ' : 'Kjøp: ') + b.p.name].filter(Boolean).join(' · ') : '');
@@ -1874,7 +1874,7 @@ class Component extends DCLogic {
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, blur: s.rdLearn || s.rdPig ? 'blur(7px)' : 'none', pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick, rdWk: null })),
-        dayChips: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => this.addToPlan(i, r.id) })),
+        dayChips: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => { this.addToPlan(i, r.id); this.back(); } })),
         isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
