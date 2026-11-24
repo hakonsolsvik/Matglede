@@ -1,0 +1,24 @@
+# Midlertidig: henter de trykkbare avisene på denne grenen for forhåndsvisning. Fjernes før merge.
+name: Trykkbar avis (forhåndsvisning)
+on:
+  push:
+    branches: [claude/project-thread-s5pc8k]
+    paths: [matglede/aviser.py, .github/workflows/aviser-preview.yml]
+permissions:
+  contents: write
+jobs:
+  aviser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install anthropic
+      - env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m matglede fetch-aviser
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/aviser.js && git commit -m "Trykkbar avis: hentet avisene (forhåndsvisning)" && git push

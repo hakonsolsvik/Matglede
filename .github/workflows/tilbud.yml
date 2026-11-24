@@ -63,12 +63,18 @@ jobs:
         if: steps.time.outputs.run == 'true'
         run: python -m matglede fetch-forpriser || echo "Fikk ikke hentet før-priser denne uka"
 
+      - name: Hent avissidene og hvor varene står, så avisen blir trykkbar
+        if: steps.time.outputs.run == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m matglede fetch-aviser || echo "Fikk ikke hentet de trykkbare avisene denne uka"
+
       - name: Lagre tilbudene på appgrenen
         if: steps.time.outputs.run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/offers.js app/forpriser.js
+          git add app/offers.js app/forpriser.js app/aviser.js
           if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
           git commit -m "Ukas tilbud, uke $(TZ=Europe/Oslo date +%V)"
           for i in 1 2 3; do
