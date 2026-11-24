@@ -2,7 +2,7 @@
 # Kjører hver mandag kl. 12 norsk tid. GitHub bruker UTC, så jobben starter både
 # 10:00 og 11:00 UTC og fortsetter bare når klokka er 12 i Oslo (vinter- og sommertid).
 # Krever repo-hemmeligheten KASSAL_API_KEY. Med ANTHROPIC_API_KEY leser AI (Claude) også selve
-# avisene og bruker prisene slik de står der. Kan også startes for hånd under Actions.
+# avisene og bruker prisene slik de står der. Før-prisene fra alle kjedenes aviser samles i app/forpriser.js. Kan også startes for hånd under Actions.
 name: Ukas tilbud
 
 on:
@@ -59,12 +59,16 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python -m matglede fetch-offers
 
+      - name: Samle før-priser fra alle kjedenes aviser (nyeste vinner)
+        if: steps.time.outputs.run == 'true'
+        run: python -m matglede fetch-forpriser || echo "Fikk ikke hentet før-priser denne uka"
+
       - name: Lagre tilbudene på appgrenen
         if: steps.time.outputs.run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/offers.js
+          git add app/offers.js app/forpriser.js
           if git diff --cached --quiet; then echo "Ingen endring"; exit 0; fi
           git commit -m "Ukas tilbud, uke $(TZ=Europe/Oslo date +%V)"
           for i in 1 2 3; do

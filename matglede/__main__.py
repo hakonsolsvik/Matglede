@@ -60,6 +60,15 @@ def cmd_fetch_offers(conn, args):
     print(f"Skrev {args.out}: {n} tilbud i uke {data['week']}")
 
 
+def cmd_fetch_forpriser(conn, args):
+    from . import forpriser as F
+    data, new = F.merge(F.load(), F.fetch())
+    data = F.keep_tagged(data, app_export._ingredients_csv())
+    F.write(data)
+    n = sum(len(s["offers"]) for s in data["stores"])
+    print(f"Skrev {F.OUT}: {n} før-priser ({len(new)} fra ukas aviser)")
+
+
 def cmd_demo_plan(conn, args):
     monday = date.today() - timedelta(days=date.today().weekday())
     slugs = [r["slug"] for r in conn.execute("SELECT slug FROM recipe ORDER BY id LIMIT 5")]
@@ -139,6 +148,9 @@ def main(argv=None):
     p.add_argument("--out", default="app/offers.js")
     p.set_defaults(fn=cmd_fetch_offers)
 
+    p = sub.add_parser("fetch-forpriser", help="Samle før-priser fra kjedenes aviser i app/forpriser.js")
+    p.set_defaults(fn=cmd_fetch_forpriser)
+
     p = sub.add_parser("demo-plan", help="Lag en ukeplan med fem middager")
     p.add_argument("--servings", type=int, default=4)
     p.set_defaults(fn=cmd_demo_plan)
@@ -166,7 +178,7 @@ def main(argv=None):
 
     args = ap.parse_args(argv)
     # fetch-offers trenger ikke databasen. export-app uten database: ingen priser, ikke lag en tom fil.
-    no_db = args.cmd == "fetch-offers" or (args.cmd == "export-app" and not os.path.exists(args.db))
+    no_db = args.cmd in ("fetch-offers", "fetch-forpriser") or (args.cmd == "export-app" and not os.path.exists(args.db))
     args.fn(None if no_db else db.connect(args.db), args)
 
 
