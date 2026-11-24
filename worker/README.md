@@ -15,10 +15,14 @@ som brukeren ser over og retter før lagring. I tilbudsavisen kobler den det bru
    npm install
    npx wrangler login
    npx wrangler secret put ANTHROPIC_API_KEY   # lim inn nøkkelen
+   npx wrangler kv namespace create LIMITS     # lim id-en inn i wrangler.toml (dagsgrensen per bruker)
    npx wrangler deploy                          # skriver ut adressen, f.eks. https://matglede-bilde.<navn>.workers.dev
    ```
 4. Lim adressen inn i `app/auth-config.js` som `window.MATGLEDE_AI_URL`.
 
-Test av tokensjekken: `npm test`.
+Dagsgrense: hver bruker kan gjøre 60 AI-kall per døgn (`DAILY_LIMIT` i `wrangler.toml`). Deretter svarer workeren 429, og appen sier fra.
+Sett også et hardt forbrukstak på https://platform.claude.com (Settings → Limits), så regningen aldri kan bli større enn du har bestemt.
+
+Test av tokensjekken og dagsgrensen: `npm test`.
 
 Pris: ett bilde koster rundt 10 øre én taleinnlegging rundt 3–5 øre og én oppskrift fra bilde rundt 15–25 øre med Claude Opus 5.5 (`model` i `src/index.js`).

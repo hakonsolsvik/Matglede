@@ -1413,6 +1413,7 @@ class Component extends DCLogic {
     'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
   // Navnene appen kjenner: vanlige varer og ingrediensene i oppskriftene
   known = () => [...new Set([...this.QUICK, ...Object.values(this.D.ING).map(i => i.name)])];
+  AI_LIMIT = 'Du har brukt dagens kvote for bildelesing. Prøv igjen i morgen.'; // workeren svarer 429 ved dagsgrensen
   // Kall til worker/ (Claude). Krever innlogging, så ingen andre kan bruke nøkkelen.
   aiItems = body => window.MatgledeAuth.idToken()
     .then(tok => fetch(window.MATGLEDE_AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify(body) }))
@@ -1493,7 +1494,8 @@ class Component extends DCLogic {
       const ok = res.filter(r => r.status === 'fulfilled'), items = ok.flatMap(r => r.value);
       res.filter(r => r.status === 'rejected').forEach(r => console.error(r.reason));
       if (items.length) this.addPantry(items);
-      if (!ok.length) this.toast(files.length > 1 ? 'Fikk ikke lest bildene. Prøv igjen.' : 'Fikk ikke lest bildet. Prøv igjen.');
+      if (res.some(r => r.status === 'rejected' && String(r.reason).includes('HTTP 429'))) this.toast(this.AI_LIMIT);
+      else if (!ok.length) this.toast(files.length > 1 ? 'Fikk ikke lest bildene. Prøv igjen.' : 'Fikk ikke lest bildet. Prøv igjen.');
       else if (ok.length < files.length) this.toast(`${files.length - ok.length} av ${files.length} bilder kunne ikke leses`);
       else if (!items.length) this.toast(files.length > 1 ? 'Fant ingen matvarer på bildene' : 'Fant ingen matvarer på bildet');
     }).finally(() => this.setState({ scanning: false }));
@@ -1618,7 +1620,7 @@ class Component extends DCLogic {
         if (!x || (!str(x.name, 80) && !ing.length)) return this.toast('Fant ingen oppskrift på bildet. Prøv et skarpere bilde.');
         this.openEdit({ name: str(x.name, 80), servings: Math.max(1, Math.min(12, Math.round(num(x.servings) || 4))), time: Math.round(num(x.time) || 0) || null, ing,
           steps: (Array.isArray(x.steps) ? x.steps : []).map(t => str(t, 600)).filter(Boolean).slice(0, 30) }, true); })
-      .catch(err => { console.error(err); this.toast('Fikk ikke lest oppskriften. Prøv igjen, eller skriv den inn selv.'); })
+      .catch(err => { console.error(err); this.toast(String(err).includes('HTTP 429') ? this.AI_LIMIT : 'Fikk ikke lest oppskriften. Prøv igjen, eller skriv den inn selv.'); })
       .finally(() => this.setState({ reading: false }));
   };
 
