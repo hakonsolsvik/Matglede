@@ -575,7 +575,9 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </div>
 </sc-if>
+<sc-if value="{{ sd.voiceShow }}">
 <div class="mg-vin" style="position:absolute;inset:0;z-index:30;pointer-events:none"><button onClick="{{ sd.voice }}" aria-pressed="{{ sd.voiceOn }}" aria-label="{{ sd.voiceAria }}" class="{{ sd.voiceCls }}" style="position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 14px);pointer-events:auto;max-width:calc(100% - 32px);border:0;cursor:pointer;font-family:inherit;background:{{ sd.voiceBg }};color:{{ sd.voiceFg }};border-radius:var(--mg-r-pill);padding:6px 6px 6px 16px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,.25);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)"><span class="{{ sd.textCls }}" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;max-width:240px">{{ sd.voiceText }}</span><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;background:{{ sd.micBg }};color:{{ sd.micFg }};display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"></path></svg></span></button></div>
+</sc-if>
 </sc-if>
 
 <sc-if value="{{ ovTopic }}" hint-placeholder-val="{{ false }}">
@@ -1413,6 +1415,7 @@ class Component extends DCLogic {
     'Olivenolje','Nøytral olje','Soyasaus','Ketchup','Sennep','Honning','Tacokrydder','Paprikapulver','Kanel'];
   // Navnene appen kjenner: vanlige varer og ingrediensene i oppskriftene
   known = () => [...new Set([...this.QUICK, ...Object.values(this.D.ING).map(i => i.name)])];
+  AI_LIMIT = 'Du har brukt dagens kvote for bildelesing. Prøv igjen i morgen.'; // workeren svarer 429 ved dagsgrensen
   // Kall til worker/ (Claude). Krever innlogging, så ingen andre kan bruke nøkkelen.
   aiItems = body => window.MatgledeAuth.idToken()
     .then(tok => fetch(window.MATGLEDE_AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify(body) }))
@@ -1493,7 +1496,8 @@ class Component extends DCLogic {
       const ok = res.filter(r => r.status === 'fulfilled'), items = ok.flatMap(r => r.value);
       res.filter(r => r.status === 'rejected').forEach(r => console.error(r.reason));
       if (items.length) this.addPantry(items);
-      if (!ok.length) this.toast(files.length > 1 ? 'Fikk ikke lest bildene. Prøv igjen.' : 'Fikk ikke lest bildet. Prøv igjen.');
+      if (res.some(r => r.status === 'rejected' && String(r.reason).includes('HTTP 429'))) this.toast(this.AI_LIMIT);
+      else if (!ok.length) this.toast(files.length > 1 ? 'Fikk ikke lest bildene. Prøv igjen.' : 'Fikk ikke lest bildet. Prøv igjen.');
       else if (ok.length < files.length) this.toast(`${files.length - ok.length} av ${files.length} bilder kunne ikke leses`);
       else if (!items.length) this.toast(files.length > 1 ? 'Fant ingen matvarer på bildene' : 'Fant ingen matvarer på bildet');
     }).finally(() => this.setState({ scanning: false }));
@@ -1618,7 +1622,7 @@ class Component extends DCLogic {
         if (!x || (!str(x.name, 80) && !ing.length)) return this.toast('Fant ingen oppskrift på bildet. Prøv et skarpere bilde.');
         this.openEdit({ name: str(x.name, 80), servings: Math.max(1, Math.min(12, Math.round(num(x.servings) || 4))), time: Math.round(num(x.time) || 0) || null, ing,
           steps: (Array.isArray(x.steps) ? x.steps : []).map(t => str(t, 600)).filter(Boolean).slice(0, 30) }, true); })
-      .catch(err => { console.error(err); this.toast('Fikk ikke lest oppskriften. Prøv igjen, eller skriv den inn selv.'); })
+      .catch(err => { console.error(err); this.toast(String(err).includes('HTTP 429') ? this.AI_LIMIT : 'Fikk ikke lest oppskriften. Prøv igjen, eller skriv den inn selv.'); })
       .finally(() => this.setState({ reading: false }));
   };
 
@@ -1980,6 +1984,7 @@ class Component extends DCLogic {
         pickClose: () => this.setState({ avisPick: null }), pickStop: e => e.stopPropagation(),
         pickItems: pk ? pk.v.map(n => ({ name: n, ...addBtn({ name: n, price: pk.p }) })) : [],
         countLabel: tap ? `${tap.pages.length} sider` : view.type === 'images' ? `${pages.length} sider` : st.offers.length ? `${st.offers.length} ${avis ? 'tilbud' : 'prisfall'}` : 'avis',
+        voiceShow: false, // snakkeknappen er skjult inntil videre (trykkbar avis i stedet). Sett til true for å få den tilbake
         voiceOn: s.shopVoice === st.code, voice: () => this.shopVoice(st.code), voiceCls: s.shopVoice === st.code ? 'mg-pulse' : 'mg-vb', textCls: s.shopVoice === st.code ? '' : 'mg-vt',
         voiceText: s.shopVoice === st.code ? (s.shopParsing ? 'Legger til …' : 'Lytter … trykk for å stoppe') : 'Legg til handlelisten',
         voiceAria: s.shopVoice === st.code ? 'Stopp opptaket' : `Snakk for å legge varer fra ${st.name}-avisen i handlelisten`,
