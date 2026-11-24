@@ -90,6 +90,7 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (req.method !== 'POST' || !allowed) return reply(405, { error: 'not allowed' });
 
+    if (+req.headers.get('Content-Length') > MAX_IMAGE + 100_000) return reply(413, { error: 'too large' }); // stopp store kall før JSON leses inn
     let uid;
     try { uid = await verifyToken((req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, ''), env.FIREBASE_PROJECT_ID); }
     catch { return reply(401, { error: 'login required' }); }
