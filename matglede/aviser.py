@@ -34,17 +34,30 @@ def pick(catalogs: list[dict]) -> dict[str, dict]:
 
 def nice(s: str) -> str:
     s = re.sub(r"\s+", " ", s or "").strip()
-    return s[:1] + s[1:].lower() if s.isupper() else s
+    return s[:1].upper() + (s[1:].lower() if s.isupper() else s[1:])
+
+
+def _share(parts: list[str]) -> list[str]:
+    """«Røde/grønne druer» -> Røde druer, Grønne druer. «Coca-Cola original/zero» -> Coca-Cola original, Coca-Cola zero."""
+    first, last = parts[0].split(), parts[-1].split()
+    single = lambda ps: all(len(p.split()) == 1 for p in ps)
+    if len(first) == 1 and len(last) > 1 and single(parts[:-1]):
+        return [p + " " + " ".join(last[1:]) for p in parts[:-1]] + [parts[-1]]
+    if len(first) > 1 and single(parts[1:]) and not any(p.lower().startswith(first[0].lower()) for p in parts[1:]):
+        return [parts[0]] + [" ".join(first[:-1]) + " " + p for p in parts[1:]]
+    return parts
 
 
 def variants(heading: str, desc: str) -> list[str]:
     """Varene et tilbud gjelder, når avisen lister dem med skråstrek. Ellers tom liste."""
-    split = lambda s: [p.strip(" .") for p in s.split("/") if p.strip(" .")]
-    if len(parts := split(heading)) > 1:
-        return [nice(p) for p in parts]
+    # Korte biter er forkortelser («m/skinn», «M/L»), tall er varenumre («ep1220/00»), lange biter er reklametekst
+    split = lambda s: [p.strip(" .-") for p in s.split("/") if p.strip(" .-")]
+    ok = lambda ps: len(ps) > 1 and all(3 <= len(p) <= 40 and not p[0].isdigit() for p in ps)
+    if ok(parts := split(heading)):
+        return [nice(p) for p in _share(parts)]
     for seg in re.split(r"[,.\n]", desc or ""):
-        if "/" in seg and not re.search(r"\d", seg) and len(parts := split(seg)) > 1:
-            return [f"{nice(heading)} {p.lower()}" for p in parts]
+        if "/" in seg and not re.search(r"\d", seg) and ok(parts := split(seg)):
+            return [f"{nice(heading)} {p.lower()}" for p in _share(parts)]
     return []
 
 
@@ -132,8 +145,10 @@ def see_products(data: dict, client=None, log=print) -> dict:
                         messages=[{"role": "user", "content": [
                             {"type": "image", "source": {"type": "url", "url": url}},
                             {"type": "text", "text": f"Utsnitt fra en tilbudsavis: «{h['n']}». {h['d']} "
-                             "List hver vare du ser avbildet, med merke og variant slik det står på pakken "
-                             "(f.eks. «Old El Paso tacoskjell 12 stk»). Bare varer du faktisk ser. Tom liste hvis ingen."}]}])
+                             "List hver vare som tilbudet gjelder og som du ser avbildet, med merke og variant slik det står "
+                             "på pakken (f.eks. «Old El Paso tacoskjell 12 stk»). Ta ikke med varer fra andre tilbud som "
+                             "kommer med i utsnittet, og ikke varer der du ikke kan lese navnet. Ingen forklaringer i parentes. "
+                             "Tom liste hvis ingen."}]}])
                     text = next((b.text for b in msg.content if b.type == "text"), "{}")
                     seen[url] = [str(x).strip()[:80] for x in json.loads(text).get("items", []) if str(x).strip()][:30]
                 except Exception as e:

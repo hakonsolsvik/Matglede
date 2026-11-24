@@ -8,6 +8,10 @@ class AviserTest(unittest.TestCase):
         self.assertEqual(variants("Coca-Cola/Fanta/Sprite", "et utvalg, 0,33 l"), ["Coca-Cola", "Fanta", "Sprite"])
         self.assertEqual(variants("SYNNØVE GULOST", "Original/lettost. Pr kg"), ["Synnøve gulost original", "Synnøve gulost lettost"])
         self.assertEqual(variants("Melange", "500 g/500 ml. Pr pk"), [])
+        self.assertEqual(variants("Røde/grønne druer", ""), ["Røde druer", "Grønne druer"])
+        self.assertEqual(variants("Coca-cola original/ zero", ""), ["Coca-cola original", "Coca-cola zero"])
+        self.assertEqual(variants("RED BULL/ RED BULL SUKKERFRI", ""), ["Red bull", "Red bull sukkerfri"])
+        self.assertEqual(variants("Lutefisk", "m/skinn"), [])
 
     def test_pick_newest_main_flyer(self):
         cats = [{"id": "jul", "dealer_id": "80742m", "run_from": "2026-10-31", "page_count": 36},
