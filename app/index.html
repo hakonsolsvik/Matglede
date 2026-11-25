@@ -352,7 +352,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 
 <sc-if value="{{ ovRecipe }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:52;overflow-y:auto;display:flex;flex-direction:column">
+<div class="mg-rd" style="position:absolute;top:0;left:0;right:0;bottom:var(--nav);background:var(--mg-bg);z-index:52;overflow-y:auto;display:flex;flex-direction:column">
 <div style="height:440px;flex:none;background:{{ rd.img }};position:relative;display:flex;flex-direction:column;justify-content:flex-end">
 <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(rgba(12,22,14,.28),rgba(12,22,14,0) 26%,rgba(12,22,14,0) 38%,rgba(12,22,14,.62) 64%,rgba(12,22,14,.9))"></div>
 <button onClick="{{ back }}" aria-label="Tilbake" style="position:absolute;top:calc(var(--top) + 10px);left:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
@@ -1414,6 +1414,37 @@ class Component extends DCLogic {
   SEC_TEST = ['Frysevarer','Krydder, olje og sauser','Tørrvarer og hermetikk','Kjøtt og fisk','Meieri og egg','Brød og bakst','Frukt og grønt'];
   sectionOf = n => { n = n.toLowerCase(); const re = Object.fromEntries(this.SECTIONS);
     return this.SEC_TEST.find(k => re[k].test(n)) || 'Annet'; };
+  // Oppskriftssiden suges inn i dagen man trykket på, og så legges retten til. Sjelden handling, så litt moro er lov.
+  // Redusert bevegelse: siden tones bare ut.
+  suckInto = (e, done) => {
+    const page = document.querySelector('.mg-rd'), chip = e && e.currentTarget;
+    if (!page || !chip || !page.animate || this.sucking) return this.sucking ? null : done();
+    this.sucking = true;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const c = chip.getBoundingClientRect(), p = page.getBoundingClientRect();
+    const dx = c.left + c.width / 2 - (p.left + p.width / 2), dy = c.top + c.height / 2 - (p.top + p.height / 2);
+    // Kopi av dagknappen ligger over alt og «svelger» siden, også etter at oppskriften er lukket
+    const ghost = chip.cloneNode(true);
+    Object.assign(ghost.style, { position: 'fixed', left: c.left + 'px', top: c.top + 'px', width: c.width + 'px', height: c.height + 'px',
+      margin: 0, zIndex: 9999, pointerEvents: 'none', boxShadow: '0 6px 18px rgba(30,50,25,.25)' });
+    ghost.removeAttribute('onclick'); document.body.appendChild(ghost);
+    page.style.pointerEvents = 'none';
+    const a = reduce
+      ? page.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'ease', fill: 'forwards' })
+      : page.animate([
+          { transform: 'none', clipPath: 'inset(0 round 0px)', opacity: 1 },
+          { transform: `translate(${dx * .3}px,${dy * .3}px) scale(.62) rotate(-5deg)`, clipPath: 'inset(0 round 36px)', opacity: 1, offset: .45 },
+          { transform: `translate(${dx}px,${dy}px) scale(.03) rotate(-16deg)`, clipPath: 'inset(0 round 400px)', opacity: .3 }],
+        { duration: 600, easing: 'cubic-bezier(.77,0,.175,1)', fill: 'forwards' });
+    a.finished.catch(() => {}).then(() => {
+      this.sucking = false; done();
+      const g = reduce ? null : ghost.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.18)', offset: .4 }, { transform: 'scale(1)' }],
+        { duration: 320, easing: 'cubic-bezier(.23,1,.32,1)' });
+      setTimeout(() => ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'ease', fill: 'forwards' }).finished.then(() => ghost.remove()), g ? 320 : 0);
+      // Er siden fortsatt der (ble ikke lukket), skal den vises igjen
+      setTimeout(() => { a.cancel(); page.style.pointerEvents = ''; }, 1000);
+    });
+  };
   addToPlan = (d, id) => {
     // Ingredienser som er strøket ut på oppskriften blir med som «kjøpes ikke» for dagen. Beholdningen røres ikke.
     const ings = this.ingOf(this.D.byId[id]), off = ings.map(i => !!this.state.have[id + ':' + i.n]);
@@ -2056,7 +2087,7 @@ class Component extends DCLogic {
           btn: cheap ? 'Bytt tilbake til vanlig versjon' : 'Bruk billig versjon', btnBg: cheap ? 'var(--mg-surface)' : '#f5c42c', btnFg: cheap ? 'var(--mg-ink)' : '#1f2a1c',
           days: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg billig versjon til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent',
             bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)',
-            add: () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true }, rdPig: false })); this.addToPlan(i, r.id); this.back(); } })) },
+            add: e => { this.setState({ rdPig: false }); this.suckInto(e, () => { this.setState(st => ({ cheap: { ...st.cheap, [r.id]: true } })); this.addToPlan(i, r.id); this.back(); }); } })) },
         ing: ings.map((i, k) => { const b = this.lineBest(i, f, cheap), v = b ? b.v : null, hs = homeSt[k], hn = this.homeNote(hs, i);
           const note = hn ? hn : !i.slug ? 'ikke koblet til vare ennå' : (M.hasPrices && v == null && i.q != null ? 'ingen pris ennå'
             : cheap && b ? [i.from && `I stedet for ${i.from.toLowerCase()}`, (b.p.offer ? 'Tilbud: ' : 'Kjøp: ') + b.p.name].filter(Boolean).join(' · ') : '');
@@ -2074,7 +2105,7 @@ class Component extends DCLogic {
         hasLearn: !!(r.learn && r.learn.length), learnCount: (r.learn || []).length, learnOpen: s.rdLearn, pigOpen: s.rdPig,
         learn: (r.learn || []).map(([aid, why]) => ({ ...artItem(D.artById[aid]), why })),
         openLearn: () => this.setState({ rdLearn: true, rdPick: false }), closeLearn: () => this.setState({ rdLearn: false }), togglePick: () => this.setState(st => ({ rdPick: !st.rdPick, rdWk: null })),
-        dayChips: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: () => { this.addToPlan(i, r.id); this.back(); } })),
+        dayChips: pwDays.map(i => ({ label: this.DAYS[i % 7], date: this.dayDate(i), aria: `Legg til ${this.dayLong(i).toLowerCase()}${busy(i) ? ', har middag' : ''}`, dot: busy(i) ? 'var(--mg-clay)' : 'transparent', bg: (s.plan[i] || []).includes(r.id) ? 'var(--mg-butter)' : 'var(--mg-surface-sunken)', add: e => this.suckInto(e, () => { this.addToPlan(i, r.id); this.back(); }) })),
         isMine: !!r.mine, edit: () => this.openEdit(r) };
     }
     let ck = {};
