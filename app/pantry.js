@@ -105,6 +105,17 @@
     if (legume(n)) return ing.pack && ing.pack[1] === 'g' ? ing.pack[0] : PACK_G;
     return /^(brokkoli|gulrot)$/.test(words(n).join(' ')) ? ing.gpp || null : null;
   }
+  // Antall stk i det som ble kjøpt fra handlelisten. packs og size: pakkene som ble valgt (size i g, eller stk for egg).
+  // needStk: antall stk listen ba om, exact: listen var i stk. guess = antallet er gjettet (en pose gulrøtter), brukeren bør sjekke det.
+  function bought(n, ing, packs, size, needStk, exact, gPerFedd) {
+    ing = ing || {};
+    if (legume(n)) return { count: packs || Math.max(1, Math.ceil((needStk || 1) - 1e-9)), guess: false };
+    if (ing.base === 'stk' && size) return { count: (packs || 1) * size, guess: false };
+    var g = ing.gpp || perStk(n, ing, gPerFedd);
+    if (g && size) { var per = size / g; return per >= 0.7 && per <= 1.4 ? { count: packs || 1, guess: false } : { count: Math.max(1, Math.round((packs || 1) * per)), guess: true }; }
+    if (needStk) return { count: Math.max(1, Math.ceil(needStk - 1e-9)), guess: !exact };
+    return { count: packs || 1, guess: true };
+  }
   // Store varer (en hel brokkoli, en boks bønner) er «Litt» først når det er under en halv igjen
   function level(x) {
     if (counted(x.n)) { var c = qty(x), big = legume(x.n) || /^(brokkoli|hvitløk)$/.test(words(x.n).join(' ')); return c <= 0 ? 'tomt' : c <= (big ? 0.5 : 2) ? 'litt' : 'mye'; }
@@ -203,5 +214,5 @@
     return n;
   }
 
-  root.MatgledePantry = { flyerPrices: flyerPrices, art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, legume: legume, perStk: perStk, stk: stk, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  root.MatgledePantry = { flyerPrices: flyerPrices, art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, legume: legume, perStk: perStk, stk: stk, bought: bought, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
