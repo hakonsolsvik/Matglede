@@ -86,28 +86,49 @@
   }
   function score(x) { return x.have.length + x.ratio * 4 + x.have.filter(function (h) { return level(h.p) === 'litt'; }).length * 2; }
 
-  // Mengde: varer man teller (egg, løk …) har antall, resten har nivå Mye, Litt eller Tomt.
-  // Eldre lagrede varer har pct (0–100) og gjøres om her.
-  var COUNTED = /^(egg|løk|rødløk|sjalottløk|paprik|sitron|lime|agurk|avokado|tomat|eple|epl|banan|purre|squash|appelsin)$/;
+  // Mengde: varer man teller (egg, løk, brokkoli, hvitløk, bønner …) har antall, resten har nivå Mye, Litt eller Tomt.
+  // Eldre lagrede varer har pct (0–100) eller lvl og gjøres om her.
+  var COUNTED = /^(egg|løk|rødløk|sjalottløk|paprik|sitron|lime|agurk|avokado|tomat|eple|epl|banan|purre|squash|appelsin|brokkoli|gulrot|hvitløk)$/;
+  // Belgvekster telles i pakker/bokser. Grønne bønner og bønnespirer er grønnsaker, ikke tørre/hermetiske belgvekster.
+  var LEGUME = /bønne|kikert|linse/, NOTLEG = /grønne bønne|aspargesbønne|brekkbønne|bønnespir/;
+  var PACK_G = 380; // én pakke/boks belgvekster er 350–400 g
+  var FEDD = 5; // 1 hvitløk = 5 fedd
   var LEVELS = ['tomt', 'litt', 'mye'];
-  function counted(n) { var w = words(n); return w.length === 1 && COUNTED.test(w[0]); }
+  function legume(n) { n = String(n || '').toLowerCase(); return LEGUME.test(n) && !NOTLEG.test(n); }
+  function garlic(n) { return words(n).join(' ') === 'hvitløk'; }
+  function counted(n) { if (legume(n)) return true; var w = words(n); return w.length === 1 && COUNTED.test(w[0]); }
+  // Gram per stk for varene der oppskriftene oppgir gram, fedd eller bokser. ing = ingrediensen i data.js (gpp, pack).
+  // null = varen telles bare når oppskriften sier stk.
+  function perStk(n, ing, gPerFedd) {
+    ing = ing || {};
+    if (garlic(n)) return FEDD * (gPerFedd || 5);
+    if (legume(n)) return ing.pack && ing.pack[1] === 'g' ? ing.pack[0] : PACK_G;
+    return /^(brokkoli|gulrot)$/.test(words(n).join(' ')) ? ing.gpp || null : null;
+  }
+  // Store varer (en hel brokkoli, en boks bønner) er «Litt» først når det er under en halv igjen
   function level(x) {
-    if (counted(x.n)) { var c = qty(x); return c === 0 ? 'tomt' : c <= 2 ? 'litt' : 'mye'; }
+    if (counted(x.n)) { var c = qty(x), big = legume(x.n) || /^(brokkoli|hvitløk)$/.test(words(x.n).join(' ')); return c <= 0 ? 'tomt' : c <= (big ? 0.5 : 2) ? 'litt' : 'mye'; }
     return x.lvl || (x.pct === 0 ? 'tomt' : x.pct != null && x.pct < 50 ? 'litt' : 'mye');
   }
-  function qty(x) { return x.count != null ? x.count : x.pct === 0 ? 0 : /^egg/i.test(x.n) ? 6 : 2; }
+  function qty(x) { return x.count != null ? x.count : x.pct === 0 || x.lvl === 'tomt' ? 0 : x.lvl === 'litt' ? 1 : /^egg/i.test(x.n) ? 6 : legume(x.n) ? 1 : 2; }
+  // Antall til visning: hele og halve, og hvitløk i fedd når det ikke er hele hoder («13 fedd»)
+  function stk(n, v) {
+    if (garlic(n) && Math.abs(v - Math.round(v)) > 0.05) return Math.round(v * FEDD) + ' fedd';
+    var h = Math.round(v * 2) / 2, w = Math.floor(h);
+    return (h === 0.5 ? '½' : w + (h > w ? '½' : '')) + ' stk';
+  }
   // Bare id, navn og én mengde lagres (Firestore godtar ikke undefined)
   function make(x, m) { var o = { id: x.id, n: x.n }; for (var k in m) o[k] = m[k]; return o; }
-  // Ett steg opp (d=1) eller ned (d=-1). Returnerer en ny vare.
+  // Ett steg opp (d=1) eller ned (d=-1). Returnerer en ny vare. Antall går til nærmeste hele («2 stk + 3 fedd» -> 3 eller 2).
   function step(x, d) {
-    if (counted(x.n)) return make(x, { count: Math.max(0, Math.min(99, qty(x) + d)) });
+    if (counted(x.n)) { var q = qty(x); return make(x, { count: Math.max(0, Math.min(99, d > 0 ? Math.floor(q + 1e-9) + 1 : Math.ceil(q - 1e-9) - 1)) }); }
     return make(x, { lvl: LEVELS[Math.max(0, Math.min(2, LEVELS.indexOf(level(x)) + d))] });
   }
   // Ny vare eller lagt inn på nytt: antallet eller nivået som ble sagt («litt», «tomt»), ellers Mye
   function fresh(x, amt) {
-    var c = parseInt(amt, 10), lv = LEVELS.indexOf(amt) >= 0 ? amt : 'mye';
+    var c = parseFloat(String(amt || '').replace(',', '.')), lv = LEVELS.indexOf(amt) >= 0 ? amt : 'mye';
     if (!counted(x.n)) return make(x, { lvl: lv });
-    return make(x, { count: c > 0 ? c : lv === 'tomt' ? 0 : lv === 'litt' ? 1 : qty({ n: x.n }) });
+    return make(x, { count: c > 0 ? Math.min(99, c) : lv === 'tomt' ? 0 : lv === 'litt' ? 1 : qty({ n: x.n }) });
   }
 
   // Omtrent hvor mye som er hjemme, i varens basisenhet (g, ml, stk). pack = en vanlig pakke, perStk = basisenhet per stk.
@@ -118,10 +139,11 @@
     var l = level(x); return l === 'tomt' ? 0 : pack ? (l === 'mye' ? pack : pack / 2) : null;
   }
   // Varen etter at «used» er brukt opp. Nivået følger mengden: under ¾ pakke er Litt.
+  // Antall holdes med to desimaler, så to fedd hvitløk trekker 0,4 hvitløk og ikke en hel.
   function use(x, used, pack, perStk) {
     var h = have(x, pack, perStk); if (h == null) return x;
     var left = Math.max(0, h - used);
-    if (counted(x.n)) return make(x, { count: Math.max(0, Math.round(left / perStk)) });
+    if (counted(x.n)) return make(x, { count: Math.max(0, Math.round(left / perStk * 100) / 100) });
     return make(x, { lvl: left <= 0 ? 'tomt' : left < pack * 0.75 ? 'litt' : 'mye', amt: Math.round(left) });
   }
 
@@ -181,5 +203,5 @@
     return n;
   }
 
-  root.MatgledePantry = { flyerPrices: flyerPrices, art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
+  root.MatgledePantry = { flyerPrices: flyerPrices, art: art, key: key, byPop: byPop, parse: parse, same: same, find: find, rank: rank, week: week, canon: canon, pick: pick, counted: counted, legume: legume, perStk: perStk, stk: stk, level: level, qty: qty, step: step, fresh: fresh, have: have, use: use };
 })(typeof window !== 'undefined' ? window : globalThis);
