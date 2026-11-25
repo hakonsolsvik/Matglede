@@ -132,3 +132,12 @@ assert.strictEqual(P.level({ n: 'Kidneybønner', count: 0.4 }), 'litt');
 assert.deepStrictEqual(P.parse('3 brokkoli, 2 bokser kikerter'), [{ n: 'Brokkoli', amt: '3' }, { n: 'Kikerter', amt: '2 bokser' }]);
 assert.deepStrictEqual(P.fresh({ id: 4, n: 'Kikerter' }, '2 bokser'), { id: 4, n: 'Kikerter', count: 2 });
 console.log('stykkantall ok');
+
+// Kjøpt fra handlelisten: hele stykk teller rett inn, pakker med mange stk er gjettet
+assert.deepStrictEqual(P.bought('Brokkoli', { gpp: 400 }, 1, 400, 1, true), { count: 1, guess: false });
+assert.deepStrictEqual(P.bought('Gulrøtter', { gpp: 80 }, 1, 1000, 2, true), { count: 13, guess: true });
+assert.deepStrictEqual(P.bought('Kidneybønner', { pack: [410, 'g'] }, 2, 380), { count: 2, guess: false });
+assert.deepStrictEqual(P.bought('Egg', { base: 'stk', gpp: 60 }, 1, 12), { count: 12, guess: false });
+assert.deepStrictEqual(P.bought('Hvitløk', { gpp: 50 }, 1, 100, 0.4), { count: 2, guess: true });
+assert.deepStrictEqual(P.bought('Paprika', {}, null, null, 2, true), { count: 2, guess: false });
+console.log('kjøpt ok');

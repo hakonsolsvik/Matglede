@@ -728,6 +728,16 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div class="s10"><h2 class="s3 mg-h">Min beholdning</h2><div class="s18">Det du har hjemme. Juster med − og + hvor mye som er igjen. Varer på «Litt» brukes opp først når appen lager ukeplan. «Mye» regnes som en vanlig pakke og «Litt» som en halv, til appen vet mer fra rettene du har laget. Middager du legger i ukeplanen trekkes fra med en gang, og legges tilbake hvis du fjerner dem.</div></div>
+<sc-if value="{{ pt.chk }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:10px">
+<div class="s10"><span class="s1 mg-h">Etter handleturen: stemmer antallet?</span><span style="font-size:14px;line-height:1.45">Disse varene er lagt i beholdningen fra handlelisten. Appen har gjettet hvor mange det var i pakken, så rett det opp om det ikke stemmer.</span></div>
+<div style="display:flex;flex-direction:column;background:rgba(255,255,255,.55);border-radius:var(--mg-r-md);padding:2px 10px"><sc-for list="{{ pt.chkRows }}" as="i"><div role="group" aria-label="{{ i.aria }}" style="display:flex;align-items:center;gap:8px;padding:5px 0">
+<span style="flex:1;min-width:0;font-size:15px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.n }}</span>
+<button onClick="{{ i.down }}" aria-label="{{ i.downLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:rgba(31,42,28,.1);color:#1f2a1c;font-family:inherit;font-size:18px;font-weight:800;cursor:pointer">−</button>
+<span aria-live="polite" style="width:56px;text-align:center;font-size:14px;font-weight:800">{{ i.label }}</span>
+<button onClick="{{ i.up }}" aria-label="{{ i.upLabel }}" style="width:36px;height:36px;flex:none;border-radius:50%;border:0;background:rgba(31,42,28,.1);color:#1f2a1c;font-family:inherit;font-size:18px;font-weight:800;cursor:pointer">+</button>
+</div></sc-for></div>
+<div class="s33"><button onClick="{{ pt.chkDone }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill)">Stemmer</button></div>
+</div></sc-if>
 <sc-if value="{{ pt.ask }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px">
 <div class="s10"><span class="s1 mg-h">{{ pt.askTitle }}</span><span style="font-size:14px;line-height:1.45">Gå gjennom varene én og én og velg hvor mye du har. Da stemmer ukeplanen og handlelisten, også om du har brukt noe til annet enn middag, som egg til frokost.</span></div>
 <div class="s33"><button onClick="{{ pt.start }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill)">Oppdater nå</button><button onClick="{{ pt.skip }}" style="border:0;cursor:pointer;font-family:inherit;background:rgba(31,42,28,.1);color:#1f2a1c;font-size:14px;font-weight:700;padding:11px 18px;border-radius:var(--mg-r-pill)">Ikke nå</button></div>
@@ -1115,7 +1125,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, avisZoom: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', shopView: 'full', toast: null,
     undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], diet: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, bought: {}, pantryCheck: [], listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
   };
 
   ph = h => { h = 118 + (h * 7) % 50; return `repeating-linear-gradient(135deg, oklch(0.915 0.05 ${h}) 0 9px, oklch(0.88 0.065 ${h}) 9px 18px)`; };
@@ -1126,7 +1136,7 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFD9AA', '#4a2c00'], KIWI: ['#CFEBC8', '#1f3a1c'], MENY: ['#F8C9CF', '#6e0e1c'], REMA: ['#CAD7F3', '#0e2a6b'], COOP: ['#C9DAED', '#0a2f57'], SPAR: ['#C6E4D0', '#0f4426'], JOKER: ['#FFF1A8', '#4a3d00'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine', 'diet'];
+  SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine', 'diet', 'bought', 'pantryCheck'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'pantrySeen', 'tilbudSeen', 'startHidden'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -1275,8 +1285,8 @@ class Component extends DCLogic {
     if (k <= 0) return d.plan ? { ...d, planFrom: d.planFrom || now } : d;
     const out = { ...d, planFrom: now };
     if (d.plan) { out.plan = {}; Object.entries(d.plan).forEach(([g, l]) => { if (+g >= 7 * k) out.plan[+g - 7 * k] = l; }); }
-    if (d.checked) { out.checked = {}; Object.entries(d.checked).forEach(([c, v]) => { const m = /^(\d+)\|(.*)$/.exec(c), w = m && +m[1] - k;
-      if (w > 0) out.checked[w + '|' + m[2]] = v; else if (w === 0) out.checked[m[2]] = v; }); }
+    ['checked', 'bought'].forEach(f => { if (d[f]) { out[f] = {}; Object.entries(d[f]).forEach(([c, v]) => { const m = /^(\d+)\|(.*)$/.exec(c), w = m && +m[1] - k;
+      if (w > 0) out[f][w + '|' + m[2]] = v; else if (w === 0) out[f][m[2]] = v; }); } });
     if (d.extra) out.extra = d.extra.map(x => x.w ? (({ w, ...y }) => w > k ? { ...y, w: w - k } : y)(x) : x);
     return out;
   };
@@ -1417,8 +1427,8 @@ class Component extends DCLogic {
   stockOf = pantry => pantry.filter(x => window.MatgledePantry.level(x) !== 'tomt');
   // Trekker ingrediensen fra det som er igjen hjemme (left: vare-id -> mengde).
   // Gir null når varen ikke er hjemme, ellers { p, ok, h, need } der h og need mangler når mengden er ukjent.
-  takeHome = (left, i, f) => {
-    const P = window.MatgledePantry, p = P.find(this.stockOf(this.state.pantry), this.ingNames(i)); if (!p) return null;
+  takeHome = (left, i, f, pantry = this.state.pantry) => {
+    const P = window.MatgledePantry, p = P.find(this.stockOf(pantry), this.ingNames(i)); if (!p) return null;
     if (!left.has(p.id)) left.set(p.id, P.have(p, this.packOf(i.slug), 1));
     const h = left.get(p.id), need = this.needOf(p, i, f); if (h == null || need == null) return { p, ok: true };
     left.set(p.id, Math.max(0, h - need)); return { p, ok: h >= need - 1e-9, h, need };
@@ -1431,12 +1441,12 @@ class Component extends DCLogic {
   planned = () => Object.keys(this.state.plan).map(Number).filter(d => d >= 0).sort((a, b) => a - b).flatMap(d => (this.state.plan[d] || []).filter(id => this.D.byId[id] && !this.state.made[this.madeKey(d, id)]).map(id => ({ d, id })));
   // Beholdningen fordelt på planen i rekkefølge, så retter lenger ut i uka ser hva som er igjen.
   // Gir status per ingrediens for hver rett, med rett utenfor planen (extra) til slutt. stop: dagen fordelingen stopper før.
-  homeRun = (extra, stop) => {
+  homeRun = (extra, stop, pantry) => {
     const left = new Map(), use = new Map(), meals = [...this.planned().filter(m => stop == null || m.d < stop), ...(extra ? [{ d: -1, id: extra }] : [])];
     // use: vare-id -> { start, unit, pack, days } for det planen trekker fra (start mangler når mengden er ukjent)
     const log = (st, i, d) => { if (!st || d < 0) return st; const u = use.get(st.p.id) || { start: st.h, unit: this.homeUnit(st.p, i), pack: this.packOf(i.slug), days: [] };
       if (!u.days.includes(d)) u.days.push(d); use.set(st.p.id, u); return st; };
-    return { left, use, meals: meals.map(m => { const r = this.D.byId[m.id], f = this.factor(r); return { ...m, st: this.ingOf(r).map(i => this.skipped(m.d, m.id, i) ? null : log(this.takeHome(left, i, f), i, m.d)) }; }) };
+    return { left, use, meals: meals.map(m => { const r = this.D.byId[m.id], f = this.factor(r); return { ...m, st: this.ingOf(r).map(i => this.skipped(m.d, m.id, i) ? null : log(this.takeHome(left, i, f, pantry), i, m.d)) }; }) };
   };
   homeNote = (st, i) => { if (!st) return null; const u = this.homeUnit(st.p, i), q = v => u === 'stk' ? window.MatgledePantry.stk(st.p.n, v) : this.fmt(v, u);
     return st.ok ? 'Har nok hjemme' : st.h > 0 ? `Har ca. ${q(st.h)} hjemme, trenger ${q(st.need - st.h)} til`
@@ -1464,6 +1474,31 @@ class Component extends DCLogic {
   // Skrevet inn: «3 gulrøtter, 2 bokser kikerter». Gir navnene som ble lagt inn.
   addTyped = text => { const P = window.MatgledePantry, known = this.known(), items = P.parse(text).map(x => ({ n: P.canon(x.n, known), amt: x.amt }));
     this.addPantry(items); return items.map(x => x.n); };
+  // Krysset av i handlelisten = handlet: varen legges i beholdningen. bought[ck] husker hva som ble lagt til,
+  // så det tas bort igjen om krysset fjernes. Antall som er gjettet (en pose gulrøtter) havner i pantryCheck.
+  unbuy = (pantry, b) => pantry.flatMap(x => x.id !== b.id ? [x] : !b.prev ? [] : b.add != null
+    ? [{ id: x.id, n: x.n, count: Math.max(0, Math.round((window.MatgledePantry.qty(x) - b.add) * 100) / 100) }] : [b.prev]);
+  toggleBought = (e, pp) => this.setState(st => {
+    const P = window.MatgledePantry, ck = e.ck, on = !st.checked[ck], bought = { ...(st.bought || {}) };
+    let pantry = st.pantry, check = st.pantryCheck || [];
+    if (!on) { const b = bought[ck]; delete bought[ck];
+      if (b) pantry = this.unbuy(pantry, b);
+      check = check.filter(id => pantry.some(x => x.id === id));
+    } else if (!e.home) {
+      // Bare samme vare: «Hakkede tomater» skal ikke telles som ferske tomater
+      const n = P.canon(e.n, this.known()), ex = pantry.find(x => P.key(x.n) === P.key(n)), id = ex ? ex.id : Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      let nx, add = null;
+      if (!P.counted(n)) nx = { id, n: ex ? ex.n : n, lvl: 'mye' };
+      else { const stkLine = !e.own && e.stk && !e.nonStk, ing = this.D.ING[e.slug || this.slugOf(e.n)];
+        const need = e.own ? e.q : stkLine ? (e.buy != null && e.base ? e.buy / e.base * e.stk : e.stk) : null;
+        const c = P.bought(n, ing, pp && pp.packs, pp && pp.p && pp.p.size, need, e.own ? !!e.q : stkLine, (this.D.M.matching || {}).gramsPerClove);
+        add = c.count; nx = { id, n: ex ? ex.n : n, count: Math.min(99, (ex ? P.qty(ex) : 0) + add) };
+        if (c.guess && !check.includes(id)) check = [...check, id]; }
+      pantry = ex ? pantry.map(x => x.id === id ? nx : x) : [...pantry, nx];
+      bought[ck] = add != null && ex ? { id, prev: ex, add } : { id, prev: ex || null };
+    }
+    return { checked: { ...st.checked, [ck]: on }, bought, pantry, pantryCheck: check };
+  });
   // items: [{ n, amt? }]. Mengden (Mye/Litt/Tomt eller antall) styres av MatgledePantry.
   addPantry = items => {
     if (!items.length) return;
@@ -1887,8 +1922,9 @@ class Component extends DCLogic {
       m.forEach(e => { e.ck = w ? w + '|' + e.k : e.k; }); // avkrysning gjelder én uke
       // Min beholdning trekkes fra det som trengs (etter dagene før i planen). Har man nok: 0 kr og egen gruppe.
       // Uten kjent mengde: Mye = har nok, Litt og Tomt = kjøp med beskjed.
-      const left = this.homeRun(null, Math.min(...dl)).left;
-      m.forEach(e => { const p = !e.own && P.find(s.pantry, [e.n]); e.stock = p ? P.level(p) : null; e.home = e.stock === 'mye';
+      // Det som er kjøpt fra listen teller ikke som «hjemme» her, så summen og pakkene står som før handleturen
+      const pre = Object.entries(s.bought || {}).filter(([c]) => +((/^(\d+)\|/.exec(c) || [0, 0])[1]) === w).map(x => x[1]).reduce(this.unbuy, s.pantry), left = this.homeRun(null, Math.min(...dl), pre).left;
+      m.forEach(e => { const p = !e.own && P.find(pre, [e.n]); e.stock = p ? P.level(p) : null; e.home = e.stock === 'mye';
         if (!p || !e.slug) return;
         const cnt = P.counted(p.n), g = cnt && e.nonStk && this.stkG(p, e.slug), need = cnt ? (e.nonStk ? (g && e.base ? e.base / g : null) : e.stk) : (e.base || null);
         const h = left.has(p.id) ? left.get(p.id) : P.have(p, this.packOf(e.slug), 1); if (h == null || need == null) return;
@@ -1911,7 +1947,7 @@ class Component extends DCLogic {
         name: e.n, amount: amountOf(e), sub: e.own ? sub : sub + ' · ' + e.from.join(', '), price: e.home ? '0 kr' : e.own && e.price == null ? '' : pp ? this.fp(pp.total) : '–', priceColor: e.home ? 'var(--mg-primary)' : 'var(--mg-ink-subtle)', ...this.check(!!s.checked[e.ck]),
         section: this.sectionOf(e.n), own: !!e.own, by: e.by ? `Lagt til av ${e.by}` : '', hasBy: !!e.by, home: !!e.home, hasStore: !!e.store, storeChip: e.store ? this.logoChip(e.store) : '', storeName: e.store ? e.store.name : '',
         remove: ev => { ev && ev.stopPropagation && ev.stopPropagation(); this.setState(st => ({ extra: st.extra.filter(x => x.id !== e.own) })); },
-        toggle: () => this.setState(st => ({ checked: { ...st.checked, [e.ck]: !st.checked[e.ck] } })) }; });
+        toggle: () => this.toggleBought(e, pp) }; });
     // need: varer som kan ha pris (koblet til vare eller tilbud, og ikke hjemme)
     const shopSum = (arr, chain) => { let total = 0, found = 0, stale = 0, need = 0; arr.forEach(e => { if (e.home || (!e.slug && e.price == null)) return; need++; const pp = priceEntry(e, chain); if (pp) { total += pp.total; found++; if (pp.p.stale) stale++; } }); return { total, found, stale, need, n: arr.length }; };
     // Mangler en butikk mange priser, vises ingen sum, så den ikke ser billigst ut (Rema og Coop har gamle data i Kassalapp)
@@ -2201,6 +2237,11 @@ class Component extends DCLogic {
     // Samme avdelinger og rekkefølge som handlelisten
     pt.groups = [...this.SECTIONS.map(x => x[0]), 'Annet'].map(name => ({ name, items: pt.items.filter(i => i.section === name) })).filter(g => g.items.length);
     // Søndagskort: én vare om gangen, i samme rekkefølge som listen
+    // Etter handleturen: varer kjøpt i pakker der antallet er gjettet
+    const chk = (s.pantryCheck || []).map(id => s.pantry.find(p => p.id === id)).filter(x => x && P.counted(x.n));
+    pt.chk = chk.length > 0; pt.chkDone = () => this.setState({ pantryCheck: [] });
+    pt.chkRows = chk.map(x => ({ n: x.n, label: P.stk(x.n, P.qty(x)), aria: `${x.n}: ${P.stk(x.n, P.qty(x))}`, up: () => stepItem(x.id, 1), down: () => stepItem(x.id, -1),
+      upLabel: `Mer ${x.n.toLowerCase()}`, downLabel: `Mindre ${x.n.toLowerCase()}` }));
     pt.ask = s.pantryAsk && s.pc == null; pt.nag = this.sundayNag(); pt.rowLabel = `Min beholdning, ${s.pantry.length} varer${pt.nag ? ', på tide å oppdatere' : ''}`;
     pt.nagText = this.TODAY === 6 ? 'Søndag' : 'Oppdater'; pt.askTitle = this.TODAY === 6 ? 'Det er søndag! Oppdater beholdningen din' : 'På tide å oppdatere beholdningen din';
     pt.start = () => this.setState({ pc: 0 }); pt.skip = () => this.setState({ pantryAsk: false });
@@ -2322,7 +2363,7 @@ class Component extends DCLogic {
       ovFavs: top.t === 'favs', ovArkiv: top.t === 'arkiv',
       ms: (() => { const arts = (s.savedArts || []).map(id => D.artById[id]).filter(Boolean).map(a => ({ ...artItem(a), remove: e => { e && e.stopPropagation && e.stopPropagation(); this.toggleArt(a.id); } }));
         const card = r => this.mk(r);
-        return { pantrySub: s.pantry.length ? `${s.pantry.length} ${s.pantry.length === 1 ? 'vare' : 'varer'} hjemme` : 'Tom ennå', mineSub: s.mine.length === 1 ? '1 egen oppskrift' : `${s.mine.length} egne oppskrifter`, nag: pt.nag, nagText: pt.nagText,
+        return { pantrySub: s.pantry.length ? `${s.pantry.length} ${s.pantry.length === 1 ? 'vare' : 'varer'} hjemme` : 'Tom ennå', mineSub: s.mine.length === 1 ? '1 egen oppskrift' : `${s.mine.length} egne oppskrifter`, nag: pt.nag || pt.chk, nagText: pt.chk ? 'Sjekk antall' : pt.nagText,
           mine: D.R.filter(r => r.mine).map(card), mineNum: s.mine.length, newMine: () => this.openEdit(null),
           favs: favAll.slice(0, 12).map(card), favNum: favAll.length, noFavs: !favAll.length,
           arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere'),
