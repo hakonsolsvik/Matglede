@@ -125,6 +125,12 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ isMin }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
 <div class="s10"><h1 class="s3 mg-h">Min side</h1><div class="s18">Det du har hjemme, oppskriftene dine og det du har lagret</div></div>
+<sc-if value="{{ ms.start.show }}"><section aria-label="Kom i gang" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div><div class="s1 mg-h">Kom i gang</div><div style="font-size:13px;font-weight:700;opacity:.75">{{ ms.start.done }}</div></div><button onClick="{{ ms.start.hide }}" style="flex:none;border:0;background:none;color:inherit;font-family:inherit;font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px 0">Skjul</button></div>
+<sc-for list="{{ ms.start.steps }}" as="st"><button onClick="{{ st.go }}" aria-label="{{ st.aria }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:rgba(255,255,255,.55);color:#1f2a1c;border-radius:var(--mg-r-md);padding:10px 12px;display:flex;align-items:center;gap:12px">
+<span aria-hidden="true" style="width:26px;height:26px;flex:none;border-radius:50%;border:2px solid #1f2a1c;background:{{ st.bg }};color:#fff;display:flex;align-items:center;justify-content:center"><sc-if value="{{ st.ok }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:800;text-decoration:{{ st.deco }}">{{ st.title }}</span><span style="font-size:12px;font-weight:600;opacity:.75">{{ st.sub }}</span></span></button></sc-for>
+</section></sc-if>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
 <button onClick="{{ openPantry }}" aria-label="Min beholdning, {{ ms.pantrySub }}" style="position:relative;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-xl);padding:18px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:var(--mg-shadow-1)">
 <sc-if value="{{ ms.nag }}"><span style="position:absolute;top:10px;right:10px;background:var(--mg-danger);color:#fff;font-size:12px;font-weight:800;padding:2px 8px;border-radius:var(--mg-r-pill)">{{ ms.nagText }}</span></sc-if>
@@ -135,17 +141,6 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <span aria-hidden="true" style="width:68px;height:68px;border-radius:50%;background:var(--mg-primary-soft);color:var(--mg-primary);display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.3 5 7.8 4.3 4 4.5v13c3.8-.2 6.3.5 8 2 1.7-1.5 4.2-2.2 8-2v-13c-3.8-.2-6.3.5-8 2z"></path><path d="M12 6.5v13"></path></svg></span>
 <span style="font-size:15px;font-weight:800;line-height:1.2;text-align:center">Mine oppskrifter</span><span class="s12" style="text-align:center">{{ ms.mineSub }}</span>
 </button>
-</div>
-<div class="s4">
-<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Mine oppskrifter</div><button onClick="{{ openMine }}" aria-label="Se alle mine oppskrifter" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Se alle<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
-<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
-<sc-for list="{{ ms.mine }}" as="r" hint-placeholder-count="2"><div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:116px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:5px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
-<div style="height:70px;border-radius:var(--mg-r-sm);background:{{ r.img }}"></div>
-<div style="padding:6px 3px 1px;font-size:13px;font-weight:700;line-height:1.2;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ r.name }}</div>
-<div style="padding:1px 3px 3px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ r.timeLabel }}</div>
-</div></sc-for>
-<button onClick="{{ ms.newMine }}" style="flex:none;width:116px;min-height:124px;scroll-snap-align:start;border:2px dashed var(--mg-border-strong);background:none;border-radius:var(--mg-r-lg);cursor:pointer;font-family:inherit;color:var(--mg-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:700"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ny oppskrift</button>
-</div>
 </div>
 <div class="s4">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Favoritter</div><button onClick="{{ openFavs }}" aria-label="Se alle favoritter" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Se alle<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
@@ -688,16 +683,23 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <div style="display:flex;align-items:center;gap:16px"><div style="width:76px;height:76px;flex:none;border-radius:50%;background:var(--mg-butter) center/cover no-repeat;background-image:{{ avatarImg }};display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800">{{ avatarText }}</div><div><div style="min-width:0"><div style="font-size:22px;font-weight:800;letter-spacing:-.03em">{{ userName }}</div><div style="font-size:14px;color:var(--mg-ink-muted);overflow:hidden;text-overflow:ellipsis">{{ userEmail }}</div><div style="font-size:12px;color:var(--mg-primary);font-weight:700;margin-top:4px">{{ syncLabel }}</div></div></div></div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<div class="s32"><span class="s16 mg-h">{{ favNum }}</span><span class="s12">favoritter</span></div>
-<div class="s32"><span class="s16 mg-h">{{ planNum }}</span><span class="s12">planlagt</span></div>
-<div class="s32"><span class="s16 mg-h">{{ daysNum }}</span><span class="s12">dager planlagt</span></div>
+<div class="s72">
+<div class="s13">Del appen</div>
+<sc-if value="{{ share.out }}"><div class="s2">Logg inn for å dele planen, handlelisten og beholdningen med noen du bor med.</div><button onClick="{{ share.login }}" class="s53" style="align-self:flex-start">Logg inn</button></sc-if>
+<sc-if value="{{ share.hasInvite }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-md);padding:12px 14px;display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:700;line-height:1.4">{{ share.inviteText }}</div><div class="s33"><button onClick="{{ share.join }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Bli med</button><button onClick="{{ share.decline }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;height:44px;padding:0 14px;border-radius:var(--mg-r-pill);background:rgba(31,42,28,.1);color:#1f2a1c">Nei takk</button></div></div></sc-if>
+<sc-if value="{{ share.in }}">
+<div class="s2">{{ share.sub }}</div>
+<sc-if value="{{ share.hasPeople }}"><div style="display:flex;flex-direction:column"><sc-for list="{{ share.people }}" as="p"><div style="display:flex;align-items:center;gap:10px;min-height:40px;border-bottom:1px solid var(--mg-surface-sunken)"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:14px;font-weight:700">{{ p.name }}</span><span class="s2">{{ p.state }}</span><sc-if value="{{ p.canRemove }}"><button onClick="{{ p.remove }}" aria-label="{{ p.rmLabel }}" style="width:36px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button></sc-if></div></sc-for></div></sc-if>
+<form onSubmit="{{ share.submit }}" class="s33"><input type="email" autocomplete="email" value="{{ share.email }}" onChange="{{ share.onEmail }}" aria-label="E-posten til den du vil dele med" placeholder="E-post, f.eks. kari@gmail.com" style="flex:1;min-width:0;height:44px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none;font-family:inherit"><button type="submit" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Del</button></form>
+<sc-if value="{{ share.hasMsg }}"><div role="alert" style="font-size:14px;font-weight:700;color:var(--mg-danger)">{{ share.msg }}</div></sc-if>
+<sc-if value="{{ share.hasSent }}"><div class="s2" style="line-height:1.45">Be {{ share.sent }} logge inn i Matglede med denne e-posten og trykke «Bli med» på profilen sin. <a href="{{ share.mailto }}" style="color:var(--mg-primary);font-weight:700">Send en e-post med lenken</a></div></sc-if>
+<sc-if value="{{ share.unverified }}"><div class="s2" style="line-height:1.45">Har noen invitert deg? Bekreft e-postadressen din først, så dukker invitasjonen opp her.</div><div class="s33"><button onClick="{{ share.verify }}" class="s53">Send bekreftelse</button><button onClick="{{ share.recheck }}" class="s53">Jeg har bekreftet</button></div></sc-if>
+<sc-if value="{{ share.inHh }}"><button onClick="{{ share.leave }}" style="align-self:flex-start;border:0;background:none;padding:6px 0;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-danger);cursor:pointer;text-decoration:underline">Slutt å dele</button></sc-if>
+</sc-if>
 </div>
 <div class="s70">
-<div onClick="{{ openMine }}" role="button" tabIndex="0" class="s71">Mine oppskrifter<span class="s29">{{ mineNum }} ›</span></div>
 <div onClick="{{ openPantry }}" role="button" tabIndex="0" class="s71" aria-label="{{ pt.rowLabel }}"><span style="display:flex;align-items:center;gap:8px">Min beholdning<sc-if value="{{ pt.nag }}"><span style="background:var(--mg-danger);color:#fff;font-size:12px;font-weight:800;padding:2px 8px;border-radius:var(--mg-r-pill)">{{ pt.nagText }}</span></sc-if></span><span class="s29">{{ pt.count }} varer ›</span></div>
 <div onClick="{{ menuSettings }}" role="button" tabIndex="0" class="s71">Innstillinger<span class="s29">›</span></div>
-<div onClick="{{ openFavs }}" role="button" tabIndex="0" class="s71">Mine favoritter<span class="s29">›</span></div>
 <div onClick="{{ doLogout }}" role="button" tabIndex="0" style="padding:16px;font-size:16px;font-weight:700;color:var(--mg-danger);cursor:pointer">Logg ut</div>
 </div>
 </div>
@@ -774,20 +776,6 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s69">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <h2 class="s3 mg-h">Innstillinger</h2>
-<div class="s72">
-<div class="s13">Del appen</div>
-<sc-if value="{{ share.out }}"><div class="s2">Logg inn for å dele planen, handlelisten og beholdningen med noen du bor med.</div><button onClick="{{ share.login }}" class="s53" style="align-self:flex-start">Logg inn</button></sc-if>
-<sc-if value="{{ share.hasInvite }}"><div role="status" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-md);padding:12px 14px;display:flex;flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:700;line-height:1.4">{{ share.inviteText }}</div><div class="s33"><button onClick="{{ share.join }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Bli med</button><button onClick="{{ share.decline }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;height:44px;padding:0 14px;border-radius:var(--mg-r-pill);background:rgba(31,42,28,.1);color:#1f2a1c">Nei takk</button></div></div></sc-if>
-<sc-if value="{{ share.in }}">
-<div class="s2">{{ share.sub }}</div>
-<sc-if value="{{ share.hasPeople }}"><div style="display:flex;flex-direction:column"><sc-for list="{{ share.people }}" as="p"><div style="display:flex;align-items:center;gap:10px;min-height:40px;border-bottom:1px solid var(--mg-surface-sunken)"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:14px;font-weight:700">{{ p.name }}</span><span class="s2">{{ p.state }}</span><sc-if value="{{ p.canRemove }}"><button onClick="{{ p.remove }}" aria-label="{{ p.rmLabel }}" style="width:36px;height:40px;flex:none;border:0;background:none;color:var(--mg-ink-subtle);cursor:pointer;font-size:18px">×</button></sc-if></div></sc-for></div></sc-if>
-<form onSubmit="{{ share.submit }}" class="s33"><input type="email" autocomplete="email" value="{{ share.email }}" onChange="{{ share.onEmail }}" aria-label="E-posten til den du vil dele med" placeholder="E-post, f.eks. kari@gmail.com" style="flex:1;min-width:0;height:44px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border);background:var(--mg-surface);padding:0 16px;font-size:16px;color:var(--mg-ink);outline:none;font-family:inherit"><button type="submit" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:44px;padding:0 18px;border-radius:var(--mg-r-pill);background:var(--mg-ink);color:var(--mg-on-ink);opacity:{{ share.opacity }}">Del</button></form>
-<sc-if value="{{ share.hasMsg }}"><div role="alert" style="font-size:14px;font-weight:700;color:var(--mg-danger)">{{ share.msg }}</div></sc-if>
-<sc-if value="{{ share.hasSent }}"><div class="s2" style="line-height:1.45">Be {{ share.sent }} logge inn i Matglede med denne e-posten og trykke «Bli med» her i Innstillinger. <a href="{{ share.mailto }}" style="color:var(--mg-primary);font-weight:700">Send en e-post med lenken</a></div></sc-if>
-<sc-if value="{{ share.unverified }}"><div class="s2" style="line-height:1.45">Har noen invitert deg? Bekreft e-postadressen din først, så dukker invitasjonen opp her.</div><div class="s33"><button onClick="{{ share.verify }}" class="s53">Send bekreftelse</button><button onClick="{{ share.recheck }}" class="s53">Jeg har bekreftet</button></div></sc-if>
-<sc-if value="{{ share.inHh }}"><button onClick="{{ share.leave }}" style="align-self:flex-start;border:0;background:none;padding:6px 0;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-danger);cursor:pointer;text-decoration:underline">Slutt å dele</button></sc-if>
-</sc-if>
-</div>
 <div class="s72">
 <div class="s13">Standard antall personer</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--mg-surface-sunken);border-radius:var(--mg-r-md);padding:4px"><sc-for list="{{ portionOpts }}" as="p"><button onClick="{{ p.pick }}" aria-pressed="{{ p.on }}" style="border:0;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;height:40px;border-radius:var(--mg-r-sm);background:{{ p.bg }};color:{{ p.fg }};box-shadow:{{ p.shadow }}">{{ p.label }}</button></sc-for></div>
@@ -874,6 +862,13 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
 <button onClick="{{ mn.write }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:left"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Skriv inn selv</button>
 <label style="position:relative;cursor:pointer;background:{{ mn.scanBg }};color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:14px 12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{ mn.scanLabel }}<input type="file" accept="image/*" onChange="{{ mn.scan }}" aria-label="Ta bilde av en oppskrift" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label>
+</div>
+<div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
+<sc-for list="{{ ms.mine }}" as="r" ><div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:116px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:5px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column">
+<div style="height:70px;border-radius:var(--mg-r-sm);background:{{ r.img }}"></div>
+<div style="padding:6px 3px 1px;font-size:13px;font-weight:700;line-height:1.2;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ r.name }}</div>
+<div style="padding:1px 3px 3px;font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ r.timeLabel }}</div>
+</div></sc-for>
 </div>
 <sc-if value="{{ mn.empty }}"><div class="s51">Du har ingen egne oppskrifter ennå. De du lagrer kommer her, i søket og under Oppskrifter, og kan legges i ukeplanen som alle andre.</div></sc-if>
 <sc-for list="{{ mn.list }}" as="r">
@@ -1099,7 +1094,7 @@ class Component extends DCLogic {
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine'];
-  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'pantrySeen', 'tilbudSeen'];
+  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'pantrySeen', 'tilbudSeen', 'startHidden'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
@@ -1211,7 +1206,7 @@ class Component extends DCLogic {
     A.hh.findInvite(u.email).then(inv => {
       if (!inv || inv.hid === this.state.hh) return;
       this.setState({ hhInvite: inv });
-      this.toast(`${inv.from} vil dele appen med deg. Se Innstillinger.`);
+      this.toast(`${inv.from} vil dele appen med deg. Se profilen din.`);
     }).catch(e => console.error(e));
   };
   shareApp = e => {
@@ -2098,7 +2093,6 @@ class Component extends DCLogic {
       ad = { ...artItem(a), img: ph(D.topicById[a.topic].h), saved: on, saveLabel: on ? 'Fjern fra arkivet' : 'Lagre i arkivet', saveFill: on ? 'currentColor' : 'none', toggleSave: () => this.toggleArt(a.id) }; }
 
     const tg = (key, label, sub) => ({ on: !!s[key], label, sub, track: s[key] ? 'var(--mg-primary)' : 'var(--mg-border-strong)', justify: s[key] ? 'flex-end' : 'flex-start', toggle: () => this.setState(st => ({ [key]: !st[key] })) });
-    const planNum = Object.values(s.plan).reduce((a, l) => a + l.length, 0);
     const initials = user ? (user.name || user.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') : '';
     const openProfile = () => this.push({ t: s.loggedIn ? 'profile' : 'login' });
     // Matlageret og forslag ut fra det
@@ -2205,7 +2199,7 @@ class Component extends DCLogic {
     }
 
     return {
-      ovMine: top.t === 'mine', mn, openMine, ovEdit: top.t === 'edit' && !!s.draft, ed, mineNum: s.mine.length,
+      ovMine: top.t === 'mine', mn, openMine, ovEdit: top.t === 'edit' && !!s.draft, ed,
       nav, showLabels: this.props.navLabels ?? true,
       navZ: s.sdFull ? 10 : 50, // under avisen i fullskjerm
       isHome: s.tab === 'home', isMin: s.tab === 'min', isTilbud: s.tab === 'tilbud', isPlan: s.tab === 'plan', isOpp: s.tab === 'opp', isLaere: s.tab === 'laere',
@@ -2232,7 +2226,6 @@ class Component extends DCLogic {
       avatarImg: user && user.photo ? `url("${user.photo}")` : 'none', avatarText: user && user.photo ? '' : initials,
       syncLabel: user ? ((s.hhMembers || []).length > 1 ? 'Deler appen med ' + s.hhMembers.filter(id => id !== user.uid).map(id => (s.hhNames || {})[id] || 'Ukjent').join(', ')
         : user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
-      daysNum: Object.values(s.plan).filter(l => l.length).length,
       greeting: user && user.name ? `Hei, ${user.name.split(' ')[0]}` : 'Hva blir det til middag?',
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
       news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
@@ -2244,7 +2237,14 @@ class Component extends DCLogic {
         return { pantrySub: s.pantry.length ? `${s.pantry.length} ${s.pantry.length === 1 ? 'vare' : 'varer'} hjemme` : 'Tom ennå', mineSub: s.mine.length === 1 ? '1 egen oppskrift' : `${s.mine.length} egne oppskrifter`, nag: pt.nag, nagText: pt.nagText,
           mine: D.R.filter(r => r.mine).map(card), mineNum: s.mine.length, newMine: () => this.openEdit(null),
           favs: favAll.slice(0, 12).map(card), favNum: favAll.length, noFavs: !favAll.length,
-          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere') }; })(),
+          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere'),
+          start: (() => { const steps = [
+              [s.pantry.length > 0, 'Legg inn det du har hjemme', 'Da bruker ukeplanen og handlelisten det du allerede har', () => this.push({ t:'pantry' })],
+              [s.favs.length > 0, 'Stjernemerk en rett du liker', 'Trykk på stjernen på en oppskrift', () => this.go('opp')],
+              [s.mine.length > 0, 'Lagre en egen oppskrift', 'Skriv den inn, eller ta bilde av en oppskrift', () => this.openEdit(null)]
+            ].map(([ok, title, sub, go]) => ({ ok, title, sub, go, bg: ok ? 'var(--mg-primary)' : 'transparent', deco: ok ? 'line-through' : 'none', aria: `${title}, ${ok ? 'gjort' : 'ikke gjort'}` }));
+            const n = steps.filter(x => x.ok).length;
+            return { show: !s.startHidden && n < steps.length, steps, done: `${n} av ${steps.length} gjort`, hide: () => this.setState({ startHidden: true }) }; })() }; })(),
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
       offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
       hasListHint: (s.tilbudSeen || 0) <= 3 && D.STORES.some(st => onList(st).length),
@@ -2299,7 +2299,6 @@ class Component extends DCLogic {
       useHomeSub: !stock.length ? 'Legg inn det du har i Min beholdning, så foreslår appen middager' : ranked.length ? `${ranked.length} retter bruker noe av det du har · lag en hel ukeplan` : 'Ingen retter passer ennå',
       ovSearch: top.t === 'search', ovPicker: top.t === 'picker', ovLogin: top.t === 'login', ovProfile: top.t === 'profile', ovSettings: top.t === 'settings',
       rd, td, ad,
-      favNum: s.favs.length, planNum,
       credits: D.R.filter(r => r.credit).map(r => ({ name: r.name, url: r.credit })),
       portionOpts: [1, 2, 3, 4, 5, 6].map(n => ({ label: n + ' pers.', on: s.people === n, bg: s.people === n ? 'var(--mg-ink)' : 'transparent', fg: s.people === n ? 'var(--mg-on-ink)' : 'var(--mg-ink)', shadow: s.people === n ? '0 1px 3px rgba(0,0,0,.12)' : 'none', pick: () => this.setState({ people: n }) })),
       share: (() => { const A = window.MatgledeAuth, inv = s.hhInvite, me = user && user.uid, nm = s.hhNames || {};
@@ -2318,7 +2317,7 @@ class Component extends DCLogic {
           recheck: () => A.reloadUser().then(u => this.toast(u.verified ? 'E-posten er bekreftet' : 'Ikke bekreftet ennå. Trykk på lenken i e-posten.')),
           email: s.shareEmail, onEmail: e => this.setState({ shareEmail: e.target.value, shareMsg: '' }), submit: this.shareApp,
           msg: s.shareMsg, hasMsg: !!s.shareMsg, hasSent: !!s.shareSent && (s.hhInvited || []).includes(s.shareSent), sent: s.shareSent,
-          mailto: `mailto:${s.shareSent}?subject=${encodeURIComponent('Bli med i Matglede')}&body=${encodeURIComponent(`Hei! Jeg vil dele Matglede med deg, så vi har samme ukeplan og handleliste. Logg inn på ${link} med denne e-postadressen (${s.shareSent}), og trykk «Bli med» under Innstillinger.`)}`,
+          mailto: `mailto:${s.shareSent}?subject=${encodeURIComponent('Bli med i Matglede')}&body=${encodeURIComponent(`Hei! Jeg vil dele Matglede med deg, så vi har samme ukeplan og handleliste. Logg inn på ${link} med denne e-postadressen (${s.shareSent}), og trykk «Bli med» på profilen din (øverst til høyre).`)}`,
           inHh: !!s.hh && others.length + waiting.length > 0, leave: this.leaveHousehold };
       })(),
       toggles: [tg('notif', 'Varsler om tilbud', 'Når varer på handlelisten er på tilbud'), tg('remind', 'Påminnelse søndag', s.remind ? `Planlegg neste uke, kl. ${s.remindAt}` : 'Planlegg neste uke')],
