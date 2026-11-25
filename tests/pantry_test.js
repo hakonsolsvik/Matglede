@@ -106,3 +106,29 @@ assert.deepStrictEqual(ings.laks.products.KIWI.map(p => [p.name, p.price]), [['F
 assert.deepStrictEqual(ings.egg.products.COOP.map(p => p.price), [45]);
 assert(!ings.laks.products.ODA);
 console.log('før-priser ok');
+
+// Stykkantall: grønnsaker, hvitløk (1 stk = 5 fedd) og belgvekster (1 pakke)
+assert(P.counted('Brokkoli') && P.counted('Gulrøtter') && P.counted('Hvitløk') && P.counted('Kidneybønner') && P.counted('Hvite bønner') && P.counted('Kikerter') && P.counted('Linser'));
+assert(!P.counted('Grønne bønner') && !P.legume('Grønne bønner'));
+assert.strictEqual(P.perStk('Hvitløk', { gpp: 50 }, 5), 25); // 5 fedd à 5 g
+assert.strictEqual(P.perStk('Kidneybønner', { pack: [410, 'g'] }), 410);
+assert.strictEqual(P.perStk('Linser', {}), 380);
+assert.strictEqual(P.perStk('Gulrøtter', { gpp: 80 }), 80);
+assert.strictEqual(P.perStk('Tomater', { gpp: 90 }), null); // tomater teller bare når oppskriften sier stk
+// 2 hvitløk, oppskriften bruker 2 fedd (10 g) -> 1,6 hvitløk = 8 fedd igjen
+const garlic = P.use({ id: 3, n: 'Hvitløk', count: 2 }, 10 / 25, null, 1);
+assert.deepStrictEqual(garlic, { id: 3, n: 'Hvitløk', count: 1.6 });
+assert.strictEqual(P.stk('Hvitløk', 1.6), '8 fedd');
+assert.strictEqual(P.stk('Hvitløk', 2), '2 stk');
+assert.strictEqual(P.stk('Kikerter', 0.5), '½ stk');
+assert.strictEqual(P.stk('Gulrøtter', 2.5), '2½ stk');
+assert.deepStrictEqual(P.step(garlic, 1), { id: 3, n: 'Hvitløk', count: 2 });
+assert.deepStrictEqual(P.step(garlic, -1), { id: 3, n: 'Hvitløk', count: 1 });
+// Eldre lagret vare med nivå blir antall
+assert.strictEqual(P.qty({ n: 'Hvitløk', lvl: 'tomt' }), 0);
+assert.strictEqual(P.qty({ n: 'Kidneybønner', lvl: 'mye' }), 1);
+assert.strictEqual(P.level({ n: 'Kidneybønner', count: 1 }), 'mye');
+assert.strictEqual(P.level({ n: 'Kidneybønner', count: 0.4 }), 'litt');
+assert.deepStrictEqual(P.parse('3 brokkoli, 2 bokser kikerter'), [{ n: 'Brokkoli', amt: '3' }, { n: 'Kikerter', amt: '2 bokser' }]);
+assert.deepStrictEqual(P.fresh({ id: 4, n: 'Kikerter' }, '2 bokser'), { id: 4, n: 'Kikerter', count: 2 });
+console.log('stykkantall ok');
