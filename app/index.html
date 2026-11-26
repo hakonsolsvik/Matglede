@@ -2460,7 +2460,8 @@ class Component extends DCLogic {
       flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
         return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
           nLabel: `${n} på listen din`, hasBadge: mine, ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} ${n === 1 ? 'vare' : 'varer'} fra handlelisten på tilbud` : ''}` }; }),
+          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} ${n === 1 ? 'vare' : 'varer'} fra handlelisten på tilbud` : ''}`, mine }; })
+        .sort((a, b) => (b.mine - a.mine) || (b.n - a.n)), // din butikk først, så de med flest varer fra listen
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = lc === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
