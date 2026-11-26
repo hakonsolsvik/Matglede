@@ -458,9 +458,9 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div></sc-if>
 <sc-if value="{{ sl.empty }}"><div style="padding:36px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">Ingen retter er planlagt her ennå.<br>Legg til middager i planen først.</div></sc-if>
 <sc-if value="{{ sl.hasFull }}">
-<div style="background:{{ sl.bg }};color:{{ sl.fg }};border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span class="s8">{{ sl.meta }}</span><span style="font-size:13px;font-weight:600;opacity:.75">{{ sl.doneCount }} handlet</span></div>
-<div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:8px;border-radius:var(--mg-r-pill);background:color-mix(in srgb,currentColor 25%,transparent);overflow:hidden"><div style="height:100%;transform:translateX(calc({{ sl.pct }} - 100%));background:currentColor;border-radius:var(--mg-r-pill);transition:transform 300ms var(--mg-ease-out)"></div></div>
+<div style="padding:0 4px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;font-weight:700;color:var(--mg-ink-muted)"><span>{{ sl.meta }}</span><span>{{ sl.doneCount }} handlet</span></div>
+<div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:4px;border-radius:var(--mg-r-pill);background:var(--mg-surface-sunken);overflow:hidden"><div style="height:100%;transform:translateX(calc({{ sl.pct }} - 100%));background:var(--mg-primary);border-radius:var(--mg-r-pill);transition:transform 300ms var(--mg-ease-out)"></div></div>
 
 </div>
 </sc-if>
