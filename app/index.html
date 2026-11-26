@@ -305,7 +305,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ isLaere }}" hint-placeholder-val="{{ false }}">
 <div class="s49">
-<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s3 mg-h">Lære</h1><div class="s18">Kunnskap om maten du spiser</div></div>
+<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s3 mg-h">Lære</h1></div>
 <div style="padding:0 20px">
 <div onClick="{{ openInsight }}" role="button" tabIndex="0" style="--mg-ink:#1f2a1c;--mg-on-ink:#fff;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-xl);padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative;overflow:hidden">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#7ea6ff"></span><span style="font-size:12px;font-weight:800;color:#a9c3ff">Dagens innsikt, {{ todayName }}</span></div>
@@ -2455,7 +2455,7 @@ class Component extends DCLogic {
           dietSub: (s.diet || []).length ? this.DIET.filter(d => s.diet.includes(d.id)).map(d => d.label).join(', ') : 'Ingen valgt',
           dietNote: (s.diet || []).length ? (n => n ? `${n} av ${D.R.length} retter passer ikke og vises ikke i forslag og søk.` : 'Alle rettene passer.')(D.R.length - this.okR().length) : 'Velg det som gjelder deg eller noen du lager mat til.' }; })(),
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
-      offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
+      offersSub: D.O.week && D.O.week !== this.WEEKNO ? `Uke ${D.O.week}` : `Uke ${this.WEEKNO} · ${this.weekRange()}`, // datoene bare når avisene er for denne uka
       hasListHint: (s.tilbudSeen || 0) <= 3 && D.STORES.some(st => onList(st).length),
       flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
         return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
