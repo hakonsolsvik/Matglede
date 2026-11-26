@@ -174,9 +174,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div></sc-for>
 </div>
 </div>
-<div class="s4">
+<sc-if value="{{ ms.hasArts }}"><div class="s4">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Lagret kunnskap</div><button onClick="{{ openArkiv }}" aria-label="Åpne arkivet med lagret kunnskap" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Arkiv<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
-<sc-if value="{{ ms.noArts }}"><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Trykk på bokmerket i en artikkel under Lære, så havner den her.</div></sc-if>
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ ms.arts }}" as="a"><div onClick="{{ a.open }}" role="button" tabIndex="0" style="flex:none;width:150px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:10px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column;gap:8px">
 <div style="width:38px;height:38px;border-radius:var(--mg-r-sm);background:{{ a.bg }};color:{{ a.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">{{ a.sym }}</div>
@@ -184,7 +183,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ a.topicName }} · {{ a.mins }} min</div>
 </div></sc-for>
 </div>
-</div>
+</div></sc-if>
 </div>
 </sc-if>
 
@@ -2435,7 +2434,7 @@ class Component extends DCLogic {
         return { pantrySub: s.pantry.length ? `${s.pantry.length} ${s.pantry.length === 1 ? 'vare' : 'varer'} hjemme` : 'Tom ennå', mineSub: s.mine.length === 1 ? '1 egen oppskrift' : `${s.mine.length} egne oppskrifter`, nag: pt.nag || pt.chk, nagText: pt.chk ? 'Sjekk antall' : pt.nagText,
           mine: D.R.filter(r => r.mine).map(card), mineNum: s.mine.length, newMine: () => this.openEdit(null),
           favs: favAll.slice(0, 12).map(card), favNum: favAll.length, noFavs: !favAll.length,
-          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere'),
+          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, hasArts: !!arts.length, goLaere: () => this.go('laere'),
           start: (() => { const steps = [
               [s.pantry.length > 0, 'Legg inn det du har hjemme', 'Da bruker ukeplanen og handlelisten det du allerede har', () => this.push({ t:'pantry' })],
               [s.favs.length > 0, 'Stjernemerk en rett du liker', 'Trykk på stjernen på en oppskrift', () => this.go('opp')],
