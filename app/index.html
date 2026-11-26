@@ -1002,7 +1002,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Plan</span></sc-if>
 </button>
 <button onClick="{{ goOpp }}" aria-current="{{ nav.opp.cur }}" class="s14" style="color:{{ nav.opp.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
-<div aria-hidden="true" class="s15" style="background:{{ nav.opp.bg }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="10" r="3.3" fill="{{ nav.opp.fill }}"></circle><circle cx="16.5" cy="10" r="3.3" fill="{{ nav.opp.fill }}"></circle><circle cx="12" cy="6.5" r="3.6" fill="{{ nav.opp.fill }}"></circle><path d="M10 13.5l.8 7h2.4l.8-7M12 13v-2.5"></path></svg></div>
+<div aria-hidden="true" class="s15" style="background:{{ nav.opp.bg }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a2.2 2.2 0 0 1 .6-4 2.4 2.4 0 0 1 3-3 2.6 2.6 0 0 1 4.4-1.4 2.6 2.6 0 0 1 4.4 1.4 2.4 2.4 0 0 1 3 3 2.2 2.2 0 0 1 .6 4z" fill="{{ nav.opp.green }}"></path><path d="M9.5 12l1 8.5h3l1-8.5M12 16.5l-2.3-4.5M12 16.5l2.3-4.5"></path></svg></div>
 <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><span class="s5">Oppskrifter</span></sc-if>
 </button>
 <button onClick="{{ goLaere }}" aria-current="{{ nav.laere.cur }}" class="s14" style="color:{{ nav.laere.c }};cursor:pointer;padding:8px 0 0;font-family:inherit">
@@ -1928,7 +1928,7 @@ class Component extends DCLogic {
     const chainName = code => (D.chainByCode[code] || {}).name || code;
     const navCol = { min:1, tilbud:1, plan:1, opp:1, laere:1 };
     const nav = {};
-    Object.keys(navCol).forEach(k => { const a = s.tab === k; nav[k] = { c: a ? 'var(--mg-nav-active)' : 'var(--mg-on-nav)', bg: a ? 'var(--mg-nav-pill)' : 'transparent', fill: a ? 'var(--mg-nav-fill)' : 'none', cur: a ? 'page' : undefined }; });
+    Object.keys(navCol).forEach(k => { const a = s.tab === k; nav[k] = { c: a ? 'var(--mg-nav-active)' : 'var(--mg-on-nav)', bg: a ? 'var(--mg-nav-pill)' : 'transparent', fill: a ? 'var(--mg-nav-fill)' : 'none', green: a ? '#8fcf6a' : 'none', cur: a ? 'page' : undefined }; });
 
     // Handleliste: koblede ingredienser summeres i basisenhet, resten per navn og enhet
     const buildShop = dl => {
