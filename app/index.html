@@ -108,17 +108,6 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </sc-for>
 </div>
 </div>
-
-<div class="s4">
-<div class="s38"><div class="s1 mg-h">Ukens oppgaver</div><div class="s17">{{ tasksDone }}</div></div>
-<sc-for list="{{ tasks }}" as="t" hint-placeholder-count="4">
-<div style="display:flex;align-items:center;gap:12px;background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:12px 14px;box-shadow:var(--mg-shadow-1)">
-<button onClick="{{ t.toggle }}" class="mg-hit" role="checkbox" aria-checked="{{ t.done }}" aria-label="{{ t.title }}" style="width:26px;height:26px;flex:none;border-radius:var(--mg-r-sm);border:2px solid {{ t.boxBorder }};background:{{ t.boxBg }};display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:var(--mg-ink)"><sc-if value="{{ t.done }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></button>
-<div onClick="{{ t.open }}" role="button" tabIndex="0" style="flex:1;min-width:0;cursor:pointer;display:flex;flex-direction:column;gap:2px"><div class="s43" style="text-decoration:{{ t.deco }};color:{{ t.color }}">{{ t.title }}</div><div class="s2">{{ t.sub }}</div></div>
-<svg aria-hidden="true" onClick="{{ t.open }}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#646958" stroke-width="2.2" stroke-linecap="round" style="cursor:pointer;flex:none"><path d="M9 5l7 7-7 7"></path></svg>
-</div>
-</sc-for>
-</div>
 </div>
 </sc-if>
 
@@ -2018,7 +2007,6 @@ class Component extends DCLogic {
     const wk = Math.floor(s.day / 7), daysOf = w => [0,1,2,3,4,5,6].map(i => 7 * w + i), wkDays = daysOf(wk);
     const shopArr = buildShop(wkDays);
     const pw = s.rdWk == null ? wk : s.rdWk, pwDays = daysOf(pw);
-    const shopLeft = shopArr.filter(e => !s.checked[e.ck]).length;
     const dayArr = buildShop([s.day]);
     const weekSum = shopSum(shopArr, s.chain), daySum = shopSum(dayArr, s.chain);
 
@@ -2034,19 +2022,6 @@ class Component extends DCLogic {
 
     const tonightR = (s.plan[this.TODAY] || [])[0];
     const dayMealsArr = (s.plan[s.day] || []);
-    const empty = [0,1,2,3,4,5,6].filter(d => d >= this.TODAY && !(s.plan[d] || []).length); // tomme dager resten av uka
-
-    const weekend = this.TODAY >= 5;
-    const taskDefs = [
-      ...(weekend ? [{ id:'beh' + this.WEEKNO, title:'Oppdater Min beholdning', sub: s.pantry.length ? 'Se over hva du har før du planlegger uka' : 'Legg inn det du har hjemme, så foreslår appen middager', act:() => this.push({ t:'pantry' }) }] : []),
-      ...(shopArr.length ? [{ id:'shop', title:'Handle inn til ukeplanen', sub:`${shopLeft} varer igjen på handlelisten`, act:() => this.go('plan') }] : []),
-      { id:'plan' + this.WEEKNO, title: empty.length > 1 ? `Planlegg ${empty.length} tomme dager` : empty.length ? `Planlegg middag ${this.DAYS_FULL[empty[0]].toLowerCase()}` : 'Uka er planlagt',
-        sub: empty.length ? `${empty.map(d => this.DAYS[d].toLowerCase()).join(', ')} er tom${empty.length > 1 ? 'me' : ''}` : 'Alle dagene har middag', act:() => this.go('plan', { day: empty.length ? empty[0] : this.TODAY }) },
-      { id:'salat', title:'Prøv en salat fra Aichas Mat', sub:'Ukens utfordring', act:() => this.goCat('salat') },
-      { id:'omega', title:'Les: Omega-3 og hjernen', sub:'5 min lesing', act:() => this.push({ t:'article', id:'a3' }) }
-    ];
-    const tasks = taskDefs.map(t => ({ title: t.title, sub: t.sub, open: t.act, ...this.check(!!s.tasks[t.id]),
-      toggle: () => this.setState(st => ({ tasks: { ...st.tasks, [t.id]: !st.tasks[t.id] } })) }));
 
     const ph = this.ph;
     const pop = this.byPop([...this.okR()].sort((a, b) => (a.popular || 99) - (b.popular || 99)), r => 'rett:' + r.id).filter(r => r.popular || this.popN('rett:' + r.id));
@@ -2423,7 +2398,7 @@ class Component extends DCLogic {
         : user.google ? 'Logget inn med Google · lagres på kontoen' : 'Lagres på kontoen') : '',
       greeting: user && user.name ? `Hei, ${user.name.split(' ')[0]}` : 'Hva blir det til middag?',
       hasTonight: !!tonightR, noTonight: !tonightR, tonight: tonightR ? this.mk(D.byId[tonightR]) : {},
-      news, tasks, tasksDone: `${tasks.filter(t => t.done).length}/${tasks.length}`,
+      news,
       favList: favR.map(r => this.mk(r)), noFavs: favAll.length === 0, noFavsInCat: favAll.length > 0 && favR.length === 0, favCountLabel: `${favAll.length} lagrede oppskrifter`,
       favCats: this.FAV_CATS.filter(([id]) => id !== 'under200' || M.hasPrices).map(([id, label]) => ({ label, ...this.chip(s.favCat === id), pick: () => this.setState({ favCat: id }) })),
       ovFavs: top.t === 'favs', ovArkiv: top.t === 'arkiv',
