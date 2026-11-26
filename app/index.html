@@ -205,7 +205,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:20px">
-<div class="s10"><h1 class="s3 mg-h">Plan</h1><div class="s18" style="display:flex;align-items:center;gap:4px;margin-left:-8px"><button onClick="{{ weekPrev }}" aria-label="{{ prevAria }}" style="visibility:{{ prevVis }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer">‹</button><span>{{ weekLabel }}</span><button onClick="{{ weekNext }}" aria-label="{{ nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer">›</button></div></div>
+<div class="s10"><h1 class="s3 mg-h">Plan</h1><div class="s18" style="display:flex;align-items:center;gap:2px"><span style="margin-right:4px">{{ weekLabel }}</span><button onClick="{{ weekPrev }}" aria-label="{{ prevAria }}" style="display:{{ prevDisp }};border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer">‹</button><button onClick="{{ weekNext }}" aria-label="{{ nextAria }}" style="border:0;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer">›</button></div></div>
 <div style="background:var(--mg-surface);border-radius:var(--mg-r-xl);padding:14px 10px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;box-shadow:var(--mg-shadow-1)">
 <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
 <button onClick="{{ d.pick }}" aria-pressed="{{ d.sel }}" aria-label="{{ d.aria }}" class="s24" style="background:{{ d.bg }};border-radius:var(--mg-r-md);padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--mg-ink)">
@@ -450,9 +450,9 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ ovShop }}" hint-placeholder-val="{{ false }}">
 <div class="s6">
-<div style="padding:calc(var(--top) + 10px) 20px 28px;display:flex;flex-direction:column;gap:16px">
+<div style="padding:calc(var(--top) + 7px) 20px 28px;display:flex;flex-direction:column;gap:16px">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px"><div><h2 class="s3 mg-h">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div><sc-if value="{{ sl.hasFull }}"><button onClick="{{ sl.share }}" aria-label="Del listen" style="flex:none;border:0;background:none;color:var(--mg-ink-muted);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg></button></sc-if></div>
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:-3px"><div><h2 class="s3 mg-h">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div><sc-if value="{{ sl.hasFull }}"><button onClick="{{ sl.share }}" aria-label="Del listen" style="flex:none;border:0;background:none;color:var(--mg-ink-muted);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg></button></sc-if></div>
 <sc-if value="{{ sl.full }}"><div class="s44">
 <sc-for list="{{ shopChips }}" as="c"><button onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div></sc-if>
@@ -2520,7 +2520,7 @@ class Component extends DCLogic {
       todayLabel: this.dayLong(this.TODAY), todayName: this.DAYS_FULL[this.TODAY].toLowerCase(),
       weekLabel: `Uke ${this.weekNo(wk)} · ${this.weekRange(wk)} ${this.dateOf(7 * wk + 6).getFullYear()}`,
       weekPrev: () => wk && this.setState({ day: s.day - 7 }), weekNext: () => this.setState({ day: s.day + 7 }),
-      prevVis: wk ? 'visible' : 'hidden', prevAria: wk ? `Uke ${this.weekNo(wk - 1)}` : '', nextAria: `Planlegg uke ${this.weekNo(wk + 1)}`
+      prevVis: wk ? 'visible' : 'hidden', prevDisp: wk ? 'block' : 'none', prevAria: wk ? `Uke ${this.weekNo(wk - 1)}` : '', nextAria: `Planlegg uke ${this.weekNo(wk + 1)}`
     };
   }
 }
