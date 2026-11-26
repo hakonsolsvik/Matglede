@@ -1072,9 +1072,9 @@ class Component extends DCLogic {
     // Butikkene på Tilbud-siden. Logoene er fra Kassalapp (app/logos), bakgrunnen er logoens egen farge.
     const O = window.MATGLEDE_OFFERS || { stores: [] };
     const oBy = Object.fromEntries((O.stores || []).map(x => [x.code, x]));
-    const STORES = [['ODA','Oda','#FFAB33'],['KIWI','Kiwi','var(--mg-surface)'],['MENY','Meny','#D3062A'],['REMA','Rema 1000','var(--mg-surface)'],
+    const STORES = [['ODA','Oda','#FFAB33'],['KIWI','Kiwi','#fff'],['MENY','Meny','#D3062A'],['REMA','Rema 1000','#fff'],
       ['EXTRA','Coop Extra','#D23732'],['MEGA','Coop Mega','#315428'],['PRIX','Coop Prix','#FEC63A'],['OBS','Coop Obs','#0A4D8F'],
-      ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','var(--mg-surface)'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','var(--mg-surface)']]
+      ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','#fff'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','#fff']]
       .map(([code, name, bg]) => ({ code, name, bg, logo: `./logos/${code}.svg`, ...(oBy[code] || { offers: [], hasData: false, flyer: '' }) }));
     // Før-priser fra tidligere aviser først, så ukas avis, så nyeste pris vinner
     window.MatgledePantry.flyerPrices(M.ingredients || {}, CHAINS.map(c => c.code), (window.MATGLEDE_FORPRISER || {}).stores);
