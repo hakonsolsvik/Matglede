@@ -47,7 +47,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="mg-topsp" style="height:44px;flex:none"></div>
 <div style="height:58px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:8px">
 <button onClick="{{ openSearch }}" title="Søk oppskrifter" aria-label="Søk oppskrifter" style="width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-surface);box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink)"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></button>
-<button onClick="{{ goHome }}" aria-label="Mat-appen, til forsiden" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--mg-ink);padding:6px 10px;min-height:44px"><sc-if value="{{ isHome }}"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-clay)"></span></sc-if><sc-if value="{{ notHome }}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b5e04f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v8.5a1 1 0 01-1 1h-4.5v-6h-5v6H5a1 1 0 01-1-1z"></path></svg></sc-if>mat-appen</button>
+<button onClick="{{ goHome }}" aria-label="Mat-appen, til forsiden" style="border:0;background:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.03em;color:var(--mg-ink);padding:6px 10px;min-height:44px"><span style="width:10px;height:10px;border-radius:50%;background:var(--mg-clay)"></span>mat-appen</button>
 <div class="s33">
 <button onClick="{{ openProfile }}" title="Profil" aria-label="{{ profileLabel }}" class="s34" style="position:relative;background:{{ avatarBg }};box-shadow:var(--mg-shadow-1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mg-ink);font-family:inherit;font-weight:800;font-size:14px">
 <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">{{ initials }}</sc-if>
@@ -82,7 +82,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </sc-if>
 
 <div class="s22">
-<div class="s38"><div class="s1 mg-h">Mest populære</div><button onClick="{{ goOpp }}" style="border:0;background:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--mg-primary);cursor:pointer;padding:13px 6px;margin:-13px -6px">Se alle</button></div>
+<div class="s38"><div class="s1 mg-h">Mest populære</div><button onClick="{{ goOpp }}" aria-label="Se alle oppskrifter" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px;align-self:center">Se alle<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
 <div class="s39">
 <sc-for list="{{ popular }}" as="r" hint-placeholder-count="3">
 <div onClick="{{ r.open }}" role="button" tabIndex="0" style="flex:none;width:164px;scroll-snap-align:start;cursor:pointer;display:flex;flex-direction:column;gap:8px">
@@ -125,7 +125,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <sc-if value="{{ isMin }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:22px">
 <div class="s10"><h1 class="s3 mg-h">Min side</h1></div>
-<sc-if value="{{ ms.start.show }}"><section aria-label="Kom i gang" style="background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px">
+<sc-if value="{{ ms.start.show }}"><section aria-label="Kom i gang" style="background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-xl);padding:16px;display:flex;flex-direction:column;gap:10px">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div><div class="s1 mg-h">Kom i gang</div><div style="font-size:13px;font-weight:700;opacity:.75">{{ ms.start.done }}</div></div><button onClick="{{ ms.start.hide }}" style="flex:none;border:0;background:none;color:inherit;font-family:inherit;font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px 0">Skjul</button></div>
 <sc-for list="{{ ms.start.steps }}" as="st"><button onClick="{{ st.go }}" aria-label="{{ st.aria }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:rgba(255,255,255,.55);color:#1f2a1c;border-radius:var(--mg-r-md);padding:10px 12px;display:flex;align-items:center;gap:12px">
 <span aria-hidden="true" style="width:26px;height:26px;flex:none;border-radius:50%;border:2px solid #1f2a1c;background:{{ st.bg }};color:#fff;display:flex;align-items:center;justify-content:center"><sc-if value="{{ st.ok }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span>
@@ -143,7 +143,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </button>
 </div>
 <sc-if value="{{ ms.hasLow }}"><div class="s4">
-<button onClick="{{ ms.toggleLow }}" aria-expanded="{{ ms.lowOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-accent);color:var(--mg-on-accent);border-radius:18px;padding:18px 20px;min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:18px;font-weight:800;letter-spacing:-.01em">{{ ms.lowTitle }}</span><span style="font-size:14px;font-weight:700;opacity:.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ms.lowSub }}</span></span><span aria-hidden="true" style="font-size:16px">{{ ms.lowArrow }}</span></button>
+<button onClick="{{ ms.toggleLow }}" aria-expanded="{{ ms.lowOpen }}" aria-label="{{ ms.lowTitle }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-1);padding:16px 20px;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;letter-spacing:-.01em">Snart tomt<span style="font-size:12px;font-weight:800;background:var(--mg-clay);color:#fff;border-radius:var(--mg-r-pill);padding:2px 8px">{{ ms.lowN }}</span></span><span style="font-size:14px;font-weight:600;color:var(--mg-ink-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ms.lowSub }}</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;color:var(--mg-ink-subtle);transform:{{ ms.lowArrow }};transition:transform 200ms var(--mg-ease-out)"><path d="M6 9l6 6 6-6"></path></svg></button>
 <sc-if value="{{ ms.lowOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);margin-top:-10px;box-shadow:var(--mg-shadow-1);overflow:hidden;display:flex;flex-direction:column">
 <div><sc-for list="{{ ms.low }}" as="x"><div style="display:flex;align-items:center;gap:12px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--mg-surface-sunken)">
 <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700">{{ x.n }}</span><span style="font-size:12px;font-weight:700;color:{{ x.lvlColor }}">{{ x.lvl }}</span></span>
@@ -154,7 +154,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div></sc-if>
 </div></sc-if>
 <div class="s4">
-<button onClick="{{ ms.toggleDiet }}" aria-expanded="{{ ms.dietOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-1);padding:16px 20px;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:17px;font-weight:800;letter-spacing:-.01em">{{ ms.dietTitle }}</span><span style="font-size:14px;font-weight:600;color:var(--mg-ink-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ms.dietSub }}</span></span><span aria-hidden="true" style="font-size:14px;color:var(--mg-ink-subtle)">{{ ms.dietArrow }}</span></button>
+<button onClick="{{ ms.toggleDiet }}" aria-expanded="{{ ms.dietOpen }}" style="border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-1);padding:16px 20px;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:17px;font-weight:800;letter-spacing:-.01em">{{ ms.dietTitle }}</span><span style="font-size:14px;font-weight:600;color:var(--mg-ink-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ms.dietSub }}</span></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;color:var(--mg-ink-subtle);transform:{{ ms.dietArrow }};transition:transform 200ms var(--mg-ease-out)"><path d="M6 9l6 6 6-6"></path></svg></button>
 <sc-if value="{{ ms.dietOpen }}"><div style="background:var(--mg-surface);border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px;border-radius:var(--mg-r-lg);margin-top:-10px;box-shadow:var(--mg-shadow-1)">
 <div class="s13">Kosthold</div>
 <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ ms.dietKost }}" as="c"><button onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:8px 14px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for></div>
@@ -174,9 +174,8 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div></sc-for>
 </div>
 </div>
-<div class="s4">
+<sc-if value="{{ ms.hasArts }}"><div class="s4">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div class="s1 mg-h">Lagret kunnskap</div><button onClick="{{ openArkiv }}" aria-label="Åpne arkivet med lagret kunnskap" style="flex:none;border:0;cursor:pointer;font-family:inherit;background:var(--mg-surface-sunken);color:var(--mg-ink);font-size:13px;font-weight:700;padding:7px 10px 7px 13px;border-radius:var(--mg-r-pill);display:flex;align-items:center;gap:3px">Arkiv<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button></div>
-<sc-if value="{{ ms.noArts }}"><div style="font-size:14px;color:var(--mg-ink-muted);line-height:1.45">Trykk på bokmerket i en artikkel under Lære, så havner den her.</div></sc-if>
 <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 6px;scroll-snap-type:x mandatory;scroll-padding:20px">
 <sc-for list="{{ ms.arts }}" as="a"><div onClick="{{ a.open }}" role="button" tabIndex="0" style="flex:none;width:150px;scroll-snap-align:start;background:var(--mg-surface);border-radius:var(--mg-r-md);padding:10px;cursor:pointer;box-shadow:var(--mg-shadow-1);display:flex;flex-direction:column;gap:8px">
 <div style="width:38px;height:38px;border-radius:var(--mg-r-sm);background:{{ a.bg }};color:{{ a.ink }};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">{{ a.sym }}</div>
@@ -184,7 +183,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div style="font-size:12px;font-weight:700;color:var(--mg-ink-muted)">{{ a.topicName }} · {{ a.mins }} min</div>
 </div></sc-for>
 </div>
-</div>
+</div></sc-if>
 </div>
 </sc-if>
 
@@ -233,9 +232,9 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 <button onClick="{{ openUseHome }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:12px 14px;display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;opacity:.8"><rect x="5" y="2.5" width="14" height="19" rx="2.5"></rect><path d="M5 9.5h14M8.5 5.5v1.5M8.5 12.5v3"></path></svg><span style="flex:1;font-size:14px;font-weight:700">Bruk det du har</span><span style="font-size:12px;color:var(--mg-ink-muted)">{{ useHomeSub }}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="flex:none;opacity:.5"><path d="M9 5l7 7-7 7"></path></svg></button>
 <div class="s4">
-<div style="background:var(--mg-primary);color:#fff;border-radius:var(--mg-r-xl);padding:20px;display:flex;flex-direction:column;gap:16px">
-<div style="display:flex;align-items:center;gap:16px"><span style="width:52px;height:52px;flex:none;border-radius:var(--mg-r-md);background:#b5e04f;color:var(--mg-ink);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 7h11M9 12h11M9 17h11"></path><circle cx="4.5" cy="7" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="12" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="17" r="1.3" fill="currentColor"></circle></svg></span><span class="s47"><span class="s1 mg-h">Handleliste</span><span class="s48">{{ weekShopSub }}</span></span></div>
-<div style="display:flex;flex-wrap:wrap;gap:8px"><button onClick="{{ openWeekShop }}" style="border:0;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill);min-height:44px;background:#b5e04f;color:var(--mg-ink)">Hele uka</button><button onClick="{{ openDayShop }}" aria-label="{{ dayShopTitle }}" style="border:0;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill);min-height:44px;background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7)">{{ dayShopShort }}</button></div>
+<div style="background:var(--mg-surface);color:var(--mg-ink);border-radius:var(--mg-r-xl);padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--mg-shadow-1)">
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;flex:none;border-radius:var(--mg-r-md);background:#b5e04f;color:var(--mg-ink);display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 7h11M9 12h11M9 17h11"></path><circle cx="4.5" cy="7" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="12" r="1.3" fill="currentColor"></circle><circle cx="4.5" cy="17" r="1.3" fill="currentColor"></circle></svg></span><span class="s47" style="min-width:0"><span style="font-size:16px;font-weight:800">Handleliste</span><span style="font-size:12px;color:var(--mg-ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ weekShopSub }}</span><button onClick="{{ openDayShop }}" aria-label="{{ dayShopTitle }}" style="align-self:flex-start;border:0;background:none;padding:4px 0 0;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;color:var(--mg-primary)">{{ dayShopShort }} ›</button></span></div>
+<button onClick="{{ openWeekShop }}" style="flex:none;border:0;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;padding:11px 18px;border-radius:var(--mg-r-pill);min-height:44px;background:var(--mg-primary);color:#fff">Hele uka</button>
 </div>
 </div>
 </div>
@@ -245,15 +244,13 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s49">
 <div class="s50">
 <h1 class="s3 mg-h">Oppskrifter</h1>
-<div style="display:flex;align-items:center;gap:10px;background:var(--mg-surface);border-radius:var(--mg-r-pill);padding:0 8px 0 18px;height:52px;box-shadow:var(--mg-shadow-1)">
+<div style="display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:var(--mg-surface);border-radius:var(--mg-r-pill);padding:0 8px 0 18px;height:52px;box-shadow:var(--mg-shadow-1)">
 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#666b5c" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
 <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Søk i alle oppskrifter" aria-label="Søk i alle oppskrifter" type="search" style="flex:1;min-width:0;border:0;outline:none;background:none;font-size:16px;color:var(--mg-ink)">
 <sc-if value="{{ searching }}"><button onClick="{{ clearQ }}" aria-label="Tøm søket" style="width:36px;height:36px;border:0;border-radius:50%;background:var(--mg-surface-sunken);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></sc-if>
 </div>
-<button onClick="{{ openMine }}" style="border:0;cursor:pointer;font-family:inherit;text-align:left;background:var(--mg-butter);color:var(--mg-ink);border-radius:var(--mg-r-lg);padding:12px 14px;display:flex;align-items:center;gap:12px">
-<span style="width:40px;height:40px;flex:none;border-radius:50%;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
-<span class="s47"><span class="s13">Legg til egen oppskrift</span><span class="s12">Skriv den inn, eller ta bilde av en oppskrift</span></span><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
-</button>
+<button onClick="{{ openMine }}" aria-label="Legg til egen oppskrift" title="Legg til egen oppskrift" style="flex:none;width:52px;height:52px;border-radius:50%;border:0;cursor:pointer;background:var(--mg-ink);color:var(--mg-on-ink);display:flex;align-items:center;justify-content:center;box-shadow:var(--mg-shadow-1)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
 </div>
 <sc-if value="{{ searching }}" hint-placeholder-val="{{ false }}">
 <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px">
@@ -308,7 +305,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 
 <sc-if value="{{ isLaere }}" hint-placeholder-val="{{ false }}">
 <div class="s49">
-<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s3 mg-h">Lære</h1><div class="s18">Kunnskap om maten du spiser</div></div>
+<div style="padding:0 20px;display:flex;flex-direction:column;gap:2px"><h1 class="s3 mg-h">Lære</h1></div>
 <div style="padding:0 20px">
 <div onClick="{{ openInsight }}" role="button" tabIndex="0" style="--mg-ink:#1f2a1c;--mg-on-ink:#fff;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-xl);padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative;overflow:hidden">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#7ea6ff"></span><span style="font-size:12px;font-weight:800;color:#a9c3ff">Dagens innsikt, {{ todayName }}</span></div>
@@ -355,7 +352,7 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(rgba(12,22,14,.28),rgba(12,22,14,0) 26%,rgba(12,22,14,0) 38%,rgba(12,22,14,.62) 64%,rgba(12,22,14,.9))"></div>
 <button onClick="{{ back }}" aria-label="Tilbake" style="position:absolute;top:calc(var(--top) + 10px);left:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
 <button onClick="{{ rd.toggleFav }}" aria-label="{{ rd.favLabel }}" aria-pressed="{{ rd.isFav }}" style="position:absolute;top:calc(var(--top) + 10px);right:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="21" height="21" viewBox="0 0 24 24" fill="{{ rd.starFill }}" stroke="{{ rd.starStroke }}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></button>
-<sc-if value="{{ rd.hasLearn }}"><button onClick="{{ rd.openLearn }}" aria-label="{{ rd.learnAria }}" style="position:absolute;top:calc(var(--top) + 10px);right:68px;height:44px;padding:0 14px 0 11px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-info);color:#fff;display:flex;align-items:center;gap:6px;cursor:pointer;font-family:var(--mg-font-sans);font-weight:800;font-size:14px;box-shadow:0 4px 14px rgba(47,111,224,.45)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg>Lær mer · {{ rd.learnCount }}</button></sc-if>
+<sc-if value="{{ rd.hasLearn }}"><button onClick="{{ rd.openLearn }}" aria-label="{{ rd.learnAria }}" style="position:absolute;top:calc(var(--top) + 10px);right:68px;width:44px;height:44px;border-radius:50%;border:0;background:var(--mg-glass);color:var(--mg-ink);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--mg-font-sans)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11"></ellipse><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)"></ellipse><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"></path></svg><span aria-hidden="true" style="position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:var(--mg-r-pill);background:var(--mg-info);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">{{ rd.learnCount }}</span></button></sc-if>
 <div class="mg-rd-title" style="position:relative;padding:0 20px 50px;color:#fff;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
 <h2 class="mg-h" style="margin:0;font-size:34px;line-height:1.05;letter-spacing:-.03em;text-shadow:0 2px 14px rgba(0,0,0,.35)">{{ rd.name }}</h2>
 <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,.82)">{{ rd.catLine }}</div>
@@ -452,15 +449,15 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div class="s6">
 <div style="padding:calc(var(--top) + 7px) 20px 28px;display:flex;flex-direction:column;gap:16px">
 <button onClick="{{ back }}" aria-label="Tilbake" class="s21"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:-3px"><div><h2 class="s3 mg-h">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div><sc-if value="{{ sl.hasFull }}"><button onClick="{{ sl.share }}" aria-label="Del listen" style="flex:none;border:0;background:none;color:var(--mg-ink-muted);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg></button></sc-if></div>
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-top:-3px"><div><h2 class="s3 mg-h">Handleliste</h2><div class="s58">{{ sl.sub }}</div></div><sc-if value="{{ sl.hasFull }}"><button onClick="{{ sl.share }}" aria-label="Del listen" style="flex:none;border:0;background:none;color:var(--mg-ink-muted);width:44px;height:44px;margin:-4px -10px 0 0;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 8l4-4 4 4M5 13v5.5A1.5 1.5 0 006.5 20h11a1.5 1.5 0 001.5-1.5V13"></path></svg></button></sc-if></div>
 <sc-if value="{{ sl.full }}"><div class="s44">
 <sc-for list="{{ shopChips }}" as="c"><button onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="flex:none;white-space:nowrap;border:1.5px solid {{ c.border }};cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:7px 13px;border-radius:var(--mg-r-pill);background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
 </div></sc-if>
 <sc-if value="{{ sl.empty }}"><div style="padding:36px 20px;text-align:center;color:var(--mg-ink-muted);font-size:14px;line-height:1.5;background:var(--mg-surface);border-radius:var(--mg-r-lg)">Ingen retter er planlagt her ennå.<br>Legg til middager i planen først.</div></sc-if>
 <sc-if value="{{ sl.hasFull }}">
-<div style="background:{{ sl.bg }};color:{{ sl.fg }};border-radius:var(--mg-r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span class="s8">{{ sl.meta }}</span><span style="font-size:13px;font-weight:600;opacity:.75">{{ sl.doneCount }} handlet</span></div>
-<div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:8px;border-radius:var(--mg-r-pill);background:color-mix(in srgb,currentColor 25%,transparent);overflow:hidden"><div style="height:100%;transform:translateX(calc({{ sl.pct }} - 100%));background:currentColor;border-radius:var(--mg-r-pill);transition:transform 300ms var(--mg-ease-out)"></div></div>
+<div style="padding:0 4px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;font-weight:700;color:var(--mg-ink-muted)"><span>{{ sl.meta }}</span><span>{{ sl.doneCount }} handlet</span></div>
+<div role="progressbar" aria-label="Handlet" aria-valuemin="0" aria-valuemax="{{ sl.count }}" aria-valuenow="{{ sl.doneCount }}" style="height:4px;border-radius:var(--mg-r-pill);background:var(--mg-surface-sunken);overflow:hidden"><div style="height:100%;transform:translateX(calc({{ sl.pct }} - 100%));background:var(--mg-primary);border-radius:var(--mg-r-pill);transition:transform 300ms var(--mg-ease-out)"></div></div>
 
 </div>
 </sc-if>
@@ -1075,9 +1072,9 @@ class Component extends DCLogic {
     // Butikkene på Tilbud-siden. Logoene er fra Kassalapp (app/logos), bakgrunnen er logoens egen farge.
     const O = window.MATGLEDE_OFFERS || { stores: [] };
     const oBy = Object.fromEntries((O.stores || []).map(x => [x.code, x]));
-    const STORES = [['ODA','Oda','#FFAB33'],['KIWI','Kiwi','var(--mg-surface)'],['MENY','Meny','#D3062A'],['REMA','Rema 1000','var(--mg-surface)'],
+    const STORES = [['ODA','Oda','#FFAB33'],['KIWI','Kiwi','#fff'],['MENY','Meny','#D3062A'],['REMA','Rema 1000','#fff'],
       ['EXTRA','Coop Extra','#D23732'],['MEGA','Coop Mega','#315428'],['PRIX','Coop Prix','#FEC63A'],['OBS','Coop Obs','#0A4D8F'],
-      ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','var(--mg-surface)'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','var(--mg-surface)']]
+      ['MARKED','Coop Marked','#D50F2E'],['SPAR','Spar','#fff'],['JOKER','Joker','#009458'],['BUNNPRIS','Bunnpris','#fff']]
       .map(([code, name, bg]) => ({ code, name, bg, logo: `./logos/${code}.svg`, ...(oBy[code] || { offers: [], hasData: false, flyer: '' }) }));
     // Før-priser fra tidligere aviser først, så ukas avis, så nyeste pris vinner
     window.MatgledePantry.flyerPrices(M.ingredients || {}, CHAINS.map(c => c.code), (window.MATGLEDE_FORPRISER || {}).stores);
@@ -2435,7 +2432,7 @@ class Component extends DCLogic {
         return { pantrySub: s.pantry.length ? `${s.pantry.length} ${s.pantry.length === 1 ? 'vare' : 'varer'} hjemme` : 'Tom ennå', mineSub: s.mine.length === 1 ? '1 egen oppskrift' : `${s.mine.length} egne oppskrifter`, nag: pt.nag || pt.chk, nagText: pt.chk ? 'Sjekk antall' : pt.nagText,
           mine: D.R.filter(r => r.mine).map(card), mineNum: s.mine.length, newMine: () => this.openEdit(null),
           favs: favAll.slice(0, 12).map(card), favNum: favAll.length, noFavs: !favAll.length,
-          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, goLaere: () => this.go('laere'),
+          arts: arts.slice(0, 12), allArts: arts, artNum: arts.length, noArts: !arts.length, hasArts: !!arts.length, goLaere: () => this.go('laere'),
           start: (() => { const steps = [
               [s.pantry.length > 0, 'Legg inn det du har hjemme', 'Da bruker ukeplanen og handlelisten det du allerede har', () => this.push({ t:'pantry' })],
               [s.favs.length > 0, 'Stjernemerk en rett du liker', 'Trykk på stjernen på en oppskrift', () => this.go('opp')],
@@ -2449,21 +2446,22 @@ class Component extends DCLogic {
             return { hasLow: !!low.length, low: low.map(x => { const on = onList(x.n), tomt = P.level(x) === 'tomt';
                 return { n: x.n, lvl: tomt ? 'Tomt' : 'Litt igjen', lvlColor: tomt ? 'var(--mg-danger)' : 'var(--mg-ink-muted)', on, off: !on, aria: `Legg ${x.n} på handlelisten`,
                   add: () => { add([x]); this.toast(`${x.n} er lagt på handlelisten`); } }; }),
-              lowOpen: !!s.lowOpen, toggleLow: () => this.setState({ lowOpen: !s.lowOpen }), lowArrow: s.lowOpen ? '▲' : '▼',
+              lowOpen: !!s.lowOpen, toggleLow: () => this.setState({ lowOpen: !s.lowOpen }), lowArrow: s.lowOpen ? 'rotate(180deg)' : 'none', lowN: low.length,
               lowTitle: `Snart tomt (${low.length})`, lowSub: low.map(x => x.n).join(', '),
               lowAll: low.some(x => !onList(x.n)), addLow: () => { const n = low.filter(x => !onList(x.n)).length; add(low); this.toast(`${n} ${n === 1 ? 'vare' : 'varer'} lagt på handlelisten`); } }; })(),
           dietKost: this.DIET.filter(d => d.kind === 'kost').map(d => ({ label: d.label, ...this.chip((s.diet || []).includes(d.id)), pick: () => this.toggleDiet(d.id) })),
           dietAllergi: this.DIET.filter(d => d.kind === 'allergi').map(d => ({ label: d.label, ...this.chip((s.diet || []).includes(d.id)), pick: () => this.toggleDiet(d.id) })),
-          dietOpen: !!s.dietOpen, toggleDiet: () => this.setState({ dietOpen: !s.dietOpen }), dietArrow: s.dietOpen ? '▲' : '▼', dietTitle: 'Kosthold og allergier',
+          dietOpen: !!s.dietOpen, toggleDiet: () => this.setState({ dietOpen: !s.dietOpen }), dietArrow: s.dietOpen ? 'rotate(180deg)' : 'none', dietTitle: 'Kosthold og allergier',
           dietSub: (s.diet || []).length ? this.DIET.filter(d => s.diet.includes(d.id)).map(d => d.label).join(', ') : 'Ingen valgt',
           dietNote: (s.diet || []).length ? (n => n ? `${n} av ${D.R.length} retter passer ikke og vises ikke i forslag og søk.` : 'Alle rettene passer.')(D.R.length - this.okR().length) : 'Velg det som gjelder deg eller noen du lager mat til.' }; })(),
       favSorts: [['recent','Sist lagt til'],['fast','Raskest'],['cheap','Billigst'],['few','Få ingredienser']].map(([id, label]) => ({ label, ...this.chip(s.favSort === id), pick: () => this.setState({ favSort: id }) })),
-      offersSub: D.O.week ? `Ukas tilbudsaviser · uke ${D.O.week}` : 'Ukas tilbudsaviser',
+      offersSub: D.O.week && D.O.week !== this.WEEKNO ? `Uke ${D.O.week}` : `Uke ${this.WEEKNO} · ${this.weekRange()}`, // datoene bare når avisene er for denne uka
       hasListHint: (s.tilbudSeen || 0) <= 3 && D.STORES.some(st => onList(st).length),
       flyerStores: D.STORES.map(st => { const mine = st.code === s.chain, n = onList(st).length;
         return { name: st.name, bg: st.bg, logo: st.logo, n, open: () => this.push({ t:'store', id: st.code }),
           nLabel: `${n} på listen din`, hasBadge: mine, ring: mine ? '3px solid var(--mg-primary)' : 'none',
-          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} ${n === 1 ? 'vare' : 'varer'} fra handlelisten på tilbud` : ''}` }; }),
+          aria: `${st.name}${mine ? ', din butikk' : ''}${n ? `, ${n} ${n === 1 ? 'vare' : 'varer'} fra handlelisten på tilbud` : ''}`, mine }; })
+        .sort((a, b) => (b.mine - a.mine) || (b.n - a.n)), // din butikk først, så de med flest varer fra listen
       ovStore: top.t === 'store', sd,
       shopChips: D.CHAINS.map(ch => { const on = lc === ch.code, sm = shopSum(top.t === 'shop' && top.scope === 'day' ? dayArr : shopArr, ch.code);
         const b = on && this.BRAND[ch.code], c = this.chip(on);
