@@ -1,6 +1,6 @@
 app/vendor/
 logos/
-app/icon.svg
+app/*.png
 docs/skjermbilder/
 worker/package-lock.json
 seed/
