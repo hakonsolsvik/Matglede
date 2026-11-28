@@ -56,6 +56,17 @@
 :root[data-theme=dark] [style*="background: var(--mg-butter)"][style*="var(--mg-r-xl)"]{background:linear-gradient(140deg,#5a4a1c 0%,#4d3f17 60%,#433612 100%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 32px -14px rgba(0,0,0,.6)}
 :root[data-theme=dark] [aria-label="Kom i gang"] button[aria-label]{background:rgba(255,255,255,.07)!important;color:var(--mg-ink)!important}
 :root[data-theme=dark] [aria-label="Kom i gang"] button>span[aria-hidden]{border-color:var(--mg-butter-ink)!important}
+/* Introkort: matt glass over appen, varm gradient bak bildet */
+.mg-intro{background:color-mix(in srgb,var(--mg-bg) 72%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);animation:mg-intro-in .3s ease-out}
+.mg-intro{background:radial-gradient(90% 45% at 100% 0%,rgba(248,222,130,.55),transparent 70%),radial-gradient(90% 50% at 0% 100%,rgba(140,200,130,.45),transparent 72%),color-mix(in srgb,var(--mg-bg) 70%,transparent)}
+.mg-intro-art{position:relative;background:var(--bgl) center/cover}.mg-intro-art::before{content:'';position:absolute;inset:0;opacity:var(--tint);background:radial-gradient(55% 75% at 50% 50%,rgba(251,243,214,.9),transparent 72%),linear-gradient(150deg,#cfe8c6 0%,#a9d49c 100%)}.mg-intro-ring{position:relative}
+.mg-intro-ring{background:#fbf3d6;box-shadow:0 0 0 8px rgba(251,243,214,.45),0 14px 30px -10px rgba(31,74,44,.45)}
+:root[data-theme=dark] .mg-intro{background:radial-gradient(90% 45% at 100% 0%,rgba(214,170,60,.2),transparent 70%),radial-gradient(90% 50% at 0% 100%,rgba(80,160,100,.25),transparent 72%),color-mix(in srgb,var(--mg-bg) 74%,transparent)}
+:root[data-theme=dark] .mg-intro-art{background-image:var(--bgd)}:root[data-theme=dark] .mg-intro-art::before{background:radial-gradient(55% 75% at 50% 50%,rgba(251,243,214,.14),transparent 72%),linear-gradient(150deg,#2c4a31 0%,#22382a 100%)}
+:root[data-theme=dark] .mg-intro-ring{box-shadow:0 0 0 8px rgba(251,243,214,.1),0 14px 30px -10px rgba(0,0,0,.6)}
+/* Skjermbildene finnes i lys og mørk utgave */
+.mg-intro-d{display:none!important}:root[data-theme=dark] .mg-intro-d{display:block!important}:root[data-theme=dark] .mg-intro-l{display:none!important}
+@keyframes mg-intro-in{from{opacity:0}}
 ::selection{background:var(--mg-butter);color:var(--mg-ink)}
 body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
@@ -1008,8 +1019,26 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;z-index:45;background:rgba(20,25,18,.12)"></div>
 <div role="menu" aria-label="Meny" data-mgmenu="1" style="position:absolute;top:calc(var(--top) + 56px);right:14px;z-index:46;width:214px;background:var(--mg-surface);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-2);padding:6px;display:flex;flex-direction:column">
 <button role="menuitem" onClick="{{ menuSettings }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
+<button role="menuitem" onClick="{{ showIntro }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="13" height="14" rx="2.5"></rect><path d="M8 3.5h10a2.5 2.5 0 012.5 2.5v11"></path></svg>Vis introen</button>
 <div style="height:1px;background:var(--mg-surface-sunken);margin:4px 8px"></div>
 <button role="menuitem" onClick="{{ menuAuth }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:{{ authColor }};text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10"></path></svg>{{ authLabel }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ intro }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="Intro til appen" class="mg-intro" style="position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;padding:calc(var(--top) + 8px) 20px max(20px,env(safe-area-inset-bottom));box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:center;min-height:44px"><span aria-live="polite" style="font-size:13px;font-weight:700;color:var(--mg-ink-muted)">{{ intro.progress }}</span><button onClick="{{ intro.skip }}" style="border:0;background:none;color:var(--mg-ink);font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;padding:10px 4px;text-decoration:underline">Hopp over</button></div>
+<div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center"><div class="mg-intro-card" style="width:100%;max-width:360px;border-radius:30px;overflow:hidden;background:var(--mg-surface);box-shadow:var(--mg-shadow-2);display:flex;flex-direction:column">
+<sc-if value="{{ intro.photo }}"><div aria-hidden="true" style="height:240px;position:relative;overflow:hidden;background:var(--mg-surface-sunken)"><img class="mg-intro-l" src="{{ intro.imgL }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><img class="mg-intro-d" src="{{ intro.imgD }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div></sc-if>
+<sc-if value="{{ intro.icon }}"><div class="mg-intro-art" aria-hidden="true" style="--bgl:{{ intro.bgL }};--bgd:{{ intro.bgD }};--tint:{{ intro.tint }};height:200px;display:flex;align-items:center;justify-content:center"><div class="mg-intro-ring" style="padding:{{ intro.ringPad }};border-radius:50%;display:flex"><img src="{{ intro.art }}" alt="" width="64" height="64" style="width:{{ intro.logoSize }};height:{{ intro.logoSize }};border-radius:50%;display:block"></div></div></sc-if>
+<div style="padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px"><h2 class="mg-h" style="margin:0;font-size:25px;letter-spacing:-.03em;line-height:1.15">{{ intro.title }}</h2><p style="margin:0;font-size:16px;line-height:1.5;color:var(--mg-ink-muted)">{{ intro.text }}</p></div>
+</div></div>
+<div style="display:flex;justify-content:center;gap:6px;padding:18px 0"><sc-for list="{{ intro.dots }}" as="d"><button onClick="{{ d.go }}" aria-label="{{ d.label }}" aria-current="{{ d.cur }}" class="mg-hit" style="position:relative;width:{{ d.w }};height:7px;border:0;padding:0;border-radius:4px;background:{{ d.bg }};cursor:pointer;transition:width .25s"></button></sc-for></div>
+<div style="display:flex;gap:10px">
+<sc-if value="{{ intro.notFirst }}"><button onClick="{{ intro.prev }}" style="flex:none;height:52px;padding:0 20px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border-strong);background:transparent;color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">Tilbake</button></sc-if>
+<sc-if value="{{ intro.notLast }}"><button onClick="{{ intro.next }}" style="flex:1;height:52px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">Neste</button></sc-if>
+<sc-if value="{{ intro.last }}"><button onClick="{{ intro.toStart }}" style="flex:1;height:52px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">Til «Kom i gang»</button></sc-if>
+</div>
 </div>
 </sc-if>
 
@@ -1180,7 +1209,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, avisZoom: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', shopView: 'full', planView: 'slim', toast: null,
     undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], diet: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, bought: {}, pantryCheck: [], listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, bought: {}, pantryCheck: [], listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0, intro: null
   };
 
   ph = h => { h = 118 + (h * 7) % 50; return `repeating-linear-gradient(135deg, oklch(0.915 0.05 ${h}) 0 9px, oklch(0.88 0.065 ${h}) 9px 18px)`; };
@@ -1192,13 +1221,14 @@ class Component extends DCLogic {
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine', 'diet', 'bought', 'pantryCheck'];
-  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'planView', 'pantrySeen', 'tilbudSeen', 'startHidden'];
+  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'planView', 'pantrySeen', 'tilbudSeen', 'startHidden', 'introSeen'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
     this.applyMine(restore.mine);
     const h = this.fromHash();
-    this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}) });
+    const fresh = !restore.introSeen && !['favs', 'pantry', 'mine'].some(k => (restore[k] || []).length);
+    this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}), ...(fresh ? { intro: 0 } : {}) });
     this._depth = h.stack.length;
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
@@ -1416,12 +1446,30 @@ class Component extends DCLogic {
   onKey = e => {
     const el = e.target, role = el && el.getAttribute && el.getAttribute('role');
     if ((e.key === 'Enter' || e.key === ' ') && el.tagName !== 'BUTTON' && ['button','checkbox','switch'].includes(role)) { e.preventDefault(); el.click(); return; }
-    if (e.key !== 'Escape') return;
     const s = this.state;
+    if (s.intro != null && ['Escape', 'ArrowLeft', 'ArrowRight'].includes(e.key)) { e.key === 'Escape' ? this.closeIntro() : this.setIntro(s.intro + (e.key === 'ArrowRight' ? 1 : -1)); return; }
+    if (e.key !== 'Escape') return;
     if (s.menu) { this.setState({ menu: false }); const b = document.querySelector('[aria-haspopup=menu]'); b && b.focus(); }
     else if (s.rdLearn || s.rdPig) this.setState({ rdLearn: false, rdPig: false });
     else if (s.stack.length) this.back();
   };
+  // ---------- introkort for nye brukere ----------
+  // Ikonene er appens egne (bunnmeny, Hjem, sparegrisen), tegnet som bilder i mørk grønn på gul sirkel
+  INTRO = (() => { const g = '#1f4a2c', ic = (body, w = 2) => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${g}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`);
+    return [
+      ['./icon-512.png', 'Takk for at du prøver mat-appen', 'Her er en rask runde gjennom det appen kan hjelpe deg med. Bla gjennom, eller hopp over når du vil.', true],
+      [ic('<rect x="5.5" y="2.5" width="13" height="19" rx="2.2"/><path d="M5.5 9.5h13M8.5 5.5v2M8.5 12.5v3.5"/>', 1.8), 'Det du har hjemme', 'Legg inn det du har i kjøleskapet og skapet, og finn oppskrifter som bruker det.', false, null, 'hjemme'],
+      [ic('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.6" fill="' + g + '"/>'), 'Planlegg uka', 'Legg middager på dagene. Det du allerede har hjemme trekkes fra handlelisten.', false, 'plan'],
+      [ic('<path d="M12 6.5C10.3 5 7.8 4.3 4 4.5v13c3.8-.2 6.3.5 8 2 1.7-1.5 4.2-2.2 8-2v-13c-3.8-.2-6.3.5-8 2z"/><path d="M12 6.5v13"/>', 1.8), 'Egne oppskrifter og deling', 'Legg til dine egne oppskrifter, og del planen og handlelisten med dem du bor med.', false, null, 'egne'],
+      [ic('<circle cx="7" cy="7" r="2.6" fill="#f5c42c"/><circle cx="17" cy="17" r="2.6" fill="#f5c42c"/><path d="M19 5L5 19"/>', 2.2), 'Tilbud rett i handlelisten', 'Legg tilbudsvarer direkte i handlelisten, og sammenlign prisene i favorittbutikkene dine.', false, null, 'tilbud'],
+      [ic('<path d="M5 8h14l-1.2 11.2a1.5 1.5 0 01-1.5 1.3H7.7a1.5 1.5 0 01-1.5-1.3z"/><path d="M9 10V6.5a3 3 0 016 0V10"/>'), 'Handle der tilbudene er', 'Handlelisten viser hvilken butikk som har varene billigst denne uka.', false, 'butikk'],
+      ['data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f5c42c" stroke="#5a3a0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9.6c-.9-2.4-3.6-4.1-6.8-4.1C8 5.5 4.6 8.3 4.6 12c0 1.9.9 3.6 2.4 4.8v2.7h2.6v-1.6c.8.2 1.6.3 2.4.3s1.6-.1 2.4-.3v1.6H17v-2.7c1-.8 1.8-1.8 2.2-3h1.6V9.6H19z"/><path d="M14.3 6.1l1.2-2.4 1.6 3" fill="none"/><path d="M10 7.9h3.4" fill="none"/><path d="M4.6 11.6c-1.2 0-1.9-.9-1.6-2" fill="none"/><circle cx="16.4" cy="10.6" r=".7" fill="#5a3a0a" stroke="none"/></svg>'), 'Sparegrisen', 'Trykk på sparegrisen på en oppskrift for å finne en billigere versjon av retten.', false, 'gris'],
+      [ic('<ellipse cx="10.6" cy="13.31" rx="3.25" ry="3.11" fill="#8fcf6a"/><ellipse cx="3.39" cy="11.55" rx="2.25" ry="2.48" transform="rotate(-8 3.39 11.55)" fill="#8fcf6a"/><path d="M5.91 11.91C6.27 11.1 7.18 11.1 7.45 12M1.14 10.29L6.27 8.3Q8.53 7.49 9.7 8.03Q10.6 8.66 11.32 9.84M13.76 12.99L21.51 9.11Q22.32 8.75 22.5 9.39L22.68 11.46"/>', 1.7), 'Lær om mat', 'Lær mer om matlaging og ernæring, og om hvordan kroppen har det godt med riktig mat.', false, null, 'laere'],
+      [ic('<circle cx="12" cy="12" r="9"/><path d="M7.5 12.5l3 3 6-6.5"/>', 2.2), 'Start med «Kom i gang»', 'Det gule kortet på Hjem viser tre små steg som gjør appen til din. Det tar bare et par minutter.']
+    ]; })();
+  setIntro = i => this.setState({ intro: Math.max(0, Math.min(this.INTRO.length - 1, i)) });
+  closeIntro = toStart => this.setState({ intro: null, introSeen: true, ...(toStart ? { tab: 'home', stack: [], startHidden: false } : {}) },
+    () => { const el = toStart && document.querySelector('[aria-label="Kom i gang"]'); el && el.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
   keepAwake = on => {
     this.setState({ wake: on });
     if (!on) { this._lock && this._lock.release().catch(() => {}); this._lock = null; return; }
@@ -2589,6 +2637,11 @@ class Component extends DCLogic {
       remindOn: !!s.remind, remindH: s.remindAt.slice(0, 2), remindM: s.remindAt.slice(3),
       hours: [...Array(24)].map((_, i) => String(i).padStart(2, '0')), minutes: [...Array(12)].map((_, i) => String(i * 5).padStart(2, '0')),
       onRemindH: e => this.setState({ remindAt: e.target.value + s.remindAt.slice(2) }), onRemindM: e => this.setState({ remindAt: s.remindAt.slice(0, 3) + e.target.value }),
+      intro: s.intro != null && (() => { const i = s.intro, n = this.INTRO.length, [art, title, text, logo, photo, bg] = this.INTRO[i], last = i === n - 1;
+        return { art, title, text, photo: !!photo, icon: !photo, imgL: `./intro/${photo}-light.jpg`, imgD: `./intro/${photo}-dark.jpg`, bgL: bg ? `url(./intro/bg-${bg}-light.jpg)` : 'none', bgD: bg ? `url(./intro/bg-${bg}-dark.jpg)` : 'none', tint: !bg ? '1' : bg === 'egne' ? '.3' : '.22', logoSize: logo ? '150px' : '64px', ringPad: logo ? '0' : '26px', key: 'intro' + i, progress: `${i + 1} av ${n}`, last, notLast: !last, notFirst: i > 0,
+          next: () => this.setIntro(i + 1), prev: () => this.setIntro(i - 1), skip: () => this.closeIntro(), toStart: () => this.closeIntro(true),
+          dots: this.INTRO.map((_, j) => ({ w: j === i ? '22px' : '7px', bg: j === i ? 'var(--mg-ink)' : 'var(--mg-border-strong)', go: () => this.setIntro(j), label: `Kort ${j + 1}`, cur: j === i ? 'step' : undefined })) }; })(),
+      showIntro: () => this.setState({ menu: false, intro: 0 }),
       hasToast: !!s.toast, toast: s.toast, hasUndo: !!s.undo, undo: () => s.undo && s.undo(),
       notHome: s.tab !== 'home', profileLabel: s.loggedIn ? 'Profil' : 'Logg inn',
       todayLabel: this.dayLong(this.TODAY), todayName: this.DAYS_FULL[this.TODAY].toLowerCase(),
