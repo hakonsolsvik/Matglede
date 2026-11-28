@@ -1024,8 +1024,15 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 </div>
 </sc-if>
 
+<sc-if value="{{ dropAsk }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-label="{{ dropQ }}" style="position:absolute;left:16px;right:16px;bottom:calc(var(--nav) + 16px);z-index:56;background:var(--mg-butter);color:#1f2a1c;border-radius:var(--mg-r-lg);padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 34px rgba(0,0,0,.22)">
+<div class="s10"><span class="s1 mg-h">{{ dropQ }}</span><span style="font-size:14px;line-height:1.45">{{ dropText }}</span></div>
+<div class="s33"><button onClick="{{ dropYes }}" style="border:0;cursor:pointer;font-family:inherit;background:#1f2a1c;color:#fff;font-size:14px;font-weight:800;padding:11px 22px;border-radius:var(--mg-r-pill)">Ja</button><button onClick="{{ dropNo }}" style="border:0;cursor:pointer;font-family:inherit;background:rgba(31,42,28,.1);color:#1f2a1c;font-size:14px;font-weight:700;padding:11px 22px;border-radius:var(--mg-r-pill)">Nei</button></div>
+</div>
+</sc-if>
+
 <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
-<div role="status" style="position:absolute;left:32px;right:32px;bottom:calc(var(--nav) + 16px);z-index:55;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-md);padding:10px 14px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.25)"><span style="width:18px;height:18px;border-radius:50%;background:var(--mg-clay);display:flex;align-items:center;justify-content:center;flex:none"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span style="flex:1">{{ toast }}</span><sc-if value="{{ hasUndo }}"><button onClick="{{ undo }}" style="border:0;background:none;color:var(--mg-butter);font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;padding:10px 6px;margin:-10px -6px -10px 0">Angre</button></sc-if></div>
+<div role="status" style="position:absolute;left:32px;right:32px;bottom:calc(var(--nav) + {{ toastLift }});z-index:55;background:var(--mg-ink);color:var(--mg-on-ink);border-radius:var(--mg-r-md);padding:10px 14px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.25)"><span style="width:18px;height:18px;border-radius:50%;background:var(--mg-clay);display:flex;align-items:center;justify-content:center;flex:none"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#1f2a1c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span><span style="flex:1">{{ toast }}</span><sc-if value="{{ hasUndo }}"><button onClick="{{ undo }}" style="border:0;background:none;color:var(--mg-butter);font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;padding:10px 6px;margin:-10px -6px -10px 0">Angre</button></sc-if></div>
 </sc-if>
 
 <nav aria-label="Hovedmeny" class="mg-nav" style="position:relative;z-index:{{ navZ }};flex:none;height:var(--nav);background:var(--mg-nav-bg);display:flex;padding:0 6px 20px;box-sizing:border-box">
@@ -1179,7 +1186,7 @@ class Component extends DCLogic {
     day: this.TODAY, checked: {}, cat: 'alle', q: '', loggedIn: false, user: null,
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, avisZoom: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', shopView: 'full', planView: 'slim', toast: null,
-    undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], diet: [], ownItem: '', wake: false,
+    undo: null, have: {}, drop: {}, dropN: {}, dropAsk: [], skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], diet: [], ownItem: '', wake: false,
     pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, bought: {}, pantryCheck: [], listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
   };
 
@@ -1191,7 +1198,7 @@ class Component extends DCLogic {
   BRAND = { ODA: ['#FFD9AA', '#4a2c00'], KIWI: ['#CFEBC8', '#1f3a1c'], MENY: ['#F8C9CF', '#6e0e1c'], REMA: ['#CAD7F3', '#0e2a6b'], COOP: ['#C9DAED', '#0a2f57'], SPAR: ['#C6E4D0', '#0f4426'], JOKER: ['#FFF1A8', '#4a3d00'] };
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
-  SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine', 'diet', 'bought', 'pantryCheck'];
+  SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine', 'diet', 'bought', 'pantryCheck', 'drop', 'dropN'];
   LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'planView', 'pantrySeen', 'tilbudSeen', 'startHidden'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
@@ -1496,12 +1503,19 @@ class Component extends DCLogic {
   };
   addToPlan = (d, id) => {
     // Ingredienser som er strøket ut på oppskriften blir med som «kjøpes ikke» for dagen. Beholdningen røres ikke.
-    const ings = this.ingOf(this.D.byId[id]), off = ings.map(i => !!this.state.have[id + ':' + i.n]);
+    const ings = this.ingOf(this.D.byId[id]), off = ings.map(i => this.struck(id, i.n));
     const used = [...new Set(this.homeRun(id).meals.at(-1).st.filter((x, k) => x && !off[k]).map(x => x.p.n.toLowerCase()))];
     this.setState(s => { const skip = { ...s.skip }; ings.forEach((i, k) => { if (off[k]) skip[this.madeKey(d, id) + '|' + i.n] = true; });
-      return { plan: { ...s.plan, [d]: [...(s.plan[d] || []), id] }, skip, rdPick: false }; });
+      // Strøket ut for andre gang (og ikke spurt før): spør om den skal være ute fremover
+      const dropN = { ...s.dropN }, ask = [];
+      ings.forEach((i, k) => { const hk = id + ':' + i.n; if (!off[k] || hk in s.drop) return; dropN[hk] = (dropN[hk] || 0) + 1; if (dropN[hk] >= 2 && !s.dropAsk.some(a => a.hk === hk)) ask.push({ hk, n: i.n, r: this.D.byId[id].name }); });
+      return { plan: { ...s.plan, [d]: [...(s.plan[d] || []), id] }, skip, dropN, dropAsk: [...s.dropAsk, ...ask], rdPick: false }; });
     this.toast(`${this.D.byId[id].name} er lagt til ${this.DAYS_FULL[d % 7].toLowerCase()}${d > 6 ? ' i uke ' + this.weekNo(Math.floor(d / 7)) : ''}${used.length ? '. Trukket fra beholdningen: ' + used.join(', ') : ''}`, null, 3500); // står litt lenger etter sluk-animasjonen
   };
+
+  // Strøket ut på oppskriften: valgt nå, ellers fast valg fra «Vil du ikke ha denne med fremover?»
+  struck = (id, n) => { const hk = id + ':' + n; return hk in this.state.have ? !!this.state.have[hk] : !!this.state.drop[hk]; };
+  answerDrop = yes => this.setState(s => { const a = s.dropAsk[0]; return a ? { drop: { ...s.drop, [a.hk]: yes }, dropAsk: s.dropAsk.slice(1) } : null; });
 
   // ---------- Min beholdning (app/pantry.js) ----------
   ingNames = i => [i.n, (this.D.ING[i.slug] || {}).name].filter(Boolean);
@@ -2155,10 +2169,13 @@ class Component extends DCLogic {
             return { ...(t => ({ tickBg: t ? 'var(--mg-mint)' : 'transparent', tickBorder: t ? '0' : '2px solid var(--mg-border-strong)', tickOp: t ? 1 : 0 }))(off), have: !off, op: off ? .5 : 1, deco: off ? 'line-through' : 'none', toggle: () => this.setState(st => ({ skip: { ...st.skip, [sk]: !st.skip[sk] } })),
               noteColor: off ? 'var(--mg-ink-subtle)' : hs ? (hs.ok ? 'var(--mg-primary)' : 'var(--mg-clay-text)') : 'var(--mg-ink-subtle)',
               n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note: off ? 'Kjøpes ikke' : note, hasNote: off || !!note }; }
-          const hk = r.id + ':' + i.n, have = !!s.have[hk];
-          return { ...(t => ({ tickBg: t ? 'var(--mg-mint)' : 'transparent', tickBorder: t ? '0' : '2px solid var(--mg-border-strong)', tickOp: t ? 1 : 0 }))(have), have, op: have ? .5 : 1, deco: have ? 'line-through' : 'none', toggle: () => this.setState(st => ({ have: { ...st.have, [hk]: !st.have[hk] } })),
+          const hk = r.id + ':' + i.n, have = this.struck(r.id, i.n);
+          return { ...(t => ({ tickBg: t ? 'var(--mg-mint)' : 'transparent', tickBorder: t ? '0' : '2px solid var(--mg-border-strong)', tickOp: t ? 1 : 0 }))(have), have, op: have ? .5 : 1, deco: have ? 'line-through' : 'none', toggle: () => { const fast = have && s.drop[hk];
+              // Krysses en fast fjernet ingrediens inn igjen, er den med fremover også
+              this.setState(st => ({ have: { ...st.have, [hk]: !have }, ...(fast && { drop: (({ [hk]: _, ...o }) => o)(st.drop), dropN: { ...st.dropN, [hk]: 0 } }) }));
+              if (fast) this.toast(`${i.n} er med igjen fremover`); },
             noteColor: hs ? (hs.ok ? 'var(--mg-primary)' : 'var(--mg-clay-text)') : 'var(--mg-ink-subtle)',
-            n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note: have ? 'Kjøpes ikke' : note, hasNote: have || !!note }; }),
+            n: i.n, m: this.fmt(i.q == null ? null : i.q * f, i.u), price: v != null ? this.fp(v) : '–', priceColor: v != null ? 'var(--mg-ink)' : 'var(--mg-ink-subtle)', note: have ? (s.drop[hk] ? 'Fjernet fast. Trykk for å ta den med igjen' : 'Kjøpes ikke') : note, hasNote: have || !!note }; }),
         pickOpen: s.rdPick,
         pw: { label: pw ? `Uke ${this.weekNo(pw)} · ${this.weekRange(pw)}` : `Denne uka · ${this.weekRange(0)}`, prevVis: pw ? 'visible' : 'hidden',
           prev: () => pw && this.setState({ rdWk: pw - 1 }), next: () => this.setState({ rdWk: pw + 1 }), prevAria: pw ? `Uke ${this.weekNo(pw - 1)}` : '', nextAria: `Uke ${this.weekNo(pw + 1)}` },
@@ -2589,7 +2606,10 @@ class Component extends DCLogic {
       remindOn: !!s.remind, remindH: s.remindAt.slice(0, 2), remindM: s.remindAt.slice(3),
       hours: [...Array(24)].map((_, i) => String(i).padStart(2, '0')), minutes: [...Array(12)].map((_, i) => String(i * 5).padStart(2, '0')),
       onRemindH: e => this.setState({ remindAt: e.target.value + s.remindAt.slice(2) }), onRemindM: e => this.setState({ remindAt: s.remindAt.slice(0, 3) + e.target.value }),
-      hasToast: !!s.toast, toast: s.toast, hasUndo: !!s.undo, undo: () => s.undo && s.undo(),
+      hasToast: !!s.toast, toast: s.toast, toastLift: s.dropAsk.length ? '236px' : '16px',
+      dropAsk: !!s.dropAsk.length, dropQ: s.dropAsk.length ? `Vil du ikke ha ${s.dropAsk[0].n.toLowerCase()} med fremover?` : '',
+      dropText: s.dropAsk.length ? `Du har tatt bort ${s.dropAsk[0].n.toLowerCase()} fra ${s.dropAsk[0].r} to ganger. Velger du ja, er den strøket ut neste gang også. Du kan krysse den inn igjen når du vil.` : '',
+      dropYes: () => this.answerDrop(true), dropNo: () => this.answerDrop(false), hasUndo: !!s.undo, undo: () => s.undo && s.undo(),
       notHome: s.tab !== 'home', profileLabel: s.loggedIn ? 'Profil' : 'Logg inn',
       todayLabel: this.dayLong(this.TODAY), todayName: this.DAYS_FULL[this.TODAY].toLowerCase(),
       weekLabel: `Uke ${this.weekNo(wk)} · ${this.weekRange(wk)} ${this.dateOf(7 * wk + 6).getFullYear()}`,
