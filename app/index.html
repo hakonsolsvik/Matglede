@@ -56,6 +56,11 @@
 :root[data-theme=dark] [style*="background: var(--mg-butter)"][style*="var(--mg-r-xl)"]{background:linear-gradient(140deg,#5a4a1c 0%,#4d3f17 60%,#433612 100%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 32px -14px rgba(0,0,0,.6)}
 :root[data-theme=dark] [aria-label="Kom i gang"] button[aria-label]{background:rgba(255,255,255,.07)!important;color:var(--mg-ink)!important}
 :root[data-theme=dark] [aria-label="Kom i gang"] button>span[aria-hidden]{border-color:var(--mg-butter-ink)!important}
+/* Introkort: matt glass over appen, varm gradient bak bildet */
+.mg-intro{background:color-mix(in srgb,var(--mg-bg) 72%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);animation:mg-intro-in .3s ease-out}
+.mg-intro-art{background:radial-gradient(60% 70% at 50% 55%,rgba(255,255,255,.75),transparent 70%),linear-gradient(140deg,#faefc0 0%,#f5e3a0 55%,#f1d78a 100%);text-shadow:0 10px 24px rgba(160,110,20,.25)}
+:root[data-theme=dark] .mg-intro-art{background:radial-gradient(60% 70% at 50% 55%,rgba(255,230,150,.16),transparent 70%),linear-gradient(140deg,#5a4a1c 0%,#4d3f17 60%,#433612 100%)}
+@keyframes mg-intro-in{from{opacity:0}}
 ::selection{background:var(--mg-butter);color:var(--mg-ink)}
 body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
@@ -1008,8 +1013,25 @@ h1,.mg-h,[style*='font-weight:800'][style*='letter-spacing:-']{font-family:var(-
 <div onClick="{{ closeMenu }}" style="position:absolute;inset:0;z-index:45;background:rgba(20,25,18,.12)"></div>
 <div role="menu" aria-label="Meny" data-mgmenu="1" style="position:absolute;top:calc(var(--top) + 56px);right:14px;z-index:46;width:214px;background:var(--mg-surface);border-radius:var(--mg-r-lg);box-shadow:var(--mg-shadow-2);padding:6px;display:flex;flex-direction:column">
 <button role="menuitem" onClick="{{ menuSettings }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>Innstillinger</button>
+<button role="menuitem" onClick="{{ showIntro }}" class="s73" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="13" height="14" rx="2.5"></rect><path d="M8 3.5h10a2.5 2.5 0 012.5 2.5v11"></path></svg>Vis introen</button>
 <div style="height:1px;background:var(--mg-surface-sunken);margin:4px 8px"></div>
 <button role="menuitem" onClick="{{ menuAuth }}" style="border:0;background:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--mg-r-md);font-size:16px;font-weight:700;color:{{ authColor }};text-align:left" style-hover="background:var(--mg-surface-sunken)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10"></path></svg>{{ authLabel }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ intro }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="Intro til appen" class="mg-intro" style="position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;padding:calc(var(--top) + 8px) 20px max(20px,env(safe-area-inset-bottom));box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:center;min-height:44px"><span aria-live="polite" style="font-size:13px;font-weight:700;color:var(--mg-ink-muted)">{{ intro.progress }}</span><button onClick="{{ intro.skip }}" style="border:0;background:none;color:var(--mg-ink);font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;padding:10px 4px;text-decoration:underline">Hopp over</button></div>
+<div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center"><div class="mg-intro-card" style="width:100%;max-width:360px;border-radius:30px;overflow:hidden;background:var(--mg-surface);box-shadow:var(--mg-shadow-2);display:flex;flex-direction:column">
+<div class="mg-intro-art" aria-hidden="true" style="height:190px;display:flex;align-items:center;justify-content:center;font-size:96px;line-height:1">{{ intro.art }}</div>
+<div style="padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px"><h2 class="mg-h" style="margin:0;font-size:25px;letter-spacing:-.03em;line-height:1.15">{{ intro.title }}</h2><p style="margin:0;font-size:16px;line-height:1.5;color:var(--mg-ink-muted)">{{ intro.text }}</p></div>
+</div></div>
+<div style="display:flex;justify-content:center;gap:6px;padding:18px 0"><sc-for list="{{ intro.dots }}" as="d"><button onClick="{{ d.go }}" aria-label="{{ d.label }}" aria-current="{{ d.cur }}" class="mg-hit" style="position:relative;width:{{ d.w }};height:7px;border:0;padding:0;border-radius:4px;background:{{ d.bg }};cursor:pointer;transition:width .25s"></button></sc-for></div>
+<div style="display:flex;gap:10px">
+<sc-if value="{{ intro.notFirst }}"><button onClick="{{ intro.prev }}" style="flex:none;height:52px;padding:0 20px;border-radius:var(--mg-r-pill);border:1.5px solid var(--mg-border-strong);background:transparent;color:var(--mg-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">Tilbake</button></sc-if>
+<sc-if value="{{ intro.notLast }}"><button onClick="{{ intro.next }}" style="flex:1;height:52px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">Neste</button></sc-if>
+<sc-if value="{{ intro.last }}"><button onClick="{{ intro.toStart }}" style="flex:1;height:52px;border-radius:var(--mg-r-pill);border:0;background:var(--mg-ink);color:var(--mg-on-ink);font-family:inherit;font-size:16px;font-weight:800;cursor:pointer">Til «Kom i gang»</button></sc-if>
+</div>
 </div>
 </sc-if>
 
@@ -1180,7 +1202,7 @@ class Component extends DCLogic {
     lg: { mode: 'login', email: '', pw: '', name: '', error: '', info: '', busy: false }, tasks: {}, rdPick: false,
     people: 4, portions: {}, chain: 'ODA', rdLearn: false, rdPig: false, avisSel: null, avisPick: null, avisZoom: null, notif: true, remind: true, remindAt: '18:00', theme: 'auto', shopView: 'full', planView: 'slim', toast: null,
     undo: null, have: {}, skip: {}, cheap: {}, made: {}, stepsDone: {}, cookStep: 0, recent: [], extra: [], diet: [], ownItem: '', wake: false,
-    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, bought: {}, pantryCheck: [], listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0
+    pantry: [], popSent: [], pop: {}, hh: null, hhNames: {}, hhMembers: [], hhInvited: [], hhInvite: null, shareEmail: '', shareMsg: '', shareBusy: false, shareSent: '', pName: '', pAmt: '', pantrySeen: '', tilbudSeen: 0, pantryAsk: false, pc: null, bought: {}, pantryCheck: [], listening: false, scanning: false, parsing: false, mine: [], draft: null, reading: false, shopVoice: null, shopParsing: 0, intro: null
   };
 
   ph = h => { h = 118 + (h * 7) % 50; return `repeating-linear-gradient(135deg, oklch(0.915 0.05 ${h}) 0 9px, oklch(0.88 0.065 ${h}) 9px 18px)`; };
@@ -1192,13 +1214,14 @@ class Component extends DCLogic {
   chip = on => ({ on, bg: on ? 'var(--mg-ink)' : 'var(--mg-surface)', fg: on ? 'var(--mg-on-ink)' : 'var(--mg-ink)', border: on ? 'var(--mg-ink)' : 'var(--mg-border)' });
   // ---------- innlogging og lagring på kontoen (auth.js / Firebase) ----------
   SYNC = ['favs', 'savedArts', 'plan', 'portions', 'people', 'chain', 'checked', 'tasks', 'extra', 'cheap', 'pantry', 'made', 'skip', 'popSent', 'planFrom', 'mine', 'diet', 'bought', 'pantryCheck'];
-  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'planView', 'pantrySeen', 'tilbudSeen', 'startHidden'];
+  LOCAL = [...this.SYNC, 'recent', 'notif', 'remind', 'remindAt', 'theme', 'shopView', 'planView', 'pantrySeen', 'tilbudSeen', 'startHidden', 'introSeen'];
   syncData = () => Object.fromEntries(this.SYNC.map(k => [k, this.state[k]]));
   componentDidMount() {
     const restore = {}; this.LOCAL.forEach(k => { if (this.saved[k] !== undefined) restore[k] = this.saved[k]; });
     this.applyMine(restore.mine);
     const h = this.fromHash();
-    this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}) });
+    const fresh = !restore.introSeen && !['favs', 'pantry', 'mine'].some(k => (restore[k] || []).length);
+    this.setState({ ...this.rollPlan(restore), ...(h.tab ? { tab: h.tab, stack: h.stack } : {}), ...(fresh ? { intro: 0 } : {}) });
     this._depth = h.stack.length;
     history.replaceState({ mg: 0 }, '', location.pathname + location.search + this.hashOf({ tab: h.tab || this.state.tab, stack: h.stack }));
     window.addEventListener('popstate', () => { const p = this.fromHash(); this._depth = p.stack.length;
@@ -1416,12 +1439,26 @@ class Component extends DCLogic {
   onKey = e => {
     const el = e.target, role = el && el.getAttribute && el.getAttribute('role');
     if ((e.key === 'Enter' || e.key === ' ') && el.tagName !== 'BUTTON' && ['button','checkbox','switch'].includes(role)) { e.preventDefault(); el.click(); return; }
-    if (e.key !== 'Escape') return;
     const s = this.state;
+    if (s.intro != null && ['Escape', 'ArrowLeft', 'ArrowRight'].includes(e.key)) { e.key === 'Escape' ? this.closeIntro() : this.setIntro(s.intro + (e.key === 'ArrowRight' ? 1 : -1)); return; }
+    if (e.key !== 'Escape') return;
     if (s.menu) { this.setState({ menu: false }); const b = document.querySelector('[aria-haspopup=menu]'); b && b.focus(); }
     else if (s.rdLearn || s.rdPig) this.setState({ rdLearn: false, rdPig: false });
     else if (s.stack.length) this.back();
   };
+  // ---------- introkort for nye brukere ----------
+  INTRO = [
+    ['👋', 'Velkommen til mat-appen', 'Planlegg ukas middager, få handlelisten laget for deg og bruk det du har hjemme. Bla gjennom for å se hvor du finner ting.'],
+    ['🍽️', 'Plan', 'Trykk Plan i menyen nederst for å legge middager på dagene. Bla frem for å planlegge neste uke.'],
+    ['🛒', 'Handleliste', 'Handlelisten lages av ukeplanen. Kryss av mens du handler, og det du har hjemme trekkes fra.'],
+    ['🥦', 'Oppskrifter', 'Søk etter retter, trykk på stjernen på det du liker og lagre dine egne oppskrifter.'],
+    ['🏷️', 'Tilbud og Lære', 'Under Mer nederst (i sidemenyen på PC) finner du ukens tilbud og tips om mat og råvarer.'],
+    ['⚙️', 'Menyen oppe til høyre', 'Her finner du innstillinger og innlogging, og du kan se disse kortene igjen.'],
+    ['✨', 'Start med «Kom i gang»', 'Det gule kortet på Hjem viser tre små steg som gjør appen til din. Det tar bare et par minutter.']
+  ];
+  setIntro = i => this.setState({ intro: Math.max(0, Math.min(this.INTRO.length - 1, i)) });
+  closeIntro = toStart => this.setState({ intro: null, introSeen: true, ...(toStart ? { tab: 'home', stack: [], startHidden: false } : {}) },
+    () => { const el = toStart && document.querySelector('[aria-label="Kom i gang"]'); el && el.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
   keepAwake = on => {
     this.setState({ wake: on });
     if (!on) { this._lock && this._lock.release().catch(() => {}); this._lock = null; return; }
@@ -2589,6 +2626,11 @@ class Component extends DCLogic {
       remindOn: !!s.remind, remindH: s.remindAt.slice(0, 2), remindM: s.remindAt.slice(3),
       hours: [...Array(24)].map((_, i) => String(i).padStart(2, '0')), minutes: [...Array(12)].map((_, i) => String(i * 5).padStart(2, '0')),
       onRemindH: e => this.setState({ remindAt: e.target.value + s.remindAt.slice(2) }), onRemindM: e => this.setState({ remindAt: s.remindAt.slice(0, 3) + e.target.value }),
+      intro: s.intro != null && (() => { const i = s.intro, n = this.INTRO.length, [art, title, text] = this.INTRO[i], last = i === n - 1;
+        return { art, title, text, key: 'intro' + i, progress: `${i + 1} av ${n}`, last, notLast: !last, notFirst: i > 0,
+          next: () => this.setIntro(i + 1), prev: () => this.setIntro(i - 1), skip: () => this.closeIntro(), toStart: () => this.closeIntro(true),
+          dots: this.INTRO.map((_, j) => ({ w: j === i ? '22px' : '7px', bg: j === i ? 'var(--mg-ink)' : 'var(--mg-border-strong)', go: () => this.setIntro(j), label: `Kort ${j + 1}`, cur: j === i ? 'step' : undefined })) }; })(),
+      showIntro: () => this.setState({ menu: false, intro: 0 }),
       hasToast: !!s.toast, toast: s.toast, hasUndo: !!s.undo, undo: () => s.undo && s.undo(),
       notHome: s.tab !== 'home', profileLabel: s.loggedIn ? 'Profil' : 'Logg inn',
       todayLabel: this.dayLong(this.TODAY), todayName: this.DAYS_FULL[this.TODAY].toLowerCase(),
