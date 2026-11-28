@@ -77,8 +77,10 @@ def import_ingredient(conn: sqlite3.Connection, client: KassalClient, ing: sqlit
     conn.execute("DELETE FROM ingredient_product WHERE ingredient_id=? AND status='auto'", (ing["id"],))
     for chain in chains:
         seen: dict[str, tuple[float, dict]] = {}
+        raw: list[dict] = []
         for term in raw_terms:
             for p in client.search_products(term, store=chain["kassal_store"], size=50):
+                raw.append(p)
                 if p.get("current_price") is None:
                     continue
                 amount, _ = parse_package(p.get("name", ""), p.get("weight"), p.get("weight_unit"))
@@ -89,6 +91,10 @@ def import_ingredient(conn: sqlite3.Connection, client: KassalClient, ing: sqlit
                 if key not in seen or s > seen[key][0]:
                     seen[key] = (s, p)
         best = sorted(seen.values(), key=lambda x: -x[0])[:TOP_PER_CHAIN]
+        if not best and raw:
+            # Viser i jobbloggen hva Kassalapp fant når ingenting ble godtatt.
+            for p in raw[:6]:
+                print(f"    0 treff {ing['slug']} {chain['code']}: {p.get('name')} | {', '.join(_categories(p))}")
         for s, p in best:
             pid = upsert_product(conn, p)
             upsert_offer(conn, pid, chain["code"], p)
